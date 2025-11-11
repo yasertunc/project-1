@@ -3,21 +3,37 @@ on:
   pull_request:
     branches: [ main ]
   push:
-    branches: [ main ]
+    branches: [ main ]   # main’e push’larda da koşsun (auto-accept için şart bloğu var)
+  workflow_dispatch:
+
+# En az yetki
+permissions:
+  contents: read
+
+concurrency:
+  group: chromatic-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   chromatic:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
+
       - run: npm ci
-      - run: npm run tokens:build
+
+      # Storybook build’i zaten proje kökünde
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          buildScriptName: build-storybook
-          exitZeroOnChanges: true
+          # CI hızlandırma
+          exitOnceUploaded: true
+          onlyChanged: true
+          # Sadece main’e doğrudan push’ta otomatik onayla; PR’larda review bekle
+          autoAcceptChanges: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
