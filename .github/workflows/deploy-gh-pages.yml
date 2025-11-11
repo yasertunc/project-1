@@ -2,6 +2,8 @@
   contents: write
 name: Deploy Storybook to gh-pages
 
+permissions:
+  contents: write
 on:
   workflow_dispatch:
   push:
