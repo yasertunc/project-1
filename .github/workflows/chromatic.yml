@@ -2,8 +2,10 @@ name: Chromatic
 on:
   pull_request:
     branches: [ main ]
-  push:
-    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   chromatic:
@@ -13,11 +15,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
       - run: npm ci
-      - run: npm run tokens:build
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          buildScriptName: build-storybook
-          exitZeroOnChanges: true
+          exitOnceUploaded: true      # CI hızlansın
+          onlyChanged: true           # değişmeyen hikâyeleri atla
+          autoAcceptChanges: false    # değişiklikler review beklesin
