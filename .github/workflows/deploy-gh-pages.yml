@@ -1,11 +1,9 @@
-name: deploy-gh-pages
+name: Deploy Storybook to gh-pages
+
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
-  workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   build-and-deploy:
@@ -15,14 +13,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run tokens:build
-      - run: npm run build-storybook
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build tokens + Storybook
+        run: |
+          npm run tokens:build
+          npm run build-storybook
+
+      - name: Add .nojekyll
+        run: echo > storybook-static/.nojekyll
+
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
-          # mevcut gh-pages'i overwrite et
+          publish_branch: gh-pages
+          publish_dir: storybook-static
           force_orphan: true
