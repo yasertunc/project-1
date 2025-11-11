@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "fellowus-storybook-skeleton",
   "private": true,
   "version": "1.0.0",
@@ -35,7 +35,8 @@
     "vr": "npm run vr:build && npm run vr:test",
     "perf:budget": "node scripts/size-budget.mjs",
     "sb:analyze": "cross-env ANALYZE=true storybook build && npm run perf:budget",
-    "health:all": "npm run tokens:build && npm run format:check && npm run lint && npm run typecheck && npm test && npm run deadcode && npm run test-storybook && npm run build-storybook && npm run perf:budget && npm run i18n:check && npm run vr && npm run a11y:stories"
+    "health:all": "npm run tokens:build && npm run format:check && npm run lint && npm run typecheck && npm test && npm run deadcode && npm run test-storybook && npm run build-storybook && npm run perf:budget && npm run i18n:check && npm run vr && npm run a11y:stories",
+    "chromatic": "chromatic"
   },
   "devDependencies": {
     "@apidevtools/swagger-cli": "^4.0.4",
@@ -51,32 +52,34 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.6.1",
-    "@vitest/coverage-v8": "^2.1.4",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+    "@vitest/coverage-v8": "^2.1.4",
     "ajv": "^8.17.1",
     "ajv-cli": "^5.0.0",
     "ajv-formats": "^3.0.1",
     "autoprefixer": "^10.4.0",
+    "chromatic": "^13.3.3",
     "concurrently": "^9.2.1",
+    "cross-env": "^7.0.3",
     "eslint": "^9.13.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.1.0",
     "globals": "^15.12.0",
     "i18next": "^25.6.1",
+    "jsdom": "^25.0.1",
     "openapi-typescript": "^7.10.1",
     "postcss": "^8.4.0",
     "prettier": "^3.6.2",
-    "rollup-plugin-visualizer": "^5.12.0",
     "react-i18next": "^16.2.4",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "start-server-and-test": "^2.0.6",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.16.0",
-    "wait-on": "^9.0.3",
-    "jsdom": "^25.0.1",
-    "start-server-and-test": "^2.0.6",
-    "cross-env": "^7.0.3",
-    "vitest": "^2.1.4"
+    "vitest": "^2.1.4",
+    "wait-on": "^9.0.3"
   }
 }
+
