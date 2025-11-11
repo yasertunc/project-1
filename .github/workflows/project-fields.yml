@@ -1,0 +1,169 @@
+name: project-fields
+
+on:
+  issues:
+    types: [opened, reopened, labeled]
+  pull_request:
+    types: [opened, reopened, ready_for_review, labeled, closed]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  projects: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply Project fields
+        uses: actions/github-script@v7
+        env:
+          PROJECT_ID: "PVT_kwHODewtq84BH1nC"
+          STATUS_FIELD_ID: "PVTSSF_lAHODewtq84BH1nCzg4eZBs"
+          STATUS_TODO_ID: "f75ad846"
+          STATUS_INPROGRESS_ID: "47fc9ee4"
+          STATUS_DONE_ID: "98236657"
+          PRIORITY_FIELD_ID: "PVTSSF_lAHODewtq84BH1nCzg4eZZ0"
+          PRIORITY_P0_ID: "79628723"
+          PRIORITY_P1_ID: "0a877460"
+          PRIORITY_P2_ID: "da944a9c"
+          TEAM_FIELD_ID: "PVTSSF_lAHODewtq84BH1nCzg4eZZw"
+          TEAM_ENG_ID: "9282166a"
+          TEAM_PRODUCT_ID: "8a5d08e5"
+          TEAM_DESIGN_ID: "478d0b17"
+          TEAM_MARKETING_ID: "e6116d92"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const projectId = process.env.PROJECT_ID;
+            const payload = context.payload;
+            const content = payload.issue ?? payload.pull_request;
+            if (!content) {
+              core.notice("No issue/PR in payload");
+              return;
+            }
+
+            const contentId = content.node_id;
+
+            const addRes = await github.graphql(
+              `
+              mutation($projectId: ID!, $contentId: ID!) {
+                addProjectV2ItemById(
+                  input: { projectId: $projectId, contentId: $contentId }
+                ) {
+                  item {
+                    id
+                  }
+                }
+              }
+            `,
+              { projectId, contentId },
+            );
+
+            const itemId = addRes.addProjectV2ItemById.item.id;
+
+            const setSingle = async (fieldId, optionId) => {
+              if (!fieldId || !optionId) return;
+              await github.graphql(
+                `
+                mutation(
+                  $projectId: ID!
+                  $itemId: ID!
+                  $fieldId: ID!
+                  $optionId: String!
+                ) {
+                  updateProjectV2ItemFieldValue(
+                    input: {
+                      projectId: $projectId
+                      itemId: $itemId
+                      fieldId: $fieldId
+                      value: { singleSelectOptionId: $optionId }
+                    }
+                  ) {
+                    clientMutationId
+                  }
+                }
+              `,
+                { projectId, itemId, fieldId, optionId },
+              );
+            };
+
+            const labels = (content.labels || [])
+              .map((l) => (l.name || l).toString().toLowerCase());
+
+            if (["opened", "reopened"].includes(payload.action)) {
+              await setSingle(
+                process.env.STATUS_FIELD_ID,
+                process.env.STATUS_TODO_ID,
+              );
+            }
+
+            if (payload.action === "ready_for_review") {
+              await setSingle(
+                process.env.STATUS_FIELD_ID,
+                process.env.STATUS_INPROGRESS_ID,
+              );
+            }
+
+            if (payload.action === "closed") {
+              const merged = payload.pull_request
+                ? !!payload.pull_request.merged
+                : true;
+              if (merged) {
+                await setSingle(
+                  process.env.STATUS_FIELD_ID,
+                  process.env.STATUS_DONE_ID,
+                );
+              }
+            }
+
+            if (labels.includes("in progress")) {
+              await setSingle(
+                process.env.STATUS_FIELD_ID,
+                process.env.STATUS_INPROGRESS_ID,
+              );
+            }
+
+            if (labels.includes("done")) {
+              await setSingle(
+                process.env.STATUS_FIELD_ID,
+                process.env.STATUS_DONE_ID,
+              );
+            }
+
+            const prioMap = new Map([
+              ["p0", process.env.PRIORITY_P0_ID],
+              ["p1", process.env.PRIORITY_P1_ID],
+              ["p2", process.env.PRIORITY_P2_ID],
+            ]);
+
+            for (const key of prioMap.keys()) {
+              if (labels.includes(key)) {
+                await setSingle(
+                  process.env.PRIORITY_FIELD_ID,
+                  prioMap.get(key),
+                );
+                break;
+              }
+            }
+
+            const teamMap = new Map([
+              ["engineering", process.env.TEAM_ENG_ID],
+              ["product", process.env.TEAM_PRODUCT_ID],
+              ["design", process.env.TEAM_DESIGN_ID],
+              ["marketing", process.env.TEAM_MARKETING_ID],
+            ]);
+
+            for (const key of teamMap.keys()) {
+              if (labels.includes(key)) {
+                await setSingle(
+                  process.env.TEAM_FIELD_ID,
+                  teamMap.get(key),
+                );
+                break;
+              }
+            }
+
+            core.info(`Updated project fields for item ${itemId}`);
+

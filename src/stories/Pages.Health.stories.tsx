@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+﻿import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta = {
   title: "Fellowus/Pages Health",
@@ -15,3 +15,4 @@ export const FaviconAndAssets: Story = {
     </div>
   ),
 };
+

@@ -1,0 +1,14 @@
+ui:
+  - src/components/**/*
+  - src/stories/**/*
+
+docs:
+  - docs/**/*
+
+api:
+  - openapi/**/*
+
+tests:
+  - tests/**/*
+  - src/**/*.spec.ts
+  - src/**/*.stories.tsx

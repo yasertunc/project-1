@@ -1,0 +1,27 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "Fellowus",
+    "i18n",
+    "Storybook",
+    "Chromatic",
+    "AJV",
+    "OpenAPI",
+    "Playwright",
+    "RTL",
+    "pseudolog",
+    "cooldown",
+    "cooldowns",
+    "geoHash",
+    "telemetry",
+    "WCAG",
+    "RACI",
+    "prebuild"
+  ],
+  "ignorePaths": [
+    "docs/PROJECT_STATUS.md",
+    "README.md"
+  ]
+}
+
