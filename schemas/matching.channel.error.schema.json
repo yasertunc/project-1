@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fellowus.com/schemas/matching.channel.error.schema.json",
+  "title": "matching.channel.error",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://fellowus.com/schemas/common.json"
+    }
+  ],
+  "properties": {
+    "eventName": {
+      "const": "matching.channel.error"
+    },
+    "eventVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "eventTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "traceId": {
+      "type": "string"
+    },
+    "requestId": {
+      "type": ["string", "null"]
+    },
+    "matchId": {
+      "type": "string"
+    },
+    "channelId": {
+      "type": ["string", "null"]
+    },
+    "channelType": {
+      "type": ["string", "null"],
+      "enum": ["dm", "group", null]
+    },
+    "userId": {
+      "type": ["string", "null"]
+    },
+    "participants": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "intent": {
+      "type": ["string", "null"],
+      "enum": ["incident", "route", "social", "coach", null]
+    },
+    "platform": {
+      "type": ["string", "null"],
+      "enum": ["ios", "android", "web", null]
+    },
+    "appVersion": {
+      "type": ["string", "null"]
+    },
+    "locale": {
+      "type": ["string", "null"]
+    },
+    "region": {
+      "type": ["string", "null"]
+    },
+    "privacyTier": {
+      "type": ["string", "null"],
+      "enum": ["anon", "low", "high", null]
+    },
+    "errorStage": {
+      "type": "string"
+    },
+    "errorCode": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "traceId",
+    "errorCode",
+    "eventVersion",
+    "errorStage",
+    "eventName",
+    "matchId",
+    "eventTime"
+  ]
+}

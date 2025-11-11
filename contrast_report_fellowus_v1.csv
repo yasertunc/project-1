@@ -1,0 +1,9 @@
+mode,fg,bg,use,contrast,meets_AA_small_text
+light,#3B82F6,#FFFFFF,Primary600 on Surface (button text),3.68,no
+light,#0F172A,#FFFFFF,Ink900 on Surface (body text on white),17.85,yes
+light,#FFFFFF,#3B82F6,Surface text on Primary600 (avoid),3.68,no
+light,#334155,#F8FAFC,Ink700 on Muted50,9.90,yes
+dark,#FFFFFF,#60A5FA,"Text on Primary600 (avoid, low)",2.54,no
+dark,#FFFFFF,#0B1220,Text on Surface (body text),18.72,yes
+dark,#E5E7EB,#0B1220,Ink50 on Surface (body text),15.12,yes
+dark,#0B1220,#60A5FA,Surface on Primary600 (button text),7.36,yes

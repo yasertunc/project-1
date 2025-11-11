@@ -1,0 +1,288 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Fellowus Matching API",
+    "version": "0.1.0",
+    "description": "Orchestrator endpoints for enqueue/cancel/tick + acceptance lifecycle.\n"
+  },
+  "servers": [
+    {
+      "url": "https://api.fellowus.com",
+      "description": "Production"
+    },
+    {
+      "url": "https://staging-api.fellowus.com",
+      "description": "Staging"
+    }
+  ],
+  "tags": [
+    {
+      "name": "matching"
+    }
+  ],
+  "paths": {
+    "/v1/match/enqueue": {
+      "post": {
+        "tags": ["matching"],
+        "summary": "Enqueue a match request",
+        "operationId": "enqueueMatch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted into queue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueueSlot"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/v1/match/cancel": {
+      "post": {
+        "tags": ["matching"],
+        "summary": "Cancel a pending match request",
+        "operationId": "cancelMatch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["requestId", "userId"],
+                "properties": {
+                  "requestId": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Cancelled"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v1/match/tick": {
+      "post": {
+        "tags": ["matching"],
+        "summary": "Advance matching loop (scheduler hook)",
+        "operationId": "processTick",
+        "responses": {
+          "200": {
+            "description": "Tick processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "matchedCount": {
+                      "type": "integer"
+                    },
+                    "expandedCount": {
+                      "type": "integer"
+                    },
+                    "queueDepth": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "Input validation failed",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "GeoPoint": {
+        "type": "object",
+        "required": ["lat", "lon"],
+        "properties": {
+          "lat": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90
+          },
+          "lon": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180
+          }
+        }
+      },
+      "MatchPreferences": {
+        "type": "object",
+        "required": ["intent", "radiusKm", "locale"],
+        "properties": {
+          "intent": {
+            "type": "string",
+            "enum": ["incident", "route", "social", "coach"]
+          },
+          "radiusKm": {
+            "type": "number",
+            "minimum": 0
+          },
+          "mood": {
+            "type": "string"
+          },
+          "trafficLevel": {
+            "type": "string"
+          },
+          "locale": {
+            "type": "string"
+          },
+          "allowVoiceOnly": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CapabilityFlags": {
+        "type": "object",
+        "properties": {
+          "mic": {
+            "type": "boolean"
+          },
+          "text": {
+            "type": "boolean"
+          },
+          "shareLocation": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MatchRequest": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "userId",
+          "profileSnapshot",
+          "geoHash",
+          "coordinates",
+          "createdAt",
+          "expiresAt",
+          "preferences",
+          "capabilities",
+          "reputationScore"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "profileSnapshot": {
+            "description": "Opaque snapshot of the user profile at request time",
+            "type": "object",
+            "additionalProperties": true
+          },
+          "geoHash": {
+            "type": "string"
+          },
+          "coordinates": {
+            "$ref": "#/components/schemas/GeoPoint"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "preferences": {
+            "$ref": "#/components/schemas/MatchPreferences"
+          },
+          "capabilities": {
+            "$ref": "#/components/schemas/CapabilityFlags"
+          },
+          "reputationScore": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      },
+      "QueueSlot": {
+        "type": "object",
+        "required": ["request", "enqueuedAt", "priority"],
+        "properties": {
+          "request": {
+            "$ref": "#/components/schemas/MatchRequest"
+          },
+          "enqueuedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "priority": {
+            "type": "number"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}

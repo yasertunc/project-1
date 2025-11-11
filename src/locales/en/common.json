@@ -1,0 +1,59 @@
+{
+  "alias.label": "Nickname",
+  "alias.placeholder": "fellow-4821",
+  "chip.music": "#music",
+  "chip.daily": "#daily",
+  "btn.primary": "Primary",
+  "btn.outline": "Outline",
+  "btn.join": "Join",
+  "btn.skip": "Skip",
+  "btn.match": "MATCH",
+  "error.required": "This field is required",
+  "mic.idle": "Voice command",
+  "mic.recording": "Recording… hold to talk",
+  "report": "Report",
+  "system.warning": "Do not share personal information.",
+  "guide.waiting.title": "2 people are waiting in #gaming",
+  "guide.waiting.meta": "Calm chat suggestion",
+  "guide.hide": "Hide",
+  "guide.rules": "View rules",
+  "a11y.notifications": "Notifications",
+  "format.number": "Number",
+  "format.date": "Date",
+  "format.eta": "ETA",
+  "chat.rtl.greeting": "مرحبا! كيف حالك؟",
+  "chat.rtl.reply": "تمام، شكراً لك 👍",
+  "chat.rtl.warning": "تذكير: لا تشارك معلومات شخصية.",
+  "report.modal.title": "Report conversation",
+  "report.category.harassment": "Harassment",
+  "report.category.hate": "Hate or discrimination",
+  "report.category.self_harm": "Self-harm or suicide",
+  "report.category.spam": "Spam or scams",
+  "report.category.personal_info": "Personal information",
+  "report.category.other": "Other",
+  "common.cancel": "Cancel",
+  "homepage": {
+    "title": "A new way to bring people together",
+    "subtitle": "Discover events, join communities, and connect effortlessly with Fellowus.",
+    "cta": "Get started",
+    "features": {
+      "title": "Features",
+      "eventDiscovery": {
+        "title": "Event discovery",
+        "desc": "Find relevant events nearby, tailored to your interests."
+      },
+      "communityFirst": {
+        "title": "Community-first",
+        "desc": "Join groups, chat, and grow together with your peers."
+      },
+      "safety": {
+        "title": "Trust & safety",
+        "desc": "Report flows and moderation tools keep interactions safe."
+      }
+    },
+    "ctaPanel": {
+      "lead": "Ready to get started with Fellowus?",
+      "cta": "Create your account"
+    }
+  }
+}

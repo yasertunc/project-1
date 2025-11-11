@@ -1,0 +1,22 @@
+{
+  "eventName": "matching.offer.sent",
+  "eventVersion": "1.0",
+  "eventTime": "2025-11-10T12:04:22Z",
+  "traceId": "req_test_001",
+  "matchId": "m_test_001",
+  "participants": ["anon:fellow-4821", "anon:fellow-3520"],
+  "intent": "social",
+  "cap_mic": true,
+  "cap_text": true,
+  "cap_share_location": false,
+  "score_total": 0.72,
+  "score_match": 0.8,
+  "score_safety": 0.95,
+  "score_novelty": 0.6,
+  "score_diversity": 0.55,
+  "geo_avg_distance_km": 3.2,
+  "queue_depth": 18,
+  "platform": "android",
+  "locale": "tr-TR",
+  "region": "eu-west"
+}

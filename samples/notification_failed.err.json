@@ -1,0 +1,10 @@
+{
+  "eventName": "matching.offer.notification_failed",
+  "eventVersion": "1.0",
+  "eventTime": "2025-11-10T12:05:00Z",
+  "traceId": "req_test_003",
+  "matchId": "m_test_003",
+  "participant": "anon:fellow-3520",
+  "retryCount": 1,
+  "errorCode": "PUSH_TOKEN_MISSING"
+}

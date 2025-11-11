@@ -1,0 +1,13 @@
+## Generated / build artifacts
+storybook-static/**
+dist/**
+coverage/**
+
+## Visual regression artifacts
+tests/visual/**/__screenshots__/**
+tests/visual/**-snapshots/**
+test-results/**
+
+## Tooling leftovers
+*.log
+

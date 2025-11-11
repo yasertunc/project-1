@@ -1,0 +1,3 @@
+{
+  "ignorePattern": "(stories|components|types|playwright|matchingClient|vitest)"
+}

@@ -1,0 +1,9 @@
+{
+  "eventName": "matching.pair.finalized",
+  "eventVersion": "1.0",
+  "eventTime": "2025-11-10T12:04:51Z",
+  "traceId": "req_test_002",
+  "matchId": "m_test_002",
+  "status": "matched",
+  "finalizedAt": "2025-11-10T12:04:51Z"
+}

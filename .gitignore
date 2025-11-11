@@ -1,0 +1,23 @@
+﻿# Node / package managers
+node_modules/
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+storybook-static/
+coverage/
+.playwright/
+test-results/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Env & misc
+.env
+.env.*
+node_modules

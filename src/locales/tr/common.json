@@ -1,0 +1,59 @@
+{
+  "alias.label": "Takma Ad",
+  "alias.placeholder": "fellow-4821",
+  "chip.music": "#müzik",
+  "chip.daily": "#günlük",
+  "btn.primary": "Birincil",
+  "btn.outline": "Dış çizgi",
+  "btn.join": "Katıl",
+  "btn.skip": "Atla",
+  "btn.match": "EŞLEŞTİR",
+  "error.required": "Bu alan zorunludur",
+  "mic.idle": "Sesli komut",
+  "mic.recording": "Kaydediliyor… basılı tut",
+  "report": "Raporla",
+  "system.warning": "Kişisel bilgi paylaşma.",
+  "guide.waiting.title": "#oyun odasında 2 kişi bekliyor",
+  "guide.waiting.meta": "Sakin sohbet önerisi",
+  "guide.hide": "Gizle",
+  "guide.rules": "Kuralları gör",
+  "a11y.notifications": "Bildirimler",
+  "format.number": "Sayı",
+  "format.date": "Tarih",
+  "format.eta": "Tahmini süre",
+  "chat.rtl.greeting": "مرحبا! كيف حالك؟",
+  "chat.rtl.reply": "تمام، شكراً لك 👍",
+  "chat.rtl.warning": "تذكير: لا تشارك معلومات شخصية.",
+  "report.modal.title": "Sohbeti raporla",
+  "report.category.harassment": "Taciz",
+  "report.category.hate": "Nefret veya ayrımcılık",
+  "report.category.self_harm": "Kendine zarar/İntihar",
+  "report.category.spam": "Spam veya dolandırıcılık",
+  "report.category.personal_info": "Kişisel bilgi paylaşımı",
+  "report.category.other": "Diğer",
+  "common.cancel": "İptal",
+  "homepage": {
+    "title": "İnsanları bir araya getirmenin yeni yolu",
+    "subtitle": "Etkinlikleri keşfet, topluluklara katıl ve Fellowus ile zahmetsizce bağ kur.",
+    "cta": "Hemen başla",
+    "features": {
+      "title": "Özellikler",
+      "eventDiscovery": {
+        "title": "Etkinlik keşfi",
+        "desc": "İlgi alanlarına göre sana en uygun yakın etkinlikleri bul."
+      },
+      "communityFirst": {
+        "title": "Topluluk öncelikli",
+        "desc": "Gruplara katıl, sohbet et ve birlikte büyü."
+      },
+      "safety": {
+        "title": "Güven ve emniyet",
+        "desc": "Raporlama ve moderasyon araçları güvenli etkileşim sağlar."
+      }
+    },
+    "ctaPanel": {
+      "lead": "Fellowus ile başlamaya hazır mısın?",
+      "cta": "Hesap oluştur"
+    }
+  }
+}
