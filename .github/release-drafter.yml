@@ -1,0 +1,26 @@
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+categories:
+  - title: "🚀 Features"
+    labels: [ui, api, feature, enhancement]
+  - title: "🐞 Fixes"
+    labels: [bug, fix]
+  - title: "🧪 Tests"
+    labels: [tests]
+  - title: "📝 Docs"
+    labels: [docs]
+change-template: "- $TITLE (#$NUMBER) — @$AUTHOR"
+no-changes-template: "No user-facing changes."
+version-resolver:
+  major:
+    labels: [breaking]
+  minor:
+    labels: [feature, enhancement]
+  patch:
+    labels: [fix, bug, docs, tests, chore]
+template: |
+  ## What’s Changed
+
+  $CHANGES
+
+  _Built from commit: $COMMIT_SHORT_
