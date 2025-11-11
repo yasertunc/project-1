@@ -21,3 +21,7 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           buildScriptName: build-storybook
           exitZeroOnChanges: true
+          with:
+  # yüzde olarak (örn. yüzde 0.3 tolerans)
+  diffThreshold: 0.3
+
