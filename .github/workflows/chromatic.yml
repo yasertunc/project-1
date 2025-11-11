@@ -1,27 +1,23 @@
-name: chromatic
-
+name: Chromatic
 on:
   pull_request:
-    branches: [main]
-  workflow_dispatch:
+    branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   chromatic:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
       - run: npm ci
       - run: npm run tokens:build
-      - run: npm run build-storybook
       - name: Publish to Chromatic
-        run: npm run chromatic
-        env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: build-storybook
+          exitZeroOnChanges: true
