@@ -1,3 +1,5 @@
+﻿permissions:
+  contents: write
 name: Deploy Storybook to gh-pages
 
 on:
@@ -32,3 +34,4 @@ jobs:
           publish_branch: gh-pages
           publish_dir: storybook-static
           force_orphan: true
+
