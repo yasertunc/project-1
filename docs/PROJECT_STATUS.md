@@ -78,7 +78,8 @@
    9.4 ✅ Yol seçimi: **Expo Managed Workflow** (alternatifler aşağıda) 🆕  
    9.5 ⚠️ Mobil iskelet: `apps/mobile` altında Expo projesi başlatıldı, NativeWind + tab/stack navigasyon temeli kuruldu 🆕  
    9.6 ◻️ Tasarım token köprüsü: **NativeWind** ile Tailwind/design tokens eşlemesi; `tokens.css` → RN değişkenleri 🆕  
-   9.7 ◻️ Navigasyon: React Navigation (stack/tab) ve **App Shell** eşlemesi 🆕  
+   9.7 ⚠️ Navigasyon: Expo Router akışı ve mobil ekranlar fellowus_demo.mp4 referansına yaklaştırıldı 🆕  
+      - Chat listesi kartları, avatar placeholder’ları, profil anahtarları ve typing/timestamp’li sohbet balonları tamamlandı 🆕  
    9.8 ◻️ Bildirimler: Expo Notifications + Firebase (FCM) konfig (Android) 🆕  
    9.9 ◻️ Ortam/kimlik: `app.json`/`eas.json` paket adı (`com.fellowus.app`), versiyonlama ve ikon/splash 🆕  
    9.10 ◻️ **Debug cihaz testi**: Expo Dev Client ile cihazda akışların doğrulanması 🆕  
@@ -291,5 +292,6 @@
 - _2025-11-12_: `pnpm release:tag` akışı, font preconnect ipuçları ve lazy media optimizasyonları hazırlandı; 9.3 performans turlarına başlangıç yapıldı. 🆕  
 - _2025-11-12_: AppPhoneMock hikâyesi ve tasarım token safelistleri güncellendi; mobil navigasyon akışları Storybook üzerinden doğrulanabilir hâle geldi.  
 - _2025-11-12_: Expo mobil iskeleti (`apps/mobile`), NativeWind token köprüsü, EAS yapılandırması ve `/download` yönlendirme sayfası eklendi; Android/iOS yol haritası detaylandırıldı. 🆕  
+- _2025-11-12_: Chat listesi kartları, avatarlar, mesaj balonları (timestamp + typing), profil toggle’ları ve safe area/StatusBar cilası tamamlandı. 🆕  
 - _2025-11-12_: DNS ve custom domain planı (Turhost + GitHub Pages) dokümante edildi; mobil APK/AAB yol haritası ile entegrasyon planı güncellendi. 🆕
 
