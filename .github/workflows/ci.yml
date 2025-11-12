@@ -9,6 +9,8 @@ on:
 jobs:
   health:
     runs-on: ubuntu-latest
+    env:
+      DOWNLOAD_URL: https://www.fellowus.com/download
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

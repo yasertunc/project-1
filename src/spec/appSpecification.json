@@ -1,0 +1,1555 @@
+{
+  "name": "Konum Tabanlı Sosyal Uygulama",
+  "version": "1.0.0",
+  "platform": "Mobile Web App",
+  "language": "tr-TR",
+  "description": "Harita tabanlı sosyal etkileşim ve mesajlaşma uygulaması",
+  "designSystem": {
+    "colors": {
+      "primary": {
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "main": "#667eea",
+        "dark": "#764ba2"
+      },
+      "vip": {
+        "gradient": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+        "main": "#FFD700",
+        "dark": "#FFA500"
+      },
+      "background": {
+        "light": "#f5f7fa",
+        "medium": "#e3e9f3",
+        "dark": "#1a1a1a"
+      },
+      "surface": {
+        "white": "#ffffff",
+        "gray": "#f8f9fa"
+      },
+      "text": {
+        "primary": "#333333",
+        "secondary": "#666666",
+        "tertiary": "#999999"
+      },
+      "status": {
+        "online": "#26de81",
+        "error": "#ff4444",
+        "warning": "#FFA500",
+        "info": "#4285F4"
+      },
+      "mapElements": {
+        "streets": "#ffd700",
+        "buildings": "gradient(#ffeaa7, #fdcb6e)",
+        "parks": "gradient(#55efc4, #00b894)",
+        "water": "gradient(#74b9ff, #0984e3)"
+      },
+      "markers": {
+        "bank": "gradient(#ff6b6b, #ee5a24)",
+        "money": "gradient(#26de81, #20bf6b)",
+        "hospital": "gradient(#4ecdc4, #44a3aa)",
+        "food": "gradient(#a55eea, #8854d0)",
+        "gas": "gradient(#fc5c65, #eb3b5a)"
+      }
+    },
+    "typography": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
+      "sizes": {
+        "title": "24px",
+        "large": "16px",
+        "medium": "14px",
+        "small": "12px",
+        "tiny": "11px",
+        "nav": "13px"
+      },
+      "weights": {
+        "bold": 700,
+        "semibold": 600,
+        "regular": 400
+      }
+    },
+    "spacing": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "12px",
+      "lg": "15px",
+      "xl": "20px",
+      "xxl": "30px"
+    },
+    "borderRadius": {
+      "none": "0",
+      "small": "8px",
+      "medium": "12px",
+      "large": "18px",
+      "xlarge": "25px",
+      "round": "50%",
+      "phone": "40px",
+      "screen": "30px"
+    },
+    "shadows": {
+      "small": "0 2px 8px rgba(0, 0, 0, 0.08)",
+      "medium": "0 4px 12px rgba(0, 0, 0, 0.12)",
+      "large": "0 6px 16px rgba(0, 0, 0, 0.15)",
+      "xlarge": "0 25px 50px rgba(0, 0, 0, 0.3)",
+      "colored": "0 4px 12px rgba(102, 126, 234, 0.4)"
+    },
+    "animations": {
+      "duration": {
+        "fast": "0.2s",
+        "normal": "0.3s",
+        "slow": "0.5s"
+      },
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  },
+  "layout": {
+    "phoneContainer": {
+      "width": "375px",
+      "height": "812px",
+      "borderRadius": "40px",
+      "padding": "10px",
+      "background": "#1a1a1a"
+    },
+    "screen": {
+      "borderRadius": "30px",
+      "background": "#ffffff"
+    },
+    "statusBar": {
+      "height": "44px",
+      "background": "#f8f9fa",
+      "borderBottom": "1px solid #e0e0e0",
+      "elements": {
+        "time": {
+          "position": "left",
+          "format": "HH:mm",
+          "default": "09:41"
+        },
+        "statusIcons": {
+          "position": "right",
+          "icons": [
+            "📶",
+            "📡",
+            "🔋"
+          ]
+        }
+      }
+    },
+    "contentArea": {
+      "height": "calc(100% - 44px - 60px - 70px)"
+    },
+    "inputContainer": {
+      "height": "70px",
+      "background": "#ffffff",
+      "borderTopRadius": "20px",
+      "padding": "15px"
+    }
+  },
+  "navigation": {
+    "type": "swipeable",
+    "height": "60px",
+    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    "sections": 2,
+    "swipeEnabled": true,
+    "dragEnabled": true,
+    "menus": [
+      {
+        "id": "mapMenu",
+        "position": 0,
+        "items": [
+          {
+            "id": "map",
+            "label": "HARİTA",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "places",
+            "label": "YERLER",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "filter",
+            "label": "FİLTRE",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "categories",
+            "label": "KATEGORİ",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          {
+            "id": "settings",
+            "label": null,
+            "icon": "⚙",
+            "type": "page",
+            "width": "45px",
+            "fontSize": "22px",
+            "fontWeight": "bold"
+          }
+        ]
+      },
+      {
+        "id": "chatMenu",
+        "position": 1,
+        "items": [
+          {
+            "id": "chat",
+            "label": "SOHBET",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "groups",
+            "label": "GRUPLAR",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "social",
+            "label": "SOSYAL",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "notifications",
+            "label": "BİLDİRİM",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          {
+            "id": "settings",
+            "label": null,
+            "icon": "⚙",
+            "type": "page",
+            "width": "45px",
+            "fontSize": "22px",
+            "fontWeight": "bold"
+          }
+        ]
+      }
+    ],
+    "indicators": {
+      "type": "dots",
+      "position": "bottom-center",
+      "activeWidth": "18px",
+      "inactiveWidth": "6px"
+    }
+  },
+  "globalComponents": {
+    "aiAssistant": {
+      "id": "ai-assistant",
+      "type": "floating-button",
+      "position": {
+        "bottom": "85px",
+        "right": "20px"
+      },
+      "size": {
+        "width": "56px",
+        "height": "56px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "borderRadius": "50%",
+        "shadow": "0 4px 12px rgba(102, 126, 234, 0.4)",
+        "zIndex": 999
+      },
+      "content": {
+        "text": "AI",
+        "fontSize": "18px",
+        "fontWeight": 700,
+        "color": "white"
+      },
+      "animations": {
+        "hover": "scale(1.08)",
+        "click": "scale(0.95)",
+        "pulse": {
+          "enabled": true,
+          "duration": "2s",
+          "type": "scale-opacity"
+        }
+      },
+      "behavior": {
+        "visibleOnPages": "all",
+        "clickAction": "openAIChat"
+      }
+    }
+  },
+  "pages": [
+    "map",
+    "places",
+    "filter",
+    "categories",
+    "chat",
+    "groups",
+    "social",
+    "notifications",
+    "vip",
+    "settings"
+  ],
+  "interactions": {
+    "navigation": {
+      "swipe": {
+        "enabled": true,
+        "direction": "horizontal",
+        "snapToSection": true,
+        "threshold": 187.5
+      },
+      "tap": {
+        "enabled": true,
+        "highlightOnTap": true
+      },
+      "indicators": {
+        "clickable": true,
+        "animated": true
+      }
+    },
+    "components": {
+      "buttons": {
+        "hoverEffect": true,
+        "clickAnimation": "scale(0.95)",
+        "rippleEffect": false
+      },
+      "toggles": {
+        "animated": true,
+        "duration": "0.3s"
+      },
+      "cards": {
+        "hoverLift": true,
+        "clickable": true
+      },
+      "aiAssistant": {
+        "hoverScale": 1.08,
+        "clickScale": 0.95,
+        "pulseAnimation": true
+      }
+    },
+    "gestures": {
+      "pullToRefresh": false,
+      "swipeBack": false,
+      "pinchToZoom": false
+    }
+  }
+}
+{
+  "name": "Konum Tabanlı Sosyal Uygulama",
+  "version": "1.0.0",
+  "platform": "Mobile Web App",
+  "language": "tr-TR",
+  "description": "Harita tabanlı sosyal etkileşim ve mesajlaşma uygulaması",
+  "designSystem": {
+    "colors": {
+      "primary": {
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "main": "#667eea",
+        "dark": "#764ba2"
+      },
+      "vip": {
+        "gradient": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+        "main": "#FFD700",
+        "dark": "#FFA500"
+      },
+      "background": { "light": "#f5f7fa", "medium": "#e3e9f3", "dark": "#1a1a1a" },
+      "surface": { "white": "#ffffff", "gray": "#f8f9fa" },
+      "text": { "primary": "#333333", "secondary": "#666666", "tertiary": "#999999" },
+      "status": { "online": "#26de81", "error": "#ff4444", "warning": "#FFA500", "info": "#4285F4" },
+      "mapElements": {
+        "streets": "#ffd700",
+        "buildings": "gradient(#ffeaa7, #fdcb6e)",
+        "parks": "gradient(#55efc4, #00b894)",
+        "water": "gradient(#74b9ff, #0984e3)"
+      },
+      "markers": {
+        "bank": "gradient(#ff6b6b, #ee5a24)",
+        "money": "gradient(#26de81, #20bf6b)",
+        "hospital": "gradient(#4ecdc4, #44a3aa)",
+        "food": "gradient(#a55eea, #8854d0)",
+        "gas": "gradient(#fc5c65, #eb3b5a)"
+      }
+    },
+    "typography": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
+      "sizes": { "title": "24px", "large": "16px", "medium": "14px", "small": "12px", "tiny": "11px", "nav": "13px" },
+      "weights": { "bold": 700, "semibold": 600, "regular": 400 }
+    },
+    "spacing": { "xs": "4px", "sm": "8px", "md": "12px", "lg": "15px", "xl": "20px", "xxl": "30px" },
+    "borderRadius": { "none": "0", "small": "8px", "medium": "12px", "large": "18px", "xlarge": "25px", "round": "50%", "phone": "40px", "screen": "30px" },
+    "shadows": {
+      "small": "0 2px 8px rgba(0, 0, 0, 0.08)",
+      "medium": "0 4px 12px rgba(0, 0, 0, 0.12)",
+      "large": "0 6px 16px rgba(0, 0, 0, 0.15)",
+      "xlarge": "0 25px 50px rgba(0, 0, 0, 0.3)",
+      "colored": "0 4px 12px rgba(102, 126, 234, 0.4)"
+    },
+    "animations": {
+      "duration": { "fast": "0.2s", "normal": "0.3s", "slow": "0.5s" },
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  },
+  "layout": {
+    "phoneContainer": { "width": "375px", "height": "812px", "borderRadius": "40px", "padding": "10px", "background": "#1a1a1a" },
+    "screen": { "borderRadius": "30px", "background": "#ffffff" },
+    "statusBar": {
+      "height": "44px",
+      "background": "#f8f9fa",
+      "borderBottom": "1px solid #e0e0e0",
+      "elements": {
+        "time": { "position": "left", "format": "HH:mm", "default": "09:41" },
+        "statusIcons": { "position": "right", "icons": ["📶", "📡", "🔋"] }
+      }
+    },
+    "contentArea": { "height": "calc(100% - 44px - 60px - 70px)" },
+    "inputContainer": { "height": "70px", "background": "#ffffff", "borderTopRadius": "20px", "padding": "15px" }
+  },
+  "navigation": {
+    "type": "swipeable",
+    "height": "60px",
+    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    "sections": 2,
+    "swipeEnabled": true,
+    "dragEnabled": true,
+    "menus": [
+      {
+        "id": "mapMenu",
+        "position": 0,
+        "items": [
+          { "id": "map", "label": "HARİTA", "type": "page", "width": "auto" },
+          { "id": "places", "label": "YERLER", "type": "page", "width": "auto" },
+          { "id": "filter", "label": "FİLTRE", "type": "page", "width": "auto" },
+          { "id": "categories", "label": "KATEGORİ", "type": "page", "width": "auto" },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          { "id": "settings", "label": null, "icon": "⚙", "type": "page", "width": "45px", "fontSize": "22px", "fontWeight": "bold" }
+        ]
+      },
+      {
+        "id": "chatMenu",
+        "position": 1,
+        "items": [
+          { "id": "chat", "label": "SOHBET", "type": "page", "width": "auto" },
+          { "id": "groups", "label": "GRUPLAR", "type": "page", "width": "auto" },
+          { "id": "social", "label": "SOSYAL", "type": "page", "width": "auto" },
+          { "id": "notifications", "label": "BİLDİRİM", "type": "page", "width": "auto" },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          { "id": "settings", "label": null, "icon": "⚙", "type": "page", "width": "45px", "fontSize": "22px", "fontWeight": "bold" }
+        ]
+      }
+    ],
+    "indicators": { "type": "dots", "position": "bottom-center", "activeWidth": "18px", "inactiveWidth": "6px" }
+  },
+  "globalComponents": {
+    "aiAssistant": {
+      "id": "ai-assistant",
+      "type": "floating-button",
+      "position": { "bottom": "85px", "right": "20px" },
+      "size": { "width": "56px", "height": "56px" },
+      "style": {
+        "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "borderRadius": "50%",
+        "shadow": "0 4px 12px rgba(102, 126, 234, 0.4)",
+        "zIndex": 999
+      },
+      "content": { "text": "AI", "fontSize": "18px", "fontWeight": 700, "color": "white" },
+      "animations": {
+        "hover": "scale(1.08)",
+        "click": "scale(0.95)",
+        "pulse": { "enabled": true, "duration": "2s", "type": "scale-opacity" }
+      },
+      "behavior": { "visibleOnPages": "all", "clickAction": "openAIChat" }
+    }
+  },
+  "pages": ["map", "places", "filter", "categories", "chat", "groups", "social", "notifications", "vip", "settings"],
+  "interactions": {
+    "navigation": {
+      "swipe": { "enabled": true, "direction": "horizontal", "snapToSection": true, "threshold": 187.5 },
+      "tap": { "enabled": true, "highlightOnTap": true },
+      "indicators": { "clickable": true, "animated": true }
+    },
+    "components": {
+      "buttons": { "hoverEffect": true, "clickAnimation": "scale(0.95)", "rippleEffect": false },
+      "toggles": { "animated": true, "duration": "0.3s" },
+      "cards": { "hoverLift": true, "clickable": true },
+      "aiAssistant": { "hoverScale": 1.08, "clickScale": 0.95, "pulseAnimation": true }
+    },
+    "gestures": { "pullToRefresh": false, "swipeBack": false, "pinchToZoom": false }
+  }
+}
+{
+  "name": "Konum Tabanlı Sosyal Uygulama",
+  "version": "1.0.0",
+  "platform": "Mobile Web App",
+  "language": "tr-TR",
+  "description": "Harita tabanlı sosyal etkileşim ve mesajlaşma uygulaması",
+  "designSystem": {
+    "colors": {
+      "primary": {
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "main": "#667eea",
+        "dark": "#764ba2"
+      },
+      "vip": {
+        "gradient": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+        "main": "#FFD700",
+        "dark": "#FFA500"
+      },
+      "background": {
+        "light": "#f5f7fa",
+        "medium": "#e3e9f3",
+        "dark": "#1a1a1a"
+      },
+      "surface": {
+        "white": "#ffffff",
+        "gray": "#f8f9fa"
+      },
+      "text": {
+        "primary": "#333333",
+        "secondary": "#666666",
+        "tertiary": "#999999"
+      },
+      "status": {
+        "online": "#26de81",
+        "error": "#ff4444",
+        "warning": "#FFA500",
+        "info": "#4285F4"
+      },
+      "mapElements": {
+        "streets": "#ffd700",
+        "buildings": "gradient(#ffeaa7, #fdcb6e)",
+        "parks": "gradient(#55efc4, #00b894)",
+        "water": "gradient(#74b9ff, #0984e3)"
+      },
+      "markers": {
+        "bank": "gradient(#ff6b6b, #ee5a24)",
+        "money": "gradient(#26de81, #20bf6b)",
+        "hospital": "gradient(#4ecdc4, #44a3aa)",
+        "food": "gradient(#a55eea, #8854d0)",
+        "gas": "gradient(#fc5c65, #eb3b5a)"
+      }
+    },
+    "typography": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
+      "sizes": {
+        "title": "24px",
+        "large": "16px",
+        "medium": "14px",
+        "small": "12px",
+        "tiny": "11px",
+        "nav": "13px"
+      },
+      "weights": {
+        "bold": 700,
+        "semibold": 600,
+        "regular": 400
+      }
+    },
+    "spacing": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "12px",
+      "lg": "15px",
+      "xl": "20px",
+      "xxl": "30px"
+    },
+    "borderRadius": {
+      "none": "0",
+      "small": "8px",
+      "medium": "12px",
+      "large": "18px",
+      "xlarge": "25px",
+      "round": "50%",
+      "phone": "40px",
+      "screen": "30px"
+    },
+    "shadows": {
+      "small": "0 2px 8px rgba(0, 0, 0, 0.08)",
+      "medium": "0 4px 12px rgba(0, 0, 0, 0.12)",
+      "large": "0 6px 16px rgba(0, 0, 0, 0.15)",
+      "xlarge": "0 25px 50px rgba(0, 0, 0, 0.3)",
+      "colored": "0 4px 12px rgba(102, 126, 234, 0.4)"
+    },
+    "animations": {
+      "duration": {
+        "fast": "0.2s",
+        "normal": "0.3s",
+        "slow": "0.5s"
+      },
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  },
+  "layout": {
+    "phoneContainer": {
+      "width": "375px",
+      "height": "812px",
+      "borderRadius": "40px",
+      "padding": "10px",
+      "background": "#1a1a1a"
+    },
+    "screen": {
+      "borderRadius": "30px",
+      "background": "#ffffff"
+    },
+    "statusBar": {
+      "height": "44px",
+      "background": "#f8f9fa",
+      "borderBottom": "1px solid #e0e0e0",
+      "elements": {
+        "time": {
+          "position": "left",
+          "format": "HH:mm",
+          "default": "09:41"
+        },
+        "statusIcons": {
+          "position": "right",
+          "icons": ["📶", "📡", "🔋"]
+        }
+      }
+    },
+    "contentArea": {
+      "height": "calc(100% - 44px - 60px - 70px)"
+    },
+    "inputContainer": {
+      "height": "70px",
+      "background": "#ffffff",
+      "borderTopRadius": "20px",
+      "padding": "15px"
+    }
+  },
+  "navigation": {
+    "type": "swipeable",
+    "height": "60px",
+    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    "sections": 2,
+    "swipeEnabled": true,
+    "dragEnabled": true,
+    "menus": [
+      {
+        "id": "mapMenu",
+        "position": 0,
+        "items": [
+          { "id": "map", "label": "HARİTA", "type": "page", "width": "auto" },
+          { "id": "places", "label": "YERLER", "type": "page", "width": "auto" },
+          { "id": "filter", "label": "FİLTRE", "type": "page", "width": "auto" },
+          { "id": "categories", "label": "KATEGORİ", "type": "page", "width": "auto" },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          {
+            "id": "settings",
+            "label": null,
+            "icon": "⚙",
+            "type": "page",
+            "width": "45px",
+            "fontSize": "22px",
+            "fontWeight": "bold"
+          }
+        ]
+      },
+      {
+        "id": "chatMenu",
+        "position": 1,
+        "items": [
+          { "id": "chat", "label": "SOHBET", "type": "page", "width": "auto" },
+          { "id": "groups", "label": "GRUPLAR", "type": "page", "width": "auto" },
+          { "id": "social", "label": "SOSYAL", "type": "page", "width": "auto" },
+          { "id": "notifications", "label": "BİLDİRİM", "type": "page", "width": "auto" },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          {
+            "id": "settings",
+            "label": null,
+            "icon": "⚙",
+            "type": "page",
+            "width": "45px",
+            "fontSize": "22px",
+            "fontWeight": "bold"
+          }
+        ]
+      }
+    ],
+    "indicators": {
+      "type": "dots",
+      "position": "bottom-center",
+      "activeWidth": "18px",
+      "inactiveWidth": "6px"
+    }
+  },
+  "globalComponents": {
+    "aiAssistant": {
+      "id": "ai-assistant",
+      "type": "floating-button",
+      "position": {
+        "bottom": "85px",
+        "right": "20px"
+      },
+      "size": {
+        "width": "56px",
+        "height": "56px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "borderRadius": "50%",
+        "shadow": "0 4px 12px rgba(102, 126, 234, 0.4)",
+        "zIndex": 999
+      },
+      "content": {
+        "text": "AI",
+        "fontSize": "18px",
+        "fontWeight": 700,
+        "color": "white"
+      },
+      "animations": {
+        "hover": "scale(1.08)",
+        "click": "scale(0.95)",
+        "pulse": {
+          "enabled": true,
+          "duration": "2s",
+          "type": "scale-opacity"
+        }
+      },
+      "behavior": {
+        "visibleOnPages": "all",
+        "clickAction": "openAIChat"
+      }
+    }
+  },
+  "pages": [
+    "map",
+    "places",
+    "filter",
+    "categories",
+    "chat",
+    "groups",
+    "social",
+    "notifications",
+    "vip",
+    "settings"
+  ],
+  "interactions": {
+    "navigation": {
+      "swipe": {
+        "enabled": true,
+        "direction": "horizontal",
+        "snapToSection": true,
+        "threshold": 187.5
+      },
+      "tap": {
+        "enabled": true,
+        "highlightOnTap": true
+      },
+      "indicators": {
+        "clickable": true,
+        "animated": true
+      }
+    },
+    "components": {
+      "buttons": {
+        "hoverEffect": true,
+        "clickAnimation": "scale(0.95)",
+        "rippleEffect": false
+      },
+      "toggles": {
+        "animated": true,
+        "duration": "0.3s"
+      },
+      "cards": {
+        "hoverLift": true,
+        "clickable": true
+      },
+      "aiAssistant": {
+        "hoverScale": 1.08,
+        "clickScale": 0.95,
+        "pulseAnimation": true
+      }
+    },
+    "gestures": {
+      "pullToRefresh": false,
+      "swipeBack": false,
+      "pinchToZoom": false
+    }
+  }
+}
+{
+  "name": "Konum Tabanlı Sosyal Uygulama",
+  "version": "1.0.0",
+  "platform": "Mobile Web App",
+  "language": "tr-TR",
+  "description": "Harita tabanlı sosyal etkileşim ve mesajlaşma uygulaması",
+  "designSystem": {
+    "colors": {
+      "primary": {
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "main": "#667eea",
+        "dark": "#764ba2"
+      },
+      "vip": {
+        "gradient": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+        "main": "#FFD700",
+        "dark": "#FFA500"
+      },
+      "background": {
+        "light": "#f5f7fa",
+        "medium": "#e3e9f3",
+        "dark": "#1a1a1a"
+      },
+      "surface": {
+        "white": "#ffffff",
+        "gray": "#f8f9fa"
+      },
+      "text": {
+        "primary": "#333333",
+        "secondary": "#666666",
+        "tertiary": "#999999"
+      },
+      "status": {
+        "online": "#26de81",
+        "error": "#ff4444",
+        "warning": "#FFA500",
+        "info": "#4285F4"
+      },
+      "mapElements": {
+        "streets": "#ffd700",
+        "buildings": "gradient(#ffeaa7, #fdcb6e)",
+        "parks": "gradient(#55efc4, #00b894)",
+        "water": "gradient(#74b9ff, #0984e3)"
+      },
+      "markers": {
+        "bank": "gradient(#ff6b6b, #ee5a24)",
+        "money": "gradient(#26de81, #20bf6b)",
+        "hospital": "gradient(#4ecdc4, #44a3aa)",
+        "food": "gradient(#a55eea, #8854d0)",
+        "gas": "gradient(#fc5c65, #eb3b5a)"
+      }
+    },
+    "typography": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
+      "sizes": {
+        "title": "24px",
+        "large": "16px",
+        "medium": "14px",
+        "small": "12px",
+        "tiny": "11px",
+        "nav": "13px"
+      },
+      "weights": {
+        "bold": 700,
+        "semibold": 600,
+        "regular": 400
+      }
+    },
+    "spacing": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "12px",
+      "lg": "15px",
+      "xl": "20px",
+      "xxl": "30px"
+    },
+    "borderRadius": {
+      "none": "0",
+      "small": "8px",
+      "medium": "12px",
+      "large": "18px",
+      "xlarge": "25px",
+      "round": "50%",
+      "phone": "40px",
+      "screen": "30px"
+    },
+    "shadows": {
+      "small": "0 2px 8px rgba(0, 0, 0, 0.08)",
+      "medium": "0 4px 12px rgba(0, 0, 0, 0.12)",
+      "large": "0 6px 16px rgba(0, 0, 0, 0.15)",
+      "xlarge": "0 25px 50px rgba(0, 0, 0, 0.3)",
+      "colored": "0 4px 12px rgba(102, 126, 234, 0.4)"
+    },
+    "animations": {
+      "duration": {
+        "fast": "0.2s",
+        "normal": "0.3s",
+        "slow": "0.5s"
+      },
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  },
+  "layout": {
+    "phoneContainer": {
+      "width": "375px",
+      "height": "812px",
+      "borderRadius": "40px",
+      "padding": "10px",
+      "background": "#1a1a1a"
+    },
+    "screen": {
+      "borderRadius": "30px",
+      "background": "#ffffff"
+    },
+    "statusBar": {
+      "height": "44px",
+      "background": "#f8f9fa",
+      "borderBottom": "1px solid #e0e0e0",
+      "elements": {
+        "time": {
+          "position": "left",
+          "format": "HH:mm",
+          "default": "09:41"
+        },
+        "statusIcons": {
+          "position": "right",
+          "icons": ["📶", "📡", "🔋"]
+        }
+      }
+    },
+    "contentArea": {
+      "height": "calc(100% - 44px - 60px - 70px)"
+    },
+    "inputContainer": {
+      "height": "70px",
+      "background": "#ffffff",
+      "borderTopRadius": "20px",
+      "padding": "15px"
+    }
+  },
+  "navigation": {
+    "type": "swipeable",
+    "height": "60px",
+    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    "sections": 2,
+    "swipeEnabled": true,
+    "dragEnabled": true,
+    "menus": [
+      {
+        "id": "mapMenu",
+        "position": 0,
+        "items": [
+          {
+            "id": "map",
+            "label": "HARİTA",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "places",
+            "label": "YERLER",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "filter",
+            "label": "FİLTRE",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "categories",
+            "label": "KATEGORİ",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          {
+            "id": "settings",
+            "label": null,
+            "icon": "⚙",
+            "type": "page",
+            "width": "45px",
+            "fontSize": "22px",
+            "fontWeight": "bold"
+          }
+        ]
+      },
+      {
+        "id": "chatMenu",
+        "position": 1,
+        "items": [
+          {
+            "id": "chat",
+            "label": "SOHBET",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "groups",
+            "label": "GRUPLAR",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "social",
+            "label": "SOSYAL",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "notifications",
+            "label": "BİLDİRİM",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          {
+            "id": "settings",
+            "label": null,
+            "icon": "⚙",
+            "type": "page",
+            "width": "45px",
+            "fontSize": "22px",
+            "fontWeight": "bold"
+          }
+        ]
+      }
+    ],
+    "indicators": {
+      "type": "dots",
+      "position": "bottom-center",
+      "activeWidth": "18px",
+      "inactiveWidth": "6px"
+    }
+  },
+  "globalComponents": {
+    "aiAssistant": {
+      "id": "ai-assistant",
+      "type": "floating-button",
+      "position": {
+        "bottom": "85px",
+        "right": "20px"
+      },
+      "size": {
+        "width": "56px",
+        "height": "56px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "borderRadius": "50%",
+        "shadow": "0 4px 12px rgba(102, 126, 234, 0.4)",
+        "zIndex": 999
+      },
+      "content": {
+        "text": "AI",
+        "fontSize": "18px",
+        "fontWeight": 700,
+        "color": "white"
+      },
+      "animations": {
+        "hover": "scale(1.08)",
+        "click": "scale(0.95)",
+        "pulse": {
+          "enabled": true,
+          "duration": "2s",
+          "type": "scale-opacity"
+        }
+      },
+      "behavior": {
+        "visibleOnPages": "all",
+        "clickAction": "openAIChat"
+      }
+    }
+  },
+  "pages": [
+    "map",
+    "places",
+    "filter",
+    "categories",
+    "chat",
+    "groups",
+    "social",
+    "notifications",
+    "vip",
+    "settings"
+  ],
+  "interactions": {
+    "navigation": {
+      "swipe": {
+        "enabled": true,
+        "direction": "horizontal",
+        "snapToSection": true,
+        "threshold": 187.5
+      },
+      "tap": {
+        "enabled": true,
+        "highlightOnTap": true
+      },
+      "indicators": {
+        "clickable": true,
+        "animated": true
+      }
+    },
+    "components": {
+      "buttons": {
+        "hoverEffect": true,
+        "clickAnimation": "scale(0.95)",
+        "rippleEffect": false
+      },
+      "toggles": {
+        "animated": true,
+        "duration": "0.3s"
+      },
+      "cards": {
+        "hoverLift": true,
+        "clickable": true
+      },
+      "aiAssistant": {
+        "hoverScale": 1.08,
+        "clickScale": 0.95,
+        "pulseAnimation": true
+      }
+    },
+    "gestures": {
+      "pullToRefresh": false,
+      "swipeBack": false,
+      "pinchToZoom": false
+    }
+  }
+}
+{
+  "name": "Konum Tabanlı Sosyal Uygulama",
+  "version": "1.0.0",
+  "platform": "Mobile Web App",
+  "language": "tr-TR",
+  "description": "Harita tabanlı sosyal etkileşim ve mesajlaşma uygulaması",
+  "designSystem": {
+    "colors": {
+      "primary": {
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "main": "#667eea",
+        "dark": "#764ba2"
+      },
+      "vip": {
+        "gradient": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+        "main": "#FFD700",
+        "dark": "#FFA500"
+      },
+      "background": {
+        "light": "#f5f7fa",
+        "medium": "#e3e9f3",
+        "dark": "#1a1a1a"
+      },
+      "surface": {
+        "white": "#ffffff",
+        "gray": "#f8f9fa"
+      },
+      "text": {
+        "primary": "#333333",
+        "secondary": "#666666",
+        "tertiary": "#999999"
+      },
+      "status": {
+        "online": "#26de81",
+        "error": "#ff4444",
+        "warning": "#FFA500",
+        "info": "#4285F4"
+      },
+      "mapElements": {
+        "streets": "#ffd700",
+        "buildings": "gradient(#ffeaa7, #fdcb6e)",
+        "parks": "gradient(#55efc4, #00b894)",
+        "water": "gradient(#74b9ff, #0984e3)"
+      },
+      "markers": {
+        "bank": "gradient(#ff6b6b, #ee5a24)",
+        "money": "gradient(#26de81, #20bf6b)",
+        "hospital": "gradient(#4ecdc4, #44a3aa)",
+        "food": "gradient(#a55eea, #8854d0)",
+        "gas": "gradient(#fc5c65, #eb3b5a)"
+      }
+    },
+    "typography": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
+      "sizes": {
+        "title": "24px",
+        "large": "16px",
+        "medium": "14px",
+        "small": "12px",
+        "tiny": "11px",
+        "nav": "13px"
+      },
+      "weights": {
+        "bold": 700,
+        "semibold": 600,
+        "regular": 400
+      }
+    },
+    "spacing": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "12px",
+      "lg": "15px",
+      "xl": "20px",
+      "xxl": "30px"
+    },
+    "borderRadius": {
+      "none": "0",
+      "small": "8px",
+      "medium": "12px",
+      "large": "18px",
+      "xlarge": "25px",
+      "round": "50%",
+      "phone": "40px",
+      "screen": "30px"
+    },
+    "shadows": {
+      "small": "0 2px 8px rgba(0, 0, 0, 0.08)",
+      "medium": "0 4px 12px rgba(0, 0, 0, 0.12)",
+      "large": "0 6px 16px rgba(0, 0, 0, 0.15)",
+      "xlarge": "0 25px 50px rgba(0, 0, 0, 0.3)",
+      "colored": "0 4px 12px rgba(102, 126, 234, 0.4)"
+    },
+    "animations": {
+      "duration": {
+        "fast": "0.2s",
+        "normal": "0.3s",
+        "slow": "0.5s"
+      },
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  },
+  "layout": {
+    "phoneContainer": {
+      "width": "375px",
+      "height": "812px",
+      "borderRadius": "40px",
+      "padding": "10px",
+      "background": "#1a1a1a"
+    },
+    "screen": {
+      "borderRadius": "30px",
+      "background": "#ffffff"
+    },
+    "statusBar": {
+      "height": "44px",
+      "background": "#f8f9fa",
+      "borderBottom": "1px solid #e0e0e0",
+      "elements": {
+        "time": {
+          "position": "left",
+          "format": "HH:mm",
+          "default": "09:41"
+        },
+        "statusIcons": {
+          "position": "right",
+          "icons": ["📶", "📡", "🔋"]
+        }
+      }
+    },
+    "contentArea": {
+      "height": "calc(100% - 44px - 60px - 70px)"
+    },
+    "inputContainer": {
+      "height": "70px",
+      "background": "#ffffff",
+      "borderTopRadius": "20px",
+      "padding": "15px"
+    }
+  },
+  "navigation": {
+    "type": "swipeable",
+    "height": "60px",
+    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    "sections": 2,
+    "swipeEnabled": true,
+    "dragEnabled": true,
+    "menus": [
+      {
+        "id": "mapMenu",
+        "position": 0,
+        "items": [
+          { "id": "map", "label": "HARİTA", "type": "page", "width": "auto" },
+          {
+            "id": "places",
+            "label": "YERLER",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "filter",
+            "label": "FİLTRE",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "categories",
+            "label": "KATEGORİ",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          {
+            "id": "settings",
+            "label": null,
+            "icon": "⚙",
+            "type": "page",
+            "width": "45px",
+            "fontSize": "22px",
+            "fontWeight": "bold"
+          }
+        ]
+      },
+      {
+        "id": "chatMenu",
+        "position": 1,
+        "items": [
+          { "id": "chat", "label": "SOHBET", "type": "page", "width": "auto" },
+          {
+            "id": "groups",
+            "label": "GRUPLAR",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "social",
+            "label": "SOSYAL",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "notifications",
+            "label": "BİLDİRİM",
+            "type": "page",
+            "width": "auto"
+          },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "type": "page",
+            "special": {
+              "type": "vip",
+              "style": {
+                "background": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+                "borderRadius": "0",
+                "width": "auto",
+                "fontWeight": 700,
+                "fontSize": "13px",
+                "padding": "15px 8px",
+                "animation": "shine"
+              }
+            }
+          },
+          {
+            "id": "settings",
+            "label": null,
+            "icon": "⚙",
+            "type": "page",
+            "width": "45px",
+            "fontSize": "22px",
+            "fontWeight": "bold"
+          }
+        ]
+      }
+    ],
+    "indicators": {
+      "type": "dots",
+      "position": "bottom-center",
+      "activeWidth": "18px",
+      "inactiveWidth": "6px"
+    }
+  },
+  "globalComponents": {
+    "aiAssistant": {
+      "id": "ai-assistant",
+      "type": "floating-button",
+      "position": { "bottom": "85px", "right": "20px" },
+      "size": { "width": "56px", "height": "56px" },
+      "style": {
+        "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "borderRadius": "50%",
+        "shadow": "0 4px 12px rgba(102, 126, 234, 0.4)",
+        "zIndex": 999
+      },
+      "content": {
+        "text": "AI",
+        "fontSize": "18px",
+        "fontWeight": 700,
+        "color": "white"
+      },
+      "animations": {
+        "hover": "scale(1.08)",
+        "click": "scale(0.95)",
+        "pulse": { "enabled": true, "duration": "2s", "type": "scale-opacity" }
+      },
+      "behavior": { "visibleOnPages": "all", "clickAction": "openAIChat" }
+    }
+  },
+  "pages": [
+    "map",
+    "places",
+    "filter",
+    "categories",
+    "chat",
+    "groups",
+    "social",
+    "notifications",
+    "vip",
+    "settings"
+  ],
+  "interactions": {
+    "navigation": {
+      "swipe": {
+        "enabled": true,
+        "direction": "horizontal",
+        "snapToSection": true,
+        "threshold": 187.5
+      },
+      "tap": { "enabled": true, "highlightOnTap": true },
+      "indicators": { "clickable": true, "animated": true }
+    },
+    "components": {
+      "buttons": {
+        "hoverEffect": true,
+        "clickAnimation": "scale(0.95)",
+        "rippleEffect": false
+      },
+      "toggles": { "animated": true, "duration": "0.3s" },
+      "cards": { "hoverLift": true, "clickable": true },
+      "aiAssistant": {
+        "hoverScale": 1.08,
+        "clickScale": 0.95,
+        "pulseAnimation": true
+      }
+    },
+    "gestures": {
+      "pullToRefresh": false,
+      "swipeBack": false,
+      "pinchToZoom": false
+    }
+  }
+}

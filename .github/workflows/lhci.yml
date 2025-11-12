@@ -1,0 +1,30 @@
+name: lighthouse-ci
+
+on:
+  pull_request:
+
+jobs:
+  lhci:
+    runs-on: ubuntu-latest
+    env:
+      DOWNLOAD_URL: https://www.fellowus.com/download
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Storybook
+        run: npm run build:sb
+      - name: Run Lighthouse CI
+        run: npm run lh:ci
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+          if-no-files-found: warn

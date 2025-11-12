@@ -1,0 +1,55 @@
+{
+  "cli": {
+    "version": ">= 3.21.0"
+  },
+  "build": {
+    "preview": {
+      "extends": "production",
+      "distribution": "internal",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
+    "production": {
+      "workflow": "managed",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
+      "developmentClient": false
+    },
+    "preview-ios": {
+      "extends": "production-ios",
+      "distribution": "internal",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      }
+    },
+    "production-ios": {
+      "workflow": "managed",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
+      "ios": {
+        "simulator": false
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "./.eas/android-service-account.json",
+        "track": "internal"
+      },
+      "ios": {
+        "ascAppId": "com.fellowus.app"
+      }
+    }
+  }
+}
+

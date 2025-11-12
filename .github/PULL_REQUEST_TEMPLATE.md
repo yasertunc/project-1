@@ -1,5 +1,31 @@
 ## Summary
 
+- What changed?
+- Why are we doing this?
+
+## Definition of Done
+
+- [ ] `pnpm lint`
+- [ ] `pnpm typecheck`
+- [ ] `pnpm test`
+- [ ] `pnpm vr`
+- [ ] Smoke test scenario(s) run locally
+
+## Accessibility Quick Check
+
+- [ ] Focus ring is visible on interactive elements (`:focus-visible`)
+- [ ] `aria-label` / `aria-labelledby` / `id` references match as intended
+
+## Impacted Areas (tick all that apply)
+
+- [ ] UI / visuals
+- [ ] Copy / i18n
+- [ ] SEO / metadata
+- [ ] Tests / tooling
+- [ ] Documentation
+
+## Summary
+
 <!-- What & why -->
 
 ## Changes

@@ -1,23 +1,35 @@
 name: Chromatic
+
 on:
-  pull_request:
-    branches: [ main ]
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
 
 jobs:
   chromatic:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      DOWNLOAD_URL: https://www.fellowus.com/download
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
+
       - run: npm ci
       - run: npm run tokens:build
+
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           buildScriptName: build-storybook
+          onlyChanged: true
           exitZeroOnChanges: true
+          autoAcceptChanges: ${{ github.ref == 'refs/heads/main' }}

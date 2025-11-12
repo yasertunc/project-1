@@ -37,7 +37,9 @@ export class ChannelFSM {
   subscribe(subscriber: Subscriber) {
     this.subscriptions.add(subscriber);
     subscriber(this.snapshot);
-    return () => this.subscriptions.delete(subscriber);
+    return () => {
+      this.subscriptions.delete(subscriber);
+    };
   }
 
   getSnapshot() {

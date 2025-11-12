@@ -1,18 +1,27 @@
-name: health
+name: CI / health
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
-    branches: [main]
-  workflow_dispatch:
+    branches: [ main ]
 
 jobs:
   health:
     runs-on: ubuntu-latest
+    env:
+      DOWNLOAD_URL: https://www.fellowus.com/download
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: 'npm'
+
       - run: npm ci
-      - run: npm run health:all
+      - run: npm run tokens:build
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run vr

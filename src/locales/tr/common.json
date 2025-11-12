@@ -55,5 +55,20 @@
       "lead": "Fellowus ile başlamaya hazır mısın?",
       "cta": "Hesap oluştur"
     }
+  },
+  "homeHero": {
+    "title": "Connect Anonymously, Speak Freely",
+    "body": "Match with real people in seconds, stay in control with anonymous filters, and rely on built-in guardrails that keep every conversation safe.",
+    "ctas": {
+      "get-started": "Get Started",
+      "how-it-works": "How It Works",
+      "download-app": "Download App"
+    },
+    "panel": {
+      "title": "Why people choose Fellowus",
+      "item1": "Anonymous IDs and intent filters keep matches relevant.",
+      "item2": "Guided safety flows and quick report tools protect every chat.",
+      "item3": "Instant language & theme toggles make the interface inclusive."
+    }
   }
 }

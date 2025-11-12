@@ -1,6 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{ts,tsx,mdx}", "./src/**/*.stories.@(ts|tsx|mdx)"],
+  // Storybook ve MDX içerikleri de taransın
+  content: [
+    "./index.html",
+    "./src/**/*.{ts,tsx,mdx}",
+    "./src/**/*.stories.@(ts|tsx|mdx)",
+  ],
+  // Özel gradient util'leri purge edilmesin
+  safelist: ["bg-gradient-primary", "bg-gradient-vip"],
   theme: {
     extend: {
       colors: {
@@ -30,6 +37,11 @@ export default {
       borderRadius: {
         xl: "20px",
         pill: "9999px",
+        phone: "var(--radius-phone)",
+        screen: "var(--radius-screen)",
+      },
+      boxShadow: {
+        colored: "var(--shadow-colored)",
       },
     },
   },

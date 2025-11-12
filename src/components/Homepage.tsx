@@ -1,12 +1,28 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+import "../styles/a11y.css";
+
 import FeatureCard from "./homepage/FeatureCard";
 import Footer from "./homepage/Footer";
-import Hero from "./homepage/Hero";
+import HomeHero, { type HomeHeroCta } from "./homepage/HomeHero";
+import HowItWorks from "./homepage/HowItWorks";
 
 export default function Homepage() {
   const { t } = useTranslation();
+  const handleHeroAction = React.useCallback((action: HomeHeroCta) => {
+    const targetId =
+      action === "how-it-works"
+        ? "how-it-works"
+        : action === "get-started"
+          ? "get-started"
+          : undefined;
+    if (targetId) {
+      window.location.hash = `#${targetId}`;
+      const el = document.getElementById(targetId);
+      el?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
@@ -19,7 +35,7 @@ export default function Homepage() {
               aria-hidden="true"
               width={28}
               height={28}
-              loading="eager"
+              loading="lazy"
               decoding="async"
             />
             <span className="text-lg font-semibold">Fellowus</span>
@@ -52,13 +68,9 @@ export default function Homepage() {
       </header>
 
       <main id="main">
-        <Hero
-          data-testid="homepage-hero"
-          title={t("homepage.title")}
-          subtitle={t("homepage.subtitle")}
-          ctaLabel={t("homepage.cta")}
-          onCtaClick={() => {}}
-        />
+        <HomeHero onAction={handleHeroAction} />
+
+        <HowItWorks />
 
         <section
           id="features"
@@ -89,6 +101,7 @@ export default function Homepage() {
 
         <section
           aria-labelledby="cta-title"
+          id="get-started"
           className="mx-auto max-w-6xl px-6 pb-20"
         >
           <h2 id="cta-title" className="sr-only">
@@ -98,7 +111,7 @@ export default function Homepage() {
             <p className="text-xl font-medium">{t("homepage.ctaPanel.lead")}</p>
             <button
               type="button"
-              className="mt-4 rounded-full px-6 py-3 text-white shadow-md focus:outline-none focus:ring bg-[color:var(--color-primary-700,#1d4ed8)]"
+              className="focus-ring mt-4 rounded-full px-6 py-3 text-white shadow-md focus:outline-none focus:ring bg-[color:var(--color-primary-700,#1d4ed8)]"
               aria-label={t("homepage.ctaPanel.cta")}
             >
               {t("homepage.ctaPanel.cta")}
