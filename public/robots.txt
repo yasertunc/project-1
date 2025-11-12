@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yasertunc.github.io/project-1/sitemap.xml
+

@@ -1,0 +1,68 @@
+name: Storybook Preview
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  pull-requests: write
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      DOWNLOAD_URL: https://www.fellowus.com/download
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      - uses: actions/configure-pages@v5
+
+      - name: Upload Storybook artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: storybook-static
+
+      - name: Deploy Storybook preview
+        id: deploy
+        uses: actions/deploy-pages@v4
+        with:
+          preview: true
+          target-folder: previews/pr-${{ github.event.number }}
+
+      - name: Comment with preview link
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            <!-- preview-comment -->
+            ✅ Storybook Preview hazır!
+
+            👉 [Preview URL](${{ steps.deploy.outputs.page_url }})
+          edit-mode: replace
+

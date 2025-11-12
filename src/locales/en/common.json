@@ -55,5 +55,37 @@
       "lead": "Ready to get started with Fellowus?",
       "cta": "Create your account"
     }
+  },
+  "homeHero": {
+    "title": "Connect Anonymously, Speak Freely",
+    "body": "Match with real people in seconds, stay in control with anonymous filters, and rely on built-in guardrails that keep every conversation safe.",
+    "ctas": {
+      "get-started": "Get Started",
+      "how-it-works": "How It Works",
+      "download-app": "Download App"
+    },
+    "panel": {
+      "title": "Why people choose Fellowus",
+      "item1": "Anonymous IDs and intent filters keep matches relevant.",
+      "item2": "Guided safety flows and quick report tools protect every chat.",
+      "item3": "Instant language & theme toggles make the interface inclusive."
+    }
+  },
+  "homeHowItWorks": {
+    "pretitle": "How it works",
+    "title": "Three easy steps to start talking",
+    "subtitle": "Fellowus helps you decide who you want to meet, keeps the match anonymous, and protects the room once you’re in.",
+    "step1": {
+      "title": "Pick your filters",
+      "description": "Choose intents, topics, and guardrails so we know the kind of chat you’re ready for."
+    },
+    "step2": {
+      "title": "Match anonymously",
+      "description": "We connect you with compatible people using temporary IDs—no personal details needed."
+    },
+    "step3": {
+      "title": "Chat safely",
+      "description": "Use built-in tools, quick actions, and moderation flows to keep the conversation positive."
+    }
   }
 }

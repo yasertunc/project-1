@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fellowus Download</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        display: flex;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: #f5f7fa;
+        color: #0f172a;
+        padding: 2rem;
+        text-align: center;
+      }
+      .card {
+        max-width: 480px;
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 24px;
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+      }
+      .cta {
+        display: inline-flex;
+        margin-top: 1.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        background: #3b82f6;
+        color: #ffffff;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .muted {
+        margin-top: 1rem;
+        color: #475569;
+        font-size: 0.9rem;
+      }
+    </style>
+    <script>
+      (function redirect() {
+        const androidLink =
+          "https://play.google.com/store/apps/details?id=com.fellowus.app";
+        const iosLink = "https://testflight.apple.com/join/EXAMPLE";
+        const webLink = "https://yasertunc.github.io/project-1/";
+
+        if (typeof navigator === "undefined") return;
+
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        const isAndroid = /android/i.test(ua);
+        const isIOS = /iphone|ipad|ipod/i.test(ua);
+
+        const target = isAndroid ? androidLink : isIOS ? iosLink : webLink;
+
+        // Use replace so the back button does not return to the redirect page.
+        window.location.replace(target);
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Redirecting you to Fellowus</h1>
+      <p>
+        Sit tight while we detect your device and open the best version of the
+        app. If nothing happens, choose the link below.
+      </p>
+      <a class="cta" href="https://play.google.com/store/apps/details?id=com.fellowus.app">
+        Open Android build
+      </a>
+      <div class="muted">
+        iOS tester? Use the latest TestFlight invite at
+        <a href="https://testflight.apple.com/join/EXAMPLE">this link</a>.
+      </div>
+    </div>
+  </body>
+</html>
+

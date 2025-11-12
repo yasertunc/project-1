@@ -21,6 +21,8 @@ export const Logo: React.FC<LogoProps> = ({
   className = "",
   "aria-label": ariaLabelProp,
   "data-testid": dataTestIdProp,
+  loading = "lazy",
+  decoding = "async",
   ...rest
 }) => {
   const src = SRC_BY_VARIANT[variant] ?? SRC_BY_VARIANT.blue;
@@ -35,6 +37,8 @@ export const Logo: React.FC<LogoProps> = ({
       alt={ariaLabel}
       aria-label={ariaLabel}
       data-testid={dataTestId}
+      loading={loading}
+      decoding={decoding}
       className={`${shadow ? "drop-shadow-[0_4px_8px_rgba(0,0,0,0.18)]" : ""} ${className}`.trim()}
       {...rest}
     />

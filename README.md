@@ -5,6 +5,8 @@
 [![gh-pages](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml)
 
 **Live docs:** https://yasertunc.github.io/project-1/
+
+**Prod Storybook:** https://yasertunc.github.io/project-1/storybook/
 # Fellowus â€“ Event Contracts v1
 
 Tarih: 2025-11-10T10:04:32.534818Z
@@ -29,6 +31,16 @@ Bu paket, Matching Acceptance Flow iÃ§in **JSON Schema** sÃ¶zleÅŸmelerini 
 npm ci
 npm run storybook
 ```
+
+## Mobile (Expo)
+
+```bash
+cd apps/mobile
+npm install
+npm run start
+```
+
+To produce tagged releases, use `pnpm release:tag` from the repository root. This creates and pushes the correct `v*` tag which triggers the GitHub Pages deploy for the production Storybook and kicks off EAS build workflows when secrets are present.
 
 ## Health Checks
 
