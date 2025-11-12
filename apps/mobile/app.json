@@ -2,6 +2,7 @@
   "expo": {
     "name": "Fellowus Mobile",
     "slug": "fellowus-mobile",
+    "owner": "yasertunc",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
@@ -31,10 +32,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-router"
-    ],
+    "plugins": ["expo-router"],
     "extra": {
       "router": {},
       "eas": {
