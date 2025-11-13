@@ -12,5 +12,17 @@
     "paths": {
       "@/*": ["src/*"]
     }
-  }
+  },
+  "include": [
+    "src",
+    "tests",
+    "e2e",
+    "scripts/**/*.ts",
+    "playwright.config.ts",
+    "playwright.smoke.config.ts",
+    "playwright.vr.config.ts",
+    "vitest.config.ts",
+    "vitest.setup.ts"
+  ],
+  "exclude": ["apps/mobile"]
 }
