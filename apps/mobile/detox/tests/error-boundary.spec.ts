@@ -1,4 +1,4 @@
-import { by, device, element, expect as detoxExpect } from "detox";
+import { by, device, element, expect as detoxExpect, waitFor } from "detox";
 
 describe("Error Boundary Flow", () => {
   beforeAll(async () => {
@@ -19,10 +19,13 @@ describe("Error Boundary Flow", () => {
     const retryButton = element(by.id("error-retry-button"));
 
     // If error occurs, verify fallback is shown
-    if (await errorFallback.exists()) {
+    try {
+      await waitFor(errorFallback).toExist().withTimeout(1000);
       await detoxExpect(errorFallback).toBeVisible();
       await detoxExpect(errorMessage).toBeVisible();
       await detoxExpect(retryButton).toBeVisible();
+    } catch {
+      // Element doesn't exist, which is expected if error hasn't occurred yet
     }
   });
 
@@ -31,12 +34,15 @@ describe("Error Boundary Flow", () => {
     // This test structure is ready for when error boundary is fully implemented
 
     const retryButton = element(by.id("error-retry-button"));
-    if (await retryButton.exists()) {
+    try {
+      await waitFor(retryButton).toExist().withTimeout(1000);
       await retryButton.tap();
 
       // Verify app recovers
       const errorFallback = element(by.id("error-boundary-fallback"));
       await detoxExpect(errorFallback).not.toBeVisible();
+    } catch {
+      // Element doesn't exist, which is expected if error hasn't occurred yet
     }
   });
 

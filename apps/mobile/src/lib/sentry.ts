@@ -1,27 +1,30 @@
-import Constants from "expo-constants";
-import * as Sentry from "sentry-expo";
+// Sentry temporarily disabled due to RCT-Folly dependency issue
+// Will be re-enabled once Sentry is updated to compatible version
 
-const SENTRY_DSN =
-  process.env.EXPO_PUBLIC_SENTRY_DSN ??
-  (Constants.expoConfig?.extra as { monitoring?: { sentryDsn?: string } })
-    ?.monitoring?.sentryDsn;
+// import Constants from "expo-constants";
+// import * as Sentry from "sentry-expo";
 
-if (SENTRY_DSN) {
-  Sentry.init({
-    dsn: SENTRY_DSN,
-    enableInExpoDevelopment: true,
-    debug: __DEV__,
-    tracesSampleRate:
-      Number(
-        process.env.EXPO_PUBLIC_SENTRY_TRACES_RATE ??
-          (
-            Constants.expoConfig?.extra as {
-              monitoring?: { tracesSampleRate?: number };
-            }
-          )?.monitoring?.tracesSampleRate ??
-          0.1
-      ) || 0.1,
-  });
-}
+// const SENTRY_DSN =
+//   process.env.EXPO_PUBLIC_SENTRY_DSN ??
+//   (Constants.expoConfig?.extra as { monitoring?: { sentryDsn?: string } })
+//     ?.monitoring?.sentryDsn;
 
-export { Sentry };
+// if (SENTRY_DSN) {
+//   Sentry.init({
+//     dsn: SENTRY_DSN,
+//     enableInExpoDevelopment: true,
+//     debug: __DEV__,
+//     tracesSampleRate:
+//       Number(
+//         process.env.EXPO_PUBLIC_SENTRY_TRACES_RATE ??
+//           (
+//             Constants.expoConfig?.extra as {
+//               monitoring?: { tracesSampleRate?: number };
+//             }
+//           )?.monitoring?.tracesSampleRate ??
+//           0.1
+//       ) || 0.1,
+//   });
+// }
+
+// export { Sentry };

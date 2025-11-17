@@ -62,11 +62,11 @@ test.describe("Notification flow E2E (mocked)", () => {
 
     // Mock Notification API
     await page.addInitScript(() => {
-      // @ts-expect-error Mock Notification API
+      // @ts-expect-error - Mock Notification API for testing
       window.Notification = class MockNotification {
         static permission: NotificationPermission = "default";
         static requestPermission = async () => {
-          // @ts-expect-error
+          // @ts-expect-error - Setting permission on mock Notification class
           window.Notification.permission = "granted";
           return "granted" as NotificationPermission;
         };

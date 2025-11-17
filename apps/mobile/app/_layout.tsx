@@ -1,5 +1,5 @@
 ﻿import "react-native-reanimated";
-import "../src/lib/sentry";
+// import "../src/lib/sentry"; // Temporarily disabled - Sentry removed due to RCT-Folly dependency issue
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useEffect, useMemo } from "react";

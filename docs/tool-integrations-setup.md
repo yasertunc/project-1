@@ -133,6 +133,79 @@ If using alternative analytics:
    # Then upload the google-services.json file
    ```
 
+## 18.6 Chromatic Setup
+
+### Create Chromatic Account
+
+1. **Sign Up**:
+   - Go to [Chromatic.com](https://www.chromatic.com/)
+   - Sign up with GitHub account (recommended)
+   - Create or join an organization
+
+2. **Create Project**:
+   - Click "Add Project" or "New Project"
+   - Connect your GitHub repository
+   - Select the repository: `yasertunc/project-1` (or your repo)
+   - Project name: "Fellowus Storybook"
+
+3. **Get Project Token**:
+   - Go to Project Settings → Project Token
+   - Copy the project token (format: `xxxxxxxxxxxxxxxxxxxx`)
+
+4. **Add to GitHub Secrets**:
+   - Go to GitHub repository → Settings → Secrets and variables → Actions
+   - Click "New repository secret"
+   - Name: `CHROMATIC_PROJECT_TOKEN`
+   - Value: Paste the project token from Chromatic
+   - Click "Add secret"
+
+5. **Verify Setup**:
+   ```bash
+   # Test locally (requires project token)
+   npx chromatic --project-token=your-token-here
+   
+   # Or set as environment variable
+   export CHROMATIC_PROJECT_TOKEN=your-token-here
+   npm run chromatic
+   ```
+
+6. **Configure Workflow** (already done):
+   - `.github/workflows/chromatic.yml` is configured
+   - Uses `CHROMATIC_PROJECT_TOKEN` from GitHub Secrets
+   - Runs on push to `main` and pull requests
+   - Auto-accepts changes on `main` branch
+
+7. **Usage**:
+   - Chromatic automatically runs on every push/PR
+   - Visual diffs are shown in PR comments
+   - Review and approve changes in Chromatic UI
+   - Changes on `main` are auto-accepted
+
+### Chromatic Features
+
+- **Visual Regression Testing**: Automatically captures screenshots of all stories
+- **UI Review**: Review visual changes in PR comments
+- **Cross-browser Testing**: Test across different browsers
+- **Accessibility Testing**: Built-in accessibility checks
+- **Interaction Testing**: Test user interactions
+
+### Troubleshooting
+
+**Chromatic Build Fails**:
+- Verify `CHROMATIC_PROJECT_TOKEN` is set in GitHub Secrets
+- Check that Storybook builds successfully: `npm run build-storybook`
+- Ensure `buildScriptName: build-storybook` matches your script name
+
+**No Visual Changes Detected**:
+- Chromatic only runs when Storybook files change (with `onlyChanged: true`)
+- Force a build by pushing a change to Storybook files
+- Or disable `onlyChanged` in workflow for full builds
+
+**Token Not Found**:
+- Verify token is correctly set in GitHub Secrets
+- Check token hasn't expired (regenerate if needed)
+- Ensure workflow has access to secrets
+
 ## 18.7 App Store Connect Setup
 
 ### Create Organization (if needed)
@@ -175,6 +248,7 @@ If using alternative analytics:
 
 - [ ] Analytics account created and Measurement ID obtained
 - [ ] Sentry account created, projects set up, DSN and auth token obtained
+- [ ] Chromatic account created, project token obtained and added to GitHub Secrets
 - [ ] Firebase project created, Android app added, `google-services.json` downloaded
 - [ ] FCM Server Key obtained for backend
 - [ ] App Store Connect organization/app created, API key generated
@@ -182,6 +256,7 @@ If using alternative analytics:
 - [ ] Environment variables configured in `.env` files
 - [ ] Alerts and notifications configured in Sentry
 - [ ] Firebase Cloud Messaging enabled and tested
+- [ ] Chromatic workflow runs successfully on push/PR
 
 ## Security Notes
 

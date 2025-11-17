@@ -1,5 +1,4 @@
 import { expect, test } from "@playwright/test";
-import type { Page } from "@playwright/test";
 
 import { gotoStory } from "../tests/visual/utils/gotoStory";
 
@@ -47,7 +46,7 @@ test.describe("Performance flow E2E", () => {
     // Check for preconnect hints
     const preconnectLinks = await page.$$eval(
       'link[rel="preconnect"]',
-      (links) => links.map((link) => link.href)
+      (links) => links.map((link) => (link as HTMLLinkElement).href)
     );
 
     // Verify preconnect hints exist for external resources
@@ -60,8 +59,8 @@ test.describe("Performance flow E2E", () => {
     // Check for font-display: swap or optional
     const fontLinks = await page.$$eval('link[rel="stylesheet"]', (links) =>
       links
-        .filter((link) => link.href.includes("font"))
-        .map((link) => link.href)
+        .filter((link) => (link as HTMLLinkElement).href.includes("font"))
+        .map((link) => (link as HTMLLinkElement).href)
     );
 
     // Fonts should be optimized (preconnect, font-display, etc.)
@@ -78,8 +77,13 @@ test.describe("Performance flow E2E", () => {
         let clsValue = 0;
         const observer = new PerformanceObserver((list) => {
           for (const entry of list.getEntries()) {
-            if (!(entry as any).hadRecentInput) {
-              clsValue += (entry as any).value;
+            // PerformanceEntry doesn't have hadRecentInput in types, but LayoutShiftEntry does
+            const layoutEntry = entry as PerformanceEntry & {
+              hadRecentInput?: boolean;
+              value?: number;
+            };
+            if (!layoutEntry.hadRecentInput) {
+              clsValue += layoutEntry.value ?? 0;
             }
           }
         });

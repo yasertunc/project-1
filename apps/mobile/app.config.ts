@@ -10,9 +10,10 @@ const DEFAULT_PACKAGE = "com.fellowus.app";
 const DEFAULT_DOWNLOAD_URL = "https://www.fellowus.com/download";
 const DEFAULT_NOTIFICATION_ICON = "./assets/icon.png";
 const DEFAULT_NOTIFICATION_COLOR = "#667eea";
-const DEFAULT_SENTRY_ORG = "fellowus";
-const DEFAULT_SENTRY_PROJECT = "fellowus-mobile";
-const DEFAULT_SENTRY_URL = "https://sentry.io/";
+// Sentry constants - currently unused but kept for future use
+// const DEFAULT_SENTRY_ORG = "fellowus";
+// const DEFAULT_SENTRY_PROJECT = "fellowus-mobile";
+// const DEFAULT_SENTRY_URL = "https://sentry.io/";
 
 type ExpoPlugin = NonNullable<ExpoConfig["plugins"]>[number];
 
@@ -20,24 +21,27 @@ export default function createExpoConfig({
   config,
 }: ConfigContext): ExpoConfig {
   const version = process.env.EXPO_PUBLIC_APP_VERSION ?? DEFAULT_VERSION;
-  const sentryConfig: ExpoPlugin | null =
-    process.env.SENTRY_AUTH_TOKEN &&
-    process.env.SENTRY_ORG &&
-    process.env.SENTRY_PROJECT
-      ? ([
-          "sentry-expo",
-          {
-            organization: process.env.SENTRY_ORG ?? DEFAULT_SENTRY_ORG,
-            project: process.env.SENTRY_PROJECT ?? DEFAULT_SENTRY_PROJECT,
-            url: process.env.SENTRY_URL ?? DEFAULT_SENTRY_URL,
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-            deployEnv:
-              process.env.SENTRY_ENV ??
-              process.env.EAS_BUILD_PROFILE ??
-              "development",
-          },
-        ] as ExpoPlugin)
-      : null;
+  // Sentry temporarily disabled due to RCT-Folly dependency issue
+  // Will be re-enabled once Sentry is updated to compatible version
+  const sentryConfig: ExpoPlugin | null = null;
+  // const sentryConfig: ExpoPlugin | null =
+  //   process.env.SENTRY_AUTH_TOKEN &&
+  //   process.env.SENTRY_ORG &&
+  //   process.env.SENTRY_PROJECT
+  //     ? ([
+  //         "sentry-expo",
+  //         {
+  //           organization: process.env.SENTRY_ORG ?? DEFAULT_SENTRY_ORG,
+  //           project: process.env.SENTRY_PROJECT ?? DEFAULT_SENTRY_PROJECT,
+  //           url: process.env.SENTRY_URL ?? DEFAULT_SENTRY_URL,
+  //           authToken: process.env.SENTRY_AUTH_TOKEN,
+  //           deployEnv:
+  //             process.env.SENTRY_ENV ??
+  //             process.env.EAS_BUILD_PROFILE ??
+  //             "development",
+  //         },
+  //       ] as ExpoPlugin)
+  //     : null;
 
   const googleServicesFile =
     process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json";

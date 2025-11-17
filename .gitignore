@@ -10,6 +10,10 @@ storybook-static/
 coverage/
 .playwright/
 test-results/
+playwright-report/
+e2e-coverage-report.json
+build-log*.json
+build*.txt
 
 # OS / editor
 .DS_Store
@@ -25,6 +29,8 @@ Thumbs.db
 # Google Services (mobile)
 google-services.json
 apps/mobile/google-services.json
+GoogleService-Info.plist
+apps/mobile/GoogleService-Info.plist
 
 # Secret scanning reports
 gitleaks-report.json

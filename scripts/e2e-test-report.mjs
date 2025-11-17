@@ -9,7 +9,6 @@
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const TEST_RESULTS_DIR = join(process.cwd(), 'test-results');
 const PLAYWRIGHT_REPORT_DIR = join(process.cwd(), 'playwright-report');
 
 function readJSONFile(filePath) {
@@ -155,8 +154,8 @@ function generateReport() {
   console.log('\n📊 Coverage by Category');
   console.log('─'.repeat(50));
   Object.entries(categories)
-    .filter(([_, count]) => count > 0)
-    .sort(([_, a], [__, b]) => b - a)
+    .filter(([, count]) => count > 0)
+    .sort(([, a], [, b]) => b - a)
     .forEach(([category, count]) => {
       console.log(`${category.padEnd(15)} ${count} tests`);
     });

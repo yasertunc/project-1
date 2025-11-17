@@ -5,8 +5,10 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 ## 📊 Project Status
 
 - **[PROJECT_STATUS.md](PROJECT_STATUS.md)** - Comprehensive project status log with all completed, in-progress, and pending items
-- **[project-completion-summary.md](project-completion-summary.md)** - High-level summary of project completion (94% complete), pending tasks, and next steps
+- **[FINAL_COMPLETION_SUMMARY.md](FINAL_COMPLETION_SUMMARY.md)** - ✅ **Complete project summary** - All technical preparation complete
+- **[project-completion-summary.md](project-completion-summary.md)** - High-level summary of project completion, pending tasks, and next steps
 - **[DOCUMENTATION_COMPLETE.md](DOCUMENTATION_COMPLETE.md)** - ✅ **Final documentation status** - All documentation 100% complete
+- **[QUICK_START_GUIDE.md](QUICK_START_GUIDE.md)** - 🚀 Quick start guide with essential commands and links
 
 ## 🚀 Getting Started
 
@@ -27,6 +29,11 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 ### Setup & Configuration
 - **[mobile-notifications.md](mobile-notifications.md)** - Push notifications setup (Expo + Firebase FCM)
 - **[ios-setup-complete-guide.md](ios-setup-complete-guide.md)** - Complete iOS setup guide (Bundle ID, signing, TestFlight, App Store)
+- **[ios-action-plan.md](ios-action-plan.md)** - iOS setup action plan and step-by-step guide
+- **[ios-ready-checklist.md](ios-ready-checklist.md)** - iOS setup ready checklist
+- **[ios-step-by-step-guide.md](ios-step-by-step-guide.md)** - 🎯 **iOS setup adım adım rehber (Türkçe)**
+- **[eas-apns-upload-guide.md](eas-apns-upload-guide.md)** - EAS'e APNs key upload rehberi
+- **[eas-cli-setup-guide.md](eas-cli-setup-guide.md)** - 🎯 **EAS CLI kurulum ve kullanım rehberi (PowerShell)**
 - **[mobile-debug-device-testing.md](mobile-debug-device-testing.md)** - Guide for debugging on physical devices
 - **[mobile-device-matrix.md](mobile-device-matrix.md)** - Device testing matrix and coverage plan
 - **[mobile-detox.md](mobile-detox.md)** - Detox E2E testing setup

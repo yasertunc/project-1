@@ -1,3 +1,4 @@
+// Updated: Trigger Chromatic build
 import type { Meta, StoryObj } from "@storybook/react";
 import { within, userEvent } from "@storybook/test";
 import * as React from "react";

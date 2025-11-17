@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import * as SentryExpo from "sentry-expo";
+// import * as SentryExpo from "sentry-expo"; // Temporarily disabled - Sentry removed due to RCT-Folly dependency issue
 import { palette } from "../theme/tokens";
 
 type ErrorBoundaryProps = {
@@ -28,23 +28,28 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Report to Sentry if available
-    try {
-      // sentry-expo uses Native.captureException for React Native
-      if (SentryExpo.Native?.captureException) {
-        SentryExpo.Native.captureException(error, {
-          contexts: {
-            react: {
-              componentStack: errorInfo.componentStack,
-            },
-          },
-        });
-      }
-    } catch (sentryError) {
-      // Sentry not initialized or error in Sentry itself
-      if (__DEV__) {
-        console.warn("Failed to report error to Sentry:", sentryError);
-      }
+    // Report to Sentry if available (temporarily disabled)
+    // try {
+    //   // sentry-expo uses Native.captureException for React Native
+    //   if (SentryExpo.Native?.captureException) {
+    //     SentryExpo.Native.captureException(error, {
+    //       contexts: {
+    //         react: {
+    //           componentStack: errorInfo.componentStack,
+    //         },
+    //       },
+    //     });
+    //   }
+    // } catch (sentryError) {
+    //   // Sentry not initialized or error in Sentry itself
+    //   if (__DEV__) {
+    //     console.warn("Failed to report error to Sentry:", sentryError);
+    //   }
+    // }
+    
+    // Log error to console for now
+    if (__DEV__) {
+      console.error("ErrorBoundary caught error:", error, errorInfo);
     }
 
     if (this.props.onError) {

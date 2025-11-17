@@ -5,8 +5,7 @@
  * Validates prerequisites and readiness for open beta launch
  */
 
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { existsSync } from 'fs';
 
 const CHECKLIST_ITEMS = [
   {

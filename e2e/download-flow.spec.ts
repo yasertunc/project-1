@@ -1,5 +1,4 @@
 import { expect, test } from "@playwright/test";
-import type { Page } from "@playwright/test";
 
 import { gotoStory } from "../tests/visual/utils/gotoStory";
 
