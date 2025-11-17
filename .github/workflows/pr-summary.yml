@@ -98,7 +98,7 @@ jobs:
               STATUS="✅"
             else
               STATUS="❌"
-            }
+            fi
           fi
           echo "TEST_STATUS=$STATUS" >> $GITHUB_ENV
           echo "VR_STATUS=$STATUS" >> $GITHUB_ENV

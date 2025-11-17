@@ -48,12 +48,12 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           preview: true
-          target-folder: previews/pr-${{ github.event.number }}
+          target-folder: previews/pr-${{ github.event.pull_request.number }}
 
       - name: Comment with preview link
         uses: peter-evans/create-or-update-comment@v4
         with:
-          issue-number: ${{ github.event.number }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
             <!-- preview-comment -->
             ✅ Storybook Preview hazır!

@@ -30,7 +30,7 @@ jobs:
         run: npm run tokens:build
 
       - name: Build Storybook for production
-        run: npm run vr
+        run: npm run build-storybook
 
       - name: Upload Storybook artifact
         uses: actions/upload-pages-artifact@v3
