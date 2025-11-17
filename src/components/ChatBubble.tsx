@@ -8,9 +8,9 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   children,
 }) => {
   if (author === "system") {
-    return <div className="text-[11px] text-ink-500 px-2 py-1">{children}</div>;
+    return <div className="text-[11px] text-text-tertiary px-2 py-1">{children}</div>;
   }
   const isMe = author === "me";
-  const wrap = `max-w-[70%] rounded-[20px] px-3 py-2 shadow ${isMe ? "ml-auto bg-primary-600 text-white" : "bg-white text-ink-900"}`;
+  const wrap = `max-w-[70%] rounded-[20px] px-3 py-2 shadow ${isMe ? "ml-auto bg-primary-main text-white" : "bg-white text-text-primary"}`;
   return <div className={wrap}>{children}</div>;
 };

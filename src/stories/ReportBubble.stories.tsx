@@ -18,7 +18,7 @@ export const Sticky: Story = {
         style={{
           height: 200,
           overflow: "auto",
-          border: "1px solid #eee",
+          border: "1px solid var(--color-border-light)",
           padding: 8,
         }}
       >

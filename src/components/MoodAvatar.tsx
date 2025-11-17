@@ -16,7 +16,7 @@ export const MoodAvatar: React.FC<{
     <button
       aria-label={`Mood: ${mood}`}
       onClick={next}
-      className="rounded-full bg-primary-400/10 flex items-center justify-center"
+      className="rounded-full bg-primary-light/10 flex items-center justify-center"
       style={{ width: size, height: size }}
     >
       <span aria-hidden style={{ fontSize: size * 0.6 }}>

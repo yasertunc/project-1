@@ -68,7 +68,9 @@ function ensureCleanWorkingTree() {
   }).trim();
 
   if (status) {
-    throw new Error("Working tree is not clean. Please commit or stash changes before tagging.");
+    throw new Error(
+      "Working tree is not clean. Please commit or stash changes before tagging."
+    );
   }
 }
 
@@ -105,4 +107,3 @@ try {
   console.error(`❌ ${error.message}`);
   process.exit(1);
 }
-

@@ -35,4 +35,3 @@ People want low-friction, safe, ephemeral conversations with strangers around in
 ## Success (see SUCCESS_METRICS.md)
 
 - p95 wait time < 45s, match success > 35%, timeout < 20%
-

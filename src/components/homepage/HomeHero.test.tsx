@@ -20,7 +20,7 @@ describe("Homepage hero smoke test", () => {
     expect(
       await screen.findByRole("heading", {
         name: /Connect Anonymously, Speak Freely/i,
-      }),
+      })
     ).toBeInTheDocument();
 
     const hero = screen.getByTestId("homepage-hero");

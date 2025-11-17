@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-const DEFAULT_URL = "https://yasertunc.github.io/project-1/download";
+const DEFAULT_URL = "https://www.fellowus.com/download";
 
 const originalEnv = { ...process.env };
 
@@ -39,7 +39,7 @@ describe("env helpers", () => {
     expect(open).toHaveBeenCalledWith(
       "https://example.com",
       "_blank",
-      "noopener",
+      "noopener"
     );
   });
 });

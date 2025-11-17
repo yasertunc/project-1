@@ -31,16 +31,31 @@ export const Palette: Story = {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(6, 1fr)",
-        gap: 12,
+        gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+        gap: 16,
       }}
     >
-      <Box label="primary-600" color="--color-primary-600" />
-      <Box label="primary-400" color="--color-primary-400" />
-      <Box label="amber-500" color="--color-accent-amber-500" />
-      <Box label="ink-900" color="--ink-900" />
-      <Box label="muted-50" color="--muted-50" />
-      <Box label="surface" color="--surface" />
+      <Box label="Primary Main" color="--color-primary-main" />
+      <Box label="Primary Dark" color="--color-primary-dark" />
+      <Box label="Primary Light" color="--color-primary-light" />
+      <Box label="VIP Main" color="--color-vip-main" />
+      <Box label="VIP Dark" color="--color-vip-dark" />
+      <Box label="VIP Light" color="--color-vip-light" />
+      <Box label="Success" color="--color-semantic-success" />
+      <Box label="Error" color="--color-semantic-error" />
+      <Box label="Warning" color="--color-semantic-warning" />
+      <Box label="Info" color="--color-semantic-info" />
+      <Box label="Online" color="--color-semantic-online" />
+      <Box label="Offline" color="--color-semantic-offline" />
+      <Box label="Background Light" color="--color-background-light" />
+      <Box label="Background Medium" color="--color-background-medium" />
+      <Box label="Background Dark" color="--color-background-dark" />
+      <Box label="Surface White" color="--color-surface-white" />
+      <Box label="Surface Gray" color="--color-surface-gray" />
+      <Box label="Text Primary" color="--color-text-primary" />
+      <Box label="Text Secondary" color="--color-text-secondary" />
+      <Box label="Text Tertiary" color="--color-text-tertiary" />
+      <Box label="Text Disabled" color="--color-text-disabled" />
     </div>
   ),
 };

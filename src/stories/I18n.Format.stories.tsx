@@ -25,7 +25,7 @@ export const Demo: Story = {
           display: "grid",
           gap: 8,
           width: 380,
-          background: "var(--muted-50)",
+          background: "var(--color-background-light)",
           padding: 12,
           borderRadius: 12,
         }}

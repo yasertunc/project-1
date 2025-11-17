@@ -16,7 +16,7 @@ async function prepareCanvas(page: Page, options: CanvasOptions = {}) {
       document.documentElement.setAttribute("lang", initLocale);
       document.documentElement.setAttribute(
         "dir",
-        initLocale === "ar" ? "rtl" : "ltr",
+        initLocale === "ar" ? "rtl" : "ltr"
       );
       try {
         localStorage.setItem("fellowus.locale", initLocale);
@@ -24,14 +24,14 @@ async function prepareCanvas(page: Page, options: CanvasOptions = {}) {
         // ignore storage errors
       }
     },
-    { theme, locale },
+    { theme, locale }
   );
 }
 
 export async function gotoStory(
   page: Page,
   storyId: string,
-  options: CanvasOptions = {},
+  options: CanvasOptions = {}
 ) {
   const { locale } = options;
   await prepareCanvas(page, options);

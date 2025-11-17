@@ -35,7 +35,7 @@ const config: StorybookConfig = {
       ...(finalConfig.build ?? {}),
       chunkSizeWarningLimit: Math.max(
         finalConfig.build?.chunkSizeWarningLimit ?? 0,
-        1500,
+        1500
       ),
     };
 
@@ -43,7 +43,7 @@ const config: StorybookConfig = {
     finalConfig.optimizeDeps = {
       ...(finalConfig.optimizeDeps ?? {}),
       exclude: Array.from(
-        new Set([...existingExcludes, "i18next-browser-languagedetector"]),
+        new Set([...existingExcludes, "i18next-browser-languagedetector"])
       ),
     };
 

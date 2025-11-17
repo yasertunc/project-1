@@ -20,4 +20,35 @@ Thumbs.db
 # Env & misc
 .env
 .env.*
-node_modules
+!.env.example
+
+# Google Services (mobile)
+google-services.json
+apps/mobile/google-services.json
+
+# Secret scanning reports
+gitleaks-report.json
+
+# Mobile specific (inherited by apps/mobile)
+apps/mobile/.expo/
+apps/mobile/dist/
+apps/mobile/web-build/
+apps/mobile/expo-env.d.ts
+apps/mobile/.kotlin/
+apps/mobile/*.orig.*
+apps/mobile/*.jks
+apps/mobile/*.p8
+apps/mobile/*.p12
+apps/mobile/*.key
+apps/mobile/*.mobileprovision
+apps/mobile/.metro-health-check*
+apps/mobile/*.pem
+apps/mobile/.eas/android-service-account.json
+apps/mobile/artifacts/
+apps/mobile/*.aab
+apps/mobile/*.apk
+apps/mobile/*.ipa
+apps/mobile/*.sha256
+apps/mobile/ios/
+apps/mobile/android/
+apps/mobile/*.tsbuildinfo

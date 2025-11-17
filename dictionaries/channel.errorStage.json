@@ -1,9 +1,0 @@
-{
-  "channel.errorStage": [
-    ["CREATE_CHANNEL_DB", "Veritabanında kanal kaydı oluşturma."],
-    ["WS_UPGRADE", "WebSocket upgrade / handshake."],
-    ["PERMISSIONS_CHECK", "Kanal izin kontrolleri."],
-    ["QUOTA_EXCEEDED", "Kota/aşım politikaları."],
-    ["UNKNOWN", "Bilinmeyen / sınıflandırılamadı."]
-  ]
-}

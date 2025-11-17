@@ -5,7 +5,13 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
-    "types": ["vitest/globals", "react", "react-dom", "node"],
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom",
+      "react",
+      "react-dom",
+      "node"
+    ],
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": ".",

@@ -25,7 +25,7 @@ export const Demo: Story = {
               enqueuedAt: new Date().toISOString(),
               priority: 1,
             }),
-            { status: 202, headers: { "Content-Type": "application/json" } },
+            { status: 202, headers: { "Content-Type": "application/json" } }
           );
         }
         if (url.endsWith("/v1/match/cancel")) {
@@ -38,7 +38,7 @@ export const Demo: Story = {
               expandedCount: 2,
               queueDepth: 10,
             }),
-            { status: 200, headers: { "Content-Type": "application/json" } },
+            { status: 200, headers: { "Content-Type": "application/json" } }
           );
         }
         return new Response(
@@ -46,7 +46,7 @@ export const Demo: Story = {
           {
             status: 501,
             headers: { "Content-Type": "application/json" },
-          },
+          }
         );
       },
     });
@@ -54,7 +54,7 @@ export const Demo: Story = {
     return (
       <div style={{ display: "grid", gap: 8, width: 420 }}>
         <button
-          className="rounded-pill bg-primary-600 px-3 py-1.5 text-white"
+          className="rounded-pill bg-primary-main px-3 py-1.5 text-white"
           onClick={async () => {
             const res = await client.enqueue({
               requestId: "r1",

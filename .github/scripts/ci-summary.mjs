@@ -10,7 +10,7 @@ const VR_STATUS = process.env.VR_STATUS ?? "ℹ️ pending";
 const percentage = (value) =>
   typeof value === "number" && value <= 1
     ? `${Math.round(value * 100)}%`
-    : value ?? "—";
+    : (value ?? "—");
 
 function walkFiles(targetDir, predicate) {
   if (!fs.existsSync(targetDir)) return [];
@@ -50,17 +50,25 @@ function readLighthouseScores() {
   const categories =
     candidate?.lhr?.categories ??
     candidate?.categories ??
-    candidate?.categories ?? {};
+    candidate?.categories ??
+    {};
 
   return {
-    performance: percentage(categories.performance?.score ?? categories["performance"]?.score),
-    accessibility: percentage(categories.accessibility?.score ?? categories["accessibility"]?.score),
+    performance: percentage(
+      categories.performance?.score ?? categories["performance"]?.score
+    ),
+    accessibility: percentage(
+      categories.accessibility?.score ?? categories["accessibility"]?.score
+    ),
     seo: percentage(categories.seo?.score ?? categories["seo"]?.score),
   };
 }
 
 function readLinkIssues() {
-  const reports = walkFiles(LYCHEE_DIR, (file) => path.basename(file) === "out.md");
+  const reports = walkFiles(
+    LYCHEE_DIR,
+    (file) => path.basename(file) === "out.md"
+  );
   if (!reports.length) return { broken: 0 };
 
   const total = reports.reduce((sum, reportPath) => {
@@ -106,4 +114,3 @@ function buildSummary() {
 const summary = buildSummary();
 fs.writeFileSync("ci-summary.md", summary, "utf8");
 console.log(summary);
-

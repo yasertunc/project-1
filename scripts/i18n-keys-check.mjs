@@ -4,7 +4,7 @@ import { join } from "path";
 const ROOT = process.cwd();
 const SRC = join(ROOT, "src");
 const EN = JSON.parse(
-  readFileSync(join(ROOT, "src/locales/en/common.json"), "utf8"),
+  readFileSync(join(ROOT, "src/locales/en/common.json"), "utf8")
 );
 
 const keys = new Set();

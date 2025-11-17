@@ -16,8 +16,8 @@ export const MicButton: React.FC<{
       onTouchEnd={onRelease}
       className={`rounded-pill px-3 py-2 inline-flex items-center gap-2 ${
         recording
-          ? "bg-danger-500 text-white"
-          : "bg-muted-100 text-ink-700 hover:bg-muted-50"
+          ? "bg-semantic-error text-white"
+          : "bg-background-light text-text-secondary hover:bg-surface-gray"
       }`}
     >
       <span aria-hidden>🎤</span>

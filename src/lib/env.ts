@@ -1,4 +1,4 @@
-const DEFAULT_DOWNLOAD_URL = "https://yasertunc.github.io/project-1/download";
+const DEFAULT_DOWNLOAD_URL = "https://www.fellowus.com/download";
 
 type MetaEnv = Record<string, string | undefined> | undefined;
 type ImportMetaShim = { env?: MetaEnv };

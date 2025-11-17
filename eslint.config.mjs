@@ -55,6 +55,7 @@ export default tseslint.config(
       "scripts/**/*.{js,mjs}",
       ".storybook/test-runner.js",
       "postcss.config.cjs",
+      "apps/mobile/**/*.js",
     ],
     languageOptions: {
       globals: {
@@ -64,5 +65,5 @@ export default tseslint.config(
   },
   {
     ignores: ["storybook-static/**", "dist/**", "coverage/**"],
-  },
+  }
 );

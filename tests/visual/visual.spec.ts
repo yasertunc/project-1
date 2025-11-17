@@ -6,7 +6,7 @@ async function snap(
   page: Page,
   storyId: string,
   name: string,
-  options?: { theme?: "light" | "dark"; locale?: "en" | "tr" | "ar" },
+  options?: { theme?: "light" | "dark"; locale?: "en" | "tr" | "ar" }
 ) {
   await gotoStory(page, storyId, options);
   const root = page.locator("#storybook-root");
@@ -19,7 +19,7 @@ test.describe("Visual regressions", () => {
       page,
       "fellowus-chatbubble-rtl--arabic",
       "chatbubble-rtl-arabic",
-      { locale: "ar" },
+      { locale: "ar" }
     );
   });
 
@@ -49,7 +49,7 @@ test.describe("Visual regressions", () => {
       page,
       "fellowus-tokens-contrastgrid--grid",
       "tokens-contrast-grid",
-      { locale: "en" },
+      { locale: "en" }
     );
   });
 
@@ -62,7 +62,7 @@ test.describe("Visual regressions", () => {
       "brand-logo-default@1280x720.png",
       {
         maxDiffPixelRatio: 0.002,
-      },
+      }
     );
   });
 });

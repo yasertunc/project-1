@@ -7,31 +7,44 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "lint": "echo 'skip lint for MVP'",
-    "typecheck": "tsc --noEmit || true"
+    "typecheck": "tsc --noEmit || true",
+    "build:dev-client:android": "node scripts/build-dev-client.mjs android",
+    "build:dev-client:ios": "node scripts/build-dev-client.mjs ios",
+    "detox:build:android": "detox build --config detox.config.ts --configuration android.emu.release",
+    "detox:test:android": "detox test --config detox.config.ts --configuration android.emu.release"
   },
   "dependencies": {
+    "@expo/vector-icons": "^15.0.3",
     "babel-preset-expo": "~54.0.0",
     "expo": "~54.0.23",
     "expo-constants": "~18.0.10",
+    "expo-device": "^8.0.9",
     "expo-linking": "~8.0.8",
+    "expo-notifications": "^0.32.12",
     "expo-router": "^6.0.14",
     "expo-status-bar": "~3.0.8",
+    "expo-system-ui": "~6.0.8",
     "nativewind": "^4.2.1",
     "postcss": "^8.5.6",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
     "react-native": "0.81.5",
+    "react-native-css-interop": "^0.2.1",
     "react-native-gesture-handler": "~2.28.0",
-    "react-native-reanimated": "~4.1.1",
+    "react-native-reanimated": "^4.1.5",
     "react-native-safe-area-context": "^5.6.2",
     "react-native-screens": "~4.16.0",
     "react-native-svg": "15.12.1",
     "react-native-worklets": "0.5.1",
+    "sentry-expo": "~7.0.0",
     "tailwindcss": "^3.4.18"
   },
   "private": true,
   "devDependencies": {
     "@types/react": "19.1.10",
+    "autoprefixer": "^10.4.20",
+    "detox": "^20.45.1",
+    "dotenv": "^16.4.7",
     "typescript": "^5.4.5"
   }
 }

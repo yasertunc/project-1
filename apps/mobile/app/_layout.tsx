@@ -1,12 +1,74 @@
-﻿import 'react-native-reanimated';
-import { Stack } from 'expo-router';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import '../global.css';
+﻿import "react-native-reanimated";
+import "../src/lib/sentry";
+import { Stack } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useEffect, useMemo } from "react";
+
+import "../global.css";
+import { palette } from "../src/theme/tokens";
+import { useNotifications } from "../src/hooks/useNotifications";
+import { ErrorBoundary } from "../src/components/ErrorBoundary";
+
+function NotificationBootstrap() {
+  const { pushToken, permissionStatus, error } = useNotifications();
+
+  useEffect(() => {
+    if (pushToken && __DEV__) {
+      console.log("Expo push token:", pushToken);
+    }
+  }, [pushToken]);
+
+  useEffect(() => {
+    if (error && __DEV__) {
+      console.warn("Notification setup error:", error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (permissionStatus && permissionStatus !== "granted" && __DEV__) {
+      console.log("Notification permission status:", permissionStatus);
+    }
+  }, [permissionStatus]);
+
+  return null;
+}
 
 export default function Layout() {
+  const headerStyle = useMemo(
+    () => ({
+      headerStyle: {
+        backgroundColor: palette.surface.white,
+      },
+      headerTitleStyle: {
+        color: palette.text.primary,
+        fontSize: 18,
+        fontWeight: "700" as const,
+      },
+      headerTintColor: palette.primary.main,
+    }),
+    []
+  );
+
   return (
-    <SafeAreaProvider>
-      <Stack screenOptions={{ headerShown: false }} />
-    </SafeAreaProvider>
+    <ErrorBoundary>
+      <SafeAreaProvider>
+        <NotificationBootstrap />
+        <Stack
+          screenOptions={{
+            contentStyle: { backgroundColor: palette.background.light },
+          }}
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="messages/[id]"
+            options={{
+              title: "Chat",
+              presentation: "card",
+              ...headerStyle,
+            }}
+          />
+        </Stack>
+      </SafeAreaProvider>
+    </ErrorBoundary>
   );
 }

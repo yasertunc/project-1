@@ -1,37 +1,48 @@
 {
   "cli": {
-    "version": ">= 3.21.0"
+    "version": ">= 16.26.0",
+    "appVersionSource": "remote"
   },
   "build": {
-    "preview": {
-      "extends": "production",
+    "development": {
+      "developmentClient": true,
       "distribution": "internal",
       "env": {
         "EAS_PROJECT_ROOT": "apps/mobile"
       },
       "android": {
         "buildType": "apk"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
+      "android": {
+        "buildType": "app-bundle"
+      }
+    },
+    "preview-ios": {
+      "distribution": "internal",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
       },
       "ios": {
         "simulator": true
       }
     },
-    "production": {
-      "workflow": "managed",
-      "env": {
-        "EAS_PROJECT_ROOT": "apps/mobile"
-      },
-      "developmentClient": false
-    },
-    "preview-ios": {
-      "extends": "production-ios",
-      "distribution": "internal",
-      "env": {
-        "EAS_PROJECT_ROOT": "apps/mobile"
-      }
-    },
     "production-ios": {
-      "workflow": "managed",
+      "autoIncrement": true,
       "env": {
         "EAS_PROJECT_ROOT": "apps/mobile"
       },
@@ -43,7 +54,7 @@
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "./.eas/android-service-account.json",
+        "serviceAccountKeyPath": "./apps/mobile/.eas/android-service-account.json",
         "track": "internal"
       },
       "ios": {
@@ -52,4 +63,3 @@
     }
   }
 }
-

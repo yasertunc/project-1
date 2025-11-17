@@ -6,13 +6,12 @@ import type {
 } from "../../services/channel/ChannelService";
 
 const toneClasses: Record<ChannelState, string> = {
-  idle: "border-[color:var(--ink-700)]/20 bg-[color:var(--muted-100)] text-[color:var(--ink-900)]",
+  idle: "border-[color:var(--color-text-secondary)]/20 bg-[color:var(--color-background-light)] text-[color:var(--color-text-primary)]",
   opening:
-    "border-[color:var(--color-accent-amber-400)] bg-[color:var(--color-accent-amber-100)] text-[color:var(--color-accent-amber-900)]",
-  open:
-    "border-[color:var(--color-success-400,#22c55e)] bg-[color:var(--color-success-100,#dcfce7)] text-[color:var(--color-success-900,#14532d)]",
+    "border-[color:var(--color-vip-main)]/30 bg-[color:var(--color-vip-light)]/20 text-[color:var(--color-vip-dark)]",
+  open: "border-[color:var(--color-semantic-success)]/30 bg-[color:var(--color-semantic-success)]/10 text-[color:var(--color-semantic-success)]",
   error:
-    "border-[color:var(--color-danger-400,#f87171)] bg-[color:var(--color-danger-100,#fee2e2)] text-[color:var(--color-danger-900,#7f1d1d)]",
+    "border-[color:var(--color-semantic-error)]/30 bg-[color:var(--color-semantic-error)]/10 text-[color:var(--color-semantic-error)]",
 };
 
 const stateText: Record<ChannelState, string> = {
@@ -43,4 +42,3 @@ export const ChannelStatusBanner: React.FC<ChannelStatusBannerProps> = ({
     </div>
   );
 };
-

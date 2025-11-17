@@ -18,8 +18,8 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
 }) => {
   const toneStyles = {
     default: "bg-white",
-    info: "bg-[color:var(--muted-50)]",
-    warning: "bg-[color:var(--muted-50)] border border-danger-500/30",
+    info: "bg-[color:var(--color-background-light)]",
+    warning: "bg-[color:var(--color-background-light)] border border-semantic-error/30",
   }[tone];
   return (
     <div
@@ -27,9 +27,9 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
       role="group"
       aria-label={title}
     >
-      <div className="text-ink-900 font-semibold">{title}</div>
-      {meta && <div className="text-xs text-ink-500 mt-0.5">{meta}</div>}
-      {children && <div className="mt-2 text-sm text-ink-700">{children}</div>}
+      <div className="text-text-primary font-semibold">{title}</div>
+      {meta && <div className="text-xs text-text-tertiary mt-0.5">{meta}</div>}
+      {children && <div className="mt-2 text-sm text-text-secondary">{children}</div>}
       <div className="mt-3 flex gap-2">
         {primaryCta && (
           <Button onClick={primaryCta.onClick}>{primaryCta.label}</Button>

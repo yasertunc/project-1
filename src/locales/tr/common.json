@@ -54,6 +54,10 @@
     "ctaPanel": {
       "lead": "Fellowus ile başlamaya hazır mısın?",
       "cta": "Hesap oluştur"
+    },
+    "error": {
+      "howItWorks": "Bu bölüm şu anda görüntülenemiyor. Lütfen yeniden deneyin.",
+      "features": "Öne çıkanlar şu anda ulaşılabilir değil. Lütfen sayfayı yenileyin."
     }
   },
   "homeHero": {
@@ -69,6 +73,23 @@
       "item1": "Anonymous IDs and intent filters keep matches relevant.",
       "item2": "Guided safety flows and quick report tools protect every chat.",
       "item3": "Instant language & theme toggles make the interface inclusive."
+    }
+  },
+  "homeHowItWorks": {
+    "pretitle": "Nasıl çalışır",
+    "title": "Konuşmaya başlamak için üç kolay adım",
+    "subtitle": "Fellowus, kiminle tanışmak istediğine karar vermene yardımcı olur, eşleşmeyi anonim tutar ve odadayken seni korur.",
+    "step1": {
+      "title": "Filtrelerini seç",
+      "description": "Niyet, konu ve koruma ayarlarını seçerek ne tür bir sohbete hazır olduğunu belirt."
+    },
+    "step2": {
+      "title": "Anonim olarak eşleş",
+      "description": "Geçici kimlikler kullanarak uyumlu insanlarla seni bağlarız—kişisel detaylara gerek yok."
+    },
+    "step3": {
+      "title": "Güvenli sohbet et",
+      "description": "Yerleşik araçlar, hızlı eylemler ve moderasyon akışlarıyla sohbeti olumlu tut."
     }
   }
 }

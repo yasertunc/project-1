@@ -37,7 +37,7 @@ const OVERRIDES = [
 
 if (!fs.existsSync(OUTPUT_DIR)) {
   console.warn(
-    `[size-budget] Directory "${OUTPUT_DIR}" not found. Run "storybook build" first.`,
+    `[size-budget] Directory "${OUTPUT_DIR}" not found. Run "storybook build" first.`
   );
   process.exit(0);
 }
@@ -75,10 +75,10 @@ for (const file of walk(OUTPUT_DIR)) {
     const limitGzip = (effectiveBudget.gzip / 1024).toFixed(0);
     console.error(
       `🚫 ${relative} exceeded budget: raw ${(raw / 1024).toFixed(
-        0,
+        0
       )}kB (limit ${limitRaw}kB), gzip≈${(gzip / 1024).toFixed(
-        0,
-      )}kB (limit ${limitGzip}kB)`,
+        0
+      )}kB (limit ${limitGzip}kB)`
     );
     failed = true;
     continue;
@@ -86,20 +86,20 @@ for (const file of walk(OUTPUT_DIR)) {
 
   if (override && exceedsBase) {
     console.warn(
-      `ℹ️  ${relative} exceeds default budget but is temporarily allowed (${override.reason}).`,
+      `ℹ️  ${relative} exceeds default budget but is temporarily allowed (${override.reason}).`
     );
   } else if (!override && exceedsBase) {
     console.warn(
       `⚠️  ${relative} is approaching the bundle budget (raw ${(
         raw / 1024
-      ).toFixed(0)}kB, gzip≈${(gzip / 1024).toFixed(0)}kB).`,
+      ).toFixed(0)}kB, gzip≈${(gzip / 1024).toFixed(0)}kB).`
     );
   }
 }
 
 if (failed) {
   console.error(
-    "Bundle size budget exceeded. See messages above for offending chunks.",
+    "Bundle size budget exceeded. See messages above for offending chunks."
   );
   process.exit(1);
 } else {

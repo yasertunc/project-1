@@ -12,7 +12,7 @@ const Pair = ({ fg, bg, label }: { fg: string; bg: string; label: string }) => (
       gap: 6,
       alignItems: "center",
       padding: 8,
-      background: "var(--surface)",
+      background: "var(--color-surface-white)",
       borderRadius: 12,
       boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
     }}
@@ -40,13 +40,40 @@ export const Grid: Story = {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: 12,
+        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+        gap: 16,
       }}
     >
-      <Pair fg="--ink-200" bg="--color-primary-600" label="Button text" />
-      <Pair fg="--ink-900" bg="--surface" label="Body text" />
-      <Pair fg="--ink-700" bg="--muted-50" label="Muted text" />
+      <Pair
+        fg="--color-surface-white"
+        bg="--color-primary-main"
+        label="Primary Button"
+      />
+      <Pair
+        fg="--color-text-primary"
+        bg="--color-surface-white"
+        label="Body Text"
+      />
+      <Pair
+        fg="--color-text-secondary"
+        bg="--color-background-light"
+        label="Muted Text"
+      />
+      <Pair
+        fg="--color-surface-white"
+        bg="--color-semantic-success"
+        label="Success"
+      />
+      <Pair
+        fg="--color-surface-white"
+        bg="--color-semantic-error"
+        label="Error"
+      />
+      <Pair
+        fg="--color-text-primary"
+        bg="--color-semantic-warning"
+        label="Warning"
+      />
     </div>
   ),
 };

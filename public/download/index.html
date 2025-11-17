@@ -1,80 +1,210 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Fellowus Download</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Get Fellowus</title>
+    <meta
+      name="description"
+      content="Download the Fellowus mobile app for Android or iOS."
+    />
     <style>
+      :root {
+        color-scheme: light dark;
+        --background: #0f172a;
+        --surface: rgba(15, 23, 42, 0.82);
+        --text: #f8fafc;
+        --accent: #667eea;
+        --accent-strong: #764ba2;
+        --border: rgba(255, 255, 255, 0.12);
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --background: #f5f7fa;
+          --surface: rgba(255, 255, 255, 0.92);
+          --text: #1f2937;
+          --border: rgba(15, 23, 42, 0.08);
+        }
+      }
+
       body {
-        display: flex;
+        margin: 0;
         min-height: 100vh;
-        align-items: center;
-        justify-content: center;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          sans-serif;
-        background: #f5f7fa;
-        color: #0f172a;
-        padding: 2rem;
+        display: grid;
+        place-items: center;
+        font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background:
+          radial-gradient(
+            140% 120% at 0% 0%,
+            rgba(102, 126, 234, 0.15),
+            transparent
+          ),
+          radial-gradient(
+            120% 140% at 100% 0%,
+            rgba(118, 75, 162, 0.12),
+            transparent
+          ),
+          radial-gradient(
+            100% 120% at 50% 100%,
+            rgba(255, 215, 0, 0.08),
+            transparent
+          ),
+          var(--background);
+        color: var(--text);
+      }
+
+      main {
+        width: min(540px, calc(100% - 3rem));
+        padding: 2.75rem 2.5rem;
+        background: var(--surface);
+        border-radius: 28px;
+        backdrop-filter: blur(22px);
+        border: 1px solid var(--border);
+        box-shadow: 0 25px 60px rgba(15, 23, 42, 0.35);
         text-align: center;
       }
-      .card {
-        max-width: 480px;
-        background: #ffffff;
-        padding: 2rem;
-        border-radius: 24px;
-        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.8rem, 2.5vw + 1rem, 2.4rem);
+        letter-spacing: 0.02em;
       }
+
+      p {
+        margin: 0 auto 1.75rem;
+        max-width: 28ch;
+        line-height: 1.55;
+        opacity: 0.85;
+      }
+
       .cta {
-        display: inline-flex;
-        margin-top: 1.5rem;
-        padding: 0.75rem 1.5rem;
-        border-radius: 9999px;
-        background: #3b82f6;
-        color: #ffffff;
-        font-weight: 600;
-        text-decoration: none;
+        display: grid;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
       }
-      .muted {
-        margin-top: 1rem;
-        color: #475569;
-        font-size: 0.9rem;
+
+      .cta a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        padding: 0.95rem 1.4rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        color: #fff;
+        background: linear-gradient(
+          135deg,
+          var(--accent),
+          var(--accent-strong)
+        );
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.35);
+        text-decoration: none;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease,
+          filter 0.18s ease;
+      }
+
+      .cta a.secondary {
+        background: transparent;
+        color: inherit;
+        border-color: var(--border);
+        box-shadow: none;
+      }
+
+      .cta a:hover,
+      .cta a:focus-visible {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 36px rgba(102, 126, 234, 0.45);
+        filter: brightness(1.04);
+      }
+
+      .cta a.secondary:hover,
+      .cta a.secondary:focus-visible {
+        border-color: rgba(102, 126, 234, 0.6);
+        box-shadow: 0 10px 24px rgba(118, 75, 162, 0.28);
+        color: var(--accent);
+      }
+
+      footer {
+        font-size: 0.78rem;
+        opacity: 0.55;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
     </style>
-    <script>
-      (function redirect() {
-        const androidLink =
-          "https://play.google.com/store/apps/details?id=com.fellowus.app";
-        const iosLink = "https://testflight.apple.com/join/EXAMPLE";
-        const webLink = "https://yasertunc.github.io/project-1/";
-
-        if (typeof navigator === "undefined") return;
-
-        const ua = navigator.userAgent || navigator.vendor || window.opera;
-        const isAndroid = /android/i.test(ua);
-        const isIOS = /iphone|ipad|ipod/i.test(ua);
-
-        const target = isAndroid ? androidLink : isIOS ? iosLink : webLink;
-
-        // Use replace so the back button does not return to the redirect page.
-        window.location.replace(target);
-      })();
-    </script>
   </head>
   <body>
-    <div class="card">
-      <h1>Redirecting you to Fellowus</h1>
-      <p>
-        Sit tight while we detect your device and open the best version of the
-        app. If nothing happens, choose the link below.
+    <main>
+      <h1>Thanks for choosing Fellowus</h1>
+      <p id="status">
+        We are getting the right download ready for your device. You will be
+        redirected in a moment.
       </p>
-      <a class="cta" href="https://play.google.com/store/apps/details?id=com.fellowus.app">
-        Open Android build
-      </a>
-      <div class="muted">
-        iOS tester? Use the latest TestFlight invite at
-        <a href="https://testflight.apple.com/join/EXAMPLE">this link</a>.
+      <div class="cta" aria-label="Download options">
+        <a
+          id="android-link"
+          href="https://play.google.com/store/apps/details?id=com.fellowus.app"
+        >
+          Download for Android
+        </a>
+        <a
+          id="ios-link"
+          href="https://apps.apple.com/app/id0000000000"
+          class="secondary"
+        >
+          Download for iOS
+        </a>
+        <a id="fallback-link" href="https://www.fellowus.com" class="secondary">
+          Open Fellowus on the web
+        </a>
       </div>
-    </div>
+      <footer>© Fellowus. All rights reserved.</footer>
+    </main>
+
+    <script>
+      (function () {
+        const status = document.getElementById("status");
+        const androidHref = document.getElementById("android-link").href;
+        const iosHref = document.getElementById("ios-link").href;
+        const fallbackHref = document.getElementById("fallback-link").href;
+
+        const navigatorInfo =
+          navigator.userAgent || navigator.vendor || window.opera || "";
+        const isAndroid = /android/i.test(navigatorInfo);
+        const isIOS = /iphone|ipad|ipod/i.test(navigatorInfo);
+
+        const redirect = (target) => {
+          status.textContent = "Redirecting you to the best download option…";
+          window.location.replace(target);
+        };
+
+        if (isAndroid) {
+          redirect(androidHref);
+          return;
+        }
+
+        if (isIOS) {
+          redirect(iosHref);
+          return;
+        }
+
+        status.textContent =
+          "Choose your platform below to continue. We recommend downloading on your mobile device.";
+        const buttons = document.querySelectorAll(".cta a");
+        buttons.forEach((link) => {
+          link.addEventListener("click", () => {
+            status.textContent = "Opening download link…";
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
-

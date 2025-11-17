@@ -66,7 +66,7 @@ const createBannerService = (fsm: ChannelFSM): BannerServiceAdapter => {
 export const ChannelController: React.FC = () => {
   const fsm = React.useMemo(() => new ChannelFSM(), []);
   const [snapshot, setSnapshot] = React.useState<ChannelSnapshot>(
-    fsm.getSnapshot(),
+    fsm.getSnapshot()
   );
   const bannerService = React.useMemo(() => createBannerService(fsm), [fsm]);
 
@@ -93,7 +93,7 @@ export const ChannelController: React.FC = () => {
       <ChannelStatusBanner svc={bannerService} />
 
       {snapshot.phase === "idle" && (
-        <div className="text-sm text-[color:var(--ink-700)]">
+        <div className="text-sm text-[color:var(--color-text-secondary)]">
           Waiting for an offer…
         </div>
       )}
@@ -117,14 +117,14 @@ export const ChannelController: React.FC = () => {
       {snapshot.phase === "open" && snapshot.ctx.channelId && (
         <div
           role="status"
-          className="rounded-xl bg-[color:var(--color-success-100,#dcfce7)] px-3 py-2 text-sm font-medium text-[color:var(--color-success-900,#14532d)]"
+          className="rounded-xl bg-[color:var(--color-semantic-success)]/10 px-3 py-2 text-sm font-medium text-[color:var(--color-semantic-success)]"
         >
           Channel open (id: {snapshot.ctx.channelId})
         </div>
       )}
 
       {snapshot.phase === "declined" && (
-        <div role="status" className="text-sm text-[color:var(--ink-800)]">
+        <div role="status" className="text-sm text-[color:var(--color-text-primary)]">
           Offer declined.
         </div>
       )}
@@ -132,7 +132,7 @@ export const ChannelController: React.FC = () => {
       {snapshot.phase === "error" && (
         <div
           role="status"
-          className="text-sm text-[color:var(--color-danger-700,#b91c1c)]"
+          className="text-sm text-[color:var(--color-semantic-error)]"
         >
           Error: {snapshot.ctx.errorCode}
         </div>

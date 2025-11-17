@@ -26,7 +26,7 @@ export const Controls: Story = {
           gap: 12,
           width: 380,
           padding: 12,
-          background: "var(--muted-50)",
+          background: "var(--color-background-light)",
           borderRadius: 12,
         }}
       >

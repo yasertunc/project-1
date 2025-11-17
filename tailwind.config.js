@@ -1,48 +1,101 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  // Storybook ve MDX içerikleri de taransın
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const tokens = require("./src/tokens/tokens_fellowus_v1.json");
+
+const designSystem = tokens.designSystem || {};
+
+// Extract colors
+const colors = designSystem.colors || {};
+const spacing = designSystem.spacing || {};
+const borderRadius = designSystem.borderRadius || {};
+const shadows = designSystem.shadows || {};
+const typography = designSystem.typography || {};
+
+module.exports = {
   content: [
-    "./index.html",
-    "./src/**/*.{ts,tsx,mdx}",
-    "./src/**/*.stories.@(ts|tsx|mdx)",
+    "./src/**/*.{ts,tsx,js,jsx}",
+    "./src/**/*.stories.{ts,tsx}",
+    "./src/**/*.mdx",
   ],
-  // Özel gradient util'leri purge edilmesin
-  safelist: ["bg-gradient-primary", "bg-gradient-vip"],
   theme: {
     extend: {
       colors: {
         primary: {
-          600: "var(--color-primary-600)",
-          400: "var(--color-primary-400)",
+          DEFAULT: colors.primary?.main || "#667eea",
+          main: colors.primary?.main || "#667eea",
+          dark: colors.primary?.dark || "#764ba2",
+          light: colors.primary?.light || "#8b9ef8",
         },
-        ink: {
-          900: "var(--ink-900)",
-          700: "var(--ink-700)",
-          500: "var(--ink-500)",
-          50: "var(--ink-50)",
-          200: "var(--ink-200)",
+        vip: {
+          DEFAULT: colors.vip?.main || "#FFD700",
+          main: colors.vip?.main || "#FFD700",
+          dark: colors.vip?.dark || "#FFA500",
+          light: colors.vip?.light || "#FFE44D",
         },
-        surface: "var(--surface)",
-        muted: {
-          50: "var(--muted-50)",
-          100: "var(--muted-100)",
-          600: "var(--muted-600)",
-          700: "var(--muted-700)",
-          800: "var(--muted-800)",
-        },
-        accent: { amber: { 500: "var(--color-accent-amber-500)" } },
-        success: { 500: "var(--color-success-500)" },
-        danger: { 500: "var(--color-danger-500)" },
+        semantic: colors.semantic || {},
+        background: colors.background || {},
+        surface: colors.surface || {},
+        text: colors.text || {},
+        border: colors.border || {},
       },
+      spacing: Object.fromEntries(
+        Object.entries(spacing).map(([key, value]) => [
+          key,
+          typeof value === "string" && value.endsWith("px")
+            ? value
+            : `${value}px`,
+        ])
+      ),
       borderRadius: {
-        xl: "20px",
-        pill: "9999px",
-        phone: "var(--radius-phone)",
-        screen: "var(--radius-screen)",
+        ...Object.fromEntries(
+          Object.entries(borderRadius).map(([key, value]) => [
+            key,
+            typeof value === "string" && value.endsWith("%")
+              ? value
+              : typeof value === "string" && value.endsWith("px")
+                ? value
+                : `${value}px`,
+          ])
+        ),
+        pill: borderRadius.round === "50%" ? "999px" : borderRadius.round || "999px",
       },
       boxShadow: {
-        colored: "var(--shadow-colored)",
+        ...Object.fromEntries(
+          Object.entries(shadows.elevation || {}).map(([key, value]) => [
+            `elevation-${key}`,
+            value,
+          ])
+        ),
+        "colored-primary": shadows.colored?.primary || shadows.colored,
+        "colored-vip": shadows.colored?.vip || shadows.coloredVip,
+        "colored-success": shadows.colored?.success || shadows.coloredSuccess,
       },
+      fontFamily: {
+        sans: typography.fontFamily
+          ? typography.fontFamily.split(",").map((f) => f.trim())
+          : [
+              "-apple-system",
+              "BlinkMacSystemFont",
+              "Segoe UI",
+              "Roboto",
+              "Oxygen",
+              "Ubuntu",
+              "sans-serif",
+            ],
+        mono: typography.fontStack?.monospace
+          ? typography.fontStack.monospace.split(",").map((f) => f.trim())
+          : ["Roboto Mono", "SF Mono", "Monaco", "monospace"],
+      },
+      fontSize: Object.fromEntries(
+        Object.entries(typography.sizes || {}).map(([key, value]) => [
+          key,
+          [
+            typeof value === "object" ? value.size : value,
+            typeof value === "object" ? value.lineHeight : "1.5",
+          ],
+        ])
+      ),
+      fontWeight: typography.weights || {},
     },
   },
   plugins: [],

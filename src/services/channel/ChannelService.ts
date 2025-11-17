@@ -51,4 +51,3 @@ export class MockChannelService implements ChannelService {
     this.emit("idle");
   }
 }
-

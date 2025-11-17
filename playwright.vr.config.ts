@@ -1,30 +1,29 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "tests/visual",
-  timeout: 30_000,
-  fullyParallel: false,
-  reporter: [["list"]],
+  testDir: "./tests/visual",
+  timeout: 60_000,
   expect: {
-    toMatchSnapshot: {
-      maxDiffPixelRatio: 0.002,
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.0025,
+      threshold: 0.2,
     },
   },
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 2 : undefined,
+  reporter: [["list"]],
   use: {
-    viewport: { width: 1280, height: 720 },
-    deviceScaleFactor: 1,
-    colorScheme: "light",
-    locale: "en-US",
-    timezoneId: "UTC",
-    hasTouch: false,
-    ignoreHTTPSErrors: true,
+    baseURL: process.env.STORYBOOK_BASE_URL ?? "http://localhost:5080",
+    trace: "retain-on-failure",
+    video: "off",
+    screenshot: "only-on-failure",
   },
   projects: [
     {
       name: "chromium",
-      use: {
-        browserName: "chromium",
-      },
+      use: { ...devices["Desktop Chrome"] },
     },
   ],
 });

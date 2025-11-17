@@ -26,7 +26,7 @@ export class MockWebSocketTransport {
 
     const connectedTimer = setTimeout(
       () => this.bus.emit({ type: "connected" }),
-      50,
+      50
     );
     this.timers.push(connectedTimer);
 

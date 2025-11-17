@@ -6,7 +6,11 @@ type LogoSvgProps = {
   className?: string;
 };
 
-export function LogoSvg({ size = 32, title = "Fellowus", className }: LogoSvgProps) {
+export function LogoSvg({
+  size = 32,
+  title = "Fellowus",
+  className,
+}: LogoSvgProps) {
   const ariaLabel = title ?? "Fellowus";
   const dimension = `${size}`;
   return (
@@ -20,8 +24,8 @@ export function LogoSvg({ size = 32, title = "Fellowus", className }: LogoSvgPro
     >
       <defs>
         <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="var(--color-primary-500)" />
-          <stop offset="100%" stopColor="var(--color-primary-700)" />
+          <stop offset="0%" stopColor="var(--color-primary-main)" />
+          <stop offset="100%" stopColor="var(--color-primary-dark)" />
         </linearGradient>
       </defs>
       <circle cx="32" cy="32" r="30" fill="url(#logoGradient)" />
@@ -33,4 +37,3 @@ export function LogoSvg({ size = 32, title = "Fellowus", className }: LogoSvgPro
     </svg>
   );
 }
-

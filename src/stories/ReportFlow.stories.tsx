@@ -26,7 +26,7 @@ export const BubbleToModal: Story = {
           width: 380,
           height: 260,
           overflow: "auto",
-          border: "1px solid #eee",
+          border: "1px solid var(--color-border-light)",
           padding: 8,
           borderRadius: 8,
         }}
@@ -57,7 +57,7 @@ export const BubbleToModal: Story = {
     await user.click(canvas.getByRole("button", { name: /report/i }));
 
     const first = await canvas.findByRole("button", {
-      name: /harassment|taciz|مضايقة/i,
+      name: /harassment/i,
     });
     if (document.activeElement !== first) {
       throw new Error("Focus not on first option when modal opens");
@@ -66,12 +66,10 @@ export const BubbleToModal: Story = {
     await user.keyboard("{Escape}");
 
     await user.click(canvas.getByRole("button", { name: /report/i }));
-    await user.click(
-      await canvas.findByRole("button", { name: /spam|dolandırıcılık|مزعجة/i }),
-    );
+    await user.click(await canvas.findByRole("button", { name: /spam/i }));
 
     await canvas.findByText(
-      /selected:\s*(spam|personal-info|harassment|hate|self-harm|other)/i,
+      /selected:\s*(spam|personal-info|harassment|hate|self-harm|other)/i
     );
   },
 };

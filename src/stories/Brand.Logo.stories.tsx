@@ -32,7 +32,7 @@ export const Sizes: Story = {
         display: "flex",
         gap: 16,
         alignItems: "center",
-        background: "var(--muted-50)",
+        background: "var(--color-background-light)",
         padding: 16,
         borderRadius: 12,
       }}

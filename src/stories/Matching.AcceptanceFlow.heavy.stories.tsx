@@ -65,7 +65,7 @@ export const Demo: Story = {
           {phase === "idle" && (
             <button
               type="button"
-              className="rounded-full bg-[color:var(--color-primary-600)] px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-[color:var(--color-primary-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color:var(--color-primary-400)]"
+              className="rounded-full bg-primary-main px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-light"
               onClick={start}
             >
               Find match

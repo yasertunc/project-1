@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocalSearchParams, Link } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import {
   View,
   Text,
@@ -10,14 +10,27 @@ import {
   Platform,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type Msg = { id: string; text: string; from: "me" | "other"; ts: number };
+type MessagesStackParamList = {
+  "messages/[id]": { id: string };
+};
 
 export default function Page() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const navigation =
+    useNavigation<
+      NativeStackNavigationProp<MessagesStackParamList, "messages/[id]">
+    >();
   const [text, setText] = useState("");
   const [items, setItems] = useState<Msg[]>(() => [
-    { id: "1", text: `Hey, I'm User ${id}`, from: "other", ts: Date.now() - 120_000 },
+    {
+      id: "1",
+      text: `Hey, I'm User ${id}`,
+      from: "other",
+      ts: Date.now() - 120_000,
+    },
     { id: "2", text: "Hi! 👋", from: "me", ts: Date.now() - 60_000 },
   ]);
   const [typing, setTyping] = useState(false);
@@ -36,7 +49,10 @@ export default function Page() {
     const t = text.trim();
     if (!t) return;
     const now = Date.now();
-    setItems((prev) => [...prev, { id: String(now), text: t, from: "me", ts: now }]);
+    setItems((prev) => [
+      ...prev,
+      { id: String(now), text: t, from: "me", ts: now },
+    ]);
     setText("");
     setTyping(true);
     setTimeout(() => {
@@ -49,7 +65,10 @@ export default function Page() {
   };
 
   const renderItem = ({ item }: { item: Msg }) => (
-    <View className="mb-2 max-w-[85%]">
+    <View
+      className="mb-2 max-w-[85%]"
+      accessibilityLabel={`${item.from === "me" ? "You" : "Other user"} said: ${item.text} at ${formatTime(item.ts)}`}
+    >
       <View
         className={`rounded-2xl p-3 ${
           item.from === "me"
@@ -57,11 +76,15 @@ export default function Page() {
             : "self-start bg-brand-50 border border-brand-200"
         }`}
       >
-        <Text className={item.from === "me" ? "text-white" : "text-brand-900"}>{item.text}</Text>
+        <Text className={item.from === "me" ? "text-white" : "text-brand-900"}>
+          {item.text}
+        </Text>
       </View>
       <Text
         className={`mt-1 text-xs opacity-60 ${
-          item.from === "me" ? "self-end text-right text-white" : "self-start text-brand-700"
+          item.from === "me"
+            ? "self-end text-right text-white"
+            : "self-start text-brand-700"
         }`}
       >
         {formatTime(item.ts)}
@@ -69,26 +92,30 @@ export default function Page() {
     </View>
   );
 
+  useEffect(() => {
+    if (id) {
+      navigation.setOptions({
+        title: `User ${id}`,
+      });
+    }
+  }, [navigation, id]);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       className="flex-1 bg-white"
     >
       <StatusBar style="dark" />
-      <View className="border-b border-brand-200 px-4 pt-4 pb-2">
-        <Text className="text-xl font-semibold text-brand-700">Chat with User {id}</Text>
-        <Link href="/" className="mt-1 text-brand-600">
-          Back
-        </Link>
-      </View>
-
       <FlatList
         ref={listRef}
         className="flex-1 px-4 py-3"
         data={sorted}
         keyExtractor={(m) => m.id}
         renderItem={renderItem}
-        onContentSizeChange={() => listRef.current?.scrollToEnd({ animated: true })}
+        onContentSizeChange={() =>
+          listRef.current?.scrollToEnd({ animated: true })
+        }
+        accessibilityLabel="Chat messages"
         ListFooterComponent={
           typing ? (
             <View className="self-start rounded-2xl border border-brand-200 bg-brand-50 px-3 py-2">
@@ -106,8 +133,16 @@ export default function Page() {
           className="flex-1 border border-brand-200 rounded-2xl px-3 py-2"
           returnKeyType="send"
           onSubmitEditing={send}
+          accessibilityLabel="Message input"
+          accessibilityHint="Type your message here and press send"
         />
-        <TouchableOpacity onPress={send} className="rounded-2xl bg-brand-600 px-4 py-2">
+        <TouchableOpacity
+          onPress={send}
+          className="rounded-2xl bg-brand-600 px-4 py-2"
+          accessibilityRole="button"
+          accessibilityLabel="Send message"
+          accessibilityHint="Sends the typed message"
+        >
           <Text className="font-medium text-white">Send</Text>
         </TouchableOpacity>
       </View>

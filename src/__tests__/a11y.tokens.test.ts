@@ -5,8 +5,17 @@ type HexColor = `#${string}`;
 const CONTRAST_REQUIREMENT = 4.5;
 
 const PAIRS: Array<[HexColor, HexColor, string]> = [
-  ["#333333", "#f5f7fa", "text on light background"],
-  ["#e5e7eb", "#0b1220", "light text on dark surface"],
+  // Light theme - text on background (WCAG AA compliant)
+  ["#333333", "#f5f7fa", "text primary on light background"],
+  ["#666666", "#ffffff", "text secondary on white surface"],
+  // Dark theme - text on surface (WCAG AA compliant)
+  ["#f5f7fa", "#1a1a1a", "text primary on dark background"],
+  ["#d1d5db", "#1f2130", "text secondary on dark surface"],
+  // Primary colors with sufficient contrast
+  ["#ffffff", "#764ba2", "white text on primary dark"],
+  // Semantic colors with sufficient contrast
+  ["#ffffff", "#c62828", "white text on dark error"],
+  ["#333333", "#26de81", "dark text on success"],
 ];
 
 function hexToRgb(hex: HexColor): [number, number, number] {
@@ -41,4 +50,3 @@ describe("accessibility tokens", () => {
     });
   });
 });
-

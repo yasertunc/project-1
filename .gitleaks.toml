@@ -1,0 +1,45 @@
+title = "Fellowus Gitleaks Configuration"
+
+[extend]
+# Use default gitleaks config
+useDefault = true
+
+[[rules]]
+id = "fellowus-custom"
+description = "Fellowus specific secrets"
+regex = '''(?i)(fellowus|expo|eas|sentry|firebase|google|play|apple|asc|apns|fcm).*[=:]\s*['"]?[a-zA-Z0-9_\-]{20,}['"]?'''
+
+[[rules]]
+id = "expo-token"
+description = "Expo access tokens"
+regex = '''exp_[a-zA-Z0-9_\-]{40,}'''
+
+[[rules]]
+id = "android-keystore"
+description = "Android keystore files"
+regex = '''\.(jks|keystore|p12)'''
+
+[[rules]]
+id = "ios-provisioning"
+description = "iOS provisioning profiles"
+regex = '''\.(mobileprovision|p8)'''
+
+[allowlist]
+description = "Allowlist for known safe patterns"
+paths = [
+  '''\.env\.example''',
+  '''docs/.*''',
+  '''README\.md''',
+  '''\.gitignore''',
+  '''package\.json''',
+  '''package-lock\.json''',
+]
+
+[[allowlist.regexes]]
+regex = '''example.*token|example.*key|example.*secret'''
+reason = "Example values in documentation"
+
+[[allowlist.regexes]]
+regex = '''https://examplePublicKey\.ingest\.sentry\.io'''
+reason = "Example Sentry DSN in env.example"
+

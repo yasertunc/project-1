@@ -77,7 +77,7 @@ export const ReportCategoryModal: React.FC<{
       <div className="relative w-[360px] rounded-2xl bg-white p-4 shadow">
         <div
           id="report-title"
-          className="mb-2 text-base font-semibold text-ink-900"
+          className="mb-2 text-base font-semibold text-text-primary"
         >
           {t("report.modal.title")}
         </div>
@@ -87,17 +87,17 @@ export const ReportCategoryModal: React.FC<{
             <button
               key={key}
               ref={idx === 0 ? firstBtnRef : undefined}
-              className="w-full rounded-xl border border-ink-700/10 bg-muted-50 px-3 py-2 text-left hover:bg-muted-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+              className="w-full rounded-xl border border-text-secondary/10 bg-background-light px-3 py-2 text-left hover:bg-surface-gray focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
               onClick={() => onSelect(key)}
             >
-              <div className="font-medium text-ink-900">{labelFor(key)}</div>
+              <div className="font-medium text-text-primary">{labelFor(key)}</div>
             </button>
           ))}
         </div>
 
         <div className="mt-3 flex justify-end">
           <button
-            className="rounded-pill bg-muted-100 px-3 py-1.5 text-ink-700 hover:bg-muted-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+            className="rounded-pill bg-background-light px-3 py-1.5 text-text-secondary hover:bg-surface-gray focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
             onClick={onClose}
           >
             {t("common.cancel")}

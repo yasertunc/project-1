@@ -12,11 +12,11 @@ export const Chip: React.FC<ChipProps> = ({
 }) => {
   const base =
     "px-3 py-1.5 rounded-pill text-sm transition focus:outline-none " +
-    "focus-visible:ring-2 focus-visible:ring-primary-400";
+    "focus-visible:ring-2 focus-visible:ring-primary-light";
 
   const style = selected
-    ? "bg-primary-400/20 text-primary-600"
-    : "bg-muted-100 text-ink-700 hover:bg-muted-50";
+    ? "bg-primary-light/20 text-primary-main"
+    : "bg-background-light text-text-secondary hover:bg-surface-gray";
 
   return <button className={`${base} ${style} ${className}`} {...props} />;
 };

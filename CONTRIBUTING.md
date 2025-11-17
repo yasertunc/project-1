@@ -31,4 +31,3 @@ pnpm vr
 ```
 
 These match the CI health gate. Running them before pushing helps keep preview builds and per-PR CI summaries green. If you only need a quick sanity pass, `pnpm lint && pnpm typecheck` is usually enough.
-

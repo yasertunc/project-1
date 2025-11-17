@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 
+import i18n from "../i18n/setup";
+
 type Locale = "en" | "tr" | "ar";
+
+const STORAGE_KEY = "fellowus.locale";
 
 export const LanguageSwitcher: React.FC<{
   value?: Locale;
@@ -9,14 +13,12 @@ export const LanguageSwitcher: React.FC<{
   const [current, setCurrent] = useState<Locale>(() => {
     if (value) return value;
     if (typeof window !== "undefined") {
-      const stored = window.localStorage.getItem(
-        "fellowus.locale",
-      ) as Locale | null;
+      const stored = window.localStorage.getItem(STORAGE_KEY) as Locale | null;
       if (stored === "en" || stored === "tr" || stored === "ar") {
         return stored;
       }
     }
-    return "en";
+    return (i18n.language as Locale) ?? "en";
   });
 
   useEffect(() => {
@@ -38,9 +40,8 @@ export const LanguageSwitcher: React.FC<{
       if (channel) {
         channel.emit("globals/update", { globals: { locale } });
       }
-      window.localStorage.setItem("fellowus.locale", locale);
     } catch {
-      // ignore persistence errors
+      // ignore Storybook communication errors
     }
   };
 
@@ -48,32 +49,36 @@ export const LanguageSwitcher: React.FC<{
     setCurrent(locale);
     if (onChange) onChange(locale);
     emitLocale(locale);
+    i18n.changeLanguage(locale).catch(() => {});
   };
 
   const locales: Array<{ value: Locale; label: string }> = [
     { value: "en", label: "English" },
-    { value: "tr", label: "Türkçe" },
-    { value: "ar", label: "العربية" },
+    { value: "tr", label: "Turkish" },
+    { value: "ar", label: "Arabic" },
   ];
 
   return (
-    <div style={{ display: "flex", gap: 8 }}>
-      {locales.map(({ value: localeValue, label }) => (
-        <button
-          key={localeValue}
-          type="button"
-          aria-label={`Switch to ${label}`}
-          title={`Switch to ${label}`}
-          className={`px-3 py-1.5 rounded-pill ${
-            localeValue === current
-              ? "bg-primary-600 text-white"
-              : "bg-muted-100 hover:bg-muted-50"
-          }`}
-          onClick={() => setLocale(localeValue)}
-        >
-          {label}
-        </button>
-      ))}
+    <div className="flex gap-2">
+      {locales.map(({ value: localeValue, label }) => {
+        const isActive = localeValue === current;
+        return (
+          <button
+            key={localeValue}
+            type="button"
+            aria-label={`Switch to ${label}`}
+            title={`Switch to ${label}`}
+            onClick={() => setLocale(localeValue)}
+            className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
+              isActive
+                ? "bg-[color:var(--color-primary-main)] text-white shadow-[0_4px_12px_rgba(102,126,234,0.3)]"
+                : "bg-[color:var(--color-background-medium)] text-[color:var(--color-text-secondary)] hover:bg-[color:var(--color-background-light)]"
+            }`}
+          >
+            {label}
+          </button>
+        );
+      })}
     </div>
   );
 };

@@ -15,12 +15,12 @@ export default function FeatureCard({
 }: FeatureCardProps) {
   return (
     <div
-      className="rounded-2xl border border-gray-200 bg-white p-5 text-left shadow-sm"
+      className="rounded-2xl border border-border-light bg-white p-5 text-left shadow-sm"
       {...rest}
     >
       {icon ? <div className="mb-3">{icon}</div> : null}
-      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-      <p className="mt-2 text-sm text-gray-500">{description}</p>
+      <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
+      <p className="mt-2 text-sm text-text-secondary">{description}</p>
     </div>
   );
 }

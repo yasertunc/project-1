@@ -54,6 +54,10 @@
     "ctaPanel": {
       "lead": "Ready to get started with Fellowus?",
       "cta": "Create your account"
+    },
+    "error": {
+      "howItWorks": "This section is unavailable. Please retry.",
+      "features": "Highlights are unavailable right now. Please refresh."
     }
   },
   "homeHero": {

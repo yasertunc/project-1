@@ -7,7 +7,7 @@ const stories = [
   new URL("/iframe.html?id=pages-homepage--default", baseUrl).toString(),
   new URL(
     "/iframe.html?id=pages-homepage--rtl&globals=locale%3Aar",
-    baseUrl,
+    baseUrl
   ).toString(),
 ];
 
@@ -19,7 +19,7 @@ const axeCliPath = path.resolve(
   "dist",
   "src",
   "bin",
-  "cli.js",
+  "cli.js"
 );
 
 async function waitForServer(url, timeoutMs = 10000) {
@@ -53,7 +53,7 @@ async function run() {
       {
         stdio: "inherit",
         shell: process.platform === "win32",
-      },
+      }
     );
     if (!(await waitForServer(healthUrl))) {
       console.error("[a11y-stories] Unable to reach Storybook at", baseUrl);
@@ -67,7 +67,7 @@ async function run() {
     const result = spawnSync(
       process.execPath,
       [axeCliPath, url, "--exit", "--load-delay", "1000"],
-      { stdio: "inherit" },
+      { stdio: "inherit" }
     );
 
     if (result.status !== 0) {

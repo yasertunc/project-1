@@ -1,13 +1,47 @@
-## Generated / build artifacts
-storybook-static/**
-dist/**
-coverage/**
+# Dependencies
+node_modules/
+package-lock.json
+pnpm-lock.json
+yarn.lock
 
-## Visual regression artifacts
-tests/visual/**/__screenshots__/**
-tests/visual/**-snapshots/**
-test-results/**
+# Build outputs
+dist/
+storybook-static/
+coverage/
+.nyc_output/
 
-## Tooling leftovers
+# Generated files
+*.tsbuildinfo
+.expo/
+.expo-shared/
+
+# Mobile native
+apps/mobile/ios/
+apps/mobile/android/
+
+# Logs
 *.log
+npm-debug.log*
 
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Test results
+test-results/
+.playwright/
+
+# Artifacts
+apps/mobile/artifacts/
+*.aab
+*.apk
+*.ipa
+
+# Lock files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

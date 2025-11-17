@@ -2,7 +2,7 @@ import i18n from "./setup";
 
 export function formatNumber(
   value: number,
-  options?: Intl.NumberFormatOptions,
+  options?: Intl.NumberFormatOptions
 ) {
   const lng = i18n.language || "en";
   return new Intl.NumberFormat(lng, options).format(value);
@@ -10,7 +10,7 @@ export function formatNumber(
 
 export function formatDate(
   value: Date | number | string,
-  options?: Intl.DateTimeFormatOptions,
+  options?: Intl.DateTimeFormatOptions
 ) {
   const lng = i18n.language || "en";
   const date = value instanceof Date ? value : new Date(value);

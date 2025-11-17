@@ -14,17 +14,17 @@ export const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <label className="block">
-      {label && <div className="mb-1 text-sm text-ink-700">{label}</div>}
+      {label && <div className="mb-1 text-sm text-text-secondary">{label}</div>}
       <div
-        className={`flex items-center gap-2 rounded-pill bg-muted-100 px-3 py-2 focus-within:ring-2 ring-primary-400 ${error ? "ring-danger-500" : ""}`}
+        className={`flex items-center gap-2 rounded-pill bg-background-light px-3 py-2 focus-within:ring-2 ring-primary-light ${error ? "ring-semantic-error" : ""}`}
       >
         {leftIcon && <span aria-hidden>{leftIcon}</span>}
         <input
-          className={`bg-transparent outline-none flex-1 text-ink-900 placeholder:text-ink-500 ${className}`}
+          className={`bg-transparent outline-none flex-1 text-text-primary placeholder:text-text-tertiary ${className}`}
           {...props}
         />
       </div>
-      {error && <div className="mt-1 text-[11px] text-danger-500">{error}</div>}
+      {error && <div className="mt-1 text-[11px] text-semantic-error">{error}</div>}
     </label>
   );
 };

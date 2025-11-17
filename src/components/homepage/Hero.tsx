@@ -23,13 +23,13 @@ export default function Hero({
     >
       <h1
         id="homepage-hero-title"
-        className="text-3xl font-bold text-gray-900 md:text-5xl"
+        className="text-3xl font-bold text-text-primary md:text-5xl"
       >
         {title}
       </h1>
 
       {subtitle ? (
-        <p className="mt-4 max-w-2xl text-base text-gray-500 md:text-lg">
+        <p className="mt-4 max-w-2xl text-base text-text-secondary md:text-lg">
           {subtitle}
         </p>
       ) : null}
@@ -38,7 +38,7 @@ export default function Hero({
         <button
           type="button"
           onClick={onCtaClick}
-          className="mt-8 rounded-full px-6 py-3 text-white shadow-md focus:outline-none focus:ring bg-[color:var(--color-primary-700,#1d4ed8)]"
+          className="mt-8 rounded-full px-6 py-3 text-white shadow-md focus:outline-none focus:ring bg-primary-main"
           aria-label={ctaLabel}
         >
           {ctaLabel}

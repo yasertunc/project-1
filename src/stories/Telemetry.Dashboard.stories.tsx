@@ -16,19 +16,19 @@ const StatCard: React.FC<StatCardProps> = ({
 }) => {
   const ring =
     status === "bad"
-      ? "ring-danger-500"
+      ? "ring-semantic-error"
       : status === "warn"
-        ? "ring-[var(--color-accent-amber-500)]"
-        : "ring-primary-400";
+        ? "ring-semantic-warning"
+        : "ring-primary-light";
   return (
     <div
       className={`rounded-2xl bg-white p-4 shadow focus-within:${ring}`}
       tabIndex={0}
       aria-label={`${label} ${value}${help ? `. ${help}` : ""}`}
     >
-      <div className="text-xs text-ink-700">{label}</div>
-      <div className="mt-1 text-2xl font-semibold text-ink-900">{value}</div>
-      {help && <div className="mt-1 text-xs text-ink-500">{help}</div>}
+      <div className="text-xs text-text-secondary">{label}</div>
+      <div className="mt-1 text-2xl font-semibold text-text-primary">{value}</div>
+      {help && <div className="mt-1 text-xs text-text-tertiary">{help}</div>}
     </div>
   );
 };
@@ -59,13 +59,13 @@ export const Overview: Story = {
       <div
         style={{
           padding: 16,
-          background: "var(--muted-50)",
+          background: "var(--color-background-light)",
           minHeight: "100vh",
         }}
       >
         <div className="grid gap-12">
           <section>
-            <h2 className="mb-3 text-xl font-semibold text-ink-900">Queue</h2>
+            <h2 className="mb-3 text-xl font-semibold text-text-primary">Queue</h2>
             <div className="grid gap-12 md:grid-cols-4">
               <StatCard
                 label="Depth"
@@ -87,7 +87,7 @@ export const Overview: Story = {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-semibold text-ink-900">
+            <h2 className="mb-3 text-xl font-semibold text-text-primary">
               Matching
             </h2>
             <div className="grid gap-12 md:grid-cols-4">
@@ -111,7 +111,7 @@ export const Overview: Story = {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-semibold text-ink-900">
+            <h2 className="mb-3 text-xl font-semibold text-text-primary">
               Acceptance
             </h2>
             <div className="grid gap-12 md:grid-cols-4">
@@ -129,7 +129,7 @@ export const Overview: Story = {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-semibold text-ink-900">Channel</h2>
+            <h2 className="mb-3 text-xl font-semibold text-text-primary">Channel</h2>
             <div className="grid gap-12 md:grid-cols-4">
               <StatCard
                 label="Open latency p95"

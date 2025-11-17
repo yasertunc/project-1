@@ -1,85 +1,244 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "modes": ["light", "dark"],
+  "designSystem": {
+    "colors": {
+      "primary": {
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "main": "#667eea",
+        "dark": "#764ba2",
+        "light": "#8b9ef8"
+      },
+      "vip": {
+        "gradient": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+        "main": "#FFD700",
+        "dark": "#FFA500",
+        "light": "#FFE44D"
+      },
+      "semantic": {
+        "success": "#26de81",
+        "error": "#ff4444",
+        "warning": "#FFA500",
+        "info": "#4285F4",
+        "online": "#26de81",
+        "offline": "#95a5a6"
+      },
+      "background": {
+        "light": "#f5f7fa",
+        "medium": "#e3e9f3",
+        "dark": "#1a1a1a"
+      },
+      "surface": {
+        "white": "#ffffff",
+        "gray": "#f8f9fa"
+      },
+      "text": {
+        "primary": "#333333",
+        "secondary": "#666666",
+        "tertiary": "#999999",
+        "disabled": "#cccccc"
+      },
+      "border": {
+        "light": "rgba(0,0,0,0.05)",
+        "medium": "rgba(0,0,0,0.1)",
+        "dark": "rgba(0,0,0,0.2)"
+      },
+      "mapElements": {
+        "streets": "linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)",
+        "buildings": "linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)",
+        "parks": "linear-gradient(135deg, #55efc4 0%, #00b894 100%)",
+        "water": "linear-gradient(90deg, #74b9ff 0%, #0984e3 50%, #74b9ff 100%)"
+      },
+      "markers": {
+        "bank": "linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)",
+        "money": "linear-gradient(135deg, #26de81 0%, #20bf6b 100%)",
+        "hospital": "linear-gradient(135deg, #4ecdc4 0%, #44a3aa 100%)",
+        "food": "linear-gradient(135deg, #a55eea 0%, #8854d0 100%)",
+        "gas": "linear-gradient(135deg, #fc5c65 0%, #eb3b5a 100%)"
+      }
+    },
+    "typography": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
+      "sizes": {
+        "xxl": "28px",
+        "xl": "24px",
+        "large": "20px",
+        "title": "18px",
+        "body": "16px",
+        "medium": "14px",
+        "small": "13px",
+        "tiny": "12px",
+        "micro": "11px",
+        "nav": "13px"
+      },
+      "weights": {
+        "thin": 300,
+        "regular": 400,
+        "medium": 500,
+        "semibold": 600,
+        "bold": 700,
+        "black": 900
+      }
+    },
+    "spacing": {
+      "xxs": "4px",
+      "xs": "8px",
+      "sm": "12px",
+      "md": "16px",
+      "lg": "20px",
+      "xl": "24px",
+      "xxl": "32px",
+      "xxxl": "48px"
+    },
+    "borderRadius": {
+      "none": "0",
+      "xs": "4px",
+      "sm": "8px",
+      "md": "12px",
+      "lg": "16px",
+      "xl": "20px",
+      "xxl": "25px",
+      "round": "50%",
+      "phone": "40px",
+      "screen": "30px",
+      "card": "15px",
+      "button": "10px",
+      "input": "12px"
+    },
+    "shadows": {
+      "elevation0": "none",
+      "elevation1": "0 1px 3px rgba(0, 0, 0, 0.05)",
+      "elevation2": "0 2px 8px rgba(0, 0, 0, 0.08)",
+      "elevation3": "0 4px 12px rgba(0, 0, 0, 0.12)",
+      "elevation4": "0 6px 16px rgba(0, 0, 0, 0.15)",
+      "elevation5": "0 10px 20px rgba(0, 0, 0, 0.2)",
+      "elevation6": "0 25px 50px rgba(0, 0, 0, 0.3)",
+      "colored": "0 4px 12px rgba(102, 126, 234, 0.4)",
+      "coloredVip": "0 4px 12px rgba(255, 193, 7, 0.4)",
+      "coloredSuccess": "0 4px 12px rgba(38, 222, 129, 0.4)"
+    },
+    "animations": {
+      "duration": {
+        "fast": "0.1s",
+        "normal": "0.2s",
+        "medium": "0.3s",
+        "slow": "0.5s"
+      },
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  },
   "light": {
     "colors": {
       "primary": {
-        "700": "#1D4ED8",
-        "600": "#3B82F6",
-        "400": "#60A5FA"
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "main": "#667eea",
+        "dark": "#764ba2",
+        "light": "#8b9ef8"
       },
-      "accent": {
-        "amber": {
-          "500": "#F59E0B"
-        }
+      "vip": {
+        "gradient": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+        "main": "#FFD700",
+        "dark": "#FFA500",
+        "light": "#FFE44D"
       },
-      "success": {
-        "500": "#10B981"
+      "semantic": {
+        "success": "#26de81",
+        "error": "#ff4444",
+        "warning": "#FFA500",
+        "info": "#4285F4",
+        "online": "#26de81",
+        "offline": "#95a5a6"
       },
-      "danger": {
-        "500": "#EF4444"
+      "background": {
+        "light": "#f5f7fa",
+        "medium": "#e3e9f3",
+        "dark": "#1a1a1a"
       },
-      "ink": {
-        "900": "#0F172A",
-        "700": "#334155",
-        "500": "#64748B"
+      "surface": {
+        "white": "#ffffff",
+        "gray": "#f8f9fa"
       },
-      "surface": "#FFFFFF",
-      "muted": {
-        "50": "#F8FAFC",
-        "100": "#F1F5F9"
+      "text": {
+        "primary": "#333333",
+        "secondary": "#666666",
+        "tertiary": "#999999",
+        "disabled": "#cccccc"
+      },
+      "border": {
+        "light": "rgba(0,0,0,0.05)",
+        "medium": "rgba(0,0,0,0.1)",
+        "dark": "rgba(0,0,0,0.2)"
+      },
+      "mapElements": {
+        "streets": "linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)",
+        "buildings": "linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)",
+        "parks": "linear-gradient(135deg, #55efc4 0%, #00b894 100%)",
+        "water": "linear-gradient(90deg, #74b9ff 0%, #0984e3 50%, #74b9ff 100%)"
+      },
+      "markers": {
+        "bank": "linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)",
+        "money": "linear-gradient(135deg, #26de81 0%, #20bf6b 100%)",
+        "hospital": "linear-gradient(135deg, #4ecdc4 0%, #44a3aa 100%)",
+        "food": "linear-gradient(135deg, #a55eea 0%, #8854d0 100%)",
+        "gas": "linear-gradient(135deg, #fc5c65 0%, #eb3b5a 100%)"
       }
-    },
-    "radius": {
-      "sm": 8,
-      "md": 12,
-      "lg": 16,
-      "xl": 20,
-      "pill": 9999
-    },
-    "elevation": {
-      "e1": "0 2 8 0 / 0.08",
-      "e2": "0 8 24 0 / 0.12"
     }
   },
   "dark": {
     "colors": {
       "primary": {
-        "600": "#60A5FA",
-        "700": "#3B82F6"
+        "gradient": "linear-gradient(135deg, #5b6fd1 0%, #5c3f8f 100%)",
+        "main": "#5b6fd1",
+        "dark": "#5c3f8f",
+        "light": "#7a8de8"
       },
-      "accent": {
-        "amber": {
-          "500": "#F59E0B"
-        }
+      "vip": {
+        "gradient": "linear-gradient(135deg, #d4af37 0%, #c77800 100%)",
+        "main": "#d4af37",
+        "dark": "#c77800",
+        "light": "#e4c757"
       },
-      "success": {
-        "500": "#34D399"
+      "semantic": {
+        "success": "#20bf6b",
+        "error": "#ff6b6b",
+        "warning": "#ffb347",
+        "info": "#6aa9ff",
+        "online": "#20bf6b",
+        "offline": "#7f8c8d"
       },
-      "danger": {
-        "500": "#F87171"
+      "background": {
+        "light": "#242631",
+        "medium": "#1b1d27",
+        "dark": "#10121a"
       },
-      "ink": {
-        "50": "#E5E7EB",
-        "200": "#F3F4F6"
+      "surface": {
+        "white": "#1f2130",
+        "gray": "#2a2d3c"
       },
-      "surface": "#0B1220",
-      "muted": {
-        "600": "#334155",
-        "700": "#1F2937",
-        "800": "#0F172A"
+      "text": {
+        "primary": "#f5f7fa",
+        "secondary": "#d1d5db",
+        "tertiary": "#9ca3af",
+        "disabled": "#6b7280"
+      },
+      "border": {
+        "light": "rgba(255,255,255,0.05)",
+        "medium": "rgba(255,255,255,0.1)",
+        "dark": "rgba(255,255,255,0.2)"
+      },
+      "mapElements": {
+        "streets": "linear-gradient(90deg, #caa700 0%, #d4b800 50%, #caa700 100%)",
+        "buildings": "linear-gradient(135deg, #d4b46a 0%, #b98931 100%)",
+        "parks": "linear-gradient(135deg, #2ecc71 0%, #1e9f60 100%)",
+        "water": "linear-gradient(90deg, #4c75c7 0%, #0a4f91 50%, #4c75c7 100%)"
+      },
+      "markers": {
+        "bank": "linear-gradient(135deg, #ff7f7f 0%, #ff4f4f 100%)",
+        "money": "linear-gradient(135deg, #2fe085 0%, #20bf6b 100%)",
+        "hospital": "linear-gradient(135deg, #5de0d0 0%, #3f9fa1 100%)",
+        "food": "linear-gradient(135deg, #ba7df3 0%, #7a4fc6 100%)",
+        "gas": "linear-gradient(135deg, #ff6b6b 0%, #d64545 100%)"
       }
-    },
-    "radius": {
-      "sm": 8,
-      "md": 12,
-      "lg": 16,
-      "xl": 20,
-      "pill": 9999
-    },
-    "elevation": {
-      "e1": "0 2 8 0 / 0.40",
-      "e2": "0 8 24 0 / 0.50"
     }
   }
 }

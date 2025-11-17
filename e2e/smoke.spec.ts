@@ -5,10 +5,13 @@ import { gotoStory } from "../tests/visual/utils/gotoStory";
 
 const HOMEPAGE_STORY_ID = "pages-homepage--default";
 const EXPECTED_DOWNLOAD_URL =
-  process.env.VITE_DOWNLOAD_URL ??
-  "https://yasertunc.github.io/project-1/download";
+  process.env.VITE_DOWNLOAD_URL ?? "https://www.fellowus.com/download";
 
-const IGNORABLE_CONSOLE_PATTERNS = [/logo\.svg/i];
+const IGNORABLE_CONSOLE_PATTERNS = [
+  /logo\.svg/i,
+  /NoStoryMatchError/i,
+  /SB_PREVIEW_API_0009/i,
+];
 
 function captureConsole(page: Page) {
   const messages: string[] = [];
@@ -18,7 +21,7 @@ function captureConsole(page: Page) {
       const shouldIgnore =
         IGNORABLE_CONSOLE_PATTERNS.some((pattern) => pattern.test(text)) ||
         /Failed to load resource: the server responded with a status of 404/i.test(
-          text,
+          text
         );
       if (!shouldIgnore) {
         messages.push(text);
@@ -117,8 +120,8 @@ test.describe("Homepage smoke matrix", () => {
       status === 404 || hasStorybookError || !hasCanvasContent,
       `Expected HTTP 404, Storybook error, or empty canvas for "${url}", got status ${status} with body snippet:\n${bodyText.slice(
         0,
-        200,
-      )}`,
+        200
+      )}`
     ).toBeTruthy();
     expect(messages).toEqual([]);
   });

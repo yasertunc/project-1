@@ -4,14 +4,14 @@
     "strict": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": [
-      "expo-router"
-    ]
+    "types": ["expo-router"]
   },
   "include": [
     "app",
+    "src",
     "expo-env.d.ts",
     "nativewind.d.ts",
     ".expo/types/**/*.ts"
-  ]
+  ],
+  "exclude": ["node_modules", "dist", ".expo", "ios", "android"]
 }

@@ -13,10 +13,24 @@ export interface MatchingClientOptions {
   getAuthToken?: () => Promise<string | undefined> | string | undefined;
 }
 
+/**
+ * Creates a configured matching API client instance.
+ *
+ * @param opts - Configuration options for the client
+ * @param opts.baseUrl - Base URL for the matching API (defaults to env var or localhost)
+ * @param opts.timeout - Request timeout in milliseconds (default: 30000)
+ * @returns Configured matching client with typed methods
+ *
+ * @example
+ * ```ts
+ * const client = createMatchingClient({ baseUrl: 'https://api.example.com' });
+ * const offer = await client.sendOffer({ matchId: '123', ... });
+ * ```
+ */
 export function createMatchingClient(opts: MatchingClientOptions = {}) {
   const base = (opts.baseUrl ?? "https://staging-api.fellowus.com").replace(
     /\/+$/,
-    "",
+    ""
   );
   const fx = opts.fetchImpl ?? fetch;
 

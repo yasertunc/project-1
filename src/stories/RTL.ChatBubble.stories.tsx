@@ -20,7 +20,7 @@ export const Arabic: Story = {
         dir="rtl"
         style={{
           width: 360,
-          background: "var(--muted-50)",
+          background: "var(--color-background-light)",
           padding: 16,
           borderRadius: 12,
         }}

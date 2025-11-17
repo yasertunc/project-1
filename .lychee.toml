@@ -1,6 +1,0 @@
-exclude = ["http://localhost*", "https://127.0.0.1*", "*.example.com"]
-max_redirects = 5
-timeout = "10s"
-retry_wait_time = "2s"
-retries = 2
-

@@ -14,15 +14,15 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const base =
     "inline-flex items-center justify-center rounded-pill px-4 py-2 text-sm transition " +
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 " +
-    "ring-offset-[var(--muted-50)]";
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 " +
+    "ring-offset-[var(--color-background-light)]";
 
   const variants: Record<string, string> = {
-    primary: "bg-primary-600 text-white hover:bg-primary-400",
-    outline: "border border-ink-700/20 text-ink-900 hover:bg-muted-100",
-    ghost: "text-ink-700 hover:bg-muted-100",
-    secondary: "bg-muted-100 text-ink-900 hover:bg-muted-50",
-    accent: "bg-[var(--color-accent-amber-500)] text-white hover:opacity-90",
+    primary: "bg-primary-main text-white hover:bg-primary-light",
+    outline: "border border-text-secondary/20 text-text-primary hover:bg-background-light",
+    ghost: "text-text-secondary hover:bg-background-light",
+    secondary: "bg-background-light text-text-primary hover:bg-surface-gray",
+    accent: "bg-vip-main text-white hover:opacity-90",
   };
 
   const hasText =

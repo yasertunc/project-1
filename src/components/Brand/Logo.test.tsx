@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
+import { expect } from "vitest";
 
 import { Logo } from "./Logo";
 
@@ -8,7 +9,7 @@ describe("Logo", () => {
     render(<Logo data-testid="brand-logo" />);
     expect(screen.getByTestId("brand-logo")).toHaveAttribute(
       "alt",
-      "Fellowus logo",
+      "Fellowus logo"
     );
   });
 

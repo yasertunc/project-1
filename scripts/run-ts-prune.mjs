@@ -32,7 +32,7 @@ async function run() {
     : ["ts-prune", ...(ignorePattern ? ["--ignore", ignorePattern] : [])];
 
   console.log(
-    `[ts-prune-runner] executing: ${command} ${commandArgs.join(" ")}`,
+    `[ts-prune-runner] executing: ${command} ${commandArgs.join(" ")}`
   );
 
   const child = spawn(command, commandArgs, {
