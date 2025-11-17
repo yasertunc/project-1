@@ -88,21 +88,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Download Lychee artifacts
-        if: steps.context.outputs.skip != 'true' && steps.runs.outputs.link != ''
-        run: |
-          mkdir -p tmp/lychee
-          gh run download ${{ steps.runs.outputs.link }} --repo ${{ github.repository }} --dir tmp/lychee || true
-          echo "LYCHEE_DIR=tmp/lychee" >> $GITHUB_ENV
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Evaluate test statuses
         if: steps.context.outputs.skip != 'true'
         run: |
           STATUS="ℹ️ pending"
-          if [ -n "${{ steps.runs.outputs.health }}" ]; then
-            CONCLUSION=$(gh api repos/${{ github.repository }}/actions/runs/${{ steps.runs.outputs.health }} --jq .conclusion)
+          if [ -n "${{ steps.runs.outputs.ci }}" ]; then
+            CONCLUSION=$(gh api repos/${{ github.repository }}/actions/runs/${{ steps.runs.outputs.ci }} --jq .conclusion)
             if [ "$CONCLUSION" = "success" ]; then
               STATUS="✅"
             else
