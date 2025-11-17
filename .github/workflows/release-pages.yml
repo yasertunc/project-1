@@ -23,14 +23,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Enable corepack
-        run: corepack enable
-
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
+
+      - name: Build tokens
+        run: npm run tokens:build
 
       - name: Build Storybook for production
-        run: pnpm vr
+        run: npm run vr
 
       - name: Upload Storybook artifact
         uses: actions/upload-pages-artifact@v3

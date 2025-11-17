@@ -5,8 +5,7 @@ on:
     workflows:
       - Storybook Preview
       - lighthouse-ci
-      - link-check
-      - CI / health
+      - CI
     types:
       - completed
 
@@ -76,8 +75,7 @@ jobs:
               --jq ".workflow_runs | map(select(.head_sha == \"$HEAD_SHA\")) | first?.id" || true
           }
           echo "lhci=$(get_run lhci.yml)" >> "$GITHUB_OUTPUT"
-          echo "link=$(get_run link-check.yml)" >> "$GITHUB_OUTPUT"
-          echo "health=$(get_run health.yml)" >> "$GITHUB_OUTPUT"
+          echo "ci=$(get_run ci.yml)" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
