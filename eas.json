@@ -32,6 +32,15 @@
         "buildType": "app-bundle"
       }
     },
+    "production-apk": {
+      "autoIncrement": true,
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
     "preview-ios": {
       "distribution": "internal",
       "env": {

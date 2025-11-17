@@ -113,6 +113,80 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         working-directory: apps/mobile
 
+  android-apk:
+    name: Android APK
+    if: ${{ secrets.EXPO_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    env:
+      DOWNLOAD_URL: https://www.fellowus.com/download
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: apps/mobile
+
+      - name: Install EAS CLI
+        run: npm install --global eas-cli
+
+      - name: Run EAS build (android APK)
+        id: build
+        run: |
+          echo "🚀 Starting EAS build for Android APK..."
+          eas build --platform android --profile production-apk --non-interactive
+          echo "✅ Build completed"
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        working-directory: apps/mobile
+
+      - name: Get build ID from output
+        id: get_build_id
+        run: |
+          echo "📦 Getting latest build ID..."
+          BUILD_ID=$(eas build:list --platform android --limit 1 --json | grep -o '"id":"[^"]*' | head -1 | cut -d'"' -f4)
+          if [ -z "$BUILD_ID" ]; then
+            echo "❌ Could not find build ID"
+            exit 1
+          fi
+          echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+          echo "✅ Build ID: $BUILD_ID"
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        working-directory: apps/mobile
+
+      - name: Download artifact and create checksum
+        if: steps.get_build_id.outputs.build_id != ''
+        run: |
+          echo "📥 Downloading build artifacts..."
+          mkdir -p artifacts
+          eas build:download --id ${{ steps.get_build_id.outputs.build_id }} --path artifacts/
+          cd artifacts
+          for file in *.apk; do
+            if [ -f "$file" ]; then
+              sha256sum "$file" > "${file}.sha256"
+              echo "✅ Created checksum for $file"
+            fi
+          done
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        working-directory: apps/mobile
+
+      - name: Upload APK artifact
+        if: steps.get_build_id.outputs.build_id != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: apps/mobile/artifacts/*.apk
+          retention-days: 30
+
   ios:
     name: iOS IPA
     if: ${{ secrets.EXPO_TOKEN != '' && secrets.ASC_API_KEY_ID != '' }}
