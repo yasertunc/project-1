@@ -27,9 +27,20 @@ jobs:
       - name: Install EAS CLI
         run: npm install --global eas-cli
 
+      - name: Prepare service account JSON
+        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 != '' }}
+        run: |
+          mkdir -p apps/mobile/.eas
+          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}" | base64 -d > apps/mobile/.eas/android-service-account.json
+          echo "✅ Service account JSON prepared"
+        working-directory: .
+
       - name: Run EAS build (android)
         id: build
-        run: eas build --platform android --profile production --non-interactive
+        run: |
+          echo "🚀 Starting EAS build for Android..."
+          eas build --platform android --profile production --non-interactive
+          echo "✅ Build completed"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -38,18 +49,17 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         working-directory: apps/mobile
 
-      - name: Get latest build ID
-        if: github.ref_type == 'tag' && startsWith(github.ref_name, 'v')
+      - name: Get build ID from output
         id: get_build_id
         run: |
-          # Get the latest build ID for Android
+          echo "📦 Getting latest build ID..."
           BUILD_ID=$(eas build:list --platform android --limit 1 --json | grep -o '"id":"[^"]*' | head -1 | cut -d'"' -f4)
           if [ -z "$BUILD_ID" ]; then
-            echo "Could not find build ID"
+            echo "❌ Could not find build ID"
             exit 1
           fi
           echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
-          echo "Build ID: $BUILD_ID"
+          echo "✅ Build ID: $BUILD_ID"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         working-directory: apps/mobile
@@ -57,13 +67,14 @@ jobs:
       - name: Download artifact and create checksum
         if: steps.get_build_id.outputs.build_id != ''
         run: |
+          echo "📥 Downloading build artifacts..."
           mkdir -p artifacts
           eas build:download --id ${{ steps.get_build_id.outputs.build_id }} --path artifacts/
           cd artifacts
           for file in *.aab *.apk; do
             if [ -f "$file" ]; then
               sha256sum "$file" > "${file}.sha256"
-              echo "Created checksum for $file"
+              echo "✅ Created checksum for $file"
             fi
           done
         env:
@@ -71,7 +82,7 @@ jobs:
         working-directory: apps/mobile
 
       - name: Create GitHub Release
-        if: steps.get_build_id.outputs.build_id != ''
+        if: github.ref_type == 'tag' && startsWith(github.ref_name, 'v') && steps.get_build_id.outputs.build_id != ''
         uses: softprops/action-gh-release@v1
         with:
           files: apps/mobile/artifacts/*
@@ -92,16 +103,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare service account JSON
-        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 != '' }}
-        run: |
-          mkdir -p apps/mobile/.eas
-          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}" | base64 -d > apps/mobile/.eas/android-service-account.json
-        working-directory: .
-
       - name: Submit to Play Console (internal track)
-        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 != '' }}
-        run: eas submit --platform android --latest --non-interactive --wait
+        if: steps.get_build_id.outputs.build_id != '' && secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 != ''
+        run: |
+          echo "📤 Submitting build ${{ steps.get_build_id.outputs.build_id }} to Play Console internal track..."
+          eas submit --platform android --id ${{ steps.get_build_id.outputs.build_id }} --non-interactive --wait
+          echo "✅ Build submitted successfully to Play Console"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         working-directory: apps/mobile
