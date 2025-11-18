@@ -1,0 +1,54 @@
+# Netlify Configuration
+# HTTPS/SSL otomatik olarak aktif olur
+
+[build]
+  publish = "public"
+  command = "echo 'No build command needed'"
+
+# Redirects - HTTP'den HTTPS'e yönlendirme
+[[redirects]]
+  from = "http://www.fellowus.app/*"
+  to = "https://fellowus.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://fellowus.app/*"
+  to = "https://fellowus.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.fellowus.app/*"
+  to = "https://fellowus.app/:splat"
+  status = 301
+  force = true
+
+# Headers - Security Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Content-Security-Policy = "upgrade-insecure-requests"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Cache Headers
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/assets/**"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+

@@ -8,8 +8,8 @@ The Fellowus backend provides a RESTful API for anonymous matching and conversat
 
 ## Base URL
 
-- **Production**: `https://api.fellowus.com`
-- **Staging**: `https://staging-api.fellowus.com`
+- **Production**: `https://api.fellowus.app/v2`
+- **Staging**: `https://staging.fellowus.app/v2`
 - **Development**: `http://localhost:3000`
 
 ## Authentication
@@ -29,6 +29,7 @@ Authorization: Bearer <token>
 Initiates a matching request. The user is added to a queue and matched with compatible users based on intent, location, and preferences.
 
 **Request Body:**
+
 ```json
 {
   "intent": "route" | "incident" | "social" | "coach",
@@ -49,6 +50,7 @@ Initiates a matching request. The user is added to a queue and matched with comp
 ```
 
 **Response:** `202 Accepted`
+
 ```json
 {
   "matchId": "string",
@@ -58,6 +60,7 @@ Initiates a matching request. The user is added to a queue and matched with comp
 ```
 
 **Error Responses:**
+
 - `400 Bad Request` - Invalid request body
 - `429 Too Many Requests` - Rate limit exceeded
 - `500 Internal Server Error` - Server error
@@ -69,6 +72,7 @@ Initiates a matching request. The user is added to a queue and matched with comp
 Cancels an active matching request.
 
 **Request Body:**
+
 ```json
 {
   "matchId": "string"
@@ -78,6 +82,7 @@ Cancels an active matching request.
 **Response:** `204 No Content`
 
 **Error Responses:**
+
 - `404 Not Found` - Match ID not found
 - `409 Conflict` - Match already completed or cancelled
 
@@ -88,6 +93,7 @@ Cancels an active matching request.
 Retrieves the current status of a match request.
 
 **Response:** `200 OK`
+
 ```json
 {
   "matchId": "string",
@@ -114,6 +120,7 @@ Retrieves the current status of a match request.
 Sends a matching offer to a user. This is typically called by the backend when a compatible match is found.
 
 **Request Body:**
+
 ```json
 {
   "matchId": "string",
@@ -138,6 +145,7 @@ Sends a matching offer to a user. This is typically called by the backend when a
 ```
 
 **Response:** `200 OK`
+
 ```json
 {
   "offerId": "string",
@@ -153,6 +161,7 @@ Sends a matching offer to a user. This is typically called by the backend when a
 Accepts or declines a matching offer.
 
 **Response:** `200 OK`
+
 ```json
 {
   "status": "accepted" | "declined",
@@ -167,6 +176,7 @@ Accepts or declines a matching offer.
 Opens a communication channel between matched users.
 
 **Response:** `200 OK`
+
 ```json
 {
   "channelId": "string",
@@ -191,6 +201,7 @@ Opens a communication channel between matched users.
 Sends a message in a channel.
 
 **Request Body:**
+
 ```json
 {
   "text": "string",
@@ -199,6 +210,7 @@ Sends a message in a channel.
 ```
 
 **Response:** `201 Created`
+
 ```json
 {
   "messageId": "string",
@@ -213,10 +225,12 @@ Sends a message in a channel.
 Retrieves messages from a channel.
 
 **Query Parameters:**
+
 - `limit` (optional): Number of messages to retrieve (default: 50, max: 100)
 - `before` (optional): Message ID to retrieve messages before
 
 **Response:** `200 OK`
+
 ```json
 {
   "messages": [
@@ -247,6 +261,7 @@ Closes a communication channel.
 Reports a user for inappropriate behavior.
 
 **Request Body:**
+
 ```json
 {
   "channelId": "string",
@@ -257,6 +272,7 @@ Reports a user for inappropriate behavior.
 ```
 
 **Response:** `201 Created`
+
 ```json
 {
   "reportId": "string"
@@ -291,6 +307,7 @@ For real-time updates, the API supports WebSocket connections at `/v1/ws`.
 ## Push Notifications
 
 The backend sends push notifications for:
+
 - Matching offers
 - New messages
 - Channel opened/closed
@@ -305,6 +322,7 @@ Push tokens are registered via the mobile app's `registerPushToken` service.
 - **Reports**: 5 reports per hour per IP
 
 Rate limit headers:
+
 ```http
 X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 59
@@ -320,12 +338,13 @@ All errors follow this format:
   "error": {
     "code": "ERROR_CODE",
     "message": "Human-readable error message",
-    "details": {}  // Optional additional details
+    "details": {} // Optional additional details
   }
 }
 ```
 
 Common error codes:
+
 - `INVALID_REQUEST` - Invalid request body or parameters
 - `NOT_FOUND` - Resource not found
 - `RATE_LIMIT_EXCEEDED` - Rate limit exceeded
@@ -359,4 +378,3 @@ Common error codes:
 5. Set up monitoring and logging
 6. Deploy to staging environment
 7. Load testing and optimization
-

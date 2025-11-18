@@ -1,6 +1,6 @@
 # Domain & DNS Setup Guide (20.x)
 
-This guide covers setting up the `fellowus.com` domain and DNS records with Turhost.
+This guide covers setting up the `fellowus.app` domain and DNS records with Turhost.
 
 ## 20.1 DNS Baseline (Turhost Panel)
 
@@ -13,6 +13,7 @@ This guide covers setting up the `fellowus.com` domain and DNS records with Turh
 2. **Configure DNS Records**:
 
    **CNAME Record (www)**:
+
    ```
    Type: CNAME
    Name: www
@@ -21,22 +22,23 @@ This guide covers setting up the `fellowus.com` domain and DNS records with Turh
    ```
 
    **A Records (Apex/@)**:
+
    ```
    Type: A
    Name: @
    Value: 185.199.108.153
    TTL: 3600
-   
+
    Type: A
    Name: @
    Value: 185.199.109.153
    TTL: 3600
-   
+
    Type: A
    Name: @
    Value: 185.199.110.153
    TTL: 3600
-   
+
    Type: A
    Name: @
    Value: 185.199.111.153
@@ -46,6 +48,7 @@ This guide covers setting up the `fellowus.com` domain and DNS records with Turh
 3. **Optional TXT Records**:
 
    **Google Search Console**:
+
    ```
    Type: TXT
    Name: @
@@ -54,6 +57,7 @@ This guide covers setting up the `fellowus.com` domain and DNS records with Turh
    ```
 
    **GitHub Pages**:
+
    ```
    Type: TXT
    Name: _github-pages-challenge-fellowus
@@ -62,6 +66,7 @@ This guide covers setting up the `fellowus.com` domain and DNS records with Turh
    ```
 
    **Firebase/Play Console** (if needed):
+
    ```
    Type: TXT
    Name: @
@@ -79,11 +84,11 @@ This guide covers setting up the `fellowus.com` domain and DNS records with Turh
 
 1. **Add CNAME File** (already done):
    - File: `public/CNAME`
-   - Content: `www.fellowus.com`
+   - Content: `fellowus.app`
 
 2. **Configure in GitHub**:
    - Go to Repository → Settings → Pages
-   - Under "Custom domain", enter: `www.fellowus.com`
+   - Under "Custom domain", enter: `fellowus.app`
    - Check "Enforce HTTPS"
    - Wait for DNS verification
 
@@ -103,6 +108,7 @@ This guide covers setting up the `fellowus.com` domain and DNS records with Turh
 ### HSTS (Optional)
 
 If using a CDN or custom server, configure HSTS:
+
 ```
 Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 ```
@@ -113,25 +119,25 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 1. **Add Property**:
    - Go to [Google Search Console](https://search.google.com/search-console)
-   - Add property: `https://www.fellowus.com`
+   - Add property: `https://fellowus.app`
    - Verify ownership via DNS TXT record or HTML file
 
 2. **Submit Sitemap**:
    - Go to Sitemaps section
-   - Submit: `https://www.fellowus.com/sitemap.xml`
+   - Submit: `https://fellowus.app/sitemap.xml`
 
 ### Play Console
 
 1. **Add Website**:
    - Go to Play Console → App → Store presence → Main store listing
-   - Add website: `https://www.fellowus.com`
+   - Add website: `https://fellowus.app`
    - Verify via DNS TXT record if required
 
 ### Firebase
 
 1. **Add Domain**:
    - Go to Firebase Console → Hosting
-   - Add custom domain: `www.fellowus.com`
+   - Add custom domain: `fellowus.app`
    - Verify via DNS TXT record
 
 ### GitHub Pages
@@ -153,8 +159,8 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 ### Test Redirects
 
-- [ ] `http://fellowus.com` → `https://www.fellowus.com` (if configured)
-- [ ] `http://www.fellowus.com` → `https://www.fellowus.com`
+- [ ] `http://fellowus.app` → `https://fellowus.app` (if configured)
+- [ ] `http://fellowus.app` → `https://fellowus.app`
 
 ## 20.6 Email (Optional)
 
@@ -163,7 +169,7 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 ```
 Type: MX
 Name: @
-Value: mail.fellowus.com (or your email provider)
+Value: mail.fellowus.app (or your email provider)
 Priority: 10
 TTL: 3600
 ```
@@ -191,7 +197,7 @@ TTL: 3600
 ```
 Type: TXT
 Name: _dmarc
-Value: v=DMARC1; p=none; rua=mailto:dmarc@fellowus.com
+Value: v=DMARC1; p=none; rua=mailto:dmarc@fellowus.app
 TTL: 3600
 ```
 
@@ -219,15 +225,15 @@ TTL: 3600
 
 ### Add to GitHub Secrets
 
-- `DOWNLOAD_URL` = `https://www.fellowus.com/download`
-- `SITE_ORIGIN` = `https://www.fellowus.com`
+- `DOWNLOAD_URL` = `https://fellowus.app/download`
+- `SITE_ORIGIN` = `https://fellowus.app`
 
 ### Add to Environment Variables
 
 ```bash
 # .env
-EXPO_PUBLIC_DOWNLOAD_URL=https://www.fellowus.com/download
-EXPO_PUBLIC_SITE_ORIGIN=https://www.fellowus.com
+EXPO_PUBLIC_DOWNLOAD_URL=https://fellowus.app/download
+EXPO_PUBLIC_SITE_ORIGIN=https://fellowus.app
 ```
 
 ## Verification Checklist
@@ -250,13 +256,13 @@ EXPO_PUBLIC_SITE_ORIGIN=https://www.fellowus.com
 
 ```bash
 # Check CNAME
-dig www.fellowus.com CNAME
+dig fellowus.app CNAME
 
 # Check A records
-dig fellowus.com A
+dig fellowus.app A
 
 # Check TXT records
-dig fellowus.com TXT
+dig fellowus.app TXT
 ```
 
 ### Online Tools
@@ -277,11 +283,10 @@ dig fellowus.com TXT
 
 - Ensure "Enforce HTTPS" is enabled in GitHub Pages
 - Wait for SSL certificate provisioning (can take a few hours)
-- Check certificate: `openssl s_client -connect www.fellowus.com:443`
+- Check certificate: `openssl s_client -connect fellowus.app:443`
 
 ### Apex Domain Not Redirecting
 
 - GitHub Pages doesn't support apex domains directly
 - Use DNS provider's redirect feature
 - Or use a service like Cloudflare for redirects
-

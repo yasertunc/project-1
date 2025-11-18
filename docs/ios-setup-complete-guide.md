@@ -64,6 +64,7 @@ ios: {
 ✅ **Already Configured**: `preview-ios` and `production-ios` profiles exist in `eas.json`
 
 **Preview Profile** (for simulator builds):
+
 ```json
 "preview-ios": {
   "ios": {
@@ -73,6 +74,7 @@ ios: {
 ```
 
 **Production Profile** (for device builds):
+
 ```json
 "production-ios": {
   "ios": {
@@ -117,6 +119,7 @@ ios: {
 ### Step 1: Prepare Icon Assets
 
 Create icon files in the following sizes:
+
 - **1024x1024** (App Store icon, required)
 - **180x180** (iPhone 6 Plus and later)
 - **120x120** (iPhone 6 and earlier)
@@ -126,6 +129,7 @@ Create icon files in the following sizes:
 ### Step 2: Prepare Splash Screen
 
 Create splash screen assets:
+
 - **1242x2688** (iPhone XS Max, 11 Pro Max)
 - **828x1792** (iPhone XR, 11)
 - **1242x2208** (iPhone 6 Plus, 7 Plus, 8 Plus)
@@ -158,6 +162,7 @@ npx eas build:configure -p ios
 ### Step 5: Test Safe Area
 
 After first build, test on physical device to ensure:
+
 - Icons display correctly on all device sizes
 - Splash screen respects safe area (notch, home indicator)
 - No content is cut off
@@ -167,6 +172,7 @@ After first build, test on physical device to ensure:
 ### Step 1: Enable Push Notifications Capability
 
 ✅ **Already configured in app.config.ts**:
+
 ```typescript
 ios: {
   infoPlist: {
@@ -201,6 +207,7 @@ ios: {
 ### Step 3: Configure Expo Push Notifications
 
 Expo handles APNs automatically when:
+
 - Push Notifications capability is enabled
 - APNs key is uploaded to EAS
 - `expo-notifications` is installed (✅ already installed)
@@ -208,6 +215,7 @@ Expo handles APNs automatically when:
 ### Step 4: Test Push Notifications
 
 1. **Build with EAS**:
+
    ```bash
    npx eas build -p ios --profile production-ios
    ```
@@ -230,11 +238,12 @@ Expo handles APNs automatically when:
    - Click "Save"
 
 2. **Configure in app.config.ts**:
+
    ```typescript
    ios: {
      associatedDomains: [
-       "applinks:www.fellowus.com",
-       "applinks:fellowus.com",
+       "applinks:fellowus.app",
+       "applinks:fellowus.app",
      ],
    },
    ```
@@ -384,11 +393,11 @@ npx eas submit -p ios --latest --non-interactive
 
 1. **Add Privacy Policy URL**:
    - App Store Connect → App Information
-   - Privacy Policy URL: `https://www.fellowus.com/privacy`
+   - Privacy Policy URL: `https://fellowus.app/privacy`
    - ✅ Already configured in `app.config.ts`
 
 2. **Add Terms of Service URL** (if required):
-   - Terms of Service URL: `https://www.fellowus.com/terms`
+   - Terms of Service URL: `https://fellowus.app/terms`
    - ✅ Already configured in `app.config.ts`
 
 ### App Privacy
@@ -431,55 +440,64 @@ npx eas submit -p ios --latest --non-interactive
    - Example: "events, matching, anonymous, social, meetup"
 
 6. **Support URL**:
-   - Support URL: `https://www.fellowus.com/support` (or contact email)
+   - Support URL: `https://fellowus.app/support` (or contact email)
 
 7. **Marketing URL** (optional):
-   - Marketing URL: `https://www.fellowus.com`
+   - Marketing URL: `https://fellowus.app`
 
 ## Verification Checklist
 
 ### iOS.1 Bundle ID
+
 - [ ] App ID created in Apple Developer Portal
 - [ ] Bundle ID matches `com.fellowus.app`
 - [ ] App created in App Store Connect
 
 ### iOS.2 EAS Profiles
+
 - [ ] `preview-ios` profile configured
 - [ ] `production-ios` profile configured
 
 ### iOS.3 Signing
+
 - [ ] App Store Connect API key created
 - [ ] API key added to GitHub Secrets
 - [ ] Team ID noted
 
 ### iOS.4 Icons/Splash
+
 - [ ] Icon assets prepared (all sizes)
 - [ ] Splash screen assets prepared
 - [ ] Assets validated with EAS
 - [ ] Safe area tested on physical device
 
 ### iOS.5 Push Notifications
+
 - [ ] Push Notifications capability enabled
 - [ ] APNs key created and uploaded to EAS
 - [ ] Test notification sent successfully
 
 ### iOS.6 Capabilities
+
 - [ ] Associated Domains enabled (if using Universal Links)
 - [ ] Background Modes enabled
 - [ ] `apple-app-site-association` file created (if using Universal Links)
 
 ### iOS.7 Device Testing
+
 - [ ] Dev client built and installed
 - [ ] Critical flows tested on physical device
 - [ ] Safe area validated
 
 ### iOS.8 Artifact
+
 - [ ] Production .ipa built successfully
 - [ ] Build submitted to TestFlight
 - [ ] Internal testers added
 - [ ] TestFlight installation successful
 
 ### iOS.9 App Store Connect
+
 - [ ] Internal testing group created
 - [ ] Privacy Policy URL added
 - [ ] App Privacy questionnaire completed
@@ -490,14 +508,17 @@ npx eas submit -p ios --latest --non-interactive
 ### Build Fails
 
 **Error**: "No provisioning profile found"
+
 - **Solution**: Ensure App Store Connect API key is configured correctly
 
 **Error**: "Invalid bundle identifier"
+
 - **Solution**: Verify bundle ID matches App ID in Apple Developer Portal
 
 ### Push Notifications Not Working
 
 **Check**:
+
 - APNs key is uploaded to EAS
 - Push Notifications capability is enabled
 - App has notification permission
@@ -506,9 +527,11 @@ npx eas submit -p ios --latest --non-interactive
 ### TestFlight Upload Fails
 
 **Error**: "Invalid .ipa"
+
 - **Solution**: Ensure build is for device (not simulator), and signing is correct
 
 **Error**: "Missing compliance"
+
 - **Solution**: Complete App Privacy questionnaire in App Store Connect
 
 ## Next Steps
@@ -527,4 +550,3 @@ After completing all iOS setup steps:
 - [App Store Connect Help](https://help.apple.com/app-store-connect/)
 - [Expo iOS Build Guide](https://docs.expo.dev/build/introduction/)
 - [EAS Submit Documentation](https://docs.expo.dev/submit/introduction/)
-

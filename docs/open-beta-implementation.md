@@ -27,19 +27,20 @@ Open beta allows public testing of the app before full production release. This 
    - Click **Create new release**
    - Select the AAB from internal testing (or upload new)
    - Add release notes:
+
      ```
      Open Beta v1.0.0
-     
+
      Welcome to Fellowus Open Beta! This is an early version of the app.
-     
+
      What's new:
      - Initial release
      - Core matching functionality
      - Push notifications
-     
+
      Known issues:
      - [List any known issues]
-     
+
      We appreciate your feedback! Please report issues via [support link].
      ```
 
@@ -66,6 +67,7 @@ Open beta allows public testing of the app before full production release. This 
 ### Step 3: Gradual Rollout
 
 1. **Initial Rollout (10%)**:
+
    ```bash
    # Monitor for 24-48 hours
    # Check crash rate, user feedback, ratings
@@ -86,20 +88,24 @@ Open beta allows public testing of the app before full production release. This 
 #### Key Metrics to Track
 
 **Crash Rate**:
+
 - Target: < 1% crash-free sessions
 - Alert if: > 2% crash-free sessions
 
 **User Feedback**:
+
 - Monitor Play Console reviews
 - Track in-app feedback submissions
 - Monitor support channels
 
 **Performance**:
+
 - App startup time
 - ANR (Application Not Responding) rate
 - Battery usage
 
 **Engagement**:
+
 - Daily active users (DAU)
 - Session length
 - Feature usage
@@ -107,6 +113,7 @@ Open beta allows public testing of the app before full production release. This 
 #### Monitoring Setup
 
 **Play Console Dashboard**:
+
 - Go to **Quality** → **Android vitals**
 - Set up alerts for:
   - Crash rate threshold
@@ -114,6 +121,7 @@ Open beta allows public testing of the app before full production release. This 
   - Slow rendering
 
 **Sentry Alerts**:
+
 ```javascript
 // Configure Sentry alerts for beta releases
 {
@@ -134,6 +142,7 @@ Open beta allows public testing of the app before full production release. This 
 ```
 
 **Google Analytics 4**:
+
 - Create custom events for beta-specific actions
 - Set up conversion tracking
 - Monitor user flows
@@ -143,6 +152,7 @@ Open beta allows public testing of the app before full production release. This 
 #### In-App Feedback
 
 Implement feedback mechanism:
+
 ```typescript
 // apps/mobile/src/components/FeedbackButton.tsx
 import { Button } from 'react-native';
@@ -170,7 +180,7 @@ export function FeedbackButton() {
 
 #### Support Channels
 
-- Email: beta-support@fellowus.com
+- Email: beta-support@fellowus.app
 - Discord: [Beta channel]
 - GitHub Issues: [If public]
 
@@ -179,12 +189,14 @@ export function FeedbackButton() {
 #### Beta Announcement
 
 **Channels**:
+
 - Website blog post
 - Social media (Twitter, LinkedIn)
 - Email newsletter
 - Community Discord
 
 **Message Template**:
+
 ```
 🎉 Fellowus Mobile Open Beta is Live!
 
@@ -239,12 +251,14 @@ Note: This is a beta version. Some features may be incomplete or have bugs.
 ### Step 2: Beta App Review
 
 **Requirements**:
+
 - Complete App Privacy questionnaire
 - Provide demo account (if login required)
 - Ensure app complies with App Store guidelines
 - Include beta disclaimer in app
 
 **Review Process**:
+
 - Typically takes 24-48 hours
 - Apple may request additional information
 - Once approved, public link is active
@@ -252,12 +266,14 @@ Note: This is a beta version. Some features may be incomplete or have bugs.
 ### Step 3: Distribute Public Link
 
 **Share Link**:
+
 - Website: Add TestFlight badge
 - Social media: Share link with instructions
 - Email: Send to beta signup list
 - In-app: Show link to existing users (if applicable)
 
 **Link Format**:
+
 ```
 https://testflight.apple.com/join/[INVITE_CODE]
 ```
@@ -267,12 +283,14 @@ https://testflight.apple.com/join/[INVITE_CODE]
 #### TestFlight Metrics
 
 **App Store Connect Dashboard**:
+
 - Install count
 - Crash reports
 - Feedback submissions
 - Usage statistics
 
 **Key Metrics**:
+
 - Install rate
 - Crash-free sessions
 - User retention
@@ -281,12 +299,13 @@ https://testflight.apple.com/join/[INVITE_CODE]
 #### Sentry Integration
 
 Configure Sentry for TestFlight builds:
+
 ```typescript
 // apps/mobile/app.config.ts
 export default {
   extra: {
     sentryDsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
-    environment: 'testflight-beta',
+    environment: "testflight-beta",
   },
 };
 ```
@@ -302,9 +321,10 @@ export default {
 #### In-App Feedback
 
 Same as Android - implement feedback button:
+
 ```typescript
 // Link to feedback form or support email
-Linking.openURL('mailto:beta-support@fellowus.com?subject=Beta%20Feedback');
+Linking.openURL("mailto:beta-support@fellowus.app?subject=Beta%20Feedback");
 ```
 
 ### Step 6: Updates & Communication
@@ -326,12 +346,14 @@ Linking.openURL('mailto:beta-support@fellowus.com?subject=Beta%20Feedback');
 ### Metrics Thresholds
 
 **Must Meet**:
+
 - [ ] Crash-free sessions > 99%
 - [ ] No P0 bugs for ≥ 7 days
 - [ ] Average rating ≥ 4.0 (if applicable)
 - [ ] No critical security issues
 
 **Should Meet**:
+
 - [ ] User retention ≥ 40% (Day 7)
 - [ ] Feature adoption ≥ 50%
 - [ ] Support ticket volume < 10/day
@@ -340,12 +362,14 @@ Linking.openURL('mailto:beta-support@fellowus.com?subject=Beta%20Feedback');
 ### Go/No-Go Decision
 
 **Go to Production If**:
+
 - All "Must Meet" criteria satisfied
 - At least 3 "Should Meet" criteria satisfied
 - Stakeholder approval received
 - Production release plan ready
 
 **Delay Production If**:
+
 - Any "Must Meet" criteria not met
 - Critical bugs discovered
 - User feedback indicates major issues
@@ -404,4 +428,3 @@ Linking.openURL('mailto:beta-support@fellowus.com?subject=Beta%20Feedback');
 - [Release Preparation](docs/release-prep.md)
 - [Play Console Help](https://support.google.com/googleplay/android-developer)
 - [TestFlight Guide](https://developer.apple.com/testflight/)
-

@@ -9,6 +9,7 @@ TWA allows you to package a PWA as an Android app using Chrome's Trusted Web Act
 ## When to Use TWA
 
 Consider TWA if:
+
 - Your app is primarily web-based
 - You want minimal native code
 - You need Play Store distribution for a PWA
@@ -77,28 +78,28 @@ Create or update `public/manifest.json`:
 Create `public/sw.js` (or use a service worker library):
 
 ```javascript
-const CACHE_NAME = 'fellowus-v1';
+const CACHE_NAME = "fellowus-v1";
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles/main.css',
-  '/scripts/main.js',
-  '/icon-192.png',
-  '/icon-512.png'
+  "/",
+  "/index.html",
+  "/styles/main.css",
+  "/scripts/main.js",
+  "/icon-192.png",
+  "/icon-512.png",
 ];
 
 // Install event
-self.addEventListener('install', (event) => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
   );
 });
 
 // Fetch event
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request)
+    caches
+      .match(event.request)
       .then((response) => response || fetch(event.request))
   );
 });
@@ -108,17 +109,19 @@ Register service worker in your HTML:
 
 ```html
 <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-    .then((registration) => console.log('SW registered'))
-    .catch((error) => console.log('SW registration failed'));
-}
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((registration) => console.log("SW registered"))
+      .catch((error) => console.log("SW registration failed"));
+  }
 </script>
 ```
 
 ### Step 3: HTTPS Requirement
 
 TWA requires HTTPS. Ensure your domain:
+
 - Has valid SSL certificate
 - Redirects HTTP to HTTPS
 - Uses HSTS headers (optional but recommended)
@@ -128,21 +131,22 @@ TWA requires HTTPS. Ensure your domain:
 Create `.well-known/assetlinks.json` on your domain:
 
 ```json
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.fellowus.app",
-    "sha256_cert_fingerprints": [
-      "YOUR_APP_SHA256_FINGERPRINT"
-    ]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.fellowus.app",
+      "sha256_cert_fingerprints": ["YOUR_APP_SHA256_FINGERPRINT"]
+    }
   }
-}]
+]
 ```
 
-**Place at**: `https://www.fellowus.com/.well-known/assetlinks.json`
+**Place at**: `https://fellowus.app/.well-known/assetlinks.json`
 
 **Get SHA256 fingerprint**:
+
 ```bash
 # After building TWA (see TWA.2)
 keytool -list -v -keystore your-keystore.jks -alias your-alias
@@ -157,13 +161,14 @@ Test PWA compliance:
 npm install -g lighthouse
 
 # Test PWA
-lighthouse https://www.fellowus.com --view
+lighthouse https://fellowus.app --view
 
 # Or use Chrome DevTools
 # Application → Manifest → Check all items
 ```
 
 **PWA Checklist**:
+
 - [ ] Manifest file valid and accessible
 - [ ] Service worker registered and working
 - [ ] HTTPS enabled
@@ -190,7 +195,7 @@ npm install -g @bubblewrap/cli
 
 ```bash
 # Initialize TWA project
-bubblewrap init --manifest https://www.fellowus.com/manifest.json
+bubblewrap init --manifest https://fellowus.app/manifest.json
 
 # Follow prompts:
 # - Application ID: com.fellowus.app
@@ -208,7 +213,7 @@ bubblewrap init --manifest https://www.fellowus.com/manifest.json
 2. File → New → New Project
 3. Select "Trusted Web Activity"
 4. Enter package name: `com.fellowus.app`
-5. Enter start URL: `https://www.fellowus.com`
+5. Enter start URL: `https://fellowus.app`
 
 ### Step 3: Configure TWA
 
@@ -223,7 +228,7 @@ bubblewrap init --manifest https://www.fellowus.com/manifest.json
         android:resource="@string/asset_statements" />
     <meta-data
         android:name="webManifestUrl"
-        android:value="https://www.fellowus.com/manifest.json" />
+        android:value="https://fellowus.app/manifest.json" />
     <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
@@ -233,7 +238,7 @@ bubblewrap init --manifest https://www.fellowus.com/manifest.json
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="https"
-              android:host="www.fellowus.com" />
+              android:host="fellowus.app" />
     </intent-filter>
 </activity>
 ```
@@ -246,7 +251,7 @@ bubblewrap init --manifest https://www.fellowus.com/manifest.json
         \"relation\": [\"delegate_permission/common.handle_all_urls\"],
         \"target\": {
             \"namespace\": \"web\",
-            \"site\": \"https://www.fellowus.com\"
+            \"site\": \"https://fellowus.app\"
         }
     }]
 </string>
@@ -255,6 +260,7 @@ bubblewrap init --manifest https://www.fellowus.com/manifest.json
 ### Step 4: Generate Signed AAB
 
 1. **Create Keystore** (if not exists):
+
    ```bash
    keytool -genkey -v -keystore fellowus-release.jks \
      -keyalg RSA -keysize 2048 -validity 10000 \
@@ -262,6 +268,7 @@ bubblewrap init --manifest https://www.fellowus.com/manifest.json
    ```
 
 2. **Configure Signing** in `app/build.gradle`:
+
    ```gradle
    android {
        signingConfigs {
@@ -281,6 +288,7 @@ bubblewrap init --manifest https://www.fellowus.com/manifest.json
    ```
 
 3. **Build AAB**:
+
    ```bash
    ./gradlew bundleRelease
    ```
@@ -290,11 +298,13 @@ bubblewrap init --manifest https://www.fellowus.com/manifest.json
 ### Step 5: Test TWA
 
 1. **Build APK for testing**:
+
    ```bash
    ./gradlew assembleRelease
    ```
 
 2. **Install on device**:
+
    ```bash
    adb install app/build/outputs/apk/release/app-release.apk
    ```
@@ -316,25 +326,28 @@ keytool -list -v -keystore fellowus-release.jks -alias fellowus
 Update `.well-known/assetlinks.json` with the fingerprint:
 
 ```json
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.fellowus.app",
-    "sha256_cert_fingerprints": [
-      "AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99"
-    ]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.fellowus.app",
+      "sha256_cert_fingerprints": [
+        "AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99"
+      ]
+    }
   }
-}]
+]
 ```
 
 Verify asset links:
+
 ```bash
 # Test asset links
-curl https://www.fellowus.com/.well-known/assetlinks.json
+curl https://fellowus.app/.well-known/assetlinks.json
 
 # Verify with Google tool
-# https://digitalassetlinks.googleapis.com/v1/statements:list?source.web.site=https://www.fellowus.com&relation=delegate_permission/common.handle_all_urls
+# https://digitalassetlinks.googleapis.com/v1/statements:list?source.web.site=https://fellowus.app&relation=delegate_permission/common.handle_all_urls
 ```
 
 ## CI/CD Integration
@@ -347,20 +360,20 @@ name: TWA Build
 on:
   push:
     branches: [main]
-    tags: ['v*']
+    tags: ["v*"]
 
 jobs:
   build-twa:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-      
+          java-version: "17"
+          distribution: "temurin"
+
       - name: Build AAB
         run: |
           cd android
@@ -368,7 +381,7 @@ jobs:
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-      
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -378,15 +391,15 @@ jobs:
 
 ## Comparison: TWA vs Expo vs Capacitor
 
-| Feature | TWA | Expo | Capacitor |
-|---------|-----|------|-----------|
-| Native Code | ❌ None | ✅ Limited | ✅ Full |
-| Web Technologies | ✅ Full web | ⚠️ React Native | ✅ Full web |
-| Build Process | ⚠️ Manual | ✅ Cloud | ⚠️ Manual |
-| Offline Support | ✅ Service Worker | ⚠️ Limited | ✅ Service Worker |
-| Push Notifications | ⚠️ Web Push | ✅ Native | ✅ Native |
-| App Store | ⚠️ Android only | ✅ Both | ✅ Both |
-| Development Speed | ✅ Fastest | ✅ Fast | ⚠️ Slower |
+| Feature            | TWA               | Expo            | Capacitor         |
+| ------------------ | ----------------- | --------------- | ----------------- |
+| Native Code        | ❌ None           | ✅ Limited      | ✅ Full           |
+| Web Technologies   | ✅ Full web       | ⚠️ React Native | ✅ Full web       |
+| Build Process      | ⚠️ Manual         | ✅ Cloud        | ⚠️ Manual         |
+| Offline Support    | ✅ Service Worker | ⚠️ Limited      | ✅ Service Worker |
+| Push Notifications | ⚠️ Web Push       | ✅ Native       | ✅ Native         |
+| App Store          | ⚠️ Android only   | ✅ Both         | ✅ Both           |
+| Development Speed  | ✅ Fastest        | ✅ Fast         | ⚠️ Slower         |
 
 ## Limitations
 
@@ -400,18 +413,21 @@ jobs:
 ### Asset Links Not Working
 
 **Error**: "App not verified"
+
 - **Solution**: Verify `assetlinks.json` is accessible and correctly formatted
 - **Check**: SHA256 fingerprint matches keystore
 
 ### App Opens in Browser
 
 **Error**: App opens in Chrome instead of standalone
+
 - **Solution**: Verify asset links are correctly configured
 - **Check**: Manifest has `display: "standalone"`
 
 ### Service Worker Not Working
 
 **Error**: Offline functionality not working
+
 - **Solution**: Verify service worker is registered
 - **Check**: HTTPS is enabled
 
@@ -431,4 +447,3 @@ After completing TWA setup:
 3. Monitor performance and user feedback
 4. Consider iOS PWA or Capacitor for iOS support
 5. Implement Web Push for notifications
-
