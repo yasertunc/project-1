@@ -272,7 +272,7 @@
 
     19.1 ✅ Inspiration: Waze’s clean, user-friendly approach
 
-20. ✅ **Domain & DNS (fellowus.app)** — **Provider: Turhost** 🆕
+20. ✅ **Domain & DNS (www.fellowus.com)** — **Provider: Turhost** 🆕
 
     20.1 ✅ **DNS baseline (Turhost Panel)**
 
