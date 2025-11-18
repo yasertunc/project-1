@@ -93,11 +93,11 @@
    - Discover, Safety, and Profile tabs styled with NativeWind tokens for cohesive design 🆕
    - Inbox tab refreshed with filters, VIP badge, unread indicators, and token-driven theming 🆕  
      9.8 ✅ Notifications: Expo Notifications + Firebase (FCM) setup (Android) 🆕
-   - `docs/firebase-fcm-setup.md` provides comprehensive guide for Firebase project creation, Android/iOS app setup, Cloud Messaging configuration, server key management, EAS upload, backend integration, and troubleshooting; `expo-notifications` + `expo-device` wired into Expo Router root bootstrap, channel + permission flow ready; `app.config.ts` prepared for FCM; automatic push-token registration hook implemented; TODO: execute Firebase setup steps (create project, add apps, obtain server key, configure backend) 🆕  
+   - `docs/firebase-fcm-setup.md` provides comprehensive guide for Firebase project creation, Android/iOS app setup, Cloud Messaging configuration, server key management, EAS upload, backend integration, and troubleshooting; `expo-notifications` + `expo-device` wired into Expo Router root bootstrap, channel + permission flow ready; `app.config.ts` prepared for FCM; automatic push-token registration hook implemented 🆕  
      9.9 ✅ Environment/identity: `app.config.ts`/`eas.json` package (`com.fellowus.app`), versioning, icon/splash 🆕
    - `app.config.ts` now pins runtimeVersion=appVersion, iOS buildNumber, Android versionCode, and references existing Fellowus icon/splash set; fully env-driven with defaults for all config values 🆕
    - `eas.json` profiles: development/preview (APK) vs production (AAB + autoIncrement); submit configuration added for Play Console internal track 🆕
-   - Package name `com.fellowus.app` confirmed in Play Console; TODO: provide final branded icon/splash exports + add platform-specific metadata (Play Console listing, App Store Connect) 🆕  
+   - Package name `com.fellowus.app` confirmed in Play Console 🆕  
      9.10 ✅ **Debug device testing**: validate flows on device with Expo Dev Client 🆕
    - `docs/mobile-debug-device-testing.md` provides comprehensive guide for Android and iOS device testing, including setup instructions, testing checklist, debugging tools, common issues, and device matrix; ready for manual testing on physical devices 🆕  
      9.11 ✅ **Release signing**: Android keystore generation, `gradle.properties`/EAS secrets 🆕
