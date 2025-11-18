@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://fellowus.com/schemas/common.json",
+  "$id": "https://fellowus.app/schemas/common.json",
   "title": "Fellowus Event – Common",
   "type": "object",
   "properties": {

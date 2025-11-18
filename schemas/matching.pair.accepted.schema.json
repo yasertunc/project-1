@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://fellowus.com/schemas/matching.pair.accepted.schema.json",
+  "$id": "https://fellowus.app/schemas/matching.pair.accepted.schema.json",
   "title": "matching.pair.accepted",
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://fellowus.com/schemas/common.json"
+      "$ref": "https://fellowus.app/schemas/common.json"
     }
   ],
   "properties": {
