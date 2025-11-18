@@ -7,20 +7,20 @@
 
 # Redirects - HTTP'den HTTPS'e yönlendirme
 [[redirects]]
-  from = "http://www.fellowus.app/*"
-  to = "https://fellowus.app/:splat"
+  from = "http://www.fellowus.com/*"
+  to = "https://www.fellowus.com/:splat"
   status = 301
   force = true
 
 [[redirects]]
-  from = "http://fellowus.app/*"
-  to = "https://fellowus.app/:splat"
+  from = "http://fellowus.com/*"
+  to = "https://www.fellowus.com/:splat"
   status = 301
   force = true
 
 [[redirects]]
-  from = "https://www.fellowus.app/*"
-  to = "https://fellowus.app/:splat"
+  from = "https://fellowus.com/*"
+  to = "https://www.fellowus.com/:splat"
   status = 301
   force = true
 

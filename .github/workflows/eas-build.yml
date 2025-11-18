@@ -208,7 +208,36 @@ jobs:
         run: npm install --global eas-cli
 
       - name: Run EAS build (ios)
+        id: build_ios
         run: eas build --platform ios --profile production-ios --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EXPO_APPLE_APP_STORE_CONNECT_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
+          EXPO_APPLE_APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          EXPO_APPLE_APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.ASC_API_KEY_P8 }}
+        working-directory: apps/mobile
+
+      - name: Get iOS build ID from output
+        id: get_ios_build_id
+        run: |
+          echo "📦 Getting latest iOS build ID..."
+          BUILD_ID=$(eas build:list --platform ios --limit 1 --json | grep -o '"id":"[^"]*' | head -1 | cut -d'"' -f4)
+          if [ -z "$BUILD_ID" ]; then
+            echo "❌ Could not find iOS build ID"
+            exit 1
+          fi
+          echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+          echo "✅ iOS Build ID: $BUILD_ID"
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        working-directory: apps/mobile
+
+      - name: Submit to App Store Connect (TestFlight)
+        if: steps.get_ios_build_id.outputs.build_id != '' && secrets.ASC_API_KEY_ID != ''
+        run: |
+          echo "📤 Submitting iOS build ${{ steps.get_ios_build_id.outputs.build_id }} to App Store Connect..."
+          eas submit --platform ios --id ${{ steps.get_ios_build_id.outputs.build_id }} --non-interactive --wait
+          echo "✅ Build submitted successfully to App Store Connect"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           EXPO_APPLE_APP_STORE_CONNECT_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}

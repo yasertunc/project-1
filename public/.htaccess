@@ -3,10 +3,10 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  RewriteCond %{HTTP_HOST} ^www\.fellowus\.app$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^(www\.)?fellowus\.com$ [NC]
   RewriteCond %{HTTP:X-Forwarded-Proto} !https [OR]
   RewriteCond %{HTTPS} off
-  RewriteRule ^(.*)$ https://fellowus.app/$1 [L,R=301]
+  RewriteRule ^(.*)$ https://www.fellowus.com/$1 [L,R=301]
 </IfModule>
 
 # Security Headers

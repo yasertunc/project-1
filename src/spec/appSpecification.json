@@ -39,7 +39,7 @@
           "css": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
         },
         "solid": {
-        "main": "#667eea",
+          "main": "#667eea",
           "dark": "#764ba2",
           "light": "#8b9ef8"
         },
@@ -53,7 +53,7 @@
           "css": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)"
         },
         "solid": {
-        "main": "#FFD700",
+          "main": "#FFD700",
           "dark": "#FFA500",
           "light": "#FFE44D"
         },
@@ -70,14 +70,14 @@
       },
       "neutral": {
         "white": "#ffffff",
-      "background": {
-        "light": "#f5f7fa",
-        "medium": "#e3e9f3",
-        "dark": "#1a1a1a"
-      },
-      "text": {
-        "primary": "#333333",
-        "secondary": "#666666",
+        "background": {
+          "light": "#f5f7fa",
+          "medium": "#e3e9f3",
+          "dark": "#1a1a1a"
+        },
+        "text": {
+          "primary": "#333333",
+          "secondary": "#666666",
           "tertiary": "#999999",
           "disabled": "#cccccc"
         },
@@ -316,7 +316,7 @@
           ]
         }
       },
-    "navigation": {
+      "navigation": {
         "swipe": {
           "type": "horizontal",
           "sections": 2,
@@ -383,37 +383,37 @@
           "iteration": "infinite",
           "opacity": "0.3 → 1 → 0.3"
         }
-    }
-  },
-  "layout": {
+      }
+    },
+    "layout": {
       "device": {
         "container": {
-      "width": "375px",
-      "height": "812px",
-      "borderRadius": "40px",
-      "padding": "10px",
+          "width": "375px",
+          "height": "812px",
+          "borderRadius": "40px",
+          "padding": "10px",
           "background": "#1a1a1a",
           "shadow": "0 25px 50px rgba(0, 0, 0, 0.3)"
-    },
-    "screen": {
-      "borderRadius": "30px",
+        },
+        "screen": {
+          "borderRadius": "30px",
           "background": "#ffffff",
           "overflow": "hidden"
         }
-    },
+      },
       "structure": {
-    "statusBar": {
-      "height": "44px",
+        "statusBar": {
+          "height": "44px",
           "background": "linear-gradient(to bottom, #f8f9fa, #ffffff)",
           "borderBottom": "1px solid rgba(0,0,0,0.05)",
-      "elements": {
-        "time": {
-          "position": "left",
+          "elements": {
+            "time": {
+              "position": "left",
               "fontWeight": 600,
               "realTime": true
-        },
-        "statusIcons": {
-          "position": "right",
+            },
+            "statusIcons": {
+              "position": "right",
               "icons": ["signal", "wifi", "battery"]
             }
           }
@@ -435,8 +435,8 @@
           "scrolling": "smooth"
         },
         "inputBar": {
-      "height": "70px",
-      "background": "#ffffff",
+          "height": "70px",
+          "background": "#ffffff",
           "borderRadius": "20px 20px 0 0",
           "padding": "15px",
           "shadow": "0 -4px 20px rgba(0, 0, 0, 0.1)"
@@ -468,19 +468,19 @@
         },
         "vipButton": {
           "type": "SpecialButton",
-              "style": {
+          "style": {
             "background": "vip-gradient",
-                "borderRadius": "0",
+            "borderRadius": "0",
             "animation": "shine",
-                "fontWeight": 700,
+            "fontWeight": 700,
             "width": "auto",
             "padding": "15px 8px"
           }
         },
         "settingsButton": {
           "type": "IconButton",
-            "icon": "⚙",
-            "fontSize": "22px",
+          "icon": "⚙",
+          "fontSize": "22px",
           "width": "45px"
         }
       },
@@ -597,7 +597,16 @@
             "title": "İlgi Alanları",
             "type": "TagFilter",
             "multiSelect": true,
-            "categories": ["music", "sports", "tech", "art", "travel", "food", "books", "movies"]
+            "categories": [
+              "music",
+              "sports",
+              "tech",
+              "art",
+              "travel",
+              "food",
+              "books",
+              "movies"
+            ]
           }
         ]
       },
@@ -606,8 +615,8 @@
           {
             "title": "Hesap Ayarları",
             "icon": "👤",
-        "items": [
-          {
+            "items": [
+              {
                 "title": "Profili Düzenle",
                 "icon": "✏️",
                 "action": "navigate",
@@ -648,14 +657,14 @@
                 "icon": "❤️",
                 "type": "toggle",
                 "default": false
-          }
-        ]
-      },
-      {
+              }
+            ]
+          },
+          {
             "title": "Uygulama",
             "icon": "⚙️",
-        "items": [
-          {
+            "items": [
+              {
                 "title": "Dil",
                 "icon": "🌐",
                 "type": "select",
@@ -701,7 +710,7 @@
           "background": "vip-gradient",
           "color": "white",
           "animation": "shine",
-                "borderRadius": "0",
+          "borderRadius": "0",
           "padding": "15px 8px"
         }
       },
@@ -777,13 +786,13 @@
         },
         "active": {
           "background": "primary-gradient",
-        "color": "white"
+          "color": "white"
         }
       }
     },
-  "interactions": {
+    "interactions": {
       "gestures": {
-      "tap": {
+        "tap": {
           "feedback": "scale(0.95)",
           "duration": "100ms"
         },
@@ -977,7 +986,7 @@
         "web": {
           "hosting": "Vercel / Netlify",
           "cdn": "CloudFlare",
-          "domain": "fellowus.app"
+          "domain": "www.fellowus.com"
         },
         "mobile": {
           "ios": {
@@ -1005,7 +1014,7 @@
           "analytics": "limited"
         },
         "production": {
-          "url": "https://fellowus.app",
+          "url": "https://www.fellowus.com",
           "debug": false,
           "analytics": "full",
           "monitoring": "Sentry + LogRocket"

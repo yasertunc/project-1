@@ -14,7 +14,7 @@ jobs:
       contents: read
       pull-requests: write
     env:
-      DOWNLOAD_URL: https://fellowus.app/download
+      DOWNLOAD_URL: https://www.fellowus.com/download
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

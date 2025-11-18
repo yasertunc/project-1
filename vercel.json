@@ -48,7 +48,7 @@
           "value": "http"
         }
       ],
-      "destination": "https://fellowus.app/:path*",
+      "destination": "https://www.fellowus.com/:path*",
       "permanent": true
     }
   ]

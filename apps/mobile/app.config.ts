@@ -7,7 +7,7 @@ const DEFAULT_SLUG = "fellowus-mobile";
 const DEFAULT_OWNER = "yasertunc";
 const DEFAULT_VERSION = "1.0.0";
 const DEFAULT_PACKAGE = "com.fellowus.app";
-const DEFAULT_DOWNLOAD_URL = "https://fellowus.app/download";
+const DEFAULT_DOWNLOAD_URL = "https://www.fellowus.com/download";
 const DEFAULT_NOTIFICATION_ICON = "./assets/icon.png";
 const DEFAULT_NOTIFICATION_COLOR = "#667eea";
 // Sentry constants - currently unused but kept for future use
@@ -123,10 +123,10 @@ export default function createExpoConfig({
       },
       privacyPolicyUrl:
         process.env.EXPO_PUBLIC_PRIVACY_POLICY_URL ??
-        "https://fellowus.app/privacy",
+        "https://www.fellowus.com/privacy",
       termsOfServiceUrl:
         process.env.EXPO_PUBLIC_TERMS_OF_SERVICE_URL ??
-        "https://fellowus.app/terms",
+        "https://www.fellowus.com/terms",
       eas: {
         projectId: process.env.EAS_PROJECT_ID ?? DEFAULT_PROJECT_ID,
       },
