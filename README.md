@@ -6,8 +6,8 @@
 
 [![gh-pages](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml)
 
-**Live docs:** https://yasertunc.github.io/project-1/  
-**Prod Storybook:** https://yasertunc.github.io/project-1/storybook/
+**Live docs:** https://www.fellowus.com/  
+**Prod Storybook:** https://www.fellowus.com/storybook/
 
 ## Project Structure
 
@@ -44,6 +44,7 @@ For Android/iOS builds, see [docs/mobile-notifications.md](docs/mobile-notificat
 📚 **Full documentation index**: [docs/README.md](docs/README.md)
 
 **Quick links:**
+
 - 📊 [Project Status](docs/PROJECT_STATUS.md) - Current status and progress (✅ All technical preparation complete)
 - 📋 [Final Completion Summary](docs/FINAL_COMPLETION_SUMMARY.md) - ✅ **Complete project summary**
 - 📋 [Project Completion Summary](docs/project-completion-summary.md) - High-level overview
