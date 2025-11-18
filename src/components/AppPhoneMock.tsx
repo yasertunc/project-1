@@ -115,6 +115,7 @@ export type PageId =
   | "places"
   | "filter"
   | "categories"
+  | "profile"
   | "chat"
   | "groups"
   | "social"
@@ -141,10 +142,10 @@ export type AppPhoneMockProps = {
 const NAV_WIDTH = 375;
 const SWIPE_THRESHOLD = 187.5;
 const chatPages: PageId[] = [
+  "profile",
   "chat",
   "groups",
   "social",
-  "notifications",
   "vip",
   "settings",
 ];
@@ -159,16 +160,16 @@ const mapPages: PageId[] = [
 
 const navMenus: Array<[PageId, string][]> = [
   [
-    ["map", "MAP"],
-    ["places", "PLACES"],
-    ["filter", "FILTER"],
-    ["categories", "CATEGORIES"],
+    ["map", "HARİTA"],
+    ["places", "YERLER"],
+    ["filter", "FİLTRE"],
+    ["categories", "KATEGORİ"],
   ],
   [
-    ["chat", "CHAT"],
-    ["groups", "GROUPS"],
-    ["social", "SOCIAL"],
-    ["notifications", "NOTIFICATIONS"],
+    ["profile", "PROFİL"],
+    ["chat", "SOHBET"],
+    ["groups", "GRUPLAR"],
+    ["social", "SOSYAL"],
   ],
 ];
 
@@ -182,9 +183,27 @@ function sectionForPage(page: PageId) {
 }
 
 function StatusBar() {
+  const [currentTime, setCurrentTime] = React.useState(() => {
+    const now = new Date();
+    return now.toLocaleTimeString("tr-TR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(
+        now.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })
+      );
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="flex h-[44px] items-center justify-between border-b border-[#e0e0e0] bg-[#f8f9fa] px-5 text-[14px] text-[var(--color-text)]">
-      <span className="font-semibold">09:41</span>
+    <div className="flex h-[44px] items-center justify-between border-b border-[rgba(0,0,0,0.05)] bg-gradient-to-b from-[#f8f9fa] to-[#ffffff] px-5 text-[14px] text-[var(--color-text)]">
+      <span className="font-semibold">{currentTime}</span>
       <span className="flex gap-1">📶 📡 🔋</span>
     </div>
   );
@@ -385,6 +404,7 @@ function Content({ page }: { page: PageId }) {
             ))}
           </Section>
         )}
+        {page === "profile" && <ProfileView />}
         {page === "chat" && <ChatView />}
         {page === "groups" && (
           <Section title="Groups" subtitle="Active group chats">
@@ -697,6 +717,109 @@ function CategoryRow({
         </div>
         <div className="text-[12px] text-[var(--color-text-2)]">
           {description}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProfileView() {
+  return (
+    <div className="h-full overflow-y-auto">
+      {/* Gradient Header */}
+      <div className="relative bg-gradient-primary pb-[60px] pt-8">
+        <div className="mb-4 flex justify-center">
+          <div className="relative">
+            <div className="h-20 w-20 rounded-full border-[4px] border-white bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary-dark)] shadow-[0_6px_16px_rgba(0,0,0,0.15)]" />
+            <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
+              U
+            </div>
+          </div>
+        </div>
+        <div className="mb-6 text-center text-xl font-bold text-white">
+          Kullanıcı Adı
+        </div>
+        {/* Stats */}
+        <div className="flex justify-center gap-8">
+          <div className="text-center">
+            <div className="text-lg font-bold text-white">127</div>
+            <div className="text-xs text-white/80">Arkadaş</div>
+          </div>
+          <div className="text-center">
+            <div className="text-lg font-bold text-white">42</div>
+            <div className="text-xs text-white/80">Check-in</div>
+          </div>
+          <div className="text-center">
+            <div className="text-lg font-bold text-white">18</div>
+            <div className="text-xs text-white/80">Fotoğraf</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Kişisel Bilgiler */}
+      <div className="mx-5 mt-5 rounded-[15px] bg-[var(--color-surface-white)] p-5 shadow">
+        <div className="mb-4 text-lg font-semibold text-[var(--color-text)]">
+          Kişisel Bilgiler
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <div className="text-xs text-[var(--color-text-secondary)]">
+              Email
+            </div>
+            <div className="text-sm font-medium text-[var(--color-text)]">
+              user@example.com
+            </div>
+          </div>
+          <div>
+            <div className="text-xs text-[var(--color-text-secondary)]">
+              Telefon
+            </div>
+            <div className="text-sm font-medium text-[var(--color-text)]">
+              +90 555 123 4567
+            </div>
+          </div>
+          <div>
+            <div className="text-xs text-[var(--color-text-secondary)]">
+              Konum
+            </div>
+            <div className="text-sm font-medium text-[var(--color-text)]">
+              İstanbul, Türkiye
+            </div>
+          </div>
+          <div>
+            <div className="text-xs text-[var(--color-text-secondary)]">
+              Doğum Tarihi
+            </div>
+            <div className="text-sm font-medium text-[var(--color-text)]">
+              15 Ocak 1990
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* İlgi Alanları */}
+      <div className="mx-5 mt-5 rounded-[15px] bg-[var(--color-surface-white)] p-5 shadow">
+        <div className="mb-4 text-lg font-semibold text-[var(--color-text)]">
+          İlgi Alanları
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {[
+            "Müzik",
+            "Spor",
+            "Teknoloji",
+            "Sanat",
+            "Seyahat",
+            "Yemek",
+            "Kitap",
+            "Sinema",
+          ].map((tag) => (
+            <div
+              key={tag}
+              className="rounded-[20px] bg-[#f0f0f0] px-3 py-1.5 text-xs text-[var(--color-text)] transition-all hover:scale-95 hover:bg-gradient-primary hover:text-white"
+            >
+              {tag}
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -1149,6 +1272,7 @@ export default function AppPhoneMock({
     "places",
     "filter",
     "categories",
+    "profile",
     "chat",
     "groups",
     "social",

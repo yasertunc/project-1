@@ -7,41 +7,77 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "node": "20.18.0",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "config": {
+          "minSdkVersion": 23,
+          "targetSdkVersion": 33
+        }
       }
     },
     "preview": {
       "distribution": "internal",
-      "node": "20.18.0",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease",
+        "config": {
+          "minSdkVersion": 23,
+          "targetSdkVersion": 33
+        }
       }
     },
     "production": {
       "autoIncrement": true,
-      "node": "20.18.0",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
       "android": {
-        "buildType": "app-bundle"
+        "buildType": "app-bundle",
+        "gradleCommand": ":app:bundleRelease",
+        "config": {
+          "minSdkVersion": 23,
+          "targetSdkVersion": 33
+        }
+      }
+    },
+    "production-apk": {
+      "autoIncrement": true,
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease",
+        "config": {
+          "minSdkVersion": 23,
+          "targetSdkVersion": 33
+        }
       }
     },
     "preview-ios": {
       "distribution": "internal",
-      "node": "20.18.0",
+      "env": {
+        "EAS_PROJECT_ROOT": "apps/mobile"
+      },
       "ios": {
-        "simulator": true
+        "simulator": true,
+        "deploymentTarget": "13.0"
       }
     },
     "production-ios": {
       "autoIncrement": true,
-      "node": "20.18.0",
       "env": {
-        "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+        "EAS_PROJECT_ROOT": "apps/mobile"
       },
       "ios": {
         "simulator": false,
-        "buildConfiguration": "Release"
+        "deploymentTarget": "13.0"
       }
     }
   },
@@ -50,6 +86,9 @@
       "android": {
         "serviceAccountKeyPath": "./.eas/android-service-account.json",
         "track": "internal"
+      },
+      "ios": {
+        "ascAppId": "com.fellowus.app"
       }
     }
   }
