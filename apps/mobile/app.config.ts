@@ -1,5 +1,7 @@
 import type { ConfigContext, ExpoConfig } from "expo/config";
 import "dotenv/config";
+import { existsSync } from "fs";
+import { join, dirname } from "path";
 
 const DEFAULT_PROJECT_ID = "694fc69a-a332-4142-9a41-54012868a73b";
 const DEFAULT_APP_NAME = "Fellowus Mobile";
@@ -43,8 +45,12 @@ export default function createExpoConfig({
   //       ] as ExpoPlugin)
   //     : null;
 
-  const googleServicesFile =
-    process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json";
+  const defaultGoogleServices = process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json";
+  // Only include googleServicesFile when the file actually exists in the project root
+  // This prevents EAS build failures when the file is provided via EAS file envs
+  // or intentionally omitted for preview builds.
+  const googleServicesPath = join(dirname(__filename), "google-services.json");
+  const googleServicesFile = existsSync(googleServicesPath) ? defaultGoogleServices : undefined;
 
   return {
     ...config,
@@ -60,7 +66,7 @@ export default function createExpoConfig({
     splash: {
       image: "./assets/splash-icon.png",
       resizeMode: "contain",
-      backgroundColor: "#ffffff",
+      backgroundColor: "#667eea", // Mavi arka plan - logo ile uyumlu
     },
     updates: {
       fallbackToCacheTimeout: 0,
@@ -80,11 +86,12 @@ export default function createExpoConfig({
     },
     android: {
       package: process.env.EXPO_ANDROID_PACKAGE ?? DEFAULT_PACKAGE,
-      versionCode: Number(process.env.EXPO_ANDROID_VERSION_CODE ?? "1"),
-      googleServicesFile,
+      // versionCode is managed by EAS Build (appVersionSource: "remote" in eas.json)
+      // Removed to avoid warning when using remote versioning
+      ...(googleServicesFile ? { googleServicesFile } : {}),
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
-        backgroundColor: "#ffffff",
+        backgroundColor: "#667eea", // Mavi arka plan - logo ile uyumlu
       },
       permissions: ["NOTIFICATIONS"],
       playStoreUrl:
