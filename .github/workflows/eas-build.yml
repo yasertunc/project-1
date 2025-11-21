@@ -19,7 +19,7 @@ on:
 jobs:
   android:
     name: Android AAB
-    if: ${{ secrets.EXPO_TOKEN != '' && (github.event_name == 'push' || github.event.inputs.build_type == 'aab' || github.event.inputs.build_type == 'all') }}
+    if: ${{ secrets.EXPO_TOKEN != '' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (github.event.inputs.build_type == 'aab' || github.event.inputs.build_type == 'all'))) }}
     runs-on: ubuntu-latest
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
@@ -253,7 +253,7 @@ jobs:
 
   android-apk:
     name: Android APK
-    if: ${{ secrets.EXPO_TOKEN != '' && (github.event_name == 'push' || github.event.inputs.build_type == 'apk' || github.event.inputs.build_type == 'all') }}
+    if: ${{ secrets.EXPO_TOKEN != '' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (github.event.inputs.build_type == 'apk' || github.event.inputs.build_type == 'all'))) }}
     runs-on: ubuntu-latest
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download

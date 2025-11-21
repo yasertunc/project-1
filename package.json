@@ -38,7 +38,7 @@
     "perf:budget": "node scripts/size-budget.mjs",
     "sb:analyze": "cross-env ANALYZE=true storybook build && npm run perf:budget",
     "health:all": "npm run tokens:build && npm run format:check && npm run lint && npm run typecheck && npm test && npm run deadcode && npm run test-storybook && npm run build-storybook && npm run perf:budget && npm run i18n:check && npm run vr && npm run a11y:stories && npm run chromatic",
-    "chromatic": "chromatic || echo '⚠️  Chromatic skipped: CHROMATIC_PROJECT_TOKEN not set (optional)'",
+    "chromatic": "chromatic || echo 'âš ï¸  Chromatic skipped: CHROMATIC_PROJECT_TOKEN not set (optional)'",
     "lh:ci": "lhci autorun || true",
     "smoke:serve": "npx http-server ./storybook-static -p 5080 -c-1",
     "test:smoke": "concurrently -k --success first \"npm:smoke:serve\" \"wait-on http://localhost:5080 && set STORYBOOK_BASE_URL=http://localhost:5080&& npx playwright test -c playwright.smoke.config.ts -g @smoke\"",
