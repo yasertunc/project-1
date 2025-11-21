@@ -1,4 +1,4 @@
-﻿[![Chromatic](https://badgen.net/badge/visual%20tests/Chromatic/orange)](https://www.chromatic.com/builds?appId=691374e0d54721cfeb8ae770)
+[![Chromatic](https://badgen.net/badge/visual%20tests/Chromatic/orange)](https://www.chromatic.com/builds?appId=691374e0d54721cfeb8ae770)
 
 # Fellowus Storybook
 

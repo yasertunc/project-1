@@ -1,4 +1,4 @@
-﻿name: Deploy Storybook to gh-pages
+name: Deploy Storybook to gh-pages
 
 permissions:
   contents: write
