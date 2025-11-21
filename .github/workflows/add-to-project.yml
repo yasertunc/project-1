@@ -20,4 +20,3 @@ jobs:
         with:
           project-url: https://github.com/users/yasertunc/projects/1
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
