@@ -1,4 +1,6 @@
-﻿# Fellowus Storybook
+﻿[![Chromatic](https://badgen.net/badge/visual%20tests/Chromatic/orange)](https://www.chromatic.com/builds?appId=691374e0d54721cfeb8ae770)
+
+# Fellowus Storybook
 
 [![gh-pages](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml)
 
@@ -66,5 +68,6 @@ npm run typecheck
 [![deploy-storybook](https://github.com/yasertunc/project-1/actions/workflows/deploy-storybook.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/deploy-storybook.yml)
 
 **Live docs:** https://yasertunc.github.io/project-1/
+
 
 
