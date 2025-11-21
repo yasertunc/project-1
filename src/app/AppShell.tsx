@@ -44,14 +44,20 @@ type AppShellProps = React.PropsWithChildren<{
   title?: string;
 }>;
 
-export const AppShell: React.FC<AppShellProps> = ({ title = "Fellowus", children }) => {
-  const handleSkip = React.useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
-    const main = document.getElementById("main");
-    if (main) {
-      event.preventDefault();
-      main.focus();
-    }
-  }, []);
+export const AppShell: React.FC<AppShellProps> = ({
+  title = "Fellowus",
+  children,
+}) => {
+  const handleSkip = React.useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      const main = document.getElementById("main");
+      if (main) {
+        event.preventDefault();
+        main.focus();
+      }
+    },
+    [],
+  );
 
   return (
     <div className="min-h-screen bg-[color:var(--muted-50)] text-[color:var(--ink-900)]">
@@ -95,4 +101,3 @@ export const AppShell: React.FC<AppShellProps> = ({ title = "Fellowus", children
     </div>
   );
 };
-

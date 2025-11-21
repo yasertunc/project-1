@@ -57,7 +57,7 @@ const ChannelErrorDemo: React.FC = () => {
 
 export const HappyPath: Story = {
   render: () => <ChannelHappyDemo />,
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const c = within(canvasElement);
     const user = userEvent.setup();
 
@@ -74,7 +74,7 @@ export const HappyPath: Story = {
 
 export const ErrorPath: Story = {
   render: () => <ChannelErrorDemo />,
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const c = within(canvasElement);
     const user = userEvent.setup();
 
@@ -82,4 +82,3 @@ export const ErrorPath: Story = {
     await c.findByText(/channel error/i);
   },
 };
-

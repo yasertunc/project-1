@@ -14,4 +14,3 @@ labels: bug
 ## Actual
 
 ## Logs/Screens
-

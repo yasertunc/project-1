@@ -36,7 +36,7 @@ export const Landing: Story = {
       </AppShell>
     );
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const c = within(canvasElement);
     const user = userEvent.setup();
 
@@ -55,4 +55,3 @@ export const Landing: Story = {
     }
   },
 };
-

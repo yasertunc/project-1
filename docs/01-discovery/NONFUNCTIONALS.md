@@ -6,4 +6,3 @@
 - **A11Y:** WCAG AA contrast, keyboard navigation, screen-reader names.
 - **i18n:** EN/TR/AR, RTL for AR, locale persistence.
 - **Observability:** events (queue/match/acceptance/channel) → metrics dashboards.
-

@@ -94,87 +94,87 @@
 
 10. ✅ **Yerelleştirme (i18n)**
 
-   10.1 ✅ Tarama (`i18n:scan`)
+    10.1 ✅ Tarama (`i18n:scan`)
 
-   10.2 ✅ Tutarlılık kontrolü (`i18n:check`)
+    10.2 ✅ Tutarlılık kontrolü (`i18n:check`)
 
-   10.3 ✅ v1 kapsamı: yalnızca İngilizce 🆕
+    10.3 ✅ v1 kapsamı: yalnızca İngilizce 🆕
 
-   10.4 ◻️ Sonraki diller: TR, RU, AR + EU/AS 🆕
+    10.4 ◻️ Sonraki diller: TR, RU, AR + EU/AS 🆕
 
-   10.5 ◻️ Profesyonel çeviri entegrasyonu (uygulama tamamlandıktan sonra) 🆕
+    10.5 ◻️ Profesyonel çeviri entegrasyonu (uygulama tamamlandıktan sonra) 🆕
 
 11. ◻️ **E2E & Entegrasyon Testleri**
 
-   11.0 ✅ Kritik 5 kullanıcı yolu tanımlandı 🆕
+    11.0 ✅ Kritik 5 kullanıcı yolu tanımlandı 🆕
 
-   11.1 ◻️ Akış bazlı E2E
+    11.1 ◻️ Akış bazlı E2E
 
-   11.2 ◻️ Hata senaryoları (ağ kesintisi, 4xx/5xx)
+    11.2 ◻️ Hata senaryoları (ağ kesintisi, 4xx/5xx)
 
-   11.3 ◻️ Duman testi matrisi
+    11.3 ◻️ Duman testi matrisi
 
 12. ◻️ **Güvenlik & Uyum**
 
-   12.1 ◻️ Bağımlılık taraması (CI’da otomatik)
+    12.1 ◻️ Bağımlılık taraması (CI’da otomatik)
 
-   12.2 ◻️ Güvenli başlıklar, CORS, rate limiting
+    12.2 ◻️ Güvenli başlıklar, CORS, rate limiting
 
-   12.3 ◻️ PII redaksiyon/doğrulama
+    12.3 ◻️ PII redaksiyon/doğrulama
 
 13. ✅ **CI/CD & Ortamlar**
 
-   13.1 ✅ CI pipeline (lint → typecheck → unit → VR → E2E) _(health:all PR gating + release notları otomasyonu)_
+    13.1 ✅ CI pipeline (lint → typecheck → unit → VR → E2E) _(health:all PR gating + release notları otomasyonu)_
 
-   13.2 ◻️ Preview ortamları (PR başına)
+    13.2 ◻️ Preview ortamları (PR başına)
 
-   13.3 ◻️ Prod release otomasyonu (tag → deploy)
+    13.3 ◻️ Prod release otomasyonu (tag → deploy)
 
 14. ◻️ **Gözlemlenebilirlik**
 
-   14.1 ◻️ Log/metric/trace (RUM + backend)
+    14.1 ◻️ Log/metric/trace (RUM + backend)
 
-   14.2 ◻️ Hata raporlama (Sentry)
+    14.2 ◻️ Hata raporlama (Sentry)
 
-   14.3 ◻️ Performans bütçeleri & alarmlar
+    14.3 ◻️ Performans bütçeleri & alarmlar
 
 15. ⚠️ **İçerik & Marka / SEO**
 
-   15.1 ⚠️ Homepage içerik entegrasyonu (hero, alt metin, CTA) 🆕
+    15.1 ⚠️ Homepage içerik entegrasyonu (hero, alt metin, CTA) 🆕
 
-   15.2 ✅ Marka dili: samimi, güvenli, özgürlük/mahremiyet odaklı 🆕
+    15.2 ✅ Marka dili: samimi, güvenli, özgürlük/mahremiyet odaklı 🆕
 
-   15.3 ✅ CTA etiketleri: “Get Started” / “How It Works” / “Download App” 🆕
+    15.3 ✅ CTA etiketleri: “Get Started” / “How It Works” / “Download App” 🆕
 
-   15.4 ◻️ Meta/OG şemaları, sitemap/robots
+    15.4 ◻️ Meta/OG şemaları, sitemap/robots
 
 16. ◻️ **Lansman Hazırlığı**
 
-   16.1 ◻️ Son a11y denetimi
+    16.1 ◻️ Son a11y denetimi
 
-   16.2 ◻️ QA turu & kapanış
+    16.2 ◻️ QA turu & kapanış
 
-   16.3 ◻️ Rollout planı (kademeli/koyu)
+    16.3 ◻️ Rollout planı (kademeli/koyu)
 
 17. ◻️ **Lansman & Sonrası**
 
-   17.1 ◻️ v1.0 yayını
+    17.1 ◻️ v1.0 yayını
 
-   17.2 ◻️ Canlı izleme & hızlı düzeltmeler
+    17.2 ◻️ Canlı izleme & hızlı düzeltmeler
 
-   17.3 ◻️ Yol haritası güncellemesi
+    17.3 ◻️ Yol haritası güncellemesi
 
 18. ◻️ **Araç Entegrasyonları & Hesaplar** 🆕
 
-   18.1 ◻️ Analytics hesabı & token
+    18.1 ◻️ Analytics hesabı & token
 
-   18.2 ◻️ Sentry hesabı & DSN
+    18.2 ◻️ Sentry hesabı & DSN
 
-   18.3 ◻️ CI servis hesabı/anahtarları
+    18.3 ◻️ CI servis hesabı/anahtarları
 
 19. ✅ **Tasarım Referansları** 🆕
 
-   19.1 ✅ Referans: Waze’in temiz ve kullanıcı dostu yaklaşımı
+    19.1 ✅ Referans: Waze’in temiz ve kullanıcı dostu yaklaşımı
 
 ---
 
@@ -186,4 +186,3 @@
 - _2025-11-11_: Health meta script (`health:all`) ve Acceptance Flow hikâyesi/VR kapsamı eklendi; 9.1 adımı storyboard seviyesinde genişledi.
 - _2025-11-11_: Channel FSM, mock WebSocket/FCM transportları ve Storybook testi eklendi; 9.1 akışı gerçekçi mock altyapısıyla güçlendirildi.
 - _2025-11-11_: PR template, labeler, CODEOWNERS ve health CI gate devreye alındı; Release Drafter ile otomatik sürüm notları başlatıldı (13.1 tamamlandı).
-

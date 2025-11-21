@@ -15,4 +15,3 @@ export const FaviconAndAssets: Story = {
     </div>
   ),
 };
-

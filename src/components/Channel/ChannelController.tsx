@@ -75,7 +75,9 @@ export const ChannelController: React.FC = () => {
       setSnapshot(next);
       bannerService.update(next);
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, [fsm, bannerService]);
 
   React.useEffect(() => {

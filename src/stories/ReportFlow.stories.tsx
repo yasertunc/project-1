@@ -50,7 +50,7 @@ export const BubbleToModal: Story = {
       </div>
     );
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const canvas = within(canvasElement);
     const user = userEvent.setup();
 
