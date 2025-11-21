@@ -2,6 +2,16 @@ name: EAS Build
 
 on:
   workflow_dispatch:
+    inputs:
+      build_type:
+        description: "Build type to run"
+        required: true
+        default: "apk"
+        type: choice
+        options:
+          - apk
+          - aab
+          - all
   push:
     tags:
       - "v*"
@@ -9,7 +19,7 @@ on:
 jobs:
   android:
     name: Android AAB
-    if: ${{ secrets.EXPO_TOKEN != '' }}
+    if: ${{ secrets.EXPO_TOKEN != '' && (github.event_name == 'push' || github.event.inputs.build_type == 'aab' || github.event.inputs.build_type == 'all') }}
     runs-on: ubuntu-latest
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
@@ -54,19 +64,19 @@ jobs:
           echo "🔍 Verifying EAS project configuration..."
           EXPECTED_PROJECT_ID="${{ secrets.EAS_PROJECT_ID || '694fc69a-a332-4142-9a41-54012868a73b' }}"
           echo "Expected Project ID: $EXPECTED_PROJECT_ID"
-          
+
           # Get current project ID from app.config
           CURRENT_PROJECT_ID=$(node -e "const config = require('./app.config.ts'); console.log(config.default({config:{}}).extra?.eas?.projectId || '')" 2>/dev/null || echo "")
           if [ -z "$CURRENT_PROJECT_ID" ]; then
             CURRENT_PROJECT_ID=$(grep -oP 'projectId["\s]*:\s*["\x27][^"\x27]+' app.config.ts | head -1 | sed "s/.*[\"']//" | sed "s/[\"'].*//" | head -1)
           fi
-          
+
           echo "Current Project ID in config: $CURRENT_PROJECT_ID"
-          
+
           if [ -n "$CURRENT_PROJECT_ID" ] && [ "$CURRENT_PROJECT_ID" != "$EXPECTED_PROJECT_ID" ]; then
             echo "⚠️ Warning: Project ID mismatch, but continuing with build..."
           fi
-          
+
           # Verify EAS CLI is using correct project
           echo "EAS CLI version:"
           eas --version
@@ -80,38 +90,38 @@ jobs:
           echo "🚀 Starting EAS build for Android..."
           echo "Build profile: production"
           echo "Platform: android"
-          
+
           # Run build and capture output
           BUILD_OUTPUT=$(eas build --platform android --profile production --non-interactive 2>&1)
           echo "$BUILD_OUTPUT"
-          
+
           # Extract build ID from output - PRIMARY METHOD: Look for build URL
           BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE 'https://expo\.dev/[^/]+/[^/]+/[^/]+/builds/[a-f0-9-]+' | sed 's|.*builds/||' | head -1)
-          
+
           # Alternative: Look for "Build details: https://..."
           if [ -z "$BUILD_ID" ]; then
             BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -i "build details" | grep -oE '/builds/[a-f0-9-]+' | sed 's|/builds/||' | head -1)
           fi
-          
+
           # Alternative: Look for JSON output
           if [ -z "$BUILD_ID" ]; then
             BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '"id"\s*:\s*"[a-f0-9-]+' | sed 's/.*"id"\s*:\s*"//' | sed 's/".*//' | head -1)
           fi
-          
+
           # Alternative: Look for any UUID pattern in build context
           if [ -z "$BUILD_ID" ]; then
             BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}' | head -1)
           fi
-          
+
           if [ -z "$BUILD_ID" ]; then
             echo "❌ Build ID not found in output!"
             echo "Build output saved above for debugging"
             exit 1
           fi
-          
+
           echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
           echo "✅ Build ID extracted: $BUILD_ID"
-          
+
           # Wait for build to complete (if not already finished)
           echo "⏳ Waiting for build to complete..."
           sleep 10
@@ -128,36 +138,36 @@ jobs:
         run: |
           BUILD_ID="${{ steps.build.outputs.build_id }}"
           EXPECTED_PROJECT_ID="${{ secrets.EAS_PROJECT_ID || '694fc69a-a332-4142-9a41-54012868a73b' }}"
-          
+
           if [ -z "$BUILD_ID" ]; then
             echo "❌ Build ID is empty"
             exit 1
           fi
-          
+
           echo "🔍 Verifying build $BUILD_ID belongs to project $EXPECTED_PROJECT_ID..."
-          
+
           # Wait a bit for build to be registered
           sleep 5
-          
+
           # Get build info
           BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
-          
+
           if [ "$BUILD_INFO" = "{}" ]; then
             echo "⚠️ Could not fetch build info, trying again..."
             sleep 10
             BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
           fi
-          
+
           # Extract project ID
           ACTUAL_PROJECT_ID=$(echo "$BUILD_INFO" | jq -r '.projectId // empty')
           BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.status // empty')
           BUILD_PLATFORM=$(echo "$BUILD_INFO" | jq -r '.platform // empty')
-          
+
           echo "Build Status: $BUILD_STATUS"
           echo "Build Platform: $BUILD_PLATFORM"
           echo "Expected Project ID: $EXPECTED_PROJECT_ID"
           echo "Actual Project ID: $ACTUAL_PROJECT_ID"
-          
+
           if [ -z "$ACTUAL_PROJECT_ID" ]; then
             echo "⚠️ Could not verify project ID from build info"
             echo "Build info: $BUILD_INFO"
@@ -171,7 +181,7 @@ jobs:
           else
             echo "✅ Build verified: belongs to correct project $ACTUAL_PROJECT_ID"
           fi
-          
+
           # Additional verification: check package name if available
           PACKAGE_NAME=$(echo "$BUILD_INFO" | jq -r '.androidConfig?.applicationIdentifier // .packageName // empty')
           if [ -n "$PACKAGE_NAME" ]; then
@@ -191,12 +201,12 @@ jobs:
           echo "📥 Downloading build artifacts for build $BUILD_ID..."
           mkdir -p artifacts
           eas build:download --id "$BUILD_ID" --path artifacts/
-          
+
           if [ ! -d "artifacts" ] || [ -z "$(ls -A artifacts 2>/dev/null)" ]; then
             echo "❌ No artifacts downloaded"
             exit 1
           fi
-          
+
           cd artifacts
           for file in *.aab *.apk; do
             if [ -f "$file" ]; then
@@ -243,7 +253,7 @@ jobs:
 
   android-apk:
     name: Android APK
-    if: ${{ secrets.EXPO_TOKEN != '' }}
+    if: ${{ secrets.EXPO_TOKEN != '' && (github.event_name == 'push' || github.event.inputs.build_type == 'apk' || github.event.inputs.build_type == 'all') }}
     runs-on: ubuntu-latest
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
@@ -291,38 +301,38 @@ jobs:
           echo "🚀 Starting EAS build for Android APK..."
           echo "Build profile: production-apk"
           echo "Platform: android"
-          
+
           # Run build and capture output
           BUILD_OUTPUT=$(eas build --platform android --profile production-apk --non-interactive 2>&1)
           echo "$BUILD_OUTPUT"
-          
+
           # Extract build ID from output - PRIMARY METHOD: Look for build URL
           BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE 'https://expo\.dev/[^/]+/[^/]+/[^/]+/builds/[a-f0-9-]+' | sed 's|.*builds/||' | head -1)
-          
+
           # Alternative: Look for "Build details: https://..."
           if [ -z "$BUILD_ID" ]; then
             BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -i "build details" | grep -oE '/builds/[a-f0-9-]+' | sed 's|/builds/||' | head -1)
           fi
-          
+
           # Alternative: Look for JSON output
           if [ -z "$BUILD_ID" ]; then
             BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '"id"\s*:\s*"[a-f0-9-]+' | sed 's/.*"id"\s*:\s*"//' | sed 's/".*//' | head -1)
           fi
-          
+
           # Alternative: Look for any UUID pattern
           if [ -z "$BUILD_ID" ]; then
             BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}' | head -1)
           fi
-          
+
           if [ -z "$BUILD_ID" ]; then
             echo "❌ Build ID not found in output!"
             echo "Build output saved above for debugging"
             exit 1
           fi
-          
+
           echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
           echo "✅ Build ID extracted: $BUILD_ID"
-          
+
           # Wait for build to be registered
           sleep 10
         env:
@@ -338,48 +348,48 @@ jobs:
         run: |
           BUILD_ID="${{ steps.build_apk.outputs.build_id }}"
           EXPECTED_PROJECT_ID="${{ secrets.EAS_PROJECT_ID || '694fc69a-a332-4142-9a41-54012868a73b' }}"
-          
+
           if [ -z "$BUILD_ID" ]; then
             echo "❌ Build ID is empty"
             exit 1
           fi
-          
+
           echo "🔍 Verifying APK build $BUILD_ID belongs to project $EXPECTED_PROJECT_ID..."
-          
+
           # Wait for build to be registered
           sleep 5
-          
+
           BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
-          
+
           if [ "$BUILD_INFO" = "{}" ]; then
             echo "⚠️ Could not fetch build info, trying again..."
             sleep 10
             BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
           fi
-          
+
           ACTUAL_PROJECT_ID=$(echo "$BUILD_INFO" | jq -r '.projectId // empty')
           BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.status // empty')
           PACKAGE_NAME=$(echo "$BUILD_INFO" | jq -r '.androidConfig?.applicationIdentifier // .packageName // empty')
-          
+
           echo "Build Status: $BUILD_STATUS"
           echo "Expected Project ID: $EXPECTED_PROJECT_ID"
           echo "Actual Project ID: $ACTUAL_PROJECT_ID"
           echo "Package Name: $PACKAGE_NAME"
-          
+
           if [ -n "$ACTUAL_PROJECT_ID" ] && [ "$ACTUAL_PROJECT_ID" != "$EXPECTED_PROJECT_ID" ]; then
             echo "❌ CRITICAL: Build belongs to different project!"
             echo "Expected: $EXPECTED_PROJECT_ID"
             echo "Got: $ACTUAL_PROJECT_ID"
             exit 1
           fi
-          
+
           if [ -n "$PACKAGE_NAME" ] && [ "$PACKAGE_NAME" != "com.fellowus.app" ]; then
             echo "❌ CRITICAL: Package name mismatch!"
             echo "Expected: com.fellowus.app"
             echo "Got: $PACKAGE_NAME"
             exit 1
           fi
-          
+
           echo "✅ Build verified: belongs to correct project"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
@@ -392,12 +402,12 @@ jobs:
           echo "📥 Downloading build artifacts for build $BUILD_ID..."
           mkdir -p artifacts
           eas build:download --id "$BUILD_ID" --path artifacts/
-          
+
           if [ ! -d "artifacts" ] || [ -z "$(ls -A artifacts 2>/dev/null)" ]; then
             echo "❌ No artifacts downloaded"
             exit 1
           fi
-          
+
           cd artifacts
           for file in *.apk; do
             if [ -f "$file" ]; then
@@ -459,27 +469,27 @@ jobs:
           echo "🚀 Starting EAS build for iOS..."
           BUILD_OUTPUT=$(eas build --platform ios --profile production-ios --non-interactive 2>&1)
           echo "$BUILD_OUTPUT"
-          
+
           # Extract build ID from output - multiple patterns for robustness
           BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE 'https://expo\.dev/accounts/[^/]+/projects/[^/]+/builds/[a-f0-9-]+' | sed 's/.*builds\///' | head -1)
-          
+
           if [ -z "$BUILD_ID" ]; then
             BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '"id"\s*:\s*"[a-f0-9-]+' | sed 's/.*"id"\s*:\s*"//' | sed 's/".*//' | head -1)
           fi
-          
+
           if [ -z "$BUILD_ID" ]; then
             BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '/builds/[a-f0-9-]+' | sed 's|/builds/||' | head -1)
           fi
-          
+
           if [ -z "$BUILD_ID" ]; then
             BUILD_ID=$(eas build:list --platform ios --status finished --limit 1 --json | jq -r '.[0].id // empty')
           fi
-          
+
           if [ -z "$BUILD_ID" ] || [ "$BUILD_ID" = "null" ]; then
             echo "❌ Could not find build ID"
             exit 1
           fi
-          
+
           echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
           echo "✅ iOS Build ID: $BUILD_ID"
         env:
@@ -497,16 +507,16 @@ jobs:
             echo "❌ Build ID is empty"
             exit 1
           fi
-          
+
           EXPECTED_PROJECT_ID="${{ secrets.EAS_PROJECT_ID || '694fc69a-a332-4142-9a41-54012868a73b' }}"
           BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
           ACTUAL_PROJECT_ID=$(echo "$BUILD_INFO" | jq -r '.projectId // empty')
-          
+
           if [ -n "$ACTUAL_PROJECT_ID" ] && [ "$ACTUAL_PROJECT_ID" != "$EXPECTED_PROJECT_ID" ]; then
             echo "❌ Build belongs to different project! Expected: $EXPECTED_PROJECT_ID, Got: $ACTUAL_PROJECT_ID"
             exit 1
           fi
-          
+
           echo "✅ Build verified"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
@@ -524,4 +534,3 @@ jobs:
           EXPO_APPLE_APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           EXPO_APPLE_APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.ASC_API_KEY_P8 }}
         working-directory: apps/mobile
-
