@@ -64,4 +64,3 @@ npm run typecheck
 [![deploy-storybook](https://github.com/yasertunc/project-1/actions/workflows/deploy-storybook.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/deploy-storybook.yml)
 
 **Live docs:** https://yasertunc.github.io/project-1/
-
