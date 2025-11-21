@@ -4,7 +4,7 @@ import { pushService } from "../src/services/pushService";
 describe("Push Service", () => {
   beforeEach(() => {
     // Clean up tokens before each test
-    // Note: In a real implementation, we'd need a reset method
+    pushService.reset();
   });
 
   describe("registerToken", () => {
@@ -16,10 +16,11 @@ describe("Push Service", () => {
     });
 
     it("should register multiple tokens for the same user", () => {
-      pushService.registerToken("token-1", "android", "user-123");
-      pushService.registerToken("token-2", "ios", "user-123");
+      // Use a unique user ID to avoid conflicts with other tests
+      pushService.registerToken("token-1", "android", "user-multi-123");
+      pushService.registerToken("token-2", "ios", "user-multi-123");
 
-      const tokens = pushService.getTokensForUser("user-123");
+      const tokens = pushService.getTokensForUser("user-multi-123");
       expect(tokens).toHaveLength(2);
       expect(tokens).toContain("token-1");
       expect(tokens).toContain("token-2");
@@ -43,4 +44,3 @@ describe("Push Service", () => {
     });
   });
 });
-

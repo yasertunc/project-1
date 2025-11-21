@@ -28,9 +28,7 @@ export class QueueService {
 
     const matchId = uuidv4();
     const queuedAt = new Date();
-    const expiresAt = new Date(
-      queuedAt.getTime() + config.matching.timeout
-    );
+    const expiresAt = new Date(queuedAt.getTime() + config.matching.timeout);
 
     const queuedMatch: QueuedMatch = {
       matchId,
@@ -78,7 +76,6 @@ export class QueueService {
     }
 
     match.status = "cancelled";
-    matchQueue.delete(matchId);
 
     // Remove from intent-specific queue
     const intentQueue = queuesByIntent.get(match.request.intent);
@@ -88,6 +85,9 @@ export class QueueService {
         intentQueue.splice(index, 1);
       }
     }
+
+    // Keep match in queue with cancelled status so getStatus() can retrieve it
+    // It will be cleaned up by the expiration cleanup process
 
     logger.info("Match cancelled", { matchId });
   }
@@ -116,7 +116,8 @@ export class QueueService {
       matchId,
       status: match.status,
       queuePosition,
-      matchedAt: match.status === "matched" ? match.expiresAt.toISOString() : null,
+      matchedAt:
+        match.status === "matched" ? match.expiresAt.toISOString() : null,
       participants: null, // Will be populated when matched
     };
   }
@@ -202,4 +203,3 @@ export const queueService = new QueueService();
 setInterval(() => {
   queueService.cleanupExpired();
 }, 60000);
-

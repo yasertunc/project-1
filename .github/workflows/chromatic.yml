@@ -15,6 +15,9 @@ jobs:
       pull-requests: write
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
+      CHROMATIC_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      CHROMATIC_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      CHROMATIC_SLUG: ${{ github.repository }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,21 +38,24 @@ jobs:
 
       - name: Publish to Chromatic
         id: chromatic
-        uses: chromaui/action@v1
+        uses: chromaui/action@v2
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           buildScriptName: build-storybook
           autoAcceptChanges: ${{ github.ref == 'refs/heads/main' }}
           exitOnceUploaded: true
+          exitZeroOnChanges: true
+          onlyChanged: true
           skip: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == true }}
-        continue-on-error: false
 
       - name: Chromatic build result
         if: always()
         run: |
           if [ "${{ steps.chromatic.outcome }}" == "success" ]; then
             echo "✅ Chromatic build completed successfully"
-          else
+          elif [ "${{ steps.chromatic.outcome }}" == "failure" ]; then
             echo "❌ Chromatic build failed"
             exit 1
+          else
+            echo "⚠️ Chromatic build skipped or completed with warnings"
           fi

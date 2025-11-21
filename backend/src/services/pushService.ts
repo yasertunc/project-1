@@ -41,15 +41,24 @@ export function initializeFirebase(): void {
 }
 
 // In-memory storage for push tokens (will be replaced with database in production)
-const pushTokens = new Map<string, {
-  token: string;
-  platform: "android" | "ios";
-  userId?: string;
-  createdAt: Date;
-  lastUsed: Date;
-}>();
+const pushTokens = new Map<
+  string,
+  {
+    token: string;
+    platform: "android" | "ios";
+    userId?: string;
+    createdAt: Date;
+    lastUsed: Date;
+  }
+>();
 
 export class PushService {
+  /**
+   * Reset all tokens (for testing purposes)
+   */
+  reset(): void {
+    pushTokens.clear();
+  }
   /**
    * Register a push token for a user
    */
@@ -139,7 +148,12 @@ export class PushService {
       });
 
       // Handle invalid token
-      if (error && typeof error === "object" && "code" in error && error.code === "messaging/invalid-registration-token") {
+      if (
+        error &&
+        typeof error === "object" &&
+        "code" in error &&
+        error.code === "messaging/invalid-registration-token"
+      ) {
         pushTokens.delete(token);
       }
 
@@ -203,7 +217,12 @@ export class PushService {
 
       // Remove invalid tokens
       response.responses.forEach((resp, index) => {
-        if (!resp.success && resp.error && "code" in resp.error && resp.error.code === "messaging/invalid-registration-token") {
+        if (
+          !resp.success &&
+          resp.error &&
+          "code" in resp.error &&
+          resp.error.code === "messaging/invalid-registration-token"
+        ) {
           pushTokens.delete(tokens[index]);
         }
       });
@@ -267,10 +286,7 @@ export class PushService {
   /**
    * Send channel opened notification
    */
-  async sendChannelOpened(
-    tokens: string[],
-    channelId: string
-  ): Promise<void> {
+  async sendChannelOpened(tokens: string[], channelId: string): Promise<void> {
     await this.sendToTokens(tokens, {
       title: "Channel Opened",
       body: "Your match is ready! Start chatting now.",
@@ -296,4 +312,3 @@ export class PushService {
 }
 
 export const pushService = new PushService();
-
