@@ -393,11 +393,11 @@ npx eas submit -p ios --latest --non-interactive
 
 1. **Add Privacy Policy URL**:
    - App Store Connect → App Information
-   - Privacy Policy URL: `https://fellowus.app/privacy`
+   - Privacy Policy URL: `https://www.fellowus.com/privacy`
    - ✅ Already configured in `app.config.ts`
 
 2. **Add Terms of Service URL** (if required):
-   - Terms of Service URL: `https://fellowus.app/terms`
+   - Terms of Service URL: `https://www.fellowus.com/terms`
    - ✅ Already configured in `app.config.ts`
 
 ### App Privacy
@@ -443,7 +443,7 @@ npx eas submit -p ios --latest --non-interactive
    - Support URL: `https://fellowus.app/support` (or contact email)
 
 7. **Marketing URL** (optional):
-   - Marketing URL: `https://fellowus.app`
+   - Marketing URL: `https://www.fellowus.com`
 
 ## Verification Checklist
 

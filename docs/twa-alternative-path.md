@@ -161,7 +161,7 @@ Test PWA compliance:
 npm install -g lighthouse
 
 # Test PWA
-lighthouse https://fellowus.app --view
+lighthouse https://www.fellowus.com --view
 
 # Or use Chrome DevTools
 # Application → Manifest → Check all items
@@ -213,7 +213,7 @@ bubblewrap init --manifest https://fellowus.app/manifest.json
 2. File → New → New Project
 3. Select "Trusted Web Activity"
 4. Enter package name: `com.fellowus.app`
-5. Enter start URL: `https://fellowus.app`
+5. Enter start URL: `https://www.fellowus.com`
 
 ### Step 3: Configure TWA
 
@@ -251,7 +251,7 @@ bubblewrap init --manifest https://fellowus.app/manifest.json
         \"relation\": [\"delegate_permission/common.handle_all_urls\"],
         \"target\": {
             \"namespace\": \"web\",
-            \"site\": \"https://fellowus.app\"
+            \"site\": \"https://www.fellowus.com\"
         }
     }]
 </string>
@@ -347,7 +347,7 @@ Verify asset links:
 curl https://fellowus.app/.well-known/assetlinks.json
 
 # Verify with Google tool
-# https://digitalassetlinks.googleapis.com/v1/statements:list?source.web.site=https://fellowus.app&relation=delegate_permission/common.handle_all_urls
+# https://digitalassetlinks.googleapis.com/v1/statements:list?source.web.site=https://www.fellowus.com&relation=delegate_permission/common.handle_all_urls
 ```
 
 ## CI/CD Integration

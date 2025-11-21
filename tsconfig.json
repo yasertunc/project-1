@@ -10,7 +10,8 @@
       "@testing-library/jest-dom",
       "react",
       "react-dom",
-      "node"
+      "node",
+      "google.maps"
     ],
     "strict": true,
     "skipLibCheck": true,

@@ -1,0 +1,17 @@
+﻿## Fellowus Mobile APK v1.0.0
+
+**Build ID:** 30268774-8b09-4068-a1ca-92af8978207b
+**Version Code:** 8
+**Profile:** production-apk
+**Platform:** Android
+
+### Download
+
+- APK file with SHA256 checksum
+- Direct download from Expo: https://expo.dev/artifacts/eas/6WRLGpEhWYiuEFUK7LEuke.apk
+
+### Installation
+
+1. Download the APK file
+2. Enable 'Install from unknown sources' on your Android device
+3. Install the APK file

@@ -119,7 +119,7 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 1. **Add Property**:
    - Go to [Google Search Console](https://search.google.com/search-console)
-   - Add property: `https://fellowus.app`
+   - Add property: `https://www.fellowus.com`
    - Verify ownership via DNS TXT record or HTML file
 
 2. **Submit Sitemap**:
@@ -130,7 +130,7 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 1. **Add Website**:
    - Go to Play Console → App → Store presence → Main store listing
-   - Add website: `https://fellowus.app`
+   - Add website: `https://www.fellowus.com`
    - Verify via DNS TXT record if required
 
 ### Firebase
@@ -159,8 +159,8 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 ### Test Redirects
 
-- [ ] `http://fellowus.app` → `https://fellowus.app` (if configured)
-- [ ] `http://fellowus.app` → `https://fellowus.app`
+- [ ] `http://fellowus.app` → `https://www.fellowus.com` (if configured)
+- [ ] `http://fellowus.app` → `https://www.fellowus.com`
 
 ## 20.6 Email (Optional)
 
@@ -225,15 +225,15 @@ TTL: 3600
 
 ### Add to GitHub Secrets
 
-- `DOWNLOAD_URL` = `https://fellowus.app/download`
-- `SITE_ORIGIN` = `https://fellowus.app`
+- `DOWNLOAD_URL` = `https://www.fellowus.com/download`
+- `SITE_ORIGIN` = `https://www.fellowus.com`
 
 ### Add to Environment Variables
 
 ```bash
 # .env
-EXPO_PUBLIC_DOWNLOAD_URL=https://fellowus.app/download
-EXPO_PUBLIC_SITE_ORIGIN=https://fellowus.app
+EXPO_PUBLIC_DOWNLOAD_URL=https://www.fellowus.com/download
+EXPO_PUBLIC_SITE_ORIGIN=https://www.fellowus.com
 ```
 
 ## Verification Checklist

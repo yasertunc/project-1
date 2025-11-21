@@ -4,7 +4,7 @@
 
 ### 1. Storybook Configuration
 
-- **`.storybook/manager.ts`**: Updated `brandUrl` from `https://fellowus.app` to `https://fellowus.app`
+- **`.storybook/manager.ts`**: Updated `brandUrl` from `https://www.fellowus.com` to `https://www.fellowus.com`
 - **`public/CNAME`**: Updated domain from `fellowus.app` to `fellowus.app`
 
 ### 2. EAS Build Configuration
@@ -19,14 +19,14 @@
 ### 3. GitHub Workflows
 
 - **`.github/workflows/chromatic.yml`**: Already configured with:
-  - `DOWNLOAD_URL: https://fellowus.app/download`
+  - `DOWNLOAD_URL: https://www.fellowus.com/download`
   - `fetch-depth: 0` for full Git history
   - `exitOnceUploaded: true` for faster CI
   - `exitZeroOnChanges: true` (as previously requested)
   - Manual trigger support via `workflow_dispatch`
 
 - **`.github/workflows/eas-build.yml`**: Already configured with:
-  - `DOWNLOAD_URL: https://fellowus.app/download` in all jobs
+  - `DOWNLOAD_URL: https://www.fellowus.com/download` in all jobs
   - Android APK build job with artifact upload
   - iOS build job with App Store Connect submission
   - Proper service account and API key handling
@@ -99,7 +99,7 @@ All references to `fellowus.app` have been updated to `fellowus.app`:
 
 ### GitHub Actions
 
-- ✅ All workflows updated with `DOWNLOAD_URL: https://fellowus.app/download`
+- ✅ All workflows updated with `DOWNLOAD_URL: https://www.fellowus.com/download`
 - ✅ EAS build workflow configured for Android and iOS
 - ✅ Chromatic workflow configured for visual regression testing
 - ✅ Storybook deployment workflows configured
@@ -115,7 +115,7 @@ All references to `fellowus.app` have been updated to `fellowus.app`:
 - [x] Apple App Store Connect API keys configured
 - [x] EAS build profiles synchronized
 - [x] API endpoints updated to `fellowus.app`
-- [x] Download URLs updated to `fellowus.app/download`
+- [x] Download URLs updated to `www.fellowus.com/download`
 - [x] Mobile app SDK versions configured
 - [x] All domain references updated
 

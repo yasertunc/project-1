@@ -1,0 +1,10 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Google Play Store">
+  <!-- Google Play Triangle -->
+  <path d="M1.5 1.5L1.5 22.5L13.5 12L1.5 1.5Z" fill="#00D9FF"/>
+  <!-- Green section -->
+  <path d="M13.5 12L1.5 22.5L6.75 19.125L13.5 12Z" fill="#00F076"/>
+  <!-- Yellow section -->
+  <path d="M13.5 12L6.75 4.875L1.5 1.5L13.5 12Z" fill="#FFE000"/>
+  <!-- Red section -->
+  <path d="M13.5 12L22.5 6L22.5 18L13.5 12Z" fill="#FF3A44"/>
+</svg>

@@ -4,7 +4,7 @@
 
 **Privacy-first, anonymous matching & conversation app** with dynamic guide behavior across Android/iOS + Web.
 
-[![gh-pages](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml)
+[![release-pages](https://github.com/yasertunc/project-1/actions/workflows/release-pages.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/release-pages.yml)
 
 **Live docs:** https://www.fellowus.com/  
 **Prod Storybook:** https://www.fellowus.com/storybook/

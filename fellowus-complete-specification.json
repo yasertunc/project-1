@@ -1,0 +1,1206 @@
+{
+  "applicationSpecification": {
+    "metadata": {
+      "name": "Fellowus",
+      "version": "2.0.0",
+      "platform": "Progressive Web App",
+      "language": "tr-TR",
+      "description": "Advanced location-based social communication platform with AI-powered matching",
+      "author": "Yaser Development Team",
+      "lastUpdated": "2025-01-16",
+      "framework": "HTML5/CSS3/Vanilla JS (Production: React Native recommended)"
+    },
+    
+    "designPrinciples": {
+      "philosophy": {
+        "approach": "Mobile-First Native Experience",
+        "inspiration": "iOS Human Interface + Material Design 3",
+        "keyValues": [
+          "Smooth animations without performance impact",
+          "Intuitive gesture-based navigation",
+          "Visual hierarchy with clear affordances",
+          "Consistent feedback for all interactions",
+          "Progressive disclosure of complexity"
+        ]
+      },
+      
+      "userExperience": {
+        "navigationParadigm": "Swipeable dual-menu system",
+        "interactionModel": "Direct manipulation with immediate feedback",
+        "visualLanguage": "Gradient-based depth and hierarchy",
+        "microInteractions": "Subtle animations for all state changes",
+        "accessibility": "WCAG 2.1 AA compliance target"
+      }
+    },
+    
+    "colorSystem": {
+      "primary": {
+        "gradient": {
+          "start": "#667eea",
+          "end": "#764ba2",
+          "angle": "135deg",
+          "css": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+        },
+        "solid": {
+          "main": "#667eea",
+          "dark": "#764ba2",
+          "light": "#8b9ef8"
+        },
+        "usage": "Primary actions, navigation bar, CTAs"
+      },
+      
+      "vip": {
+        "gradient": {
+          "start": "#FFD700",
+          "end": "#FFA500",
+          "angle": "135deg",
+          "css": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)"
+        },
+        "solid": {
+          "main": "#FFD700",
+          "dark": "#FFA500",
+          "light": "#FFE44D"
+        },
+        "animation": "3s shine effect infinite",
+        "usage": "Premium features, VIP indicators"
+      },
+      
+      "semantic": {
+        "success": "#26de81",
+        "error": "#ff4444",
+        "warning": "#FFA500",
+        "info": "#4285F4",
+        "online": "#26de81",
+        "offline": "#95a5a6"
+      },
+      
+      "neutral": {
+        "white": "#ffffff",
+        "background": {
+          "light": "#f5f7fa",
+          "medium": "#e3e9f3",
+          "dark": "#1a1a1a"
+        },
+        "text": {
+          "primary": "#333333",
+          "secondary": "#666666",
+          "tertiary": "#999999",
+          "disabled": "#cccccc"
+        },
+        "border": {
+          "light": "rgba(0,0,0,0.05)",
+          "medium": "rgba(0,0,0,0.1)",
+          "dark": "rgba(0,0,0,0.2)"
+        }
+      },
+      
+      "mapColors": {
+        "streets": {
+          "gradient": "linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)",
+          "shadow": "0 3px 10px rgba(255, 215, 0, 0.4)"
+        },
+        "buildings": {
+          "gradient": "linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)",
+          "3d": {
+            "front": "#ffeaa7",
+            "side": "#fdcb6e",
+            "top": "#fff5e6"
+          }
+        },
+        "parks": {
+          "gradient": "linear-gradient(135deg, #55efc4 0%, #00b894 100%)",
+          "shadow": "0 4px 12px rgba(0, 184, 148, 0.3)"
+        },
+        "water": {
+          "gradient": "linear-gradient(90deg, #74b9ff 0%, #0984e3 50%, #74b9ff 100%)",
+          "shadow": "0 -4px 12px rgba(9, 132, 227, 0.3)"
+        }
+      },
+      
+      "markers": {
+        "bank": {
+          "gradient": "linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)",
+          "icon": "🏛️"
+        },
+        "money": {
+          "gradient": "linear-gradient(135deg, #26de81 0%, #20bf6b 100%)",
+          "icon": "💰"
+        },
+        "hospital": {
+          "gradient": "linear-gradient(135deg, #4ecdc4 0%, #44a3aa 100%)",
+          "icon": "🏥"
+        },
+        "food": {
+          "gradient": "linear-gradient(135deg, #a55eea 0%, #8854d0 100%)",
+          "icon": "🍴"
+        },
+        "gas": {
+          "gradient": "linear-gradient(135deg, #fc5c65 0%, #eb3b5a 100%)",
+          "icon": "⛽"
+        }
+      }
+    },
+    
+    "typography": {
+      "fontStack": {
+        "primary": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
+        "monospace": "'Roboto Mono', 'SF Mono', Monaco, monospace"
+      },
+      
+      "scale": {
+        "xxl": {
+          "size": "28px",
+          "lineHeight": "34px",
+          "weight": 700
+        },
+        "xl": {
+          "size": "24px",
+          "lineHeight": "30px",
+          "weight": 700
+        },
+        "large": {
+          "size": "20px",
+          "lineHeight": "26px",
+          "weight": 600
+        },
+        "title": {
+          "size": "18px",
+          "lineHeight": "24px",
+          "weight": 600
+        },
+        "body": {
+          "size": "16px",
+          "lineHeight": "22px",
+          "weight": 400
+        },
+        "medium": {
+          "size": "14px",
+          "lineHeight": "20px",
+          "weight": 400
+        },
+        "small": {
+          "size": "13px",
+          "lineHeight": "18px",
+          "weight": 400
+        },
+        "tiny": {
+          "size": "12px",
+          "lineHeight": "16px",
+          "weight": 400
+        },
+        "micro": {
+          "size": "11px",
+          "lineHeight": "14px",
+          "weight": 400
+        }
+      },
+      
+      "weights": {
+        "thin": 300,
+        "regular": 400,
+        "medium": 500,
+        "semibold": 600,
+        "bold": 700,
+        "black": 900
+      }
+    },
+    
+    "spacing": {
+      "grid": {
+        "unit": "4px",
+        "scale": [0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 128]
+      },
+      
+      "layout": {
+        "xxs": "4px",
+        "xs": "8px",
+        "sm": "12px",
+        "md": "16px",
+        "lg": "20px",
+        "xl": "24px",
+        "xxl": "32px",
+        "xxxl": "48px"
+      },
+      
+      "component": {
+        "buttonPadding": "12px 16px",
+        "cardPadding": "20px",
+        "inputPadding": "12px 15px",
+        "navItemPadding": "15px 8px"
+      }
+    },
+    
+    "borderRadius": {
+      "none": "0",
+      "xs": "4px",
+      "sm": "8px",
+      "md": "12px",
+      "lg": "16px",
+      "xl": "20px",
+      "xxl": "25px",
+      "round": "50%",
+      "phone": "40px",
+      "screen": "30px",
+      "card": "15px",
+      "button": "10px",
+      "input": "12px"
+    },
+    
+    "shadows": {
+      "elevation": {
+        "0": "none",
+        "1": "0 1px 3px rgba(0, 0, 0, 0.05)",
+        "2": "0 2px 8px rgba(0, 0, 0, 0.08)",
+        "3": "0 4px 12px rgba(0, 0, 0, 0.12)",
+        "4": "0 6px 16px rgba(0, 0, 0, 0.15)",
+        "5": "0 10px 20px rgba(0, 0, 0, 0.2)",
+        "6": "0 25px 50px rgba(0, 0, 0, 0.3)"
+      },
+      
+      "colored": {
+        "primary": "0 4px 12px rgba(102, 126, 234, 0.4)",
+        "vip": "0 4px 12px rgba(255, 193, 7, 0.4)",
+        "success": "0 4px 12px rgba(38, 222, 129, 0.4)"
+      },
+      
+      "inset": {
+        "light": "inset 0 1px 3px rgba(0, 0, 0, 0.05)",
+        "medium": "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
+        "dark": "inset -20px -20px 40px rgba(0, 0, 0, 0.5)"
+      }
+    },
+    
+    "animations": {
+      "splashScreen": {
+        "googleEarthStyle": {
+          "duration": "3.5s",
+          "sequence": [
+            {
+              "name": "satelliteZoom",
+              "timing": "cubic-bezier(0.4, 0, 0.2, 1)",
+              "keyframes": {
+                "0%": {
+                  "scale": 10,
+                  "rotation": "0deg",
+                  "blur": "0px",
+                  "brightness": 0.8
+                },
+                "30%": {
+                  "scale": 5,
+                  "rotation": "2deg",
+                  "blur": "0px",
+                  "brightness": 0.9
+                },
+                "60%": {
+                  "scale": 2,
+                  "rotation": "3deg",
+                  "blur": "0.5px",
+                  "brightness": 1
+                },
+                "85%": {
+                  "scale": 0.8,
+                  "rotation": "4deg",
+                  "blur": "1px",
+                  "brightness": 1.1
+                },
+                "100%": {
+                  "scale": 0.1,
+                  "rotation": "5deg",
+                  "blur": "5px",
+                  "brightness": 2,
+                  "opacity": 0
+                }
+              }
+            },
+            {
+              "name": "altitudeCounter",
+              "type": "javascript",
+              "startValue": 10000,
+              "endValue": 0,
+              "unit": "km/m",
+              "updateInterval": "100ms"
+            },
+            {
+              "name": "cityLights",
+              "delay": "2s",
+              "duration": "1.5s",
+              "effect": "twinkle"
+            },
+            {
+              "name": "targetCrosshair",
+              "delay": "2.5s",
+              "duration": "1s",
+              "animation": "scale(3) → scale(1) with pulse"
+            }
+          ]
+        }
+      },
+      
+      "navigation": {
+        "swipe": {
+          "type": "horizontal",
+          "sections": 2,
+          "width": "375px",
+          "transition": "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "dragBehavior": {
+            "threshold": "50px",
+            "velocityThreshold": 0.5,
+            "boundaryResistance": 0.3,
+            "momentum": true,
+            "snapPoints": [0, -375]
+          }
+        }
+      },
+      
+      "microAnimations": {
+        "buttonPress": {
+          "transform": "scale(0.95)",
+          "duration": "0.1s"
+        },
+        "toggleSwitch": {
+          "duration": "0.3s",
+          "easing": "ease",
+          "travel": "22px"
+        },
+        "tagSelect": {
+          "scale": "0.95",
+          "duration": "0.2s"
+        },
+        "markerHover": {
+          "transform": "translateY(-5px) scale(1.1)",
+          "duration": "0.3s"
+        },
+        "cardHover": {
+          "transform": "translateY(-2px)",
+          "shadow": "elevation + 1",
+          "duration": "0.2s"
+        }
+      },
+      
+      "specialEffects": {
+        "vipShine": {
+          "type": "gradient-sweep",
+          "duration": "3s",
+          "iteration": "infinite",
+          "angle": "45deg",
+          "gradient": "linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent)"
+        },
+        "statusPulse": {
+          "type": "scale-opacity",
+          "duration": "2s",
+          "iteration": "infinite",
+          "scale": "1 → 1.2 → 1",
+          "opacity": "1 → 0.8 → 1"
+        },
+        "locationPulse": {
+          "type": "ring-expand",
+          "duration": "2s",
+          "iteration": "infinite",
+          "scale": "1 → 1.5",
+          "opacity": "0.4 → 0"
+        },
+        "twinkle": {
+          "type": "brightness",
+          "duration": "2s",
+          "iteration": "infinite",
+          "opacity": "0.3 → 1 → 0.3"
+        }
+      }
+    },
+    
+    "layout": {
+      "device": {
+        "container": {
+          "width": "375px",
+          "height": "812px",
+          "borderRadius": "40px",
+          "padding": "10px",
+          "background": "#1a1a1a",
+          "shadow": "0 25px 50px rgba(0, 0, 0, 0.3)"
+        },
+        
+        "screen": {
+          "borderRadius": "30px",
+          "background": "#ffffff",
+          "overflow": "hidden"
+        }
+      },
+      
+      "structure": {
+        "statusBar": {
+          "height": "44px",
+          "background": "linear-gradient(to bottom, #f8f9fa, #ffffff)",
+          "borderBottom": "1px solid rgba(0,0,0,0.05)",
+          "elements": {
+            "time": {
+              "position": "left",
+              "fontWeight": 600,
+              "realTime": true
+            },
+            "statusIcons": {
+              "position": "right",
+              "icons": ["signal", "wifi", "battery"]
+            }
+          }
+        },
+        
+        "navigation": {
+          "height": "60px",
+          "background": "primary-gradient",
+          "shadow": "0 4px 15px rgba(102, 126, 234, 0.3)",
+          "sections": 2,
+          "items": {
+            "mapMenu": ["HARİTA", "YERLER", "FİLTRE", "KATEGORİ", "VIP", "⚙"],
+            "chatMenu": ["PROFİL", "SOHBET", "GRUPLAR", "SOSYAL", "VIP", "⚙"]
+          }
+        },
+        
+        "content": {
+          "height": "calc(100% - 44px - 60px - 70px)",
+          "background": "#f5f7fa",
+          "overflow": "auto",
+          "scrolling": "smooth"
+        },
+        
+        "inputBar": {
+          "height": "70px",
+          "background": "#ffffff",
+          "borderRadius": "20px 20px 0 0",
+          "padding": "15px",
+          "shadow": "0 -4px 20px rgba(0, 0, 0, 0.1)"
+        }
+      },
+      
+      "floatingElements": {
+        "aiAssistant": {
+          "position": "fixed",
+          "bottom": "85px",
+          "right": "20px",
+          "size": "56px",
+          "shape": "circle",
+          "background": "primary-gradient",
+          "shadow": "colored-primary",
+          "content": "AI",
+          "zIndex": 999
+        }
+      }
+    },
+    
+    "components": {
+      "navigation": {
+        "type": "SwipeableTabBar",
+        "props": {
+          "draggable": true,
+          "swipeable": true,
+          "sections": 2,
+          "indicators": true,
+          "autoSwitch": true
+        },
+        
+        "vipButton": {
+          "type": "SpecialButton",
+          "style": {
+            "background": "vip-gradient",
+            "borderRadius": "0",
+            "animation": "shine",
+            "fontWeight": 700,
+            "width": "auto",
+            "padding": "15px 8px"
+          }
+        },
+        
+        "settingsButton": {
+          "type": "IconButton",
+          "icon": "⚙",
+          "fontSize": "22px",
+          "width": "45px"
+        }
+      },
+      
+      "map": {
+        "type": "3DMap",
+        "perspective": "1000px",
+        "view": {
+          "type": "satellite",
+          "angle": "60deg",
+          "zoom": {
+            "min": 0.5,
+            "max": 5,
+            "default": 1
+          }
+        },
+        
+        "elements": {
+          "buildings": {
+            "type": "3DBox",
+            "faces": ["front", "back", "left", "right", "top"],
+            "interactive": true,
+            "hover": "translateZ(10px)"
+          },
+          "streets": {
+            "type": "Path",
+            "style": "gradient",
+            "width": "25px",
+            "glow": true
+          },
+          "markers": {
+            "type": "LocationPin",
+            "style": "teardrop",
+            "animation": "hover",
+            "interactive": true
+          }
+        },
+        
+        "controls": {
+          "compass": {
+            "position": "top-left",
+            "size": "50px",
+            "interactive": true
+          },
+          "rangeIndicator": {
+            "position": "top-right",
+            "size": "50px",
+            "badge": true,
+            "updateInterval": 5000
+          },
+          "locationMarker": {
+            "type": "GPS",
+            "animation": "pulse",
+            "accuracy": "circle"
+          }
+        }
+      },
+      
+      "profile": {
+        "header": {
+          "type": "GradientHeader",
+          "background": "primary-gradient",
+          "animation": "subtle-pulse",
+          "avatar": {
+            "size": "80px",
+            "border": "4px solid white",
+            "shadow": "elevation-4"
+          },
+          "stats": {
+            "layout": "horizontal",
+            "items": ["friends", "checkins", "photos"]
+          }
+        },
+        
+        "sections": [
+          {
+            "title": "Kişisel Bilgiler",
+            "type": "InfoGrid",
+            "columns": 2,
+            "fields": ["email", "phone", "location", "birthday"]
+          },
+          {
+            "title": "İlgi Alanları",
+            "type": "TagCloud",
+            "selectable": true,
+            "animation": "press"
+          }
+        ]
+      },
+      
+      "filter": {
+        "sections": [
+          {
+            "title": "Mesafe",
+            "type": "RangeSlider",
+            "min": 100,
+            "max": 5000,
+            "step": 100,
+            "unit": "m/km",
+            "style": {
+              "track": "#e0e0e0",
+              "fill": "primary-gradient",
+              "thumb": "circle"
+            }
+          },
+          {
+            "title": "Kullanıcılar",
+            "type": "ToggleList",
+            "options": ["online", "vip", "friends"],
+            "animation": "slide"
+          },
+          {
+            "title": "Yaş Aralığı",
+            "type": "NumberRange",
+            "min": 18,
+            "max": 99,
+            "validation": true
+          },
+          {
+            "title": "İlgi Alanları",
+            "type": "TagFilter",
+            "multiSelect": true,
+            "categories": ["music", "sports", "tech", "art", "travel", "food", "books", "movies"]
+          }
+        ]
+      },
+      
+      "settings": {
+        "groups": [
+          {
+            "title": "Hesap Ayarları",
+            "icon": "👤",
+            "items": [
+              {
+                "title": "Profili Düzenle",
+                "icon": "✏️",
+                "action": "navigate",
+                "target": "profile/edit"
+              },
+              {
+                "title": "Gizlilik",
+                "icon": "🔐",
+                "action": "navigate",
+                "target": "settings/privacy"
+              },
+              {
+                "title": "Güvenlik",
+                "icon": "🔑",
+                "action": "navigate",
+                "target": "settings/security"
+              }
+            ]
+          },
+          {
+            "title": "Bildirimler",
+            "icon": "🔔",
+            "items": [
+              {
+                "title": "Mesaj Bildirimleri",
+                "icon": "💬",
+                "type": "toggle",
+                "default": true
+              },
+              {
+                "title": "Konum Bildirimleri",
+                "icon": "📍",
+                "type": "toggle",
+                "default": true
+              },
+              {
+                "title": "Sosyal Bildirimler",
+                "icon": "❤️",
+                "type": "toggle",
+                "default": false
+              }
+            ]
+          },
+          {
+            "title": "Uygulama",
+            "icon": "⚙️",
+            "items": [
+              {
+                "title": "Dil",
+                "icon": "🌐",
+                "type": "select",
+                "options": ["Türkçe", "English"],
+                "default": "Türkçe"
+              },
+              {
+                "title": "Tema",
+                "icon": "🎨",
+                "type": "select",
+                "options": ["Açık", "Koyu", "Otomatik"],
+                "default": "Açık"
+              }
+            ]
+          }
+        ]
+      },
+      
+      "buttons": {
+        "primary": {
+          "background": "primary-gradient",
+          "color": "white",
+          "borderRadius": "button",
+          "padding": "12px 24px",
+          "fontSize": "16px",
+          "fontWeight": 600,
+          "shadow": "elevation-2",
+          "hover": {
+            "transform": "translateY(-1px)",
+            "shadow": "elevation-3"
+          },
+          "active": {
+            "transform": "scale(0.98)"
+          }
+        },
+        
+        "secondary": {
+          "background": "white",
+          "color": "primary",
+          "border": "1px solid primary",
+          "borderRadius": "button",
+          "padding": "12px 24px"
+        },
+        
+        "vip": {
+          "background": "vip-gradient",
+          "color": "white",
+          "animation": "shine",
+          "borderRadius": "0",
+          "padding": "15px 8px"
+        }
+      },
+      
+      "inputs": {
+        "text": {
+          "background": "#f5f7fa",
+          "borderRadius": "input",
+          "padding": "12px 15px",
+          "fontSize": "16px",
+          "border": "none",
+          "focus": {
+            "background": "white",
+            "boxShadow": "0 0 0 2px primary"
+          }
+        },
+        
+        "toggle": {
+          "width": "48px",
+          "height": "26px",
+          "borderRadius": "13px",
+          "background": {
+            "off": "#ddd",
+            "on": "primary-gradient"
+          },
+          "thumb": {
+            "size": "22px",
+            "travel": "22px",
+            "shadow": "0 2px 4px rgba(0,0,0,0.2)"
+          }
+        },
+        
+        "slider": {
+          "track": {
+            "height": "6px",
+            "background": "#e0e0e0",
+            "borderRadius": "3px"
+          },
+          "fill": {
+            "background": "primary-gradient"
+          },
+          "thumb": {
+            "size": "20px",
+            "background": "primary-gradient",
+            "shadow": "0 2px 8px rgba(102, 126, 234, 0.3)"
+          }
+        }
+      },
+      
+      "cards": {
+        "default": {
+          "background": "white",
+          "borderRadius": "card",
+          "padding": "20px",
+          "shadow": "elevation-2",
+          "hover": {
+            "transform": "translateY(-2px)",
+            "shadow": "elevation-3"
+          }
+        },
+        
+        "gradient": {
+          "background": "primary-gradient",
+          "color": "white",
+          "borderRadius": "card",
+          "padding": "20px"
+        }
+      },
+      
+      "tags": {
+        "default": {
+          "background": "#f0f0f0",
+          "color": "text-primary",
+          "borderRadius": "20px",
+          "padding": "6px 12px",
+          "fontSize": "12px",
+          "cursor": "pointer",
+          "transition": "all 0.2s"
+        },
+        
+        "active": {
+          "background": "primary-gradient",
+          "color": "white"
+        }
+      }
+    },
+    
+    "interactions": {
+      "gestures": {
+        "tap": {
+          "feedback": "scale(0.95)",
+          "duration": "100ms"
+        },
+        
+        "longPress": {
+          "threshold": "500ms",
+          "feedback": "haptic"
+        },
+        
+        "swipe": {
+          "horizontal": {
+            "threshold": "50px",
+            "velocity": "0.5",
+            "resistance": "0.3"
+          },
+          "vertical": {
+            "enabled": false
+          }
+        },
+        
+        "drag": {
+          "cursor": {
+            "idle": "grab",
+            "active": "grabbing"
+          },
+          "momentum": true,
+          "bounce": true
+        },
+        
+        "pinch": {
+          "enabled": false
+        }
+      },
+      
+      "feedback": {
+        "visual": {
+          "press": "scale + shadow",
+          "hover": "elevation + brightness",
+          "focus": "outline + glow",
+          "loading": "skeleton + pulse",
+          "success": "checkmark + fade",
+          "error": "shake + red"
+        },
+        
+        "haptic": {
+          "enabled": true,
+          "types": ["light", "medium", "heavy", "success", "warning", "error"]
+        },
+        
+        "audio": {
+          "enabled": false,
+          "volume": 0.3,
+          "sounds": ["tap", "success", "error", "notification"]
+        }
+      }
+    },
+    
+    "performance": {
+      "optimization": {
+        "images": {
+          "lazyLoading": true,
+          "format": "webp",
+          "responsive": true,
+          "cache": true
+        },
+        
+        "animations": {
+          "gpu": true,
+          "willChange": ["transform", "opacity"],
+          "reducedMotion": "respect",
+          "frameRate": 60
+        },
+        
+        "rendering": {
+          "virtualScrolling": true,
+          "debounce": {
+            "search": 300,
+            "resize": 150,
+            "scroll": 100
+          },
+          "throttle": {
+            "mousemove": 16,
+            "touchmove": 16
+          }
+        },
+        
+        "network": {
+          "caching": "aggressive",
+          "prefetch": true,
+          "serviceWorker": true,
+          "offline": "graceful"
+        }
+      },
+      
+      "targets": {
+        "mobile": {
+          "fps": 60,
+          "tti": "<3s",
+          "fcp": "<1.5s",
+          "cls": "<0.1",
+          "memoryUsage": "<100MB"
+        },
+        
+        "desktop": {
+          "fps": 60,
+          "tti": "<2s",
+          "fcp": "<1s",
+          "cls": "<0.05",
+          "memoryUsage": "<200MB"
+        }
+      }
+    },
+    
+    "accessibility": {
+      "standards": {
+        "wcag": "2.1 AA",
+        "aria": "complete",
+        "keyboard": "full navigation",
+        "screenReader": "optimized"
+      },
+      
+      "features": {
+        "language": "tr-TR",
+        "textDirection": "ltr",
+        "fontScaling": true,
+        "highContrast": "supported",
+        "reducedMotion": "supported",
+        "colorBlind": "deuteranopia-safe"
+      },
+      
+      "minimums": {
+        "touchTarget": "44x44px",
+        "fontSize": "14px",
+        "contrastRatio": "4.5:1",
+        "focusIndicator": "2px solid"
+      }
+    },
+    
+    "technical": {
+      "stack": {
+        "development": {
+          "html": "HTML5",
+          "css": "CSS3 with PostCSS",
+          "javascript": "ES6+ Vanilla JS",
+          "bundler": "Vite",
+          "linting": "ESLint + Prettier"
+        },
+        
+        "production": {
+          "framework": "React Native / Flutter",
+          "state": "Redux Toolkit / Zustand",
+          "navigation": "React Navigation v6",
+          "animations": "Reanimated 2",
+          "maps": "Mapbox GL / Google Maps",
+          "testing": "Jest + React Native Testing Library"
+        }
+      },
+      
+      "api": {
+        "protocol": "REST + WebSocket",
+        "authentication": "JWT + Refresh Tokens",
+        "encryption": "TLS 1.3",
+        "rateLimit": "100 req/min",
+        "versioning": "v2",
+        "endpoints": {
+          "base": "https://api.fellowus.app/v2",
+          "auth": "/auth",
+          "users": "/users",
+          "locations": "/locations",
+          "messages": "/messages",
+          "notifications": "/notifications",
+          "ai": "/ai/assistant"
+        }
+      },
+      
+      "storage": {
+        "local": {
+          "type": "AsyncStorage / LocalStorage",
+          "encryption": "AES-256",
+          "maxSize": "50MB",
+          "expiry": "30 days"
+        },
+        
+        "cache": {
+          "strategy": "LRU",
+          "ttl": "1 hour",
+          "maxItems": 1000
+        }
+      },
+      
+      "security": {
+        "authentication": {
+          "methods": ["email", "phone", "social"],
+          "2fa": "optional",
+          "biometric": "supported"
+        },
+        
+        "dataProtection": {
+          "encryption": "end-to-end",
+          "gdpr": "compliant",
+          "kvkk": "compliant",
+          "pii": "masked"
+        },
+        
+        "validation": {
+          "input": "sanitized",
+          "xss": "prevented",
+          "csrf": "token-based",
+          "sql": "parameterized"
+        }
+      }
+    },
+    
+    "deployment": {
+      "platforms": {
+        "web": {
+          "hosting": "Vercel / Netlify",
+          "cdn": "CloudFlare",
+          "domain": "fellowus.app"
+        },
+        
+        "mobile": {
+          "ios": {
+            "minVersion": "iOS 13.0",
+            "bundle": "com.fellowus.app",
+            "appStore": true
+          },
+          "android": {
+            "minSdk": 23,
+            "targetSdk": 33,
+            "package": "com.fellowus.app",
+            "playStore": true
+          }
+        }
+      },
+      
+      "environment": {
+        "development": {
+          "url": "http://localhost:3000",
+          "debug": true,
+          "mockData": true
+        },
+        
+        "staging": {
+          "url": "https://staging.fellowus.app",
+          "debug": false,
+          "analytics": "limited"
+        },
+        
+        "production": {
+          "url": "https://fellowus.app",
+          "debug": false,
+          "analytics": "full",
+          "monitoring": "Sentry + LogRocket"
+        }
+      }
+    },
+    
+    "features": {
+      "core": {
+        "locationTracking": {
+          "accuracy": "high",
+          "updateInterval": "5s",
+          "backgroundMode": true,
+          "battery": "optimized"
+        },
+        
+        "messaging": {
+          "realtime": true,
+          "typing": true,
+          "read": true,
+          "media": ["image", "video", "audio", "file"],
+          "encryption": "e2e"
+        },
+        
+        "matching": {
+          "algorithm": "AI-powered",
+          "factors": ["location", "interests", "activity", "preferences"],
+          "refresh": "dynamic"
+        },
+        
+        "social": {
+          "feed": true,
+          "stories": false,
+          "reactions": ["like", "love", "wow", "sad", "angry"],
+          "comments": true,
+          "share": true
+        }
+      },
+      
+      "premium": {
+        "vip": {
+          "badge": "golden",
+          "unlimited": ["messages", "swipes", "filters"],
+          "priority": ["matching", "support"],
+          "exclusive": ["features", "events"],
+          "price": {
+            "monthly": "$9.99",
+            "yearly": "$79.99"
+          }
+        }
+      },
+      
+      "ai": {
+        "assistant": {
+          "model": "GPT-4 / Claude",
+          "features": ["chat", "recommendations", "translation", "moderation"],
+          "response": "<2s",
+          "context": "full conversation"
+        },
+        
+        "matching": {
+          "ml": "collaborative filtering",
+          "factors": 50,
+          "update": "real-time"
+        }
+      }
+    },
+    
+    "analytics": {
+      "tracking": {
+        "tools": ["Google Analytics 4", "Mixpanel", "Firebase"],
+        "events": {
+          "user": ["signup", "login", "logout", "profile_update"],
+          "navigation": ["page_view", "tab_switch", "menu_swipe"],
+          "interaction": ["button_click", "message_sent", "filter_applied"],
+          "conversion": ["vip_purchase", "match_made", "message_replied"]
+        }
+      },
+      
+      "metrics": {
+        "engagement": ["dau", "mau", "session_length", "retention"],
+        "performance": ["load_time", "crash_rate", "api_latency"],
+        "business": ["conversion_rate", "ltv", "churn_rate"]
+      }
+    },
+    
+    "roadmap": {
+      "v2.1": {
+        "features": [
+          "Voice messages",
+          "Video calls",
+          "Group video chat",
+          "AR filters"
+        ],
+        "timeline": "Q2 2025"
+      },
+      
+      "v2.5": {
+        "features": [
+          "Blockchain integration",
+          "NFT profiles",
+          "Crypto payments",
+          "Metaverse presence"
+        ],
+        "timeline": "Q4 2025"
+      },
+      
+      "v3.0": {
+        "features": [
+          "Full AR experience",
+          "AI avatars",
+          "Virtual events",
+          "Neural matching"
+        ],
+        "timeline": "2026"
+      }
+    }
+  }
+}

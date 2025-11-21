@@ -8,8 +8,8 @@
 - ✅ **Service Account**: Configured in GitHub Secrets (`GOOGLE_SERVICE_ACCOUNT_JSON_BASE64`)
 - ✅ **Keystore**: Uploaded to EAS, passwords in GitHub Secrets
 - ✅ **Submit Automation**: Workflow configured in `.github/workflows/eas-build.yml`
-- ✅ **Privacy Policy**: `https://fellowus.app/privacy` (configured in `app.config.ts`)
-- ✅ **Terms of Service**: `https://fellowus.app/terms` (configured in `app.config.ts`)
+- ✅ **Privacy Policy**: `https://www.fellowus.com/privacy` (configured in `app.config.ts`)
+- ✅ **Terms of Service**: `https://www.fellowus.com/terms` (configured in `app.config.ts`)
 
 ### Build Status:
 
@@ -32,8 +32,8 @@
 - ✅ **Bundle ID**: `com.fellowus.app` (confirmed in `app.config.ts`)
 - ✅ **API Keys**: Configured in GitHub Secrets (`ASC_API_KEY_ID`, `ASC_ISSUER_ID`, `ASC_API_KEY_P8`)
 - ✅ **Submit Automation**: Workflow configured in `.github/workflows/eas-build.yml`
-- ✅ **Privacy Policy**: `https://fellowus.app/privacy` (configured in `app.config.ts`)
-- ✅ **Terms of Service**: `https://fellowus.app/terms` (configured in `app.config.ts`)
+- ✅ **Privacy Policy**: `https://www.fellowus.com/privacy` (configured in `app.config.ts`)
+- ✅ **Terms of Service**: `https://www.fellowus.com/terms` (configured in `app.config.ts`)
 
 ### Build Status:
 

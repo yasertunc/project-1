@@ -3,6 +3,12 @@ const PHONE_REGEX =
   /\b(?:\+?\d{1,3})?[-.\s]?(?:\(?\d{3}\)?|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}\b/g;
 const URL_REGEX = /\bhttps?:\/\/[^\s/$.?#].[^\s]*\b/gi;
 
+const resetRegexes = () => {
+  EMAIL_REGEX.lastIndex = 0;
+  PHONE_REGEX.lastIndex = 0;
+  URL_REGEX.lastIndex = 0;
+};
+
 export type PiiScanResult = {
   hasEmail: boolean;
   hasPhone: boolean;
@@ -24,6 +30,7 @@ export type PiiScanResult = {
  * ```
  */
 export function redactPii(input: string): string {
+  resetRegexes();
   if (!input) return input;
   return input
     .replace(EMAIL_REGEX, "[REDACTED_EMAIL]")
@@ -44,6 +51,7 @@ export function redactPii(input: string): string {
  * ```
  */
 export function scanPii(input: string): PiiScanResult {
+  resetRegexes();
   if (!input) {
     return {
       hasEmail: false,

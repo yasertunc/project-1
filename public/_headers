@@ -1,0 +1,36 @@
+# HTTPS/SSL Security Headers - Netlify
+# Tüm sayfalar için geçerli
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Content-Security-Policy: upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# HTML dosyaları için özel ayarlar
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# CSS ve JS dosyaları için cache
+/*.css
+  Cache-Control: public, max-age=2592000
+
+/*.js
+  Cache-Control: public, max-age=2592000
+
+# Resimler için uzun süreli cache
+/*.jpg
+  Cache-Control: public, max-age=31536000
+
+/*.png
+  Cache-Control: public, max-age=31536000
+
+/*.svg
+  Cache-Control: public, max-age=31536000
+
+# Video dosyaları için cache
+/*.mp4
+  Cache-Control: public, max-age=31536000
+

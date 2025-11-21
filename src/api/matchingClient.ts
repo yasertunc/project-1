@@ -28,7 +28,7 @@ export interface MatchingClientOptions {
  * ```
  */
 export function createMatchingClient(opts: MatchingClientOptions = {}) {
-  const base = (opts.baseUrl ?? "https://staging-api.fellowus.com").replace(
+  const base = (opts.baseUrl ?? "https://api.fellowus.app/v2").replace(
     /\/+$/,
     ""
   );
@@ -43,7 +43,7 @@ export function createMatchingClient(opts: MatchingClientOptions = {}) {
 
   return {
     async enqueue(body: EnqueueBody): Promise<EnqueueResp> {
-      const res = await fx(`${base}/v1/match/enqueue`, {
+      const res = await fx(`${base}/match/enqueue`, {
         method: "POST",
         headers: await headers(),
         body: JSON.stringify(body),
@@ -53,7 +53,7 @@ export function createMatchingClient(opts: MatchingClientOptions = {}) {
     },
 
     async cancel(body: CancelBody): Promise<void> {
-      const res = await fx(`${base}/v1/match/cancel`, {
+      const res = await fx(`${base}/match/cancel`, {
         method: "POST",
         headers: await headers(),
         body: JSON.stringify(body),
@@ -66,7 +66,7 @@ export function createMatchingClient(opts: MatchingClientOptions = {}) {
       expandedCount?: number;
       queueDepth?: number;
     }> {
-      const res = await fx(`${base}/v1/match/tick`, {
+      const res = await fx(`${base}/match/tick`, {
         method: "POST",
         headers: await headers(),
       });

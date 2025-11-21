@@ -5,14 +5,14 @@ info:
   description: >
     Orchestrator endpoints for enqueue/cancel/tick + acceptance lifecycle.
 servers:
-  - url: https://api.fellowus.com
+  - url: https://api.fellowus.app/v2
     description: Production
-  - url: https://staging-api.fellowus.com
+  - url: https://staging.fellowus.app/v2
     description: Staging
 tags:
   - name: matching
 paths:
-  /v1/match/enqueue:
+  /v2/match/enqueue:
     post:
       tags: [matching]
       summary: Enqueue a match request
@@ -32,7 +32,7 @@ paths:
                 $ref: "#/components/schemas/QueueSlot"
         "400":
           $ref: "#/components/responses/BadRequest"
-  /v1/match/cancel:
+  /v2/match/cancel:
     post:
       tags: [matching]
       summary: Cancel a pending match request
@@ -54,7 +54,7 @@ paths:
           description: Cancelled
         "404":
           $ref: "#/components/responses/NotFound"
-  /v1/match/tick:
+  /v2/match/tick:
     post:
       tags: [matching]
       summary: Advance matching loop (scheduler hook)

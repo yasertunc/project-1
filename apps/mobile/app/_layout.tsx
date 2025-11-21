@@ -2,7 +2,7 @@
 // import "../src/lib/sentry"; // Temporarily disabled - Sentry removed due to RCT-Folly dependency issue
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 import "../global.css";
 import { palette } from "../src/theme/tokens";
@@ -34,37 +34,31 @@ function NotificationBootstrap() {
 }
 
 export default function Layout() {
-  const headerStyle = useMemo(
-    () => ({
-      headerStyle: {
-        backgroundColor: palette.surface.white,
-      },
-      headerTitleStyle: {
-        color: palette.text.primary,
-        fontSize: 18,
-        fontWeight: "700" as const,
-      },
-      headerTintColor: palette.primary.main,
-    }),
-    []
-  );
-
   return (
     <ErrorBoundary>
       <SafeAreaProvider>
         <NotificationBootstrap />
         <Stack
           screenOptions={{
+            headerShown: false,
             contentStyle: { backgroundColor: palette.background.light },
           }}
         >
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen
             name="messages/[id]"
             options={{
               title: "Chat",
               presentation: "card",
-              ...headerStyle,
+              headerStyle: {
+                backgroundColor: palette.surface.white,
+              },
+              headerTitleStyle: {
+                color: palette.text.primary,
+                fontSize: 18,
+                fontWeight: "700" as const,
+              },
+              headerTintColor: palette.primary.main,
             }}
           />
         </Stack>

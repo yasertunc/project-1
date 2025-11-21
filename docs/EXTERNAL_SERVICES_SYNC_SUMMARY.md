@@ -53,7 +53,7 @@ Bu dosya, `fellowus-complete-specification.json` dosyasına göre yapılan tüm 
 
 **Değişiklikler:**
 
-- `https://fellowus.app/download` → `https://fellowus.app/download`
+- `https://www.fellowus.com/download` → `https://www.fellowus.com/download`
 
 ### 4. Mobile App Configuration
 
@@ -61,9 +61,9 @@ Bu dosya, `fellowus-complete-specification.json` dosyasına göre yapılan tüm 
   - iOS `deploymentTarget: "13.0"` eklendi (JSON spesifikasyonuna uygun)
   - Android `minSdkVersion: 23` eklendi (JSON spesifikasyonuna uygun)
   - Android `targetSdkVersion: 33` eklendi (JSON spesifikasyonuna uygun)
-  - Privacy Policy URL: `fellowus.app/privacy`
-  - Terms of Service URL: `fellowus.app/terms`
-  - Download URL: `fellowus.app/download`
+  - Privacy Policy URL: `www.fellowus.com/privacy`
+  - Terms of Service URL: `www.fellowus.com/terms`
+  - Download URL: `www.fellowus.com/download`
 
 ### 5. Chromatic
 

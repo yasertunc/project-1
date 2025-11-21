@@ -56,7 +56,7 @@ Bu rapor, `fellowus-complete-specification.json` dosyasındaki dış servis konf
     "url": "https://staging.fellowus.app"
   },
   "production": {
-    "url": "https://fellowus.app"
+    "url": "https://www.fellowus.com"
   }
 }
 ```
@@ -92,9 +92,9 @@ Bu rapor, `fellowus-complete-specification.json` dosyasındaki dış servis konf
 
 **Mevcut Durum:**
 
-- `src/lib/env.ts`: `https://fellowus.app/download` ⚠️
-- `apps/mobile/app.config.ts`: `https://fellowus.app/download` ⚠️
-- GitHub workflows: `https://fellowus.app/download` ⚠️
+- `src/lib/env.ts`: `https://www.fellowus.com/download` ⚠️
+- `apps/mobile/app.config.ts`: `https://www.fellowus.com/download` ⚠️
+- GitHub workflows: `https://www.fellowus.com/download` ⚠️
 - OpenAPI: `https://api.fellowus.app` ve `https://staging-api.fellowus.app` ❌
 
 **Sorun:**

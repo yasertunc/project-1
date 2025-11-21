@@ -33,7 +33,7 @@ const WithThemeAndLocale: Decorator = (Story, context) => {
 
   return (
     <div
-      style={{ background: "var(--muted-50)", minHeight: "100vh", padding: 16 }}
+      style={{ background: "var(--color-background-light)", minHeight: "100vh", padding: 16 }}
     >
       <Story />
     </div>

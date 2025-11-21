@@ -2,33 +2,31 @@
 # Tüm HTTP isteklerini HTTPS'e yönlendir
 <IfModule mod_rewrite.c>
   RewriteEngine On
-
-  RewriteCond %{HTTP_HOST} ^(www\.)?fellowus\.com$ [NC]
-  RewriteCond %{HTTP:X-Forwarded-Proto} !https [OR]
   RewriteCond %{HTTPS} off
-  RewriteRule ^(.*)$ https://www.fellowus.com/$1 [L,R=301]
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
 
 # Security Headers
 <IfModule mod_headers.c>
   # HTTPS Strict Transport Security (HSTS)
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-
+  
   # Content Security Policy
   Header set Content-Security-Policy "upgrade-insecure-requests"
-
+  
   # X-Content-Type-Options
   Header set X-Content-Type-Options "nosniff"
-
+  
   # X-Frame-Options
   Header set X-Frame-Options "SAMEORIGIN"
-
+  
   # X-XSS-Protection
   Header set X-XSS-Protection "1; mode=block"
-
+  
   # Referrer Policy
   Header set Referrer-Policy "strict-origin-when-cross-origin"
-
+  
   # Permissions Policy
   Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
 </IfModule>

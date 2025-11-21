@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 16.26.0",
+    "version": ">= 16.27.0",
     "appVersionSource": "remote"
   },
   "build": {
@@ -8,76 +8,58 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EAS_PROJECT_ROOT": "apps/mobile"
+        "EAS_PROJECT_ROOT": "."
       },
       "android": {
-        "buildType": "apk",
-        "config": {
-          "minSdkVersion": 23,
-          "targetSdkVersion": 33
-        }
+        "buildType": "apk"
       }
     },
     "preview": {
       "distribution": "internal",
       "env": {
-        "EAS_PROJECT_ROOT": "apps/mobile"
+        "EAS_PROJECT_ROOT": "."
       },
       "android": {
         "buildType": "apk",
-        "gradleCommand": ":app:assembleRelease",
-        "config": {
-          "minSdkVersion": 23,
-          "targetSdkVersion": 33
-        }
+        "gradleCommand": ":app:assembleRelease"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EAS_PROJECT_ROOT": "apps/mobile"
+        "EAS_PROJECT_ROOT": "."
       },
       "android": {
         "buildType": "app-bundle",
-        "gradleCommand": ":app:bundleRelease",
-        "config": {
-          "minSdkVersion": 23,
-          "targetSdkVersion": 33
-        }
+        "gradleCommand": ":app:bundleRelease"
       }
     },
     "production-apk": {
       "autoIncrement": true,
       "env": {
-        "EAS_PROJECT_ROOT": "apps/mobile"
+        "EAS_PROJECT_ROOT": "."
       },
       "android": {
         "buildType": "apk",
-        "gradleCommand": ":app:assembleRelease",
-        "config": {
-          "minSdkVersion": 23,
-          "targetSdkVersion": 33
-        }
+        "gradleCommand": ":app:assembleRelease"
       }
     },
     "preview-ios": {
       "distribution": "internal",
       "env": {
-        "EAS_PROJECT_ROOT": "apps/mobile"
+        "EAS_PROJECT_ROOT": "."
       },
       "ios": {
-        "simulator": true,
-        "deploymentTarget": "13.0"
+        "simulator": true
       }
     },
     "production-ios": {
       "autoIncrement": true,
       "env": {
-        "EAS_PROJECT_ROOT": "apps/mobile"
+        "EAS_PROJECT_ROOT": "."
       },
       "ios": {
-        "simulator": false,
-        "deploymentTarget": "13.0"
+        "simulator": false
       }
     }
   },

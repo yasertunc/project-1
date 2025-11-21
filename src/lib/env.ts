@@ -15,12 +15,21 @@ const processEnv: MetaEnv =
     ? (process.env as unknown as MetaEnv)
     : undefined;
 
+// Prefer process.env so tests and server tools can override import.meta.env defaults
 const resolvedDownloadUrl =
-  metaEnv?.VITE_DOWNLOAD_URL ??
   processEnv?.VITE_DOWNLOAD_URL ??
+  metaEnv?.VITE_DOWNLOAD_URL ??
   DEFAULT_DOWNLOAD_URL;
 
 export const DOWNLOAD_URL = resolvedDownloadUrl;
+
+// Google Maps API Key
+const resolvedGoogleMapsApiKey =
+  processEnv?.VITE_GOOGLE_MAPS_API_KEY ??
+  metaEnv?.VITE_GOOGLE_MAPS_API_KEY ??
+  undefined;
+
+export const GOOGLE_MAPS_API_KEY = resolvedGoogleMapsApiKey;
 
 export function safeOpen(url: string) {
   if (typeof window !== "undefined" && typeof window.open === "function") {

@@ -26,6 +26,7 @@ export const config = {
   },
   api: {
     baseUrl: process.env.API_BASE_URL || "http://localhost:3000",
+    apiVersion: process.env.API_VERSION || "v2",
   },
 } as const;
 
