@@ -108,7 +108,9 @@ test.describe("Performance flow E2E", () => {
     // Get all script and style resources
     const resources = await page.evaluate(() => {
       const scripts = Array.from(document.querySelectorAll("script[src]"));
-      const styles = Array.from(document.querySelectorAll("link[rel='stylesheet']"));
+      const styles = Array.from(
+        document.querySelectorAll("link[rel='stylesheet']")
+      );
 
       return {
         scripts: scripts.map((s) => (s as HTMLScriptElement).src),
@@ -117,10 +119,11 @@ test.describe("Performance flow E2E", () => {
     });
 
     // Verify resources are loaded
-    expect(resources.scripts.length + resources.styles.length).toBeGreaterThan(0);
+    expect(resources.scripts.length + resources.styles.length).toBeGreaterThan(
+      0
+    );
 
     // Actual bundle size check is done in CI via size-budget.mjs
     // This test verifies resources are present
   });
 });
-

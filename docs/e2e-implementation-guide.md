@@ -43,14 +43,18 @@ Validate complete user journeys from start to finish, ensuring all interactions 
 **Test**: `should scroll to "How It Works" section when clicking CTA`
 
 **Steps**:
+
 1. Navigate to homepage
 2. Click "How It Works" CTA button
 3. Verify page scrolls to correct section
 4. Verify section is visible
 
 **Implementation**:
+
 ```typescript
-test("should scroll to 'How It Works' section when clicking CTA", async ({ page }) => {
+test("should scroll to 'How It Works' section when clicking CTA", async ({
+  page,
+}) => {
   await page.goto("/");
   await page.click('text="How It Works"');
   await page.waitForSelector("#how-it-works", { state: "visible" });
@@ -64,6 +68,7 @@ test("should scroll to 'How It Works' section when clicking CTA", async ({ page 
 **Test**: `should persist language selection`
 
 **Steps**:
+
 1. Navigate to homepage
 2. Switch language to Turkish
 3. Verify UI updates to Turkish
@@ -71,12 +76,13 @@ test("should scroll to 'How It Works' section when clicking CTA", async ({ page 
 5. Verify language persists
 
 **Implementation**:
+
 ```typescript
 test("should persist language selection", async ({ page }) => {
   await page.goto("/");
   await page.click('button[aria-label="Switch to Turkish"]');
   await expect(page.locator("text=Nasıl Çalışır")).toBeVisible();
-  
+
   await page.reload();
   await expect(page.locator("text=Nasıl Çalışır")).toBeVisible();
 });
@@ -87,12 +93,14 @@ test("should persist language selection", async ({ page }) => {
 **File**: `e2e/matching-flow.spec.ts`
 
 **Tests**:
+
 - `should successfully enqueue and match`
 - `should handle match cancellation`
 - `should handle match timeout`
 - `should display queue position`
 
 **Implementation Pattern**:
+
 ```typescript
 test("should successfully enqueue and match", async ({ page }) => {
   // Mock API responses
@@ -118,6 +126,7 @@ test("should successfully enqueue and match", async ({ page }) => {
 **File**: `e2e/profile-setup.spec.ts`
 
 **Tests**:
+
 - `should allow successful profile setup`
 - `should display validation errors for invalid input`
 - `should allow profile updates`
@@ -128,6 +137,7 @@ test("should successfully enqueue and match", async ({ page }) => {
 **File**: `e2e/notification-flow.spec.ts`
 
 **Tests**:
+
 - `should request and register notification token`
 - `should handle notification permission denied`
 - `should allow unregistering notifications`
@@ -162,25 +172,29 @@ Validate error handling, network failures, and API error responses to ensure gra
 **File**: `e2e/failures.spec.ts`
 
 **Tests**:
+
 - `should display error fallback when section fails to load`
 - `should allow retry after error`
 - `should handle multiple section failures`
 
 **Implementation**:
+
 ```typescript
-test("should display error fallback when section fails to load", async ({ page }) => {
+test("should display error fallback when section fails to load", async ({
+  page,
+}) => {
   await page.goto("/");
-  
+
   // Force error in lazy-loaded section
   await page.evaluate(() => {
     window.__FELLOWUS_FORCE_SECTION_ERROR = true;
   });
-  
+
   // Trigger section load
   await page.evaluate(() => {
     window.scrollTo(0, document.body.scrollHeight);
   });
-  
+
   // Verify error fallback appears
   await expect(page.locator("text=Something went wrong")).toBeVisible();
 });
@@ -191,6 +205,7 @@ test("should display error fallback when section fails to load", async ({ page }
 **File**: `e2e/api-failures.spec.ts`
 
 **Tests**:
+
 - `should handle 400 Bad Request`
 - `should handle 401 Unauthorized`
 - `should handle 404 Not Found`
@@ -203,6 +218,7 @@ test("should display error fallback when section fails to load", async ({ page }
 - `should handle CORS errors`
 
 **Implementation Pattern**:
+
 ```typescript
 test("should handle 400 Bad Request", async ({ page }) => {
   await page.route("**/v1/match/enqueue", async (route) => {
@@ -318,7 +334,7 @@ Prefer data attributes for test selectors:
 await page.click('[data-testid="how-it-works-cta"]');
 
 // ❌ Bad: Fragile selector
-await page.click('button:nth-child(3)'); // Breaks if order changes
+await page.click("button:nth-child(3)"); // Breaks if order changes
 ```
 
 ### 5. Error Assertions
@@ -449,4 +465,3 @@ export const test = base.extend({
 - [Playwright Documentation](https://playwright.dev/)
 - [Test Files](../e2e/)
 - [CI/CD Workflows](../.github/workflows/)
-

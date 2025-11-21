@@ -81,7 +81,7 @@ import GoogleMap from "./components/Map/GoogleMap";
   onMarkerClick={(marker) => {
     console.log("Marker clicked:", marker);
   }}
-/>
+/>;
 ```
 
 ### Özellikler
@@ -99,11 +99,11 @@ import GoogleMap from "./components/Map/GoogleMap";
 
 ```typescript
 interface Marker {
-  id: string;                    // Unique identifier
+  id: string; // Unique identifier
   position: { lat: number; lng: number }; // Coordinates
-  icon?: string;                  // Emoji icon (e.g., "🏛️")
-  title?: string;                 // Tooltip text
-  onClick?: () => void;           // Click handler
+  icon?: string; // Emoji icon (e.g., "🏛️")
+  title?: string; // Tooltip text
+  onClick?: () => void; // Click handler
 }
 ```
 
@@ -114,6 +114,7 @@ API key yapılandırılmamışsa veya yüklenemezse, uygulama otomatik olarak mo
 ## Maliyet
 
 Google Maps JavaScript API'nin ücretsiz kotası:
+
 - **$200/ay** ücretsiz kredi
 - **28,500 map loads/ay** ücretsiz
 - **40,000 directions requests/ay** ücretsiz
@@ -153,4 +154,3 @@ Gelecekte eklenebilecek özellikler:
 - [ ] Custom map styles
 - [ ] Heatmaps
 - [ ] Drawing tools
-

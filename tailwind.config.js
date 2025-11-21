@@ -57,7 +57,10 @@ module.exports = {
                 : `${value}px`,
           ])
         ),
-        pill: borderRadius.round === "50%" ? "999px" : borderRadius.round || "999px",
+        pill:
+          borderRadius.round === "50%"
+            ? "999px"
+            : borderRadius.round || "999px",
       },
       boxShadow: {
         ...Object.fromEntries(

@@ -3,6 +3,7 @@
 ## Mevcut APK
 
 Zaten bir APK dosyası mevcut:
+
 - **Konum**: `apps/mobile/apps/mobile/artifacts/FellowusMobile-production.apk`
 - **Boyut**: ~78 MB
 - **Tarih**: 17 Kasım 2025
@@ -17,6 +18,7 @@ npx eas-cli build --platform android --profile preview
 ```
 
 Bu komut:
+
 - APK formatında build oluşturur
 - Internal distribution için uygundur
 - Test ve geliştirme için idealdir
@@ -29,6 +31,7 @@ npx eas-cli build --platform android --profile production-apk
 ```
 
 Bu komut:
+
 - Production APK oluşturur
 - Version code otomatik artar
 - Release için uygundur
@@ -41,6 +44,7 @@ npx eas-cli build --platform android --profile development
 ```
 
 Bu komut:
+
 - Development client APK oluşturur
 - Expo Dev Tools ile çalışır
 - Hot reload destekler
@@ -93,18 +97,20 @@ Bu komut local build yapar ama production APK için EAS Build kullanılmalıdır
 ## Sorun Giderme
 
 ### EAS CLI yüklü değilse:
+
 ```bash
 npm install -g eas-cli
 ```
 
 ### Login olmadıysanız:
+
 ```bash
 npx eas-cli login
 ```
 
 ### Build durumunu kontrol etme:
+
 ```bash
 cd apps/mobile
 npx eas-cli build:list --platform android
 ```
-

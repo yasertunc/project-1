@@ -27,9 +27,11 @@ This plan outlines the strategy for completing all ⚠️ in-progress E2E test i
 #### Tasks
 
 1. **Run Existing Tests**
+
    ```bash
    npm run test:e2e:all
    ```
+
    - Verify all 66 tests pass
    - Fix any infrastructure issues
    - Document test execution results
@@ -53,6 +55,7 @@ This plan outlines the strategy for completing all ⚠️ in-progress E2E test i
    - [ ] Create test maintenance guide
 
 **Success Criteria**:
+
 - ✅ All existing tests pass
 - ✅ Test coverage increased to 70%+
 - ✅ Test infrastructure improved
@@ -89,6 +92,7 @@ This plan outlines the strategy for completing all ⚠️ in-progress E2E test i
    - [ ] Add tests for loading states
 
 **Success Criteria**:
+
 - ✅ All tests work with real UI
 - ✅ Test coverage increased to 75%+
 - ✅ Visual regression tests added
@@ -125,6 +129,7 @@ This plan outlines the strategy for completing all ⚠️ in-progress E2E test i
    - [ ] Test load handling
 
 **Success Criteria**:
+
 - ✅ All tests work with real backend
 - ✅ Test coverage increased to 80%+
 - ✅ Integration tests added
@@ -161,6 +166,7 @@ This plan outlines the strategy for completing all ⚠️ in-progress E2E test i
    - [ ] Document device compatibility
 
 **Success Criteria**:
+
 - ✅ Mobile E2E tests running
 - ✅ Device matrix tests running
 - ✅ Test coverage for mobile 70%+
@@ -168,12 +174,12 @@ This plan outlines the strategy for completing all ⚠️ in-progress E2E test i
 
 ## Timeline
 
-| Phase | Duration | Status | Dependencies |
-|-------|----------|--------|--------------|
-| Phase 1: Mocked Tests | Week 1-2 | ⚠️ Ready | None |
-| Phase 2: Real UI | Week 3-4 | ⏸️ Waiting | UI implementation |
-| Phase 3: Real Backend | Week 5-6 | ⏸️ Waiting | Backend implementation |
-| Phase 4: Mobile E2E | Week 7-8 | ⏸️ Waiting | Dev client APK, Detox plugin |
+| Phase                 | Duration | Status     | Dependencies                 |
+| --------------------- | -------- | ---------- | ---------------------------- |
+| Phase 1: Mocked Tests | Week 1-2 | ⚠️ Ready   | None                         |
+| Phase 2: Real UI      | Week 3-4 | ⏸️ Waiting | UI implementation            |
+| Phase 3: Real Backend | Week 5-6 | ⏸️ Waiting | Backend implementation       |
+| Phase 4: Mobile E2E   | Week 7-8 | ⏸️ Waiting | Dev client APK, Detox plugin |
 
 **Total Duration**: 8 weeks (can be parallelized)
 
@@ -191,21 +197,25 @@ This plan outlines the strategy for completing all ⚠️ in-progress E2E test i
 ### Phase-Specific Success Criteria
 
 #### Phase 1
+
 - ✅ All mocked tests pass
 - ✅ Test coverage ≥70%
 - ✅ Test infrastructure improved
 
 #### Phase 2
+
 - ✅ All tests work with real UI
 - ✅ Test coverage ≥75%
 - ✅ Visual regression tests added
 
 #### Phase 3
+
 - ✅ All tests work with real backend
 - ✅ Test coverage ≥80%
 - ✅ Integration tests added
 
 #### Phase 4
+
 - ✅ Mobile E2E tests running
 - ✅ Device matrix tests running
 - ✅ Mobile test coverage ≥70%
@@ -240,6 +250,7 @@ This plan outlines the strategy for completing all ⚠️ in-progress E2E test i
 ## Resources
 
 ### Documentation
+
 - [E2E Testing Strategy](e2e-testing-strategy.md)
 - [E2E Implementation Guide](e2e-implementation-guide.md)
 - [E2E Test Coverage Report](e2e-test-coverage-report.md)
@@ -247,12 +258,14 @@ This plan outlines the strategy for completing all ⚠️ in-progress E2E test i
 - [Device Matrix Implementation](mobile-device-matrix-implementation.md)
 
 ### Tools
+
 - Playwright (Web E2E)
 - Detox (Mobile E2E - when available)
 - Maestro (Mobile E2E alternative)
 - GitHub Actions (CI/CD)
 
 ### Team
+
 - Frontend developers (UI implementation)
 - Backend developers (API implementation)
 - QA engineers (Test execution)

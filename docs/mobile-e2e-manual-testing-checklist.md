@@ -12,12 +12,14 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 ## Test Environment Setup
 
 ### Android
+
 - [ ] USB debugging enabled
 - [ ] Device authorized for debugging
 - [ ] ADB connection verified (`adb devices`)
 - [ ] Dev Client APK installed
 
 ### iOS
+
 - [ ] Device registered in Apple Developer Portal
 - [ ] Dev Client installed via TestFlight or Xcode
 - [ ] Development provisioning profile active
@@ -26,6 +28,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 ## Core Flow Tests
 
 ### 1. App Launch
+
 - [ ] App launches without crashes
 - [ ] Splash screen displays correctly
 - [ ] App navigates to home screen
@@ -33,6 +36,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Loading states display correctly
 
 ### 2. Tab Navigation
+
 - [ ] All tabs are accessible
 - [ ] Tab switching works smoothly
 - [ ] Tab icons display correctly
@@ -40,12 +44,14 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Tab state persists on app resume
 
 **Tabs to test:**
+
 - [ ] Discover tab
 - [ ] Safety tab
 - [ ] Profile tab
 - [ ] Messages/Inbox tab (if applicable)
 
 ### 3. Push Notifications
+
 - [ ] Permission request dialog appears
 - [ ] Permission can be granted
 - [ ] Permission can be denied
@@ -55,6 +61,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Notification badge updates
 
 ### 4. Error Handling
+
 - [ ] Error boundaries catch errors
 - [ ] Error UI displays correctly
 - [ ] "Try Again" button works
@@ -62,6 +69,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] No crashes on error
 
 ### 5. Language Switching
+
 - [ ] Language can be switched
 - [ ] UI updates to new language
 - [ ] Language preference persists
@@ -69,6 +77,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] RTL layout works (if applicable)
 
 ### 6. Download Flow
+
 - [ ] Download CTA is visible
 - [ ] Download CTA is clickable
 - [ ] Platform detection works
@@ -78,6 +87,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 ## Advanced Flow Tests
 
 ### 7. Matching Flow (When Implemented)
+
 - [ ] Matching can be initiated
 - [ ] Queue position displays
 - [ ] Match found notification works
@@ -86,6 +96,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Match can be cancelled
 
 ### 8. Profile Setup (When Implemented)
+
 - [ ] Profile can be created
 - [ ] Profile can be edited
 - [ ] Validation errors display correctly
@@ -93,6 +104,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Profile syncs with backend
 
 ### 9. Chat/Messaging (When Implemented)
+
 - [ ] Messages can be sent
 - [ ] Messages can be received
 - [ ] Message history loads
@@ -102,6 +114,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 ## Performance Tests
 
 ### 10. App Performance
+
 - [ ] App launches in < 3 seconds
 - [ ] Navigation is smooth (60fps)
 - [ ] No jank during scrolling
@@ -110,6 +123,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Battery usage is acceptable
 
 ### 11. Network Handling
+
 - [ ] App works offline (if applicable)
 - [ ] Network errors handled gracefully
 - [ ] Retry logic works
@@ -119,6 +133,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 ## Device-Specific Tests
 
 ### 12. Screen Sizes
+
 - [ ] Small screens (e.g., iPhone SE)
 - [ ] Medium screens (e.g., Pixel 6)
 - [ ] Large screens (e.g., tablets)
@@ -126,6 +141,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Portrait orientation
 
 ### 13. Android-Specific
+
 - [ ] Back button works
 - [ ] System UI overlays work
 - [ ] Notch handling (if applicable)
@@ -133,6 +149,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Light mode works
 
 ### 14. iOS-Specific
+
 - [ ] Safe area insets work
 - [ ] Notch handling
 - [ ] Home indicator works
@@ -142,6 +159,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 ## Accessibility Tests
 
 ### 15. Screen Reader
+
 - [ ] VoiceOver/TalkBack works
 - [ ] All elements are accessible
 - [ ] Labels are descriptive
@@ -149,12 +167,14 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Actions are clear
 
 ### 16. Keyboard Navigation
+
 - [ ] All elements are focusable
 - [ ] Focus order is logical
 - [ ] Focus indicators are visible
 - [ ] Keyboard shortcuts work (if applicable)
 
 ### 17. Visual Accessibility
+
 - [ ] Color contrast meets WCAG AA
 - [ ] Text is readable
 - [ ] Icons have text labels
@@ -164,6 +184,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 ## Edge Cases
 
 ### 18. App Lifecycle
+
 - [ ] App resumes from background
 - [ ] App handles app switching
 - [ ] App handles phone calls (Android)
@@ -171,6 +192,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] App handles device rotation
 
 ### 19. Data Persistence
+
 - [ ] User preferences persist
 - [ ] App state persists
 - [ ] Data syncs correctly
@@ -178,6 +200,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 - [ ] Data clears on logout (if applicable)
 
 ### 20. Security
+
 - [ ] Sensitive data is encrypted
 - [ ] API keys are secure
 - [ ] User data is protected
@@ -231,6 +254,7 @@ This checklist is for manual testing of mobile E2E flows when automated testing 
 ## Next Steps
 
 After manual testing:
+
 1. Document all issues found
 2. Prioritize issues by severity
 3. Create tickets for fixes
@@ -242,4 +266,3 @@ After manual testing:
 - [Mobile Debug Device Testing Guide](mobile-debug-device-testing.md)
 - [Device Matrix Implementation](mobile-device-matrix-implementation.md)
 - [Mobile E2E Alternatives](mobile-e2e-alternatives.md)
-

@@ -18,12 +18,25 @@ describe("format", () => {
     });
 
     test("formats number with custom options", () => {
-      expect(formatNumber(1234.56, { minimumFractionDigits: 2, maximumFractionDigits: 2 })).toBe("1,234.56");
-      expect(formatNumber(1234.5, { minimumFractionDigits: 2, maximumFractionDigits: 2 })).toBe("1,234.50");
+      expect(
+        formatNumber(1234.56, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      ).toBe("1,234.56");
+      expect(
+        formatNumber(1234.5, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      ).toBe("1,234.50");
     });
 
     test("formats currency", () => {
-      const result = formatNumber(1234.56, { style: "currency", currency: "USD" });
+      const result = formatNumber(1234.56, {
+        style: "currency",
+        currency: "USD",
+      });
       expect(result).toContain("1,234.56");
       expect(result).toContain("$");
     });
@@ -109,4 +122,3 @@ describe("format", () => {
     });
   });
 });
-

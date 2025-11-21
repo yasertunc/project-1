@@ -20,7 +20,8 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variants: Record<string, string> = {
     primary: "bg-primary-main text-white hover:bg-primary-light",
-    outline: "border border-text-secondary/20 text-text-primary hover:bg-background-light",
+    outline:
+      "border border-text-secondary/20 text-text-primary hover:bg-background-light",
     ghost: "text-text-secondary hover:bg-background-light",
     secondary: "bg-background-light text-text-primary hover:bg-surface-gray",
     accent: "bg-vip-main text-white hover:opacity-90",
@@ -31,8 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
       ? children.trim().length > 0
       : React.Children.count(children) > 0;
 
-  const finalAriaLabel =
-    !hasText && !ariaLabelProp ? "Button" : ariaLabelProp;
+  const finalAriaLabel = !hasText && !ariaLabelProp ? "Button" : ariaLabelProp;
 
   return (
     <button

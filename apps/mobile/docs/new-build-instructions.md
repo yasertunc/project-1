@@ -89,6 +89,7 @@ aapt dump badging artifacts/*.apk | grep package
 ### 2. İçerik Kontrolü
 
 APK'yı cihazda veya emülatörde açtığınızda:
+
 - ✅ Uygulama adı: "Fellowus Mobile"
 - ✅ Package: com.fellowus.app
 - ✅ Ana ekranlar: Chats, Discover, Safety, Profile
@@ -113,12 +114,14 @@ eas build:view [BUILD_ID]
 ### Build Başarısız Oluyor
 
 1. **EAS Token kontrol edin:**
+
    ```bash
    echo $EXPO_TOKEN
    # Eğer boşsa, GitHub Secrets'tan EXPO_TOKEN'i kontrol edin
    ```
 
 2. **Proje ID kontrol edin:**
+
    ```bash
    cat apps/mobile/app.config.ts | grep projectId
    # Beklenen: 694fc69a-a332-4142-9a41-54012868a73b
@@ -132,6 +135,7 @@ eas build:view [BUILD_ID]
 ### Build ID Bulunamıyor
 
 GitHub Actions workflow'unda build ID extraction iyileştirildi. Eğer hala sorun varsa:
+
 - Workflow log'larını kontrol edin
 - Build output'unda build URL'ini arayın
 - Manuel olarak `eas build:list` ile build ID'yi bulun
@@ -139,6 +143,7 @@ GitHub Actions workflow'unda build ID extraction iyileştirildi. Eğer hala soru
 ### Yanlış Proje Build'i
 
 Workflow artık build'i otomatik olarak doğruluyor:
+
 - Proje ID kontrolü yapılıyor
 - Package name kontrolü yapılıyor
 - Yanlış proje build'i otomatik olarak reddediliyor
@@ -149,7 +154,7 @@ Workflow artık build'i otomatik olarak doğruluyor:
 ✅ **Build ID extraction**: Gelişmiş build ID çıkarımı  
 ✅ **Otomatik doğrulama**: Build sonrası proje ve package kontrolü  
 ✅ **Package name kontrolü**: com.fellowus.app kontrolü  
-✅ **Hata önleme**: Yanlış build otomatik reddediliyor  
+✅ **Hata önleme**: Yanlış build otomatik reddediliyor
 
 ## Sonraki Adımlar
 
@@ -169,6 +174,6 @@ Workflow artık build'i otomatik olarak doğruluyor:
 ## Destek
 
 Build ile ilgili sorunlar için:
+
 - EAS Dashboard: https://expo.dev/accounts/yasertunc/projects/fellowus-mobile/builds
 - GitHub Actions: Repository → Actions → EAS Build → Son workflow run
-

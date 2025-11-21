@@ -13,6 +13,7 @@ The device matrix ensures compatibility across different Android and iOS devices
 #### Pixel 6 Emulator (API 34)
 
 **Setup**:
+
 ```bash
 # Create AVD
 avdmanager create avd -n Pixel_6_API_34 -k "system-images;android-34;google_apis;x86_64" -d "pixel_6"
@@ -23,6 +24,7 @@ emulator -avd Pixel_6_API_34 -no-snapshot-load
 
 **Detox Configuration**:
 Already configured in `apps/mobile/detox.config.ts`:
+
 ```typescript
 devices: {
   "pixel-6": {
@@ -35,6 +37,7 @@ devices: {
 ```
 
 **CI/CD Integration**:
+
 ```yaml
 # .github/workflows/device-matrix.yml
 name: Device Matrix Tests
@@ -45,7 +48,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 2 * * *' # Daily at 2 AM
+    - cron: "0 2 * * *" # Daily at 2 AM
 
 jobs:
   pixel6-smoke:
@@ -54,7 +57,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: "18"
       - uses: android-actions/setup-android@v3
       - name: Create AVD
         run: |
@@ -79,6 +82,7 @@ jobs:
 ```
 
 **Test Coverage**:
+
 - App launch
 - Tab navigation
 - Push notification permission
@@ -88,6 +92,7 @@ jobs:
 #### Samsung Galaxy S21 (Physical Device)
 
 **Setup**:
+
 1. Enable Developer Options:
    - Settings → About Phone → Tap "Build Number" 7 times
 2. Enable USB Debugging:
@@ -99,6 +104,7 @@ jobs:
    ```
 
 **Manual Testing Checklist**:
+
 - [ ] App launches successfully
 - [ ] Tab navigation works smoothly
 - [ ] Push notifications received
@@ -109,6 +115,7 @@ jobs:
 - [ ] Download CTA redirects correctly
 
 **Testing Script**:
+
 ```bash
 # scripts/test-samsung-s21.sh
 #!/bin/bash
@@ -140,11 +147,13 @@ adb -s $DEVICE_ID logcat -d > logs/samsung-s21.log
 #### Xiaomi Redmi Note 11
 
 **Special Considerations**:
+
 - MIUI battery optimization may kill background processes
 - Test push notifications with app in background
 - Verify notification channels work correctly
 
 **Testing Focus**:
+
 - Background restrictions
 - Notification delivery
 - Battery optimization impact
@@ -153,11 +162,13 @@ adb -s $DEVICE_ID logcat -d > logs/samsung-s21.log
 #### Pixel 5 Emulator (API 32)
 
 **Setup**:
+
 ```bash
 avdmanager create avd -n Pixel_5_API_32 -k "system-images;android-32;google_apis;x86_64" -d "pixel_5"
 ```
 
 **Performance Testing**:
+
 - Monitor frame rate during animations
 - Check memory usage
 - Verify smooth scrolling
@@ -168,11 +179,13 @@ avdmanager create avd -n Pixel_5_API_32 -k "system-images;android-32;google_apis
 #### Budget Devices (Android 11+)
 
 **Target Devices**:
+
 - Oppo A77
 - Realme variants
 - Older Samsung models
 
 **Testing Focus**:
+
 - Minimum SDK compatibility
 - Performance on low-end hardware
 - Memory constraints
@@ -185,6 +198,7 @@ avdmanager create avd -n Pixel_5_API_32 -k "system-images;android-32;google_apis
 #### iPhone 15 Pro Simulator (iOS 18)
 
 **Setup** (when Detox plugin available):
+
 ```bash
 # Install Xcode Command Line Tools
 xcode-select --install
@@ -197,6 +211,7 @@ xcrun simctl boot "iPhone 15 Pro"
 ```
 
 **Detox Configuration** (future):
+
 ```typescript
 devices: {
   "iphone-15-pro": {
@@ -214,6 +229,7 @@ devices: {
 #### iPhone 13 mini (Physical Device)
 
 **Testing Focus**:
+
 - Smaller screen layout
 - Notch handling
 - Safe area insets
@@ -222,6 +238,7 @@ devices: {
 #### iPhone SE (2022) (Physical Device)
 
 **Testing Focus**:
+
 - Home button layout
 - Performance constraints
 - Smaller screen size
@@ -234,6 +251,7 @@ devices: {
 Each device should run through these flows:
 
 #### Flow 1: Basic Navigation
+
 1. Launch app
 2. Navigate to Chats tab
 3. Navigate to Discover tab
@@ -242,12 +260,14 @@ Each device should run through these flows:
 6. Verify all tabs load correctly
 
 #### Flow 2: Language & Download
+
 1. Switch language (English ⇄ Turkish)
 2. Verify UI updates
 3. Tap download CTA
 4. Verify redirect to Play Store/App Store
 
 #### Flow 3: Push Notifications (Android Physical Only)
+
 1. Request notification permission
 2. Verify permission dialog
 3. Grant permission
@@ -257,12 +277,14 @@ Each device should run through these flows:
 7. Verify app opens to correct screen
 
 #### Flow 4: Error Handling
+
 1. Trigger error boundary (if test mode available)
 2. Verify error UI displays
 3. Tap "Try Again"
 4. Verify app recovers
 
 #### Flow 5: Background/Foreground
+
 1. Launch app
 2. Put app in background
 3. Wait 30 seconds
@@ -285,7 +307,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 2 * * *' # Daily at 2 AM
+    - cron: "0 2 * * *" # Daily at 2 AM
 
 jobs:
   android-p0:
@@ -297,7 +319,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: "18"
       - uses: android-actions/setup-android@v3
       - name: Setup Emulator
         run: |
@@ -327,11 +349,13 @@ jobs:
 ### Manual Testing Schedule
 
 **Weekly (P1 devices)**:
+
 - Monday: Xiaomi Redmi Note 11
 - Wednesday: Pixel 5 Emulator
 - Friday: iPhone 13 mini (if available)
 
 **Pre-Release (P2 devices)**:
+
 - Run full test suite on all P2 devices
 - Document any issues
 - Create tickets for blockers
@@ -341,10 +365,12 @@ jobs:
 ### Physical Device Inventory
 
 **Required**:
+
 - Samsung Galaxy S21 (P0)
 - iPhone 13 mini (P1, if iOS testing needed)
 
 **Optional**:
+
 - Xiaomi Redmi Note 11 (P1)
 - iPhone SE 2022 (P2)
 - Budget Android device (P2)
@@ -352,6 +378,7 @@ jobs:
 ### Remote Device Farm (Future)
 
 Consider using:
+
 - Firebase Test Lab
 - AWS Device Farm
 - BrowserStack App Automate
@@ -365,6 +392,7 @@ Consider using:
 ## Device Matrix Test Results - [Date]
 
 ### P0 Devices
+
 - [ ] Pixel 6 Emulator (API 34) - ✅ Pass / ❌ Fail
   - Flow 1: ✅
   - Flow 2: ✅
@@ -380,10 +408,12 @@ Consider using:
   - Flow 5: ✅
 
 ### P1 Devices
+
 - [ ] Xiaomi Redmi Note 11 - ✅ Pass / ❌ Fail
   - Notes: [Any issues found]
 
 ### Issues Found
+
 - [Issue description]
 - [Device/OS version]
 - [Steps to reproduce]
@@ -395,6 +425,7 @@ Consider using:
 ### Emulator Issues
 
 **Emulator won't start**:
+
 ```bash
 # Kill existing emulator processes
 pkill -f emulator
@@ -407,6 +438,7 @@ emulator -avd Pixel_6_API_34 -wipe-data
 ```
 
 **ADB connection issues**:
+
 ```bash
 # Restart ADB server
 adb kill-server
@@ -419,11 +451,13 @@ adb devices
 ### Physical Device Issues
 
 **Device not recognized**:
+
 - Install device drivers (Samsung, Xiaomi, etc.)
 - Enable USB debugging
 - Trust computer on device
 
 **Permission denied**:
+
 ```bash
 # Check USB debugging authorization
 adb devices
@@ -454,4 +488,3 @@ adb devices
 - [Mobile E2E Alternatives](docs/mobile-e2e-alternatives.md)
 - [Detox Documentation](https://wix.github.io/Detox/)
 - [Android Emulator Guide](https://developer.android.com/studio/run/emulator)
-

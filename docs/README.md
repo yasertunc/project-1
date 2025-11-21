@@ -13,6 +13,7 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 ## 🚀 Getting Started
 
 ### Discovery & Planning
+
 - **[01-discovery/PRODUCT_BRIEF.md](01-discovery/PRODUCT_BRIEF.md)** - Product overview and vision
 - **[01-discovery/PRD.md](01-discovery/PRD.md)** - Product Requirements Document
 - **[01-discovery/SCOPE.md](01-discovery/SCOPE.md)** - Project scope definition
@@ -21,12 +22,14 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 - **[stakeholder-interviews-guide.md](stakeholder-interviews-guide.md)** - Guide for conducting stakeholder interviews
 
 ### Development Setup
+
 - **[DEVELOPMENT.md](DEVELOPMENT.md)** - Development environment setup
 - **[env.example](env.example)** - Environment variables template
 
 ## 📱 Mobile App
 
 ### Setup & Configuration
+
 - **[mobile-notifications.md](mobile-notifications.md)** - Push notifications setup (Expo + Firebase FCM)
 - **[ios-setup-complete-guide.md](ios-setup-complete-guide.md)** - Complete iOS setup guide (Bundle ID, signing, TestFlight, App Store)
 - **[ios-action-plan.md](ios-action-plan.md)** - iOS setup action plan and step-by-step guide
@@ -39,16 +42,19 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 - **[mobile-detox.md](mobile-detox.md)** - Detox E2E testing setup
 
 ### Build & Deployment
+
 - **[eas-submit.md](eas-submit.md)** - EAS Build and submit automation
 - **[artifact-management.md](artifact-management.md)** - Build artifact management workflow
 
 ### Alternative Paths
+
 - **[capacitor-alternative-path.md](capacitor-alternative-path.md)** - Capacitor setup guide (web shell approach)
 - **[twa-alternative-path.md](twa-alternative-path.md)** - TWA (Trusted Web Activity) setup guide (PWA approach)
 
 ## 🏪 App Stores
 
 ### Google Play Console
+
 - **[play-console-app-creation.md](play-console-app-creation.md)** - Creating app in Play Console
 - **[play-console-service-account-setup.md](play-console-service-account-setup.md)** - Service account setup for automated submissions
 - **[play-console-service-account-alternative.md](play-console-service-account-alternative.md)** - Alternative service account setup via Google Cloud Console
@@ -56,6 +62,7 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 - **[play-internal-testing.md](play-internal-testing.md)** - Internal testing track setup
 
 ### App Store Connect
+
 - **[testflight-plan.md](testflight-plan.md)** - TestFlight setup and distribution plan
 - See also: [ios-setup-complete-guide.md](ios-setup-complete-guide.md) for complete iOS setup
 
@@ -72,12 +79,14 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 ## 🧪 Testing
 
 ### E2E Testing
+
 - **[e2e-testing-strategy.md](e2e-testing-strategy.md)** - E2E testing strategy, implementation, and coverage goals
 - **[e2e-implementation-guide.md](e2e-implementation-guide.md)** - Comprehensive E2E implementation guide (flow-based tests, failure scenarios, CI/CD, best practices)
 - **[mobile-e2e-alternatives.md](mobile-e2e-alternatives.md)** - Alternative mobile E2E testing approaches (Detox, Maestro, Appium, manual testing)
 - **[mobile-device-matrix-implementation.md](mobile-device-matrix-implementation.md)** - Device matrix testing implementation guide (setup, CI/CD, test flows, reporting)
 
 ### QA & Testing
+
 - **[QA_CHECKLIST.md](QA_CHECKLIST.md)** - Comprehensive QA checklist (pre-release, release, post-release)
 - **[qa-sweep.md](qa-sweep.md)** - Final QA sweep procedures
 - **[final-a11y-audit.md](final-a11y-audit.md)** - Accessibility audit checklist
@@ -111,13 +120,16 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 ## 🏗️ Architecture & Design
 
 ### API Design
+
 - **[backend-api-design.md](backend-api-design.md)** - Backend API design (REST endpoints, WebSocket events, push notifications)
 
 ### Design Decisions
+
 - **[adr/0001-matching-api-contract.md](adr/0001-matching-api-contract.md)** - ADR: Matching API contract
 - **[adr/0002-design-tokens-source.md](adr/0002-design-tokens-source.md)** - ADR: Design tokens source
 
 ### Discovery Documents
+
 - **[01-discovery/GLOSSARY.md](01-discovery/GLOSSARY.md)** - Project glossary
 - **[01-discovery/NONFUNCTIONALS.md](01-discovery/NONFUNCTIONALS.md)** - Non-functional requirements
 - **[01-discovery/RELEASE_PLAN.md](01-discovery/RELEASE_PLAN.md)** - Release planning
@@ -126,6 +138,7 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 ## 📚 Quick Reference
 
 ### Most Used Documents
+
 1. **[PROJECT_STATUS.md](PROJECT_STATUS.md)** - Current project status
 2. **[project-completion-summary.md](project-completion-summary.md)** - Quick status overview
 3. **[QA_CHECKLIST.md](QA_CHECKLIST.md)** - QA checklist
@@ -133,12 +146,14 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 5. **[ios-setup-complete-guide.md](ios-setup-complete-guide.md)** - iOS setup (when ready)
 
 ### Setup Guides (In Order)
+
 1. **[tool-integrations-setup.md](tool-integrations-setup.md)** - Set up Analytics, Sentry, Firebase
 2. **[firebase-fcm-setup.md](firebase-fcm-setup.md)** - Configure Firebase FCM
 3. **[domain-dns-setup.md](domain-dns-setup.md)** - Configure domain and DNS
 4. **[ios-setup-complete-guide.md](ios-setup-complete-guide.md)** - iOS setup (when Apple Developer access is ready)
 
 ### Testing Guides
+
 1. **[mobile-debug-device-testing.md](mobile-debug-device-testing.md)** - Test on physical devices
 2. **[e2e-testing-strategy.md](e2e-testing-strategy.md)** - E2E testing strategy
 3. **[e2e-implementation-guide.md](e2e-implementation-guide.md)** - E2E implementation guide (flow-based, failure scenarios)
@@ -158,4 +173,3 @@ Welcome to the Fellowus project documentation. This index provides quick access 
 - **Live Storybook**: https://yasertunc.github.io/project-1/storybook/
 - **GitHub Repository**: [yasertunc/project-1](https://github.com/yasertunc/project-1)
 - **CI/CD Status**: [GitHub Actions](https://github.com/yasertunc/project-1/actions)
-

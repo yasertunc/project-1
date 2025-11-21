@@ -55,7 +55,10 @@ export class ChannelController {
           apiError.statusCode = 404;
           apiError.code = ERROR_CODES.NOT_FOUND;
           next(apiError);
-        } else if (error.message === "Channel is closed" || error.message === "Channel expired") {
+        } else if (
+          error.message === "Channel is closed" ||
+          error.message === "Channel expired"
+        ) {
           const apiError: ApiError = error;
           apiError.statusCode = 409;
           apiError.code = ERROR_CODES.CHANNEL_CLOSED;
@@ -115,4 +118,3 @@ export class ChannelController {
 }
 
 export const channelController = new ChannelController();
-

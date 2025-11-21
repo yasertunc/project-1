@@ -17,7 +17,9 @@ export function validateRequest(schema: z.ZodSchema) {
           .map((e) => `${e.path.join(".")}: ${e.message}`)
           .join(", ");
 
-        const apiError: ApiError = new Error(`Validation error: ${errorMessage}`);
+        const apiError: ApiError = new Error(
+          `Validation error: ${errorMessage}`
+        );
         apiError.statusCode = 400;
         apiError.code = ERROR_CODES.INVALID_REQUEST;
         apiError.details = error.issues;
@@ -72,4 +74,3 @@ export const pushRegisterSchema = z.object({
 export const pushUnregisterSchema = z.object({
   token: z.string().min(1),
 });
-

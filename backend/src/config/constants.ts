@@ -39,4 +39,3 @@ export const MATCHING_SCORES = {
   CAPABILITIES: 20,
   QUEUE_TIME: 10,
 } as const;
-

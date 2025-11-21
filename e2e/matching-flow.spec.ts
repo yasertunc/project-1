@@ -177,9 +177,7 @@ test.describe("Matching flow E2E (mocked)", () => {
     expect(cancelButton.or(cancelledStatus).count()).toBeGreaterThanOrEqual(0);
   });
 
-  test("@flow matching timeout shows appropriate message", async ({
-    page,
-  }) => {
+  test("@flow matching timeout shows appropriate message", async ({ page }) => {
     await setupMatchingMocks(page, "timeout");
 
     await gotoStory(page, HOMEPAGE_STORY_ID, { locale: "en" });
@@ -195,4 +193,3 @@ test.describe("Matching flow E2E (mocked)", () => {
     expect(timeoutWarning.or(waitTime).count()).toBeGreaterThanOrEqual(0);
   });
 });
-

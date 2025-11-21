@@ -15,6 +15,7 @@ This document outlines the process for refreshing the project roadmap after v1.0
 ### 1. Data Collection (Week 1-2 Post-Launch)
 
 **Metrics to Review:**
+
 - User acquisition and retention rates
 - Crash-free sessions and error rates (Sentry)
 - Performance metrics (LCP, TBT, CLS)
@@ -23,6 +24,7 @@ This document outlines the process for refreshing the project roadmap after v1.0
 - Support tickets and user feedback
 
 **Sources:**
+
 - Sentry dashboards
 - Google Analytics / alternative analytics
 - Play Console / App Store Connect metrics
@@ -32,12 +34,14 @@ This document outlines the process for refreshing the project roadmap after v1.0
 ### 2. Stakeholder Review (Week 2-3)
 
 **Participants:**
+
 - Product Owner
 - Engineering Lead
 - Design Lead
 - Marketing/Business stakeholders
 
 **Agenda:**
+
 - Review launch metrics and KPIs
 - Discuss user feedback themes
 - Identify critical issues and blockers
@@ -47,6 +51,7 @@ This document outlines the process for refreshing the project roadmap after v1.0
 ### 3. Gap Analysis (Week 3)
 
 **Areas to Evaluate:**
+
 - **Feature Gaps**: Missing functionality requested by users
 - **Performance Issues**: Slow load times, crashes, errors
 - **UX/UI Issues**: Confusing flows, accessibility problems
@@ -58,12 +63,14 @@ This document outlines the process for refreshing the project roadmap after v1.0
 ### 4. Prioritization (Week 3-4)
 
 **Prioritization Framework:**
+
 - **P0 (Critical)**: Security issues, data loss, crashes affecting >5% users
 - **P1 (High)**: Major UX issues, missing core features, performance problems
 - **P2 (Medium)**: Nice-to-have features, minor improvements
 - **P3 (Low)**: Future considerations, experimental features
 
 **Factors to Consider:**
+
 - User impact (how many users affected)
 - Business value (revenue, retention, acquisition)
 - Technical effort (development time, complexity)
@@ -73,12 +80,14 @@ This document outlines the process for refreshing the project roadmap after v1.0
 ### 5. Roadmap Update (Week 4)
 
 **Update Documents:**
+
 - `docs/01-discovery/ROADMAP.md` - High-level roadmap
 - `docs/PROJECT_STATUS.md` - Detailed status and milestones
 - Product backlog / issue tracker
 - Release planning documents
 
 **Version Planning:**
+
 - **v1.1** (Quick wins, bug fixes, minor improvements)
 - **v1.2** (New features, major improvements)
 - **v2.0** (Major features, platform expansion, architecture changes)
@@ -155,11 +164,13 @@ Based on common post-launch needs:
 ## Communication
 
 **Internal:**
+
 - Share roadmap updates in team meeting
 - Update project documentation
 - Create GitHub milestones for new versions
 
 **External (if applicable):**
+
 - Update public roadmap (if maintained)
 - Communicate major changes to users
 - Update marketing materials
@@ -186,4 +197,3 @@ Based on common post-launch needs:
 3. Plan user research for prioritized features
 4. Update project documentation
 5. Schedule next roadmap review (quarterly recommended)
-

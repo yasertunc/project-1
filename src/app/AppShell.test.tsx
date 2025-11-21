@@ -61,13 +61,13 @@ describe("AppShell", () => {
 
     const skipLink = screen.getByText("Skip to main content");
     const main = document.getElementById("main");
-    
+
     expect(main).toBeInTheDocument();
-    
+
     const focusSpy = vi.spyOn(main!, "focus");
-    
+
     await user.click(skipLink);
-    
+
     expect(focusSpy).toHaveBeenCalled();
   });
 
@@ -122,14 +122,14 @@ describe("ThemeToggle", () => {
 
   test("renders theme toggle button", () => {
     render(<ThemeToggle />);
-    
+
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button).toBeInTheDocument();
   });
 
   test("displays current theme", () => {
     render(<ThemeToggle />);
-    
+
     const button = screen.getByRole("button", { name: /toggle theme/i });
     // Default should be light, so button should say "Dark"
     expect(button).toHaveTextContent("Dark");
@@ -138,19 +138,19 @@ describe("ThemeToggle", () => {
   test("toggles theme on click", async () => {
     const user = userEvent.setup();
     render(<ThemeToggle />);
-    
+
     const button = screen.getByRole("button", { name: /toggle theme/i });
-    
+
     expect(button).toHaveTextContent("Dark");
     expect(document.documentElement.getAttribute("data-theme")).toBe("light");
-    
+
     await user.click(button);
-    
+
     expect(button).toHaveTextContent("Light");
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
-    
+
     await user.click(button);
-    
+
     expect(button).toHaveTextContent("Dark");
     expect(document.documentElement.getAttribute("data-theme")).toBe("light");
   });
@@ -158,19 +158,19 @@ describe("ThemeToggle", () => {
   test("saves theme to localStorage", async () => {
     const user = userEvent.setup();
     render(<ThemeToggle />);
-    
+
     const button = screen.getByRole("button", { name: /toggle theme/i });
-    
+
     await user.click(button);
-    
+
     expect(localStorage.getItem("fellowus.theme")).toBe("dark");
   });
 
   test("reads theme from localStorage on mount", () => {
     localStorage.setItem("fellowus.theme", "dark");
-    
+
     render(<ThemeToggle />);
-    
+
     const button = screen.getByRole("button", { name: /toggle theme/i });
     expect(button).toHaveTextContent("Light");
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
@@ -184,13 +184,12 @@ describe("ThemeToggle", () => {
     });
 
     render(<ThemeToggle />);
-    
+
     const button = screen.getByRole("button", { name: /toggle theme/i });
-    
+
     // Should not throw
     await expect(user.click(button)).resolves.not.toThrow();
-    
+
     localStorage.setItem = originalSetItem;
   });
 });
-

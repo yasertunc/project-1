@@ -125,6 +125,7 @@ curl -X POST \
 ### GitHub Release:
 
 Eğer build bir tag push ile tetiklendiyse:
+
 - APK GitHub Release'e eklenir
 - SHA256 checksum dosyası da eklenir
 - Release notes otomatik oluşturulur
@@ -218,7 +219,7 @@ Eğer build bir tag push ile tetiklendiyse:
 ## İletişim
 
 Sorunlar için:
+
 - GitHub Issues: Repository → Issues
 - EAS Dashboard: https://expo.dev/accounts/yasertunc/projects/fellowus-mobile/builds
 - Workflow logs: Repository → Actions → EAS Build → Son workflow run
-

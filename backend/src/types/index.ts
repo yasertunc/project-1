@@ -116,4 +116,3 @@ export interface ReportResponse {
 export interface CancelRequest {
   matchId: string;
 }
-

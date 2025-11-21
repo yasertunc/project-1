@@ -38,12 +38,14 @@ npm test
 ```
 
 This generates coverage reports in:
+
 - `coverage/lcov.info` - LCOV format (for CI)
 - `coverage/index.html` - HTML report (open in browser)
 
 ### Coverage thresholds
 
 Minimum coverage requirements:
+
 - **Lines**: 60%
 - **Functions**: 60%
 - **Branches**: 50%
@@ -93,6 +95,7 @@ npm run health:all
 ```
 
 This runs:
+
 1. Token build
 2. Format check
 3. Lint
@@ -111,6 +114,7 @@ This runs:
 ### Coverage Reports
 
 Coverage reports are automatically uploaded to Codecov on every CI run. View reports at:
+
 - GitHub Actions: Check the "Upload coverage reports" step
 - Codecov (if configured): Coverage dashboard
 
@@ -120,4 +124,3 @@ Coverage reports are automatically uploaded to Codecov on every CI run. View rep
 - **CI**: Full test suite, all files, comprehensive checks
 
 Both must pass for code to be merged.
-

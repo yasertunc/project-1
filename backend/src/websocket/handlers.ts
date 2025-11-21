@@ -80,7 +80,8 @@ export async function handleClientEvent(
       }
 
       case "accept_offer": {
-        const payload = event.payload as ClientEvents["accept_offer"]["payload"];
+        const payload =
+          event.payload as ClientEvents["accept_offer"]["payload"];
         const result = matchingService.acceptOffer(payload.offerId);
 
         if (result.status === "accepted" && result.channelId) {
@@ -98,7 +99,8 @@ export async function handleClientEvent(
       }
 
       case "decline_offer": {
-        const payload = event.payload as ClientEvents["decline_offer"]["payload"];
+        const payload =
+          event.payload as ClientEvents["decline_offer"]["payload"];
         matchingService.declineOffer(payload.offerId);
         sendToClient(ws, "match_declined", {
           offerId: payload.offerId,
@@ -107,7 +109,8 @@ export async function handleClientEvent(
       }
 
       case "send_message": {
-        const payload = event.payload as ClientEvents["send_message"]["payload"];
+        const payload =
+          event.payload as ClientEvents["send_message"]["payload"];
         if (!conn.userId) {
           sendError(ws, ERROR_CODES.UNAUTHORIZED, "User ID required");
           return;
@@ -141,7 +144,8 @@ export async function handleClientEvent(
       }
 
       case "close_channel": {
-        const payload = event.payload as ClientEvents["close_channel"]["payload"];
+        const payload =
+          event.payload as ClientEvents["close_channel"]["payload"];
         channelService.closeChannel(payload.channelId);
         conn.channelId = undefined;
 
@@ -170,12 +174,7 @@ export async function handleClientEvent(
     });
 
     if (error instanceof Error) {
-      sendError(
-        ws,
-        ERROR_CODES.INTERNAL_ERROR,
-        error.message,
-        error.stack
-      );
+      sendError(ws, ERROR_CODES.INTERNAL_ERROR, error.message, error.stack);
     } else {
       sendError(ws, ERROR_CODES.INTERNAL_ERROR, "Internal server error");
     }
@@ -195,11 +194,7 @@ export function handleConnection(ws: WebSocket) {
       logger.error("WebSocket message parse error", {
         error: error instanceof Error ? error.message : String(error),
       });
-      sendError(
-        ws,
-        ERROR_CODES.INVALID_REQUEST,
-        "Invalid message format"
-      );
+      sendError(ws, ERROR_CODES.INVALID_REQUEST, "Invalid message format");
     }
   });
 
@@ -216,7 +211,11 @@ export function handleConnection(ws: WebSocket) {
   });
 }
 
-export function broadcastToMatch(matchId: string, event: ServerEventType, payload: ServerEvents[ServerEventType]["payload"]) {
+export function broadcastToMatch(
+  matchId: string,
+  event: ServerEventType,
+  payload: ServerEvents[ServerEventType]["payload"]
+) {
   for (const [ws, conn] of connections.entries()) {
     if (conn.matchId === matchId) {
       sendToClient(ws, event, payload);
@@ -224,11 +223,14 @@ export function broadcastToMatch(matchId: string, event: ServerEventType, payloa
   }
 }
 
-export function broadcastToChannel(channelId: string, event: ServerEventType, payload: ServerEvents[ServerEventType]["payload"]) {
+export function broadcastToChannel(
+  channelId: string,
+  event: ServerEventType,
+  payload: ServerEvents[ServerEventType]["payload"]
+) {
   for (const [ws, conn] of connections.entries()) {
     if (conn.channelId === channelId) {
       sendToClient(ws, event, payload);
     }
   }
 }
-

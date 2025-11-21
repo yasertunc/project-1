@@ -11,11 +11,13 @@ Bu dokümanda, kalan 6 başlıktaki işlerin hangi komutlarla yapılacağı ve P
 ### 1. Güvenlik Kontrolleri
 
 **Komutlar:**
+
 - `npm run audit` - npm audit (yüksek seviye)
 - `npm run scan:secrets` - Gitleaks secret scanning
 - `npx @google/osv-scanner --lockfile=package-lock.json` - OSV scanner
 
 **PowerShell dışı denetim:**
+
 - GitHub Actions: `.github/workflows/osv.yml` (haftalık otomatik)
 - GitHub Actions: `.github/workflows/secret-scanning.yml` (her push/PR)
 - Node.js scripts: `scripts/npm-audit.mjs`, `scripts/secure-server.mjs`
@@ -23,12 +25,14 @@ Bu dokümanda, kalan 6 başlıktaki işlerin hangi komutlarla yapılacağı ve P
 ### 2. External Dependencies
 
 **Komutlar:**
+
 - `npx eas-cli whoami` - EAS authentication kontrolü
 - `npx eas-cli build:list --platform android` - Android build durumu
 - `npx eas-cli build:list --platform ios` - iOS build durumu
 - `npm run test:ios:validate` - iOS setup validation
 
 **PowerShell dışı denetim:**
+
 - EAS CLI: Komut satırı araçları
 - GitHub Actions: `.github/workflows/eas-build.yml` (otomatik build/submit)
 - Validation scripts: `scripts/validate-ios-setup.mjs`
@@ -37,6 +41,7 @@ Bu dokümanda, kalan 6 başlıktaki işlerin hangi komutlarla yapılacağı ve P
 ### 3. UI Implementation
 
 **Komutlar:**
+
 - `npm run test-storybook` - Storybook testleri
 - `npm run vr` - Visual regression testleri
 - `npm run a11y:stories` - Accessibility testleri
@@ -44,6 +49,7 @@ Bu dokümanda, kalan 6 başlıktaki işlerin hangi komutlarla yapılacağı ve P
 - `npm run test:coverage:report` - Test coverage raporu
 
 **PowerShell dışı denetim:**
+
 - Playwright: E2E ve visual regression testleri
 - Storybook: Component testleri ve accessibility
 - Vitest: Unit testler ve coverage
@@ -52,11 +58,13 @@ Bu dokümanda, kalan 6 başlıktaki işlerin hangi komutlarla yapılacağı ve P
 ### 4. Backend Deployment
 
 **Komutlar:**
+
 - `npm run openapi:validate` - OpenAPI validation
 - `npm run types:api` - TypeScript type generation
 - `firebase projects:list` - Firebase project kontrolü
 
 **PowerShell dışı denetim:**
+
 - OpenAPI validation: Otomatik spec kontrolü
 - Firebase CLI: Firebase project/app kontrolü
 - Manuel: Firebase Console, deployment platform arayüzleri
@@ -64,12 +72,14 @@ Bu dokümanda, kalan 6 başlıktaki işlerin hangi komutlarla yapılacağı ve P
 ### 5. Physical Device Testing
 
 **Komutlar:**
+
 - `adb devices` - Android cihaz kontrolü
 - `npx eas-cli device:list` - EAS device listesi
 - `npm run detox:test:android` - Detox testleri (eğer yapılandırılmışsa)
 - `npm run test:device-matrix:validate` - Device matrix validation
 
 **PowerShell dışı denetim:**
+
 - ADB: Android Debug Bridge (komut satırı)
 - EAS CLI: Device ve build kontrolü
 - Xcode CLI: iOS simulator/device kontrolü
@@ -78,6 +88,7 @@ Bu dokümanda, kalan 6 başlıktaki işlerin hangi komutlarla yapılacağı ve P
 ### 6. İleri Seviye Kontroller
 
 **Komutlar:**
+
 - `npm run deadcode` - Dead code analizi
 - `npm run perf:budget` - Bundle size analizi
 - `npm run sb:analyze` - Storybook bundle analizi
@@ -85,6 +96,7 @@ Bu dokümanda, kalan 6 başlıktaki işlerin hangi komutlarla yapılacağı ve P
 - `npx complexity-report src/` - Code complexity analizi
 
 **PowerShell dışı denetim:**
+
 - Lighthouse CI: `.github/workflows/lhci.yml` (otomatik)
 - Bundle Analyzer: Rollup visualizer
 - TypeScript tools: Dead code, type checking
@@ -98,6 +110,7 @@ Bu dokümanda, kalan 6 başlıktaki işlerin hangi komutlarla yapılacağı ve P
 ### Komutlar ve Araçlar
 
 #### A. Dependency Güvenlik Taraması
+
 ```bash
 # npm audit (yüksek seviye)
 npm run audit
@@ -114,6 +127,7 @@ npx @google/osv-scanner --lockfile=backend/package-lock.json --format json
 ```
 
 #### B. Secret Scanning
+
 ```bash
 # Gitleaks (secret taraması)
 npm run scan:secrets
@@ -125,6 +139,7 @@ npx gitleaks detect --verbose --report-format json --report-path gitleaks-report
 ```
 
 #### C. Malware/Trojan Kontrolü
+
 ```bash
 # Node.js paketlerinde şüpheli dosyalar
 find node_modules -name "*.exe" -o -name "*.bat" -o -name "*.sh" | grep -v ".bin"
@@ -137,6 +152,7 @@ grep -r "eval\|exec\|spawn\|child_process" package.json apps/mobile/package.json
 ```
 
 #### D. Gizlilik Kontrolleri
+
 ```bash
 # PII (Personally Identifiable Information) taraması
 grep -r -i "password\|secret\|key\|token\|api_key" --include="*.ts" --include="*.tsx" --include="*.js" src/ apps/mobile/app/ | grep -v "node_modules" | grep -v ".test." | grep -v ".spec."
@@ -171,6 +187,7 @@ grep -r "process\.env\." --include="*.ts" --include="*.tsx" src/ apps/mobile/app
 ### Komutlar ve Araçlar
 
 #### A. Apple Developer Program Kontrolü
+
 ```bash
 # EAS CLI ile kontrol
 cd apps/mobile
@@ -185,6 +202,7 @@ npx eas-cli submit:list --platform ios
 ```
 
 #### B. Google Play Console Kontrolü
+
 ```bash
 # Android build durumu
 cd apps/mobile
@@ -198,6 +216,7 @@ npx eas-cli submit --platform android --latest --non-interactive --dry-run
 ```
 
 #### C. Store Listing Kontrolü
+
 ```bash
 # Play Console API ile listing kontrolü (script gerekli)
 # Manuel: Google Play Console web arayüzü
@@ -232,6 +251,7 @@ npx eas-cli submit --platform android --latest --non-interactive --dry-run
 ### Komutlar ve Araçlar
 
 #### A. Component Testleri
+
 ```bash
 # Storybook testleri
 npm run test-storybook
@@ -245,6 +265,7 @@ npm run a11y:stories
 ```
 
 #### B. E2E Testleri
+
 ```bash
 # E2E testleri (UI implementasyonu sonrası)
 npm run test:e2e:all
@@ -257,6 +278,7 @@ npm run test:coverage:report
 ```
 
 #### C. Component Validation
+
 ```bash
 # TypeScript type checking
 npm run typecheck
@@ -295,6 +317,7 @@ npm run deadcode
 ### Komutlar ve Araçlar
 
 #### A. Firebase FCM Kontrolü
+
 ```bash
 # Firebase CLI ile kontrol
 cd backend
@@ -307,6 +330,7 @@ grep -r "FCM_SERVER_KEY\|FIREBASE_SERVER_KEY" backend/
 ```
 
 #### B. API Endpoint Testleri
+
 ```bash
 # OpenAPI validation
 npm run openapi:validate
@@ -320,6 +344,7 @@ npm test
 ```
 
 #### C. Deployment Kontrolü
+
 ```bash
 # Backend deployment durumu (Firebase/Cloud Run/etc.)
 # Manuel: Deployment platform web arayüzü
@@ -352,6 +377,7 @@ grep -r "process\.env\." backend/src/ | grep -v "NODE_ENV"
 ### Komutlar ve Araçlar
 
 #### A. Android Device Testing
+
 ```bash
 # ADB ile cihaz kontrolü
 adb devices
@@ -371,6 +397,7 @@ npm run detox:test:android
 ```
 
 #### B. iOS Device Testing
+
 ```bash
 # iOS cihaz kontrolü
 xcrun simctl list devices
@@ -385,6 +412,7 @@ npx eas-cli build:list --platform ios --limit 5
 ```
 
 #### C. E2E Testleri (Device'ta)
+
 ```bash
 # Playwright mobile testleri (eğer yapılandırılmışsa)
 npx playwright test --config=playwright.mobile.config.ts
@@ -424,6 +452,7 @@ npm run test:device-matrix:validate
 ### Komutlar ve Araçlar
 
 #### A. Derin Kod Analizi
+
 ```bash
 # Dead code analizi
 npm run deadcode
@@ -440,6 +469,7 @@ npm outdated
 ```
 
 #### B. Performance Profiling
+
 ```bash
 # Bundle size analizi
 npm run perf:budget
@@ -453,6 +483,7 @@ npx web-vitals --json > web-vitals.json
 ```
 
 #### C. Memory Leak Kontrolleri
+
 ```bash
 # Node.js memory profiling
 node --inspect scripts/memory-profile.mjs
@@ -465,6 +496,7 @@ node --inspect scripts/memory-profile.mjs
 ```
 
 #### D. Accessibility Derin Taraması
+
 ```bash
 # Axe accessibility testleri
 npm run a11y:stories
@@ -477,6 +509,7 @@ npx pa11y http://localhost:6006 --standard WCAG2AA
 ```
 
 #### E. SEO Optimizasyon Kontrolleri
+
 ```bash
 # Meta tag kontrolü
 grep -r "meta name=\"description\"" public/
@@ -493,6 +526,7 @@ cat public/robots.txt
 ```
 
 #### F. Cross-Browser Testleri
+
 ```bash
 # Playwright cross-browser testleri
 npx playwright test --project=chromium --project=firefox --project=webkit
@@ -528,14 +562,14 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 
 ## Özet: Komut ve Araç Matrisi
 
-| Başlık | Komutlar | PowerShell Dışı Denetim | Otomatik |
-|--------|----------|------------------------|----------|
-| **1. Güvenlik** | `npm run audit`, `npm run scan:secrets`, `npx @google/osv-scanner` | GitHub Actions (OSV, Secret Scanning), Node.js scripts | ✅ |
-| **2. External Dependencies** | `npx eas-cli`, validation scripts | EAS CLI, GitHub Actions, Web arayüzleri | ⚠️ Kısmi |
-| **3. UI Implementation** | `npm run test-storybook`, `npm run vr`, `npm run a11y:stories` | Playwright, Storybook, Vitest, GitHub Actions | ✅ |
-| **4. Backend Deployment** | `npm run openapi:validate`, `firebase CLI` | OpenAPI validation, Firebase CLI, Manuel | ⚠️ Kısmi |
-| **5. Physical Device Testing** | `adb`, `npx eas-cli`, `npm run detox` | EAS CLI, ADB, Xcode, Validation scripts | ❌ Manuel |
-| **6. İleri Seviye** | `npm run deadcode`, `npm run perf:budget`, `npm run lh:ci` | Lighthouse CI, Bundle analyzer, DevTools | ✅ Kısmi |
+| Başlık                         | Komutlar                                                           | PowerShell Dışı Denetim                                | Otomatik  |
+| ------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------ | --------- |
+| **1. Güvenlik**                | `npm run audit`, `npm run scan:secrets`, `npx @google/osv-scanner` | GitHub Actions (OSV, Secret Scanning), Node.js scripts | ✅        |
+| **2. External Dependencies**   | `npx eas-cli`, validation scripts                                  | EAS CLI, GitHub Actions, Web arayüzleri                | ⚠️ Kısmi  |
+| **3. UI Implementation**       | `npm run test-storybook`, `npm run vr`, `npm run a11y:stories`     | Playwright, Storybook, Vitest, GitHub Actions          | ✅        |
+| **4. Backend Deployment**      | `npm run openapi:validate`, `firebase CLI`                         | OpenAPI validation, Firebase CLI, Manuel               | ⚠️ Kısmi  |
+| **5. Physical Device Testing** | `adb`, `npx eas-cli`, `npm run detox`                              | EAS CLI, ADB, Xcode, Validation scripts                | ❌ Manuel |
+| **6. İleri Seviye**            | `npm run deadcode`, `npm run perf:budget`, `npm run lh:ci`         | Lighthouse CI, Bundle analyzer, DevTools               | ✅ Kısmi  |
 
 ---
 
@@ -551,4 +585,3 @@ npx playwright test --project=chromium --project=firefox --project=webkit
 ---
 
 **Son Güncelleme:** 2025-01-17
-

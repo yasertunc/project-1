@@ -44,6 +44,7 @@ This document outlines the plan for adding additional languages to the Fellowus 
 ### Step 1: Complete Turkish (tr)
 
 1. **Scan for missing keys**:
+
    ```bash
    npm run i18n:scan
    npm run i18n:check
@@ -81,6 +82,7 @@ This document outlines the plan for adding additional languages to the Fellowus 
 ### Step 3: Add Russian (ru)
 
 1. **Create locale file**:
+
    ```bash
    mkdir -p src/locales/ru
    cp src/locales/en/common.json src/locales/ru/common.json
@@ -131,11 +133,13 @@ src/locales/
 ### Adding a New Language
 
 1. **Create locale directory**:
+
    ```bash
    mkdir -p src/locales/{locale}
    ```
 
 2. **Copy base translation file**:
+
    ```bash
    cp src/locales/en/common.json src/locales/{locale}/common.json
    ```
@@ -160,6 +164,7 @@ src/locales/
 For RTL languages (Arabic, Hebrew, etc.):
 
 1. **CSS/Tailwind RTL**:
+
    ```css
    [dir="rtl"] {
      /* RTL-specific styles */
@@ -224,4 +229,3 @@ For RTL languages (Arabic, Hebrew, etc.):
 4. Evaluate and select translation service
 5. Set up translation workflow
 6. Plan regional expansion
-

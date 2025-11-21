@@ -50,11 +50,9 @@ describe("Error Boundary Flow", () => {
     // Trigger an error
     // Verify error is reported to Sentry
     // This test structure is ready for when Sentry integration is fully tested
-
     // In a real scenario, we would:
     // 1. Trigger an error
     // 2. Check Sentry dashboard or mock Sentry client
     // 3. Verify error was reported with correct metadata
   });
 });
-

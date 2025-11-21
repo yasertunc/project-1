@@ -63,25 +63,30 @@ SSL sertifikası **hosting sağlayıcınız tarafından otomatik olarak sağlan�
 ## 📁 Oluşturulan Dosyalar
 
 ### 1. `.htaccess` (Apache Hosting için)
+
 - HTTP'den HTTPS'e otomatik yönlendirme
 - Security headers
 - Gzip compression
 - Browser caching
 
 ### 2. `_headers` (Netlify için)
+
 - Security headers
 - Cache kontrolü
 
 ### 3. `netlify.toml` (Netlify için)
+
 - Redirects (HTTP → HTTPS)
 - Security headers
 - Cache headers
 
 ### 4. `vercel.json` (Vercel için)
+
 - Security headers
 - HTTP → HTTPS redirects
 
 ### 5. `CNAME` (GitHub Pages için)
+
 - Domain: `www.fellowus.com` ✓
 
 ## 🚀 Hosting'e Yükleme Adımları
@@ -137,4 +142,3 @@ Yayınladıktan sonra SSL durumunu test edin:
 ## ✅ Sonuç
 
 Sayfanız **%100 HTTPS hazır**! Hosting sağlayıcınız SSL sertifikasını aktif ettikten sonra her şey otomatik olarak çalışacak.
-

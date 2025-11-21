@@ -75,4 +75,3 @@ export const generalRateLimiter = createRateLimiter(
   100, // 100 requests per minute
   "Too many requests, please try again later"
 );
-

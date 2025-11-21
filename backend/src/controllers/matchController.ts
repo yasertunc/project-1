@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { queueService } from "../services/queueService";
 import { matchingService } from "../services/matchingService";
-import {
-  MatchRequest,
-  CancelRequest,
-  OfferRequest,
-} from "../types";
+import { MatchRequest, CancelRequest, OfferRequest } from "../types";
 import { ApiError } from "../middleware/errorHandler";
 import { ERROR_CODES } from "../config/constants";
 
@@ -120,4 +116,3 @@ export class MatchController {
 }
 
 export const matchController = new MatchController();
-

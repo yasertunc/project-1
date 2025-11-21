@@ -11,18 +11,18 @@ Current E2E test coverage is approximately **60%** of critical user journeys. Al
 
 ### Test Files (10 files, ~66 tests)
 
-| File | Tests | Category | Status |
-|------|-------|----------|--------|
-| `flows.spec.ts` | 5 | Flow-based | ✅ Complete |
-| `failures.spec.ts` | 3 | Failure scenarios | ✅ Complete |
-| `api-failures.spec.ts` | 12 | API failures | ✅ Complete |
-| `matching-flow.spec.ts` | 5 | Matching flow | ✅ Complete (mocked) |
-| `profile-setup.spec.ts` | 5 | Profile setup | ✅ Complete (mocked) |
-| `notification-flow.spec.ts` | 6 | Notifications | ✅ Complete (mocked) |
-| `accessibility-flow.spec.ts` | 6 | Accessibility | ✅ Complete |
-| `download-flow.spec.ts` | 5 | Download flow | ✅ Complete |
-| `performance-flow.spec.ts` | 7 | Performance | ✅ Complete |
-| `smoke.spec.ts` | 12 | Smoke tests | ✅ Complete |
+| File                         | Tests | Category          | Status               |
+| ---------------------------- | ----- | ----------------- | -------------------- |
+| `flows.spec.ts`              | 5     | Flow-based        | ✅ Complete          |
+| `failures.spec.ts`           | 3     | Failure scenarios | ✅ Complete          |
+| `api-failures.spec.ts`       | 12    | API failures      | ✅ Complete          |
+| `matching-flow.spec.ts`      | 5     | Matching flow     | ✅ Complete (mocked) |
+| `profile-setup.spec.ts`      | 5     | Profile setup     | ✅ Complete (mocked) |
+| `notification-flow.spec.ts`  | 6     | Notifications     | ✅ Complete (mocked) |
+| `accessibility-flow.spec.ts` | 6     | Accessibility     | ✅ Complete          |
+| `download-flow.spec.ts`      | 5     | Download flow     | ✅ Complete          |
+| `performance-flow.spec.ts`   | 7     | Performance       | ✅ Complete          |
+| `smoke.spec.ts`              | 12    | Smoke tests       | ✅ Complete          |
 
 **Total**: 10 files, ~66 tests
 
@@ -31,6 +31,7 @@ Current E2E test coverage is approximately **60%** of critical user journeys. Al
 ### ✅ Covered Areas
 
 #### 1. Core User Flows (11.1)
+
 - ✅ Hero → CTA scroll navigation
 - ✅ Language switching (English ⇄ Turkish)
 - ✅ Download CTA redirect
@@ -40,6 +41,7 @@ Current E2E test coverage is approximately **60%** of critical user journeys. Al
 - ✅ Notification flow (mocked: permission, registration, denial, unregistration)
 
 #### 2. Failure Scenarios (11.2)
+
 - ✅ UI error boundaries
 - ✅ API failures: 400, 401, 404, 429, 500, 503
 - ✅ Network timeout
@@ -48,6 +50,7 @@ Current E2E test coverage is approximately **60%** of critical user journeys. Al
 - ✅ CORS errors
 
 #### 3. Accessibility (11.1)
+
 - ✅ Keyboard navigation
 - ✅ Screen reader support
 - ✅ Reduced motion
@@ -55,6 +58,7 @@ Current E2E test coverage is approximately **60%** of critical user journeys. Al
 - ✅ Skip links
 
 #### 4. Performance (11.1)
+
 - ✅ Load time
 - ✅ Lazy loading
 - ✅ Resource hints
@@ -63,6 +67,7 @@ Current E2E test coverage is approximately **60%** of critical user journeys. Al
 - ✅ Bundle size
 
 #### 5. Download Flow (11.1)
+
 - ✅ Platform detection
 - ✅ Download redirects
 - ✅ Mobile store links
@@ -70,6 +75,7 @@ Current E2E test coverage is approximately **60%** of critical user journeys. Al
 ### ⚠️ Gaps & Missing Coverage
 
 #### 1. Flow-based E2E (11.1)
+
 - ⚠️ **Matching flow UI** - Tests ready but UI not implemented
 - ⚠️ **Profile setup UI** - Tests ready but UI not implemented
 - ⚠️ **Notification UI** - Tests ready but UI not implemented
@@ -78,18 +84,21 @@ Current E2E test coverage is approximately **60%** of critical user journeys. Al
 - ⚠️ **Onboarding flow** - No tests yet
 
 #### 2. Failure Scenarios (11.2)
+
 - ⚠️ **Real API error responses** - Tests use mocks, need real backend
 - ⚠️ **WebSocket failures** - No tests yet
 - ⚠️ **Partial network failures** - Limited coverage
 - ⚠️ **Retry mechanisms** - No tests yet
 
 #### 3. Mobile E2E (11.4)
+
 - ⚠️ **Detox tests** - Blocked by Expo 54 plugin compatibility
 - ⚠️ **Physical device tests** - Manual testing only
 - ⚠️ **Mobile-specific flows** - Limited coverage
 - ⚠️ **Push notification testing** - Requires physical device
 
 #### 4. Device Matrix (11.5)
+
 - ⚠️ **Physical device inventory** - Samsung/Xiaomi devices needed
 - ⚠️ **iOS simulator tests** - Blocked by Detox plugin
 - ⚠️ **Cross-device compatibility** - Limited automated coverage
@@ -98,15 +107,15 @@ Current E2E test coverage is approximately **60%** of critical user journeys. Al
 
 ### Current Status
 
-| Category | Tests | Status | Blockers |
-|----------|-------|--------|----------|
-| Flow-based | 21 | ⚠️ Ready (mocked) | UI implementation |
-| Failure scenarios | 15 | ⚠️ Ready (mocked) | UI implementation |
-| Accessibility | 6 | ✅ Complete | None |
-| Performance | 7 | ✅ Complete | None |
-| Download | 5 | ✅ Complete | None |
-| Smoke | 12 | ✅ Complete | None |
-| **Total** | **66** | **60% Complete** | **UI/Backend** |
+| Category          | Tests  | Status            | Blockers          |
+| ----------------- | ------ | ----------------- | ----------------- |
+| Flow-based        | 21     | ⚠️ Ready (mocked) | UI implementation |
+| Failure scenarios | 15     | ⚠️ Ready (mocked) | UI implementation |
+| Accessibility     | 6      | ✅ Complete       | None              |
+| Performance       | 7      | ✅ Complete       | None              |
+| Download          | 5      | ✅ Complete       | None              |
+| Smoke             | 12     | ✅ Complete       | None              |
+| **Total**         | **66** | **60% Complete**  | **UI/Backend**    |
 
 ### Test Readiness
 

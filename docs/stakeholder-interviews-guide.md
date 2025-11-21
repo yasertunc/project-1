@@ -203,4 +203,3 @@ After scope approval:
 - [Stakeholder Management Best Practices](https://www.pmi.org/learning/library/stakeholder-management-project-success-11115)
 - [Requirements Gathering Techniques](https://www.businessanalystlearnings.com/ba-techniques/2013/1/15/requirements-gathering-techniques)
 - [Scope Management](https://www.pmi.org/learning/library/effective-scope-management-6700)
-

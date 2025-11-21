@@ -55,13 +55,22 @@ class MockMarker {
 }
 
 class MockSize {
-  constructor(public width: number, public height: number) {}
+  constructor(
+    public width: number,
+    public height: number
+  ) {}
 }
 class MockPoint {
-  constructor(public x: number, public y: number) {}
+  constructor(
+    public x: number,
+    public y: number
+  ) {}
 }
 class MockLatLng {
-  constructor(public lat: number, public lng: number) {}
+  constructor(
+    public lat: number,
+    public lng: number
+  ) {}
 }
 
 const installGoogleStub = () => {
@@ -114,7 +123,12 @@ describe("GoogleMap (fallback)", () => {
         className="h-64"
         mapStyle="minimal"
         markers={[
-          { id: "1", position: { lat: 1, lng: 2 }, icon: "X", onClick: markerOnClick },
+          {
+            id: "1",
+            position: { lat: 1, lng: 2 },
+            icon: "X",
+            onClick: markerOnClick,
+          },
           { id: "2", position: { lat: 3, lng: 4 }, title: "Marker 2" },
         ]}
         onMapClick={onMapClick}

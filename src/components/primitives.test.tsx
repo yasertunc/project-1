@@ -73,13 +73,16 @@ describe("MicButton", () => {
     expect(button).toHaveAttribute("aria-pressed", "false");
 
     rerender(<MicButton recording={true} />);
-    expect(
-      screen.getByRole("button", { name: /recording/i })
-    ).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: /recording/i })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
 
     const onPress = vi.fn();
     const onRelease = vi.fn();
-    rerender(<MicButton recording={false} onPress={onPress} onRelease={onRelease} />);
+    rerender(
+      <MicButton recording={false} onPress={onPress} onRelease={onRelease} />
+    );
     const pressable = screen.getByRole("button", { name: /voice command/i });
     await user.pointer([{ target: pressable, keys: "[MouseLeft]" }]);
     expect(onPress).toHaveBeenCalled();
@@ -148,13 +151,18 @@ describe("SuggestionCard", () => {
 
 describe("ErrorBoundary", () => {
   it("renders fallback when child throws", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
     const Failing: React.FC = () => {
       throw new Error("boom");
     };
     const onError = vi.fn();
     render(
-      <ErrorBoundary fallback={<div data-testid="fallback">Fallback</div>} onError={onError}>
+      <ErrorBoundary
+        fallback={<div data-testid="fallback">Fallback</div>}
+        onError={onError}
+      >
         <Failing />
       </ErrorBoundary>
     );

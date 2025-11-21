@@ -27,7 +27,9 @@ describe("i18n setup", () => {
 
   test("has fallback language", () => {
     const fallback = i18n.options.fallbackLng;
-    expect(fallback === "en" || (Array.isArray(fallback) && fallback.includes("en"))).toBe(true);
+    expect(
+      fallback === "en" || (Array.isArray(fallback) && fallback.includes("en"))
+    ).toBe(true);
   });
 
   test("has common namespace", () => {
@@ -45,7 +47,7 @@ describe("i18n setup", () => {
   test("can change language", async () => {
     await i18n.changeLanguage("tr");
     expect(i18n.language).toBe("tr");
-    
+
     await i18n.changeLanguage("en");
     expect(i18n.language).toBe("en");
   });
@@ -59,8 +61,10 @@ describe("i18n setup", () => {
     await new Promise((resolve) => setTimeout(resolve, 10));
     const langAfterChange = document.documentElement.getAttribute("lang");
     // Either it changed to tr, or it was already set (setup.ts runs on import)
-    expect(langAfterChange === "tr" || langAfterChange === initialLang).toBe(true);
-    
+    expect(langAfterChange === "tr" || langAfterChange === initialLang).toBe(
+      true
+    );
+
     await i18n.changeLanguage("ar");
     await new Promise((resolve) => setTimeout(resolve, 10));
     const langAfterAr = document.documentElement.getAttribute("lang");
@@ -73,7 +77,7 @@ describe("i18n setup", () => {
     // localStorage may be set by setup.ts event handler
     const stored = localStorage.getItem("fellowus.locale");
     expect(stored === "tr" || stored === null).toBe(true);
-    
+
     await i18n.changeLanguage("ar");
     await new Promise((resolve) => setTimeout(resolve, 10));
     const storedAr = localStorage.getItem("fellowus.locale");
@@ -89,7 +93,7 @@ describe("i18n setup", () => {
 
     // Should not throw
     await expect(i18n.changeLanguage("tr")).resolves.not.toThrow();
-    
+
     localStorage.setItem = originalSetItem;
   });
 
@@ -122,7 +126,7 @@ describe("i18n setup", () => {
 
     // Should not throw and should use detected locale
     expect(["en", "tr", "ar"]).toContain(i18n.language);
-    
+
     localStorage.getItem = originalGetItem;
   });
 
@@ -137,7 +141,7 @@ describe("i18n setup", () => {
     // The setup has already run, but we can verify the detection logic
     // by checking that Turkish is supported
     expect(["en", "tr", "ar"]).toContain("tr");
-    
+
     Object.defineProperty(navigator, "languages", {
       writable: true,
       value: originalLanguages,
@@ -147,7 +151,7 @@ describe("i18n setup", () => {
   test("detects locale from navigator.language when languages is not available", () => {
     const originalLanguage = navigator.language;
     const originalLanguages = navigator.languages;
-    
+
     Object.defineProperty(navigator, "language", {
       writable: true,
       value: "ar-SA",
@@ -159,7 +163,7 @@ describe("i18n setup", () => {
 
     // Verify Arabic is supported
     expect(["en", "tr", "ar"]).toContain("ar");
-    
+
     Object.defineProperty(navigator, "language", {
       writable: true,
       value: originalLanguage,
@@ -195,10 +199,10 @@ describe("i18n setup", () => {
   test("handles language change event", async () => {
     const langChangeHandler = vi.fn();
     i18n.on("languageChanged", langChangeHandler);
-    
+
     await i18n.changeLanguage("ar");
     await new Promise((resolve) => setTimeout(resolve, 10));
-    
+
     expect(langChangeHandler).toHaveBeenCalled();
     i18n.off("languageChanged", langChangeHandler);
   });
@@ -211,7 +215,7 @@ describe("i18n setup", () => {
 
     // Should not throw
     await expect(i18n.changeLanguage("tr")).resolves.not.toThrow();
-    
+
     localStorage.setItem = originalSetItem;
   });
 
@@ -219,7 +223,7 @@ describe("i18n setup", () => {
     // setup.ts sets lang attribute asynchronously in .then()
     // Wait for the promise to resolve and set the lang attribute
     await new Promise((resolve) => setTimeout(resolve, 100));
-    
+
     // Check if lang is set - if not, it means the .then() callback hasn't run yet
     // In that case, ensure it gets set (the test verifies the behavior works)
     let lang = document.documentElement.getAttribute("lang");
@@ -228,7 +232,7 @@ describe("i18n setup", () => {
       document.documentElement.setAttribute("lang", i18n.language);
       lang = document.documentElement.getAttribute("lang");
     }
-    
+
     // Verify that either setup.ts set it, or we can set it (verifying the mechanism works)
     expect(lang).toBeDefined();
     expect(lang).toBeTruthy();
@@ -258,4 +262,3 @@ describe("i18n setup", () => {
     expect(hasTr || hasAr || true).toBe(true);
   });
 });
-

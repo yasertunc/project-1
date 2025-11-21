@@ -19,7 +19,9 @@ export class PushController {
       }
 
       if (platform !== "android" && platform !== "ios") {
-        const error: ApiError = new Error("platform must be 'android' or 'ios'");
+        const error: ApiError = new Error(
+          "platform must be 'android' or 'ios'"
+        );
         error.statusCode = 400;
         error.code = ERROR_CODES.INVALID_REQUEST;
         throw error;
@@ -55,4 +57,3 @@ export class PushController {
 }
 
 export const pushController = new PushController();
-

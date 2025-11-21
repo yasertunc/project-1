@@ -9,6 +9,7 @@ Capacitor is an alternative to Expo that wraps a web app in a native container, 
 ## When to Use Capacitor
 
 Consider Capacitor if:
+
 - You need more control over native code
 - You want to use web technologies exclusively
 - You need specific native plugins not available in Expo
@@ -69,6 +70,7 @@ This creates an `android/` directory with a native Android project.
 ### Step 5: Configure Android Project
 
 1. **Open in Android Studio**:
+
    ```bash
    npx cap open android
    ```
@@ -85,6 +87,7 @@ This creates an `android/` directory with a native Android project.
 ### Step 6: Build Release AAB/APK
 
 **For AAB (Play Store)**:
+
 1. In Android Studio: Build → Generate Signed Bundle / APK
 2. Select "Android App Bundle"
 3. Choose keystore and enter passwords
@@ -92,6 +95,7 @@ This creates an `android/` directory with a native Android project.
 5. Build and locate the `.aab` file
 
 **For APK (Sideload/Test)**:
+
 1. In Android Studio: Build → Generate Signed Bundle / APK
 2. Select "APK"
 3. Choose keystore and enter passwords
@@ -99,6 +103,7 @@ This creates an `android/` directory with a native Android project.
 5. Build and locate the `.apk` file
 
 **Or via command line**:
+
 ```bash
 cd android
 ./gradlew bundleRelease  # For AAB
@@ -124,18 +129,21 @@ npx cap sync android
 #### Push Notifications
 
 **Option 1: Firebase Cloud Messaging (FCM)**
+
 ```bash
 npm install @capacitor-community/fcm
 npx cap sync android
 ```
 
 **Option 2: Capacitor Push Notifications**
+
 ```bash
 npm install @capacitor/push-notifications
 npx cap sync android
 ```
 
 **Configuration**:
+
 - Add `google-services.json` to `android/app/`
 - Configure in `android/app/build.gradle`
 - Request permissions in app code
@@ -183,25 +191,25 @@ npx cap sync android
 
 ```typescript
 // Example: Push Notifications
-import { PushNotifications } from '@capacitor/push-notifications';
+import { PushNotifications } from "@capacitor/push-notifications";
 
 // Request permission
 const requestPermission = async () => {
   const result = await PushNotifications.requestPermissions();
-  if (result.receive === 'granted') {
+  if (result.receive === "granted") {
     await PushNotifications.register();
   }
 };
 
 // Listen for registration
-PushNotifications.addListener('registration', (token) => {
-  console.log('Push registration success, token: ' + token.value);
+PushNotifications.addListener("registration", (token) => {
+  console.log("Push registration success, token: " + token.value);
   // Send token to backend
 });
 
 // Listen for notifications
-PushNotifications.addListener('pushNotificationReceived', (notification) => {
-  console.log('Push notification received: ', notification);
+PushNotifications.addListener("pushNotificationReceived", (notification) => {
+  console.log("Push notification received: ", notification);
 });
 ```
 
@@ -237,7 +245,7 @@ name: Capacitor Build
 on:
   push:
     branches: [main]
-    tags: ['v*']
+    tags: ["v*"]
 
 jobs:
   build-android:
@@ -246,22 +254,22 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Build web app
         run: npm run build
-      
+
       - name: Sync Capacitor
         run: npx cap sync android
-      
+
       - name: Build AAB
         run: |
           cd android
           ./gradlew bundleRelease
-      
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -271,14 +279,14 @@ jobs:
 
 ## Comparison: Capacitor vs Expo
 
-| Feature | Capacitor | Expo |
-|---------|-----------|------|
-| Native Code Access | ✅ Full access | ⚠️ Limited (eject required) |
-| Web Technologies | ✅ Full web stack | ✅ React Native |
-| Build Process | ⚠️ Manual (Android Studio/Xcode) | ✅ Cloud (EAS Build) |
-| Plugin Ecosystem | ✅ Large | ✅ Large |
-| Development Speed | ⚠️ Slower (native builds) | ✅ Faster (cloud builds) |
-| Learning Curve | ⚠️ Steeper | ✅ Gentler |
+| Feature            | Capacitor                        | Expo                        |
+| ------------------ | -------------------------------- | --------------------------- |
+| Native Code Access | ✅ Full access                   | ⚠️ Limited (eject required) |
+| Web Technologies   | ✅ Full web stack                | ✅ React Native             |
+| Build Process      | ⚠️ Manual (Android Studio/Xcode) | ✅ Cloud (EAS Build)        |
+| Plugin Ecosystem   | ✅ Large                         | ✅ Large                    |
+| Development Speed  | ⚠️ Slower (native builds)        | ✅ Faster (cloud builds)    |
+| Learning Curve     | ⚠️ Steeper                       | ✅ Gentler                  |
 
 ## Migration from Expo
 
@@ -295,17 +303,21 @@ If migrating from Expo to Capacitor:
 ### Build Errors
 
 **Error**: "SDK location not found"
+
 - **Solution**: Set `ANDROID_HOME` environment variable
 
 **Error**: "Gradle sync failed"
+
 - **Solution**: Update Gradle and Android Gradle Plugin versions
 
 ### Plugin Issues
 
 **Error**: "Plugin not found"
+
 - **Solution**: Run `npx cap sync` after installing plugins
 
 **Error**: "Permission denied"
+
 - **Solution**: Check `AndroidManifest.xml` for required permissions
 
 ## Resources
@@ -324,4 +336,3 @@ After completing Capacitor setup:
 3. Set up CI/CD pipeline
 4. Prepare for Play Store submission
 5. Consider iOS setup when ready
-

@@ -1,5 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import { Participant, ChannelResponse, MessageRequest, Message, MessagesResponse, Capabilities } from "../types";
+import {
+  Participant,
+  ChannelResponse,
+  MessageRequest,
+  Message,
+  MessagesResponse,
+  Capabilities,
+} from "../types";
 import { config } from "../config/env";
 import { logger } from "../utils/logger";
 
@@ -43,7 +50,10 @@ export class ChannelService {
 
     channels.set(channelId, channel);
 
-    logger.info("Channel created", { channelId, participantCount: participants.length });
+    logger.info("Channel created", {
+      channelId,
+      participantCount: participants.length,
+    });
 
     return {
       channelId,
@@ -99,9 +109,7 @@ export class ChannelService {
     }
 
     // Verify sender is a participant
-    const isParticipant = channel.participants.some(
-      (p) => p.handle === from
-    );
+    const isParticipant = channel.participants.some((p) => p.handle === from);
     if (!isParticipant) {
       throw new Error("Not a participant");
     }
@@ -206,4 +214,3 @@ export const channelService = new ChannelService();
 setInterval(() => {
   channelService.cleanupExpired();
 }, 3600000);
-

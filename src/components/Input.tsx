@@ -24,7 +24,9 @@ export const Input: React.FC<InputProps> = ({
           {...props}
         />
       </div>
-      {error && <div className="mt-1 text-[11px] text-semantic-error">{error}</div>}
+      {error && (
+        <div className="mt-1 text-[11px] text-semantic-error">{error}</div>
+      )}
     </label>
   );
 };

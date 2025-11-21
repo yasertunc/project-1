@@ -46,7 +46,7 @@ export class ErrorBoundary extends React.Component<
     //     console.warn("Failed to report error to Sentry:", sentryError);
     //   }
     // }
-    
+
     // Log error to console for now
     if (__DEV__) {
       console.error("ErrorBoundary caught error:", error, errorInfo);

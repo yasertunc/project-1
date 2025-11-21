@@ -165,7 +165,9 @@ export default function DesignPrinciples() {
                 }}
               />
               <div className="p-4 text-sm">
-                <p className="font-semibold text-text-primary">{swatch.label}</p>
+                <p className="font-semibold text-text-primary">
+                  {swatch.label}
+                </p>
                 <p className="text-xs text-text-secondary">{swatch.helper}</p>
                 {!swatch.value.startsWith("linear-gradient") && (
                   <code className="mt-2 inline-block rounded bg-background-light px-2 py-0.5 text-xs text-text-primary">
@@ -265,7 +267,9 @@ export default function DesignPrinciples() {
               <h3 className="text-lg font-semibold text-text-primary">
                 {principle.title}
               </h3>
-              <p className="mt-2 text-sm text-text-secondary">{principle.summary}</p>
+              <p className="mt-2 text-sm text-text-secondary">
+                {principle.summary}
+              </p>
               <ul className="mt-4 list-disc space-y-2 pl-4 text-sm text-text-primary">
                 {principle.bullets.map((bullet) => (
                   <li key={bullet}>{bullet}</li>

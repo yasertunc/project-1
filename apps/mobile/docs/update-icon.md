@@ -41,6 +41,7 @@ Copy-Item "yeni-icon.png" "apps\mobile\assets\splash-icon.png" -Force
 ### 4. Yapılandırmayı Kontrol Edin
 
 `app.config.ts` dosyası zaten güncellenmiş durumda:
+
 - Splash screen arka plan rengi: Mavi (`#667eea`)
 - Android adaptive icon arka plan rengi: Mavi (`#667eea`)
 
@@ -54,11 +55,13 @@ npx expo start --clear
 ### 6. Yeni Build Oluşturun
 
 Development build için:
+
 ```bash
 eas build --profile development --platform android
 ```
 
 Production build için:
+
 ```bash
 eas build --profile production --platform android
 ```
@@ -72,6 +75,7 @@ eas build --profile production --platform android
 ## Test
 
 1. Expo Go ile test:
+
    ```bash
    npx expo start
    ```
@@ -100,4 +104,3 @@ eas build --profile production --platform android
 - `adaptive-icon.png` dosyasının şeffaf arka planlı olduğundan emin olun
 - Arka plan rengi `app.config.ts` içinde `#667eea` olarak ayarlanmıştır
 - Build sonrası Android cihazda test edin
-

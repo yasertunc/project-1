@@ -41,6 +41,7 @@ Firebase Cloud Messaging (FCM) enables push notifications for Android and iOS. T
    - Save the file
 
 3. **Place File in Project**:
+
    ```bash
    # Copy to mobile app directory
    cp ~/Downloads/google-services.json apps/mobile/google-services.json
@@ -62,6 +63,7 @@ Firebase Cloud Messaging (FCM) enables push notifications for Android and iOS. T
    - Save the file
 
 3. **Place File in Project**:
+
    ```bash
    # Copy to iOS directory (when iOS project is generated)
    cp ~/Downloads/GoogleService-Info.plist apps/mobile/ios/GoogleService-Info.plist
@@ -90,10 +92,12 @@ Firebase Cloud Messaging (FCM) enables push notifications for Android and iOS. T
 ### Get Server Key
 
 **Option A: Legacy Server Key** (Easiest)
+
 1. Firebase Console → Project Settings → Cloud Messaging
 2. Copy "Server key" (legacy)
 
 **Option B: Service Account** (Recommended for production)
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Select Firebase project
 3. Go to IAM & Admin → Service Accounts
@@ -224,7 +228,7 @@ Create backend endpoint to send notifications:
 Use FCM Admin SDK or REST API:
 
 ```typescript
-import admin from 'firebase-admin';
+import admin from "firebase-admin";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -268,6 +272,7 @@ async function sendNotification(token: string, payload: any) {
 ### Notifications Not Received
 
 **Check**:
+
 - `google-services.json` is in correct location
 - Package name matches Firebase project
 - Notification permissions granted
@@ -278,14 +283,17 @@ async function sendNotification(token: string, payload: any) {
 ### Build Errors
 
 **Error**: "google-services.json is missing"
+
 - **Solution**: Upload to EAS or add to GitHub Secrets
 
 **Error**: "Package name mismatch"
+
 - **Solution**: Verify package name in Firebase matches `app.config.ts`
 
 ### Token Registration Fails
 
 **Check**:
+
 - Firebase project is active
 - Cloud Messaging API is enabled
 - Network connectivity
@@ -317,4 +325,3 @@ After FCM setup:
 - [Expo Notifications Documentation](https://docs.expo.dev/push-notifications/overview/)
 - [FCM REST API](https://firebase.google.com/docs/cloud-messaging/http-server-ref)
 - [FCM Admin SDK](https://firebase.google.com/docs/cloud-messaging/admin/send-messages)
-

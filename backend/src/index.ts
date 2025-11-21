@@ -16,7 +16,9 @@ if (config.firebase.serviceAccountKey) {
     });
   }
 } else {
-  logger.warn("Firebase service account key not provided, push notifications disabled");
+  logger.warn(
+    "Firebase service account key not provided, push notifications disabled"
+  );
 }
 
 const server = app.listen(config.server.port, () => {
@@ -45,4 +47,3 @@ process.on("SIGINT", () => {
     process.exit(0);
   });
 });
-

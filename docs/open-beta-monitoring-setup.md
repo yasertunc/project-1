@@ -5,6 +5,7 @@ This document provides a comprehensive guide for setting up monitoring and alert
 ## Overview
 
 Effective monitoring during open beta is critical for:
+
 - Early detection of crashes and errors
 - Performance tracking
 - User behavior analysis
@@ -18,6 +19,7 @@ Effective monitoring during open beta is critical for:
 #### Dashboard Setup
 
 **Create Beta Release Dashboard**:
+
 1. Go to Sentry → Dashboards
 2. Create new dashboard: "Fellowus Open Beta"
 3. Add widgets:
@@ -28,6 +30,7 @@ Effective monitoring during open beta is critical for:
    - **Performance**: `p75(transaction.duration)`
 
 **Alert Configuration**:
+
 ```yaml
 # Sentry Alert Rules
 - Name: "Beta Crash Rate > 2%"
@@ -58,18 +61,20 @@ Effective monitoring during open beta is critical for:
 #### Release Tracking
 
 **Configure Release in Sentry**:
+
 ```typescript
 // apps/mobile/app.config.ts
 export default {
   extra: {
     sentryDsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
-    environment: 'beta',
+    environment: "beta",
     release: process.env.EXPO_PUBLIC_APP_VERSION,
   },
 };
 ```
 
 **Track Releases**:
+
 ```bash
 # After each beta build
 npx @sentry/cli releases new $VERSION
@@ -82,25 +87,27 @@ npx @sentry/cli releases files $VERSION upload-sourcemaps ./dist
 #### Custom Events Setup
 
 **Beta-Specific Events**:
+
 ```typescript
 // Track beta-specific events
-analytics.logEvent('beta_app_launch', {
-  version: '1.0.0-beta',
-  platform: 'android',
+analytics.logEvent("beta_app_launch", {
+  version: "1.0.0-beta",
+  platform: "android",
 });
 
-analytics.logEvent('beta_feature_used', {
-  feature: 'matching',
-  version: '1.0.0-beta',
+analytics.logEvent("beta_feature_used", {
+  feature: "matching",
+  version: "1.0.0-beta",
 });
 
-analytics.logEvent('beta_feedback_submitted', {
-  type: 'bug_report',
+analytics.logEvent("beta_feedback_submitted", {
+  type: "bug_report",
   rating: 4,
 });
 ```
 
 **GA4 Dashboard Configuration**:
+
 1. Go to GA4 → Explore → Create custom report
 2. Add dimensions:
    - App version
@@ -114,6 +121,7 @@ analytics.logEvent('beta_feedback_submitted', {
    - Feature usage
 
 **Custom Alerts**:
+
 - **Low Engagement**: Active users < 50% of previous day
 - **High Bounce Rate**: Bounce rate > 60%
 - **Feature Adoption**: Feature usage < 10% of active users
@@ -123,17 +131,20 @@ analytics.logEvent('beta_feedback_submitted', {
 #### Key Metrics to Monitor
 
 **Android Vitals**:
+
 - Crash rate (target: < 1%)
 - ANR rate (target: < 0.1%)
 - Slow rendering (target: < 1%)
 - Frozen frames (target: < 0.1%)
 
 **User Feedback**:
+
 - Review ratings (target: ≥ 4.0)
 - Review volume
 - Common complaints
 
 **Performance**:
+
 - App startup time
 - Battery usage
 - Network usage
@@ -152,16 +163,19 @@ analytics.logEvent('beta_feedback_submitted', {
 #### Metrics to Track
 
 **Install Metrics**:
+
 - Install count
 - Install rate
 - Uninstall rate
 
 **Usage Metrics**:
+
 - Active testers
 - Session count
 - Average session duration
 
 **Feedback**:
+
 - Feedback submissions
 - Crash reports
 - Usage statistics
@@ -233,23 +247,28 @@ analytics.logEvent('beta_feedback_submitted', {
 # Open Beta Weekly Report - Week [X]
 
 ## Summary
+
 - Active testers: [X]
 - Crash-free sessions: [X]%
 - Average rating: [X]/5.0
 
 ## Critical Issues
+
 - [List P0/P1 issues]
 
 ## Performance
+
 - App startup: [X]s (target: < 2s)
 - p75 transaction: [X]ms (target: < 500ms)
 
 ## User Feedback
+
 - Total submissions: [X]
 - Average rating: [X]/5.0
 - Top themes: [List]
 
 ## Action Items
+
 - [List action items for next week]
 ```
 
@@ -258,11 +277,13 @@ analytics.logEvent('beta_feedback_submitted', {
 ### Sentry Alerts
 
 **Critical Alerts** (Immediate Response):
+
 - Crash rate > 5%
 - New P0 error type
 - Performance degradation > 50%
 
 **Warning Alerts** (Review within 24h):
+
 - Crash rate > 2%
 - New error type
 - Performance degradation > 20%
@@ -270,6 +291,7 @@ analytics.logEvent('beta_feedback_submitted', {
 ### GA4 Alerts
 
 **User Engagement**:
+
 - Active users drop > 30%
 - Session duration drop > 20%
 - Bounce rate increase > 10%
@@ -277,6 +299,7 @@ analytics.logEvent('beta_feedback_submitted', {
 ### Play Console Alerts
 
 **Quality Metrics**:
+
 - Crash rate > 2%
 - ANR rate > 0.5%
 - Review rating drop > 0.5 stars
@@ -329,6 +352,7 @@ analytics.logEvent('beta_feedback_submitted', {
 ### Automated Monitoring
 
 **Post-Deploy Checks**:
+
 ```yaml
 # .github/workflows/beta-deploy.yml
 - name: Verify Deployment
@@ -340,11 +364,12 @@ analytics.logEvent('beta_feedback_submitted', {
 ```
 
 **Daily Health Check**:
+
 ```yaml
 # .github/workflows/beta-health-check.yml
 on:
   schedule:
-    - cron: '0 9 * * *' # Daily at 9 AM
+    - cron: "0 9 * * *" # Daily at 9 AM
 
 jobs:
   health-check:

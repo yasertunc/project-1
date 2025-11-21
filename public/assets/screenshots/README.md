@@ -43,4 +43,3 @@ public/
       screenshot-7-social.jpg
       screenshot-8-vip.jpg
 ```
-

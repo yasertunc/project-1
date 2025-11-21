@@ -64,7 +64,7 @@ describe("ChannelController", () => {
 
   test("renders channel status banner", () => {
     render(<ChannelController />);
-    
+
     // The banner has role="status" but no accessible name, find it by text content
     const banner = screen.getByRole("status");
     expect(banner).toBeInTheDocument();
@@ -73,13 +73,13 @@ describe("ChannelController", () => {
 
   test("displays idle state message", () => {
     render(<ChannelController />);
-    
+
     expect(screen.getByText(/waiting for an offer/i)).toBeInTheDocument();
   });
 
   test("displays offer received state with AcceptanceOffer component", async () => {
     render(<ChannelController />);
-    
+
     // Manually set state using the helper - need to update the shared state
     setSnapshot({
       phase: "offer_received",
@@ -99,7 +99,7 @@ describe("ChannelController", () => {
   test("handles accept offer action", async () => {
     const user = userEvent.setup();
     render(<ChannelController />);
-    
+
     setSnapshot({
       phase: "offer_received",
       ctx: {
@@ -110,7 +110,9 @@ describe("ChannelController", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByRole("button", { name: /accept/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /accept/i })
+      ).toBeInTheDocument();
     });
 
     const acceptButton = screen.getByRole("button", { name: /accept/i });
@@ -118,15 +120,18 @@ describe("ChannelController", () => {
 
     // After accepting, state changes to awaiting_ack, so the button disappears
     // and we should see the "Opening channel..." message instead
-    await waitFor(() => {
-      expect(screen.getByText(/Opening channel/i)).toBeInTheDocument();
-    }, { timeout: 1000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText(/Opening channel/i)).toBeInTheDocument();
+      },
+      { timeout: 1000 }
+    );
   });
 
   test("handles decline offer action", async () => {
     const user = userEvent.setup();
     render(<ChannelController />);
-    
+
     setSnapshot({
       phase: "offer_received",
       ctx: {
@@ -137,22 +142,27 @@ describe("ChannelController", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByRole("button", { name: /decline/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /decline/i })
+      ).toBeInTheDocument();
     });
 
     const declineButton = screen.getByRole("button", { name: /decline/i });
     await user.click(declineButton);
 
     // Wait for state update after declining
-    await waitFor(() => {
-      // After declining, should show declined state
-      expect(screen.getByText(/offer declined/i)).toBeInTheDocument();
-    }, { timeout: 1000 });
+    await waitFor(
+      () => {
+        // After declining, should show declined state
+        expect(screen.getByText(/offer declined/i)).toBeInTheDocument();
+      },
+      { timeout: 1000 }
+    );
   });
 
   test("displays open state with channel ID", async () => {
     render(<ChannelController />);
-    
+
     setSnapshot({
       phase: "open",
       ctx: {
@@ -169,7 +179,7 @@ describe("ChannelController", () => {
 
   test("displays declined state", async () => {
     render(<ChannelController />);
-    
+
     setSnapshot({
       phase: "declined",
       ctx: {},
@@ -182,7 +192,7 @@ describe("ChannelController", () => {
 
   test("displays error state", async () => {
     render(<ChannelController />);
-    
+
     setSnapshot({
       phase: "error",
       ctx: {
@@ -199,7 +209,7 @@ describe("ChannelController", () => {
 
   test("disables buttons when busy", async () => {
     render(<ChannelController />);
-    
+
     setSnapshot({
       phase: "awaiting_ack",
       ctx: {
@@ -220,7 +230,7 @@ describe("ChannelController", () => {
 
   test("calls start on mount and dispose on unmount", () => {
     const { unmount } = render(<ChannelController />);
-    
+
     // Since we can't easily access the instance, we just verify the component renders
     // The actual start/dispose calls are implementation details
     expect(screen.getByRole("status")).toBeInTheDocument();
@@ -229,4 +239,3 @@ describe("ChannelController", () => {
     // Component should unmount without errors
   });
 });
-

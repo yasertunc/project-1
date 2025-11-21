@@ -5,6 +5,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ## Overview
 
 **Total In Progress Items**: 5
+
 - 11.1 ⚠️ Flow-based E2E
 - 11.2 ⚠️ Failure scenarios
 - 11.4 ⚠️ Mobile E2E (Detox/Expo)
@@ -14,6 +15,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ## 11.1 ⚠️ Flow-based E2E
 
 ### Current Status
+
 - ✅ Test files created: `e2e/flows.spec.ts`, `e2e/matching-flow.spec.ts`, `e2e/profile-setup.spec.ts`, `e2e/notification-flow.spec.ts`, `e2e/accessibility-flow.spec.ts`, `e2e/download-flow.spec.ts`, `e2e/performance-flow.spec.ts`
 - ✅ Implementation guide: `docs/e2e-implementation-guide.md`
 - ✅ CI/CD integration: Test scripts in `package.json`
@@ -22,6 +24,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ### Actionable Steps
 
 #### Immediate (Can Do Now)
+
 1. **Verify Test Structure**
    - [ ] Run `npm run test:e2e` to verify all tests are syntactically correct
    - [ ] Check that all test files are properly tagged with `@flow`
@@ -38,6 +41,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Create troubleshooting guide for test failures
 
 #### When UI is Ready
+
 1. **Execute Tests**
    - [ ] Run all flow-based tests
    - [ ] Fix any test failures
@@ -49,6 +53,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Add tests for accessibility features
 
 ### Success Criteria
+
 - [ ] All test files execute without syntax errors
 - [ ] Test coverage > 80% of critical user flows
 - [ ] All tests pass when UI is implemented
@@ -57,6 +62,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ## 11.2 ⚠️ Failure scenarios
 
 ### Current Status
+
 - ✅ Test files created: `e2e/failures.spec.ts`, `e2e/api-failures.spec.ts`
 - ✅ Error boundaries implemented
 - ✅ Implementation guide: `docs/e2e-implementation-guide.md`
@@ -65,6 +71,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ### Actionable Steps
 
 #### Immediate (Can Do Now)
+
 1. **Verify Test Structure**
    - [ ] Run `npm run test:e2e:failures` to verify tests are syntactically correct
    - [ ] Check that all failure scenarios are covered
@@ -82,6 +89,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Test error reporting to Sentry
 
 #### When UI is Ready
+
 1. **Execute Tests**
    - [ ] Run all failure scenario tests
    - [ ] Verify error messages are user-friendly
@@ -93,6 +101,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Test error handling under load
 
 ### Success Criteria
+
 - [ ] All failure scenario tests execute without errors
 - [ ] Error boundaries catch all expected errors
 - [ ] Error messages are user-friendly
@@ -102,6 +111,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ## 11.4 ⚠️ Mobile E2E (Detox/Expo)
 
 ### Current Status
+
 - ✅ Detox config: `apps/mobile/detox.config.ts`
 - ✅ Test structure: `apps/mobile/detox/tests/`
 - ✅ Alternatives guide: `docs/mobile-e2e-alternatives.md`
@@ -112,6 +122,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ### Actionable Steps
 
 #### Immediate (Can Do Now)
+
 1. **Verify Build Scripts**
    - [ ] Test `npm run build:dev-client:android` locally
    - [ ] Test `npm run build:dev-client:ios` locally (if macOS)
@@ -133,6 +144,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Create test reporting mechanism
 
 #### When Dev Client is Ready
+
 1. **Build Dev Client**
    - [ ] Build dev client APK for Android
    - [ ] Build dev client IPA for iOS (when Apple Developer access is ready)
@@ -144,6 +156,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Run manual tests following checklist
 
 ### Success Criteria
+
 - [ ] Dev client build scripts work on all platforms
 - [ ] Manual testing checklist is complete
 - [ ] Alternative testing approach is documented and working
@@ -152,6 +165,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ## 11.5 ⚠️ Device matrix
 
 ### Current Status
+
 - ✅ Coverage plan: `docs/mobile-device-matrix.md`
 - ✅ Implementation guide: `docs/mobile-device-matrix-implementation.md`
 - ✅ CI/CD workflow: `.github/workflows/device-matrix.yml`
@@ -160,6 +174,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ### Actionable Steps
 
 #### Immediate (Can Do Now)
+
 1. **Verify CI/CD Workflow**
    - [ ] Test `.github/workflows/device-matrix.yml` on a test branch
    - [ ] Verify emulator setup works correctly
@@ -178,6 +193,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Create device testing schedule
 
 #### When Devices are Available
+
 1. **Physical Device Testing**
    - [ ] Set up Samsung Galaxy S21
    - [ ] Set up Xiaomi Redmi Note 11
@@ -191,6 +207,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Set up cloud testing workflow
 
 ### Success Criteria
+
 - [ ] CI/CD workflow runs successfully
 - [ ] Emulator tests pass consistently
 - [ ] Physical device testing is documented
@@ -200,6 +217,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ## 16.6 ⚠️ Open beta
 
 ### Current Status
+
 - ✅ Plan: `docs/open-beta-plan.md`
 - ✅ Implementation guide: `docs/open-beta-implementation.md`
 - ✅ Monitoring setup: `docs/open-beta-monitoring-setup.md`
@@ -208,6 +226,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ### Actionable Steps
 
 #### Immediate (Can Do Now)
+
 1. **Preparation Checklist**
    - [ ] Create open beta readiness checklist
    - [ ] Prepare store listing content
@@ -226,6 +245,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Create rollback procedure document
 
 #### When Internal Testing is Complete
+
 1. **Launch Open Beta**
    - [ ] Follow `docs/open-beta-implementation.md`
    - [ ] Create open testing track in Play Console
@@ -239,6 +259,7 @@ This document outlines actionable steps to complete all ⚠️ in progress items
    - [ ] Expand rollout gradually
 
 ### Success Criteria
+
 - [ ] Open beta readiness checklist is complete
 - [ ] Monitoring is set up and working
 - [ ] Communication templates are ready
@@ -248,26 +269,31 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 ## Priority Order
 
 ### High Priority (Do First)
+
 1. **11.1 & 11.2**: Verify test structure and enhance coverage (can do now)
 2. **11.4**: Verify build scripts and set up manual testing (can do now)
 3. **11.5**: Verify CI/CD workflow and enhance test scenarios (can do now)
 
 ### Medium Priority (When Prerequisites Met)
+
 1. **11.1 & 11.2**: Execute tests when UI is ready
 2. **11.4**: Build dev client and run tests when ready
 3. **11.5**: Test on physical devices when available
 
 ### Low Priority (When Ready for Launch)
+
 1. **16.6**: Launch open beta when internal testing is complete
 
 ## Tracking Progress
 
 ### Weekly Review
+
 - Review progress on all in-progress items
 - Update status in PROJECT_STATUS.md
 - Document blockers and next steps
 
 ### Monthly Review
+
 - Assess overall progress
 - Adjust priorities if needed
 - Update action plan based on new information
@@ -279,4 +305,3 @@ This document outlines actionable steps to complete all ⚠️ in progress items
 - [Device Matrix Implementation](mobile-device-matrix-implementation.md)
 - [Open Beta Implementation](open-beta-implementation.md)
 - [Open Beta Monitoring Setup](open-beta-monitoring-setup.md)
-

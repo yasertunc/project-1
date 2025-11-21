@@ -27,7 +27,9 @@ const StatCard: React.FC<StatCardProps> = ({
       aria-label={`${label} ${value}${help ? `. ${help}` : ""}`}
     >
       <div className="text-xs text-text-secondary">{label}</div>
-      <div className="mt-1 text-2xl font-semibold text-text-primary">{value}</div>
+      <div className="mt-1 text-2xl font-semibold text-text-primary">
+        {value}
+      </div>
       {help && <div className="mt-1 text-xs text-text-tertiary">{help}</div>}
     </div>
   );
@@ -65,7 +67,9 @@ export const Overview: Story = {
       >
         <div className="grid gap-12">
           <section>
-            <h2 className="mb-3 text-xl font-semibold text-text-primary">Queue</h2>
+            <h2 className="mb-3 text-xl font-semibold text-text-primary">
+              Queue
+            </h2>
             <div className="grid gap-12 md:grid-cols-4">
               <StatCard
                 label="Depth"
@@ -129,7 +133,9 @@ export const Overview: Story = {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-semibold text-text-primary">Channel</h2>
+            <h2 className="mb-3 text-xl font-semibold text-text-primary">
+              Channel
+            </h2>
             <div className="grid gap-12 md:grid-cols-4">
               <StatCard
                 label="Open latency p95"

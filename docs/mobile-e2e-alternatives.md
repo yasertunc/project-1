@@ -17,12 +17,14 @@ This approach uses Expo's prebuild to generate native projects, then configures 
 #### Steps
 
 1. **Generate Native Projects**:
+
    ```bash
    cd apps/mobile
    npx expo prebuild --clean
    ```
 
 2. **Install Detox Dependencies**:
+
    ```bash
    npm install --save-dev detox jest-circus
    ```
@@ -33,38 +35,40 @@ This approach uses Expo's prebuild to generate native projects, then configures 
    - Add Detox configuration to native projects
 
 4. **Update `detox.config.ts`**:
+
    ```typescript
    export default {
      testRunner: {
        args: {
-         '$0': 'jest',
-         config: 'e2e/jest.config.js'
+         $0: "jest",
+         config: "e2e/jest.config.js",
        },
        jest: {
-         setupTimeout: 120000
-       }
+         setupTimeout: 120000,
+       },
      },
      apps: {
-       'android.debug': {
-         type: 'android.apk',
-         binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
-         build: 'cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug'
-       }
+       "android.debug": {
+         type: "android.apk",
+         binaryPath: "android/app/build/outputs/apk/debug/app-debug.apk",
+         build:
+           "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
+       },
      },
      devices: {
        emulator: {
-         type: 'android.emulator',
+         type: "android.emulator",
          device: {
-           avdName: 'Pixel_5_API_33'
-         }
-       }
+           avdName: "Pixel_5_API_33",
+         },
+       },
      },
      configurations: {
-       'android.emu.debug': {
-         device: 'emulator',
-         app: 'android.debug'
-       }
-     }
+       "android.emu.debug": {
+         device: "emulator",
+         app: "android.debug",
+       },
+     },
    };
    ```
 
@@ -75,11 +79,13 @@ This approach uses Expo's prebuild to generate native projects, then configures 
    ```
 
 #### Pros
+
 - Full Detox functionality
 - Native app testing
 - Fast execution
 
 #### Cons
+
 - Requires native project generation
 - Manual configuration needed
 - More complex setup
@@ -122,12 +128,14 @@ maestro test e2e/maestro/
 ```
 
 #### Pros
+
 - Works with any app (no special setup)
 - Simple YAML-based tests
 - Cross-platform (Android + iOS)
 - No native project needed
 
 #### Cons
+
 - Newer framework (less community)
 - Limited advanced features
 - Requires app to be installed
@@ -149,27 +157,31 @@ Create `apps/mobile/e2e/appium/wdio.conf.ts`:
 
 ```typescript
 export const config = {
-  runner: 'local',
+  runner: "local",
   port: 4723,
-  specs: ['./e2e/appium/**/*.spec.ts'],
-  capabilities: [{
-    platformName: 'Android',
-    'appium:deviceName': 'Android Emulator',
-    'appium:app': './android/app/build/outputs/apk/debug/app-debug.apk',
-    'appium:automationName': 'UiAutomator2'
-  }],
-  services: ['appium'],
-  framework: 'mocha',
+  specs: ["./e2e/appium/**/*.spec.ts"],
+  capabilities: [
+    {
+      platformName: "Android",
+      "appium:deviceName": "Android Emulator",
+      "appium:app": "./android/app/build/outputs/apk/debug/app-debug.apk",
+      "appium:automationName": "UiAutomator2",
+    },
+  ],
+  services: ["appium"],
+  framework: "mocha",
 };
 ```
 
 #### Pros
+
 - Industry standard
 - Large community
 - Supports many platforms
 - Rich ecosystem
 
 #### Cons
+
 - More complex setup
 - Slower than Detox
 - Requires native builds
@@ -181,19 +193,21 @@ For quick validation, manual testing with screenshot comparison.
 #### Setup
 
 1. **Install Screenshot Tools**:
+
    ```bash
    npm install --save-dev pixelmatch pngjs
    ```
 
 2. **Create Manual Test Script**:
+
    ```typescript
    // scripts/manual-mobile-test.mjs
-   import { execSync } from 'child_process';
-   
+   import { execSync } from "child_process";
+
    // Take screenshots on device
-   execSync('adb shell screencap -p /sdcard/screen.png');
-   execSync('adb pull /sdcard/screen.png screenshots/');
-   
+   execSync("adb shell screencap -p /sdcard/screen.png");
+   execSync("adb pull /sdcard/screen.png screenshots/");
+
    // Compare with baseline
    // ...
    ```
@@ -204,11 +218,13 @@ For quick validation, manual testing with screenshot comparison.
    - Compare with baseline images
 
 #### Pros
+
 - Simple setup
 - Works immediately
 - No special tools needed
 
 #### Cons
+
 - Manual effort required
 - Not automated
 - Time-consuming
@@ -220,6 +236,7 @@ Use Expo Dev Client for development builds and manual testing.
 #### Setup
 
 1. **Build Dev Client**:
+
    ```bash
    cd apps/mobile
    npx eas build --profile development --platform android
@@ -236,11 +253,13 @@ Use Expo Dev Client for development builds and manual testing.
    - Take screenshots
 
 #### Pros
+
 - Uses existing Expo infrastructure
 - Fast iteration
 - Real device testing
 
 #### Cons
+
 - Manual testing only
 - Not automated
 - Requires physical device
@@ -248,16 +267,19 @@ Use Expo Dev Client for development builds and manual testing.
 ## Recommendation
 
 ### Short Term (Now)
+
 - **Use Option 5**: Expo Dev Client + Manual Testing
 - Follow `docs/mobile-debug-device-testing.md`
 - Document test results
 
 ### Medium Term (When Detox Plugin Available)
+
 - **Use Option 1**: Manual Prebuild + Detox
 - Full automated testing
 - CI/CD integration
 
 ### Long Term (If Detox Remains Blocked)
+
 - **Consider Option 2**: Maestro
 - Simpler than Appium
 - Works with Expo apps
@@ -266,17 +288,20 @@ Use Expo Dev Client for development builds and manual testing.
 ## Implementation Plan
 
 ### Phase 1: Manual Testing (Immediate)
+
 1. Build dev client APK
 2. Install on physical devices
 3. Follow test checklist
 4. Document results
 
 ### Phase 2: Automated Testing (When Possible)
+
 1. Wait for Detox plugin update OR
 2. Implement manual prebuild + Detox OR
 3. Evaluate Maestro for adoption
 
 ### Phase 3: CI/CD Integration
+
 1. Set up device farm or emulator
 2. Integrate with GitHub Actions
 3. Run tests on every PR
@@ -284,6 +309,7 @@ Use Expo Dev Client for development builds and manual testing.
 ## Test Coverage Goals
 
 ### Critical Paths (P0)
+
 - [ ] App launches successfully
 - [ ] Tab navigation works
 - [ ] Push notification permission
@@ -291,12 +317,14 @@ Use Expo Dev Client for development builds and manual testing.
 - [ ] Deep links work (if configured)
 
 ### Important Paths (P1)
+
 - [ ] Matching flow (when implemented)
 - [ ] Profile setup (when implemented)
 - [ ] Notification registration
 - [ ] Settings/preferences
 
 ### Nice to Have (P2)
+
 - [ ] All screens render correctly
 - [ ] Animations work smoothly
 - [ ] Offline mode handling
@@ -309,4 +337,3 @@ Use Expo Dev Client for development builds and manual testing.
 - [Appium Documentation](https://appium.io/docs/en/latest/)
 - [Expo Prebuild](https://docs.expo.dev/workflow/prebuild/)
 - [Mobile Debug Testing Guide](docs/mobile-debug-device-testing.md)
-

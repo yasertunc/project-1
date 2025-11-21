@@ -11,9 +11,9 @@ const makeResponse = (status: number, body?: any, statusText = "OK") =>
 
 describe("matchingClient", () => {
   it("sends auth header and POSTs to enqueue", async () => {
-    const fetchMock = vi.fn().mockResolvedValue(
-      makeResponse(202, { id: "m1" })
-    );
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(makeResponse(202, { id: "m1" }));
     const client = createMatchingClient({
       baseUrl: "https://api.test/v2/",
       fetchImpl: fetchMock as any,
@@ -38,7 +38,9 @@ describe("matchingClient", () => {
   it("throws on non-ok with server message", async () => {
     const fetchMock = vi
       .fn()
-      .mockResolvedValue(makeResponse(400, { message: "Bad body" }, "Bad Request"));
+      .mockResolvedValue(
+        makeResponse(400, { message: "Bad body" }, "Bad Request")
+      );
     const client = createMatchingClient({ fetchImpl: fetchMock as any });
 
     await expect(client.enqueue({} as any)).rejects.toThrow("Bad body");
@@ -48,6 +50,8 @@ describe("matchingClient", () => {
     const fetchMock = vi.fn().mockResolvedValue(makeResponse(204));
     const client = createMatchingClient({ fetchImpl: fetchMock as any });
 
-    await expect(client.cancel({ matchId: "m1" } as any)).resolves.toBeUndefined();
+    await expect(
+      client.cancel({ matchId: "m1" } as any)
+    ).resolves.toBeUndefined();
   });
 });

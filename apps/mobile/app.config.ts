@@ -45,12 +45,15 @@ export default function createExpoConfig({
   //       ] as ExpoPlugin)
   //     : null;
 
-  const defaultGoogleServices = process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json";
+  const defaultGoogleServices =
+    process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json";
   // Only include googleServicesFile when the file actually exists in the project root
   // This prevents EAS build failures when the file is provided via EAS file envs
   // or intentionally omitted for preview builds.
   const googleServicesPath = join(dirname(__filename), "google-services.json");
-  const googleServicesFile = existsSync(googleServicesPath) ? defaultGoogleServices : undefined;
+  const googleServicesFile = existsSync(googleServicesPath)
+    ? defaultGoogleServices
+    : undefined;
 
   return {
     ...config,

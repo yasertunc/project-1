@@ -187,6 +187,7 @@ public/
 ## 📞 Destek
 
 Sorun yaşarsanız:
+
 - Hosting sağlayıcınızın destek ekibiyle iletişime geçin
 - Tarayıcı konsolundaki hata mesajlarını kontrol edin
 - `public/HTTPS_SSL_GUIDE.md` dosyasına bakın
@@ -194,4 +195,3 @@ Sorun yaşarsanız:
 ---
 
 **Özet:** `public/` klasörünün **içindeki tüm dosyaları** web hosting'e yükleyin. Klasör yapısını koruyun ve kök dizinde `index.html` olmasına dikkat edin.
-

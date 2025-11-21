@@ -124,7 +124,10 @@ export const ChannelController: React.FC = () => {
       )}
 
       {snapshot.phase === "declined" && (
-        <div role="status" className="text-sm text-[color:var(--color-text-primary)]">
+        <div
+          role="status"
+          className="text-sm text-[color:var(--color-text-primary)]"
+        >
           Offer declined.
         </div>
       )}

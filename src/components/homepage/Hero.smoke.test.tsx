@@ -18,7 +18,9 @@ describe("Hero (homepage)", () => {
       />
     );
 
-    expect(screen.getByRole("heading", { name: "Welcome" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Welcome" })
+    ).toBeInTheDocument();
     expect(screen.getByText("Subheading")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Get started" }));

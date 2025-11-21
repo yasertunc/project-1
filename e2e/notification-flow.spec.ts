@@ -70,7 +70,10 @@ test.describe("Notification flow E2E (mocked)", () => {
           window.Notification.permission = "granted";
           return "granted" as NotificationPermission;
         };
-        constructor(public title: string, public options?: NotificationOptions) {}
+        constructor(
+          public title: string,
+          public options?: NotificationOptions
+        ) {}
       };
     });
 
@@ -166,7 +169,9 @@ test.describe("Notification flow E2E (mocked)", () => {
     // 4. Local token is cleared
 
     const unregisterButton = page.locator('[data-testid="unregister-button"]');
-    const unregisterSuccess = page.locator('[data-testid="unregister-success"]');
+    const unregisterSuccess = page.locator(
+      '[data-testid="unregister-success"]'
+    );
 
     expect(
       unregisterButton.or(unregisterSuccess).count()
@@ -194,4 +199,3 @@ test.describe("Notification flow E2E (mocked)", () => {
     ).toBeGreaterThanOrEqual(0);
   });
 });
-

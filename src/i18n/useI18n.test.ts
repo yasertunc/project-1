@@ -20,4 +20,3 @@ describe("useI18n", () => {
     expect(result.current.t("app.name")).toBeDefined();
   });
 });
-

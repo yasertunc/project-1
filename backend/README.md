@@ -184,4 +184,3 @@ All errors follow this format:
 ## License
 
 ISC
-

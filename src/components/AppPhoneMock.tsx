@@ -399,7 +399,9 @@ function Content({
     if (mapFilters.selectedCategories.size === 0) {
       return [];
     }
-    const allUsers = getUsersFromSelectedCategories(mapFilters.selectedCategories);
+    const allUsers = getUsersFromSelectedCategories(
+      mapFilters.selectedCategories
+    );
     // Filter by distance if needed
     const center = { lat: 41.0082, lng: 28.9784 }; // Default center
     return allUsers.filter((user) => {
@@ -424,11 +426,11 @@ function Content({
       const categoryIds = Array.from(mapFilters.selectedCategories).sort();
       const groupId = `group-${categoryIds.join("-")}`;
       const memberIds = filteredUsersForGroup.map((u) => u.id);
-      
+
       setGroupChats((prev) => {
         // Check if group already exists
         const existingGroup = prev.find((g) => g.id === groupId);
-        
+
         if (!existingGroup) {
           // Create new group
           const categoryNames = categoryIds.map((id) => {
@@ -436,10 +438,11 @@ function Content({
             const parts = id.split("-");
             return parts[parts.length - 1];
           });
-          const groupName = categoryNames.length > 0 
-            ? `${categoryNames.join(", ")} Grubu`
-            : "Yeni Grup";
-          
+          const groupName =
+            categoryNames.length > 0
+              ? `${categoryNames.join(", ")} Grubu`
+              : "Yeni Grup";
+
           const newGroup: GroupChat = {
             id: groupId,
             name: groupName,
@@ -447,18 +450,20 @@ function Content({
             categoryIds,
             createdAt: Date.now(),
           };
-          
+
           return [...prev, newGroup];
         } else {
           // Update existing group with new members if changed
-          const memberIdsChanged = JSON.stringify(existingGroup.memberIds.sort()) !== JSON.stringify(memberIds.sort());
-          const categoryIdsChanged = JSON.stringify(existingGroup.categoryIds.sort()) !== JSON.stringify(categoryIds.sort());
-          
+          const memberIdsChanged =
+            JSON.stringify(existingGroup.memberIds.sort()) !==
+            JSON.stringify(memberIds.sort());
+          const categoryIdsChanged =
+            JSON.stringify(existingGroup.categoryIds.sort()) !==
+            JSON.stringify(categoryIds.sort());
+
           if (memberIdsChanged || categoryIdsChanged) {
             return prev.map((g) =>
-              g.id === groupId
-                ? { ...g, memberIds, categoryIds }
-                : g
+              g.id === groupId ? { ...g, memberIds, categoryIds } : g
             );
           }
           return prev;
@@ -466,12 +471,14 @@ function Content({
       });
     } else {
       // Remove groups if no users match
-      setGroupChats((prev) => prev.filter((g) => {
-        const hasMatchingCategories = g.categoryIds.some((catId) =>
-          mapFilters.selectedCategories.has(catId)
-        );
-        return !hasMatchingCategories;
-      }));
+      setGroupChats((prev) =>
+        prev.filter((g) => {
+          const hasMatchingCategories = g.categoryIds.some((catId) =>
+            mapFilters.selectedCategories.has(catId)
+          );
+          return !hasMatchingCategories;
+        })
+      );
     }
   }, [filteredUsersForGroup, mapFilters.selectedCategories, setGroupChats]);
   return (
@@ -501,13 +508,13 @@ function Content({
           <FilterView
             mapFilters={mapFilters}
             onMapFiltersChange={onMapFiltersChange}
-            />
+          />
         )}
         {page === "categories" && (
           <CategoriesView
             mapFilters={mapFilters}
             onMapFiltersChange={onMapFiltersChange}
-              />
+          />
         )}
         {page === "profile" && <ProfileView />}
         {page === "chat" && <ChatView />}
@@ -601,51 +608,224 @@ const PREDEFINED_USERS: Array<{
   nickname?: string; // Only for VIP users
 }> = [
   // İŞ / MESLEK GRUPLARI - Üretim & Teknik
-  { id: "user-1", name: "Ahmet", position: { lat: 41.0122, lng: 28.9764 }, categoryItemId: "jobs-professions-production-technical-Sanayi", avatar: "👤", isVip: false },
-  { id: "user-2", name: "Mehmet", position: { lat: 41.0102, lng: 28.9744 }, categoryItemId: "jobs-professions-production-technical-Fabrikalar", avatar: "👤", isVip: false },
-  { id: "user-3", name: "Ali", position: { lat: 41.0082, lng: 28.9804 }, categoryItemId: "jobs-professions-production-technical-Teknik İşler", avatar: "👤", isVip: false },
+  {
+    id: "user-1",
+    name: "Ahmet",
+    position: { lat: 41.0122, lng: 28.9764 },
+    categoryItemId: "jobs-professions-production-technical-Sanayi",
+    avatar: "👤",
+    isVip: false,
+  },
+  {
+    id: "user-2",
+    name: "Mehmet",
+    position: { lat: 41.0102, lng: 28.9744 },
+    categoryItemId: "jobs-professions-production-technical-Fabrikalar",
+    avatar: "👤",
+    isVip: false,
+  },
+  {
+    id: "user-3",
+    name: "Ali",
+    position: { lat: 41.0082, lng: 28.9804 },
+    categoryItemId: "jobs-professions-production-technical-Teknik İşler",
+    avatar: "👤",
+    isVip: false,
+  },
   // İnşaat & Yapı
-  { id: "user-4", name: "Ayşe", position: { lat: 41.0062, lng: 28.9784 }, categoryItemId: "jobs-professions-construction-building-İnşaat", avatar: "👤", isVip: false },
-  { id: "user-5", name: "Fatma", position: { lat: 41.0042, lng: 28.9764 }, categoryItemId: "jobs-professions-construction-building-Mimarlık", avatar: "👤", isVip: true, nickname: "MimarF" },
+  {
+    id: "user-4",
+    name: "Ayşe",
+    position: { lat: 41.0062, lng: 28.9784 },
+    categoryItemId: "jobs-professions-construction-building-İnşaat",
+    avatar: "👤",
+    isVip: false,
+  },
+  {
+    id: "user-5",
+    name: "Fatma",
+    position: { lat: 41.0042, lng: 28.9764 },
+    categoryItemId: "jobs-professions-construction-building-Mimarlık",
+    avatar: "👤",
+    isVip: true,
+    nickname: "MimarF",
+  },
   // Bilişim & Teknoloji
-  { id: "user-6", name: "Zeynep", position: { lat: 41.0142, lng: 28.9824 }, categoryItemId: "jobs-professions-it-technology-Yazılım", avatar: "👤", isVip: true, nickname: "CodeMaster" },
-  { id: "user-7", name: "Can", position: { lat: 41.0162, lng: 28.9844 }, categoryItemId: "jobs-professions-it-technology-Donanım", avatar: "👤", isVip: false },
+  {
+    id: "user-6",
+    name: "Zeynep",
+    position: { lat: 41.0142, lng: 28.9824 },
+    categoryItemId: "jobs-professions-it-technology-Yazılım",
+    avatar: "👤",
+    isVip: true,
+    nickname: "CodeMaster",
+  },
+  {
+    id: "user-7",
+    name: "Can",
+    position: { lat: 41.0162, lng: 28.9844 },
+    categoryItemId: "jobs-professions-it-technology-Donanım",
+    avatar: "👤",
+    isVip: false,
+  },
   // Ticaret & Satış & Hizmet
-  { id: "user-8", name: "Deniz", position: { lat: 41.0022, lng: 28.9724 }, categoryItemId: "jobs-professions-trade-sales-service-Mağaza", avatar: "👤", isVip: false },
-  { id: "user-9", name: "Emre", position: { lat: 41.0002, lng: 28.9704 }, categoryItemId: "jobs-professions-trade-sales-service-Satış", avatar: "👤", isVip: false },
+  {
+    id: "user-8",
+    name: "Deniz",
+    position: { lat: 41.0022, lng: 28.9724 },
+    categoryItemId: "jobs-professions-trade-sales-service-Mağaza",
+    avatar: "👤",
+    isVip: false,
+  },
+  {
+    id: "user-9",
+    name: "Emre",
+    position: { lat: 41.0002, lng: 28.9704 },
+    categoryItemId: "jobs-professions-trade-sales-service-Satış",
+    avatar: "👤",
+    isVip: false,
+  },
   // Finans & Büro & Kamu
-  { id: "user-10", name: "Elif", position: { lat: 41.0182, lng: 28.9864 }, categoryItemId: "jobs-professions-finance-office-public-Banka", avatar: "👤", isVip: false },
+  {
+    id: "user-10",
+    name: "Elif",
+    position: { lat: 41.0182, lng: 28.9864 },
+    categoryItemId: "jobs-professions-finance-office-public-Banka",
+    avatar: "👤",
+    isVip: false,
+  },
   // Sağlık & Eğitim & Sosyal Hizmet
-  { id: "user-11", name: "Burak", position: { lat: 41.0202, lng: 28.9884 }, categoryItemId: "jobs-professions-health-education-social-Doktor", avatar: "👤", isVip: true, nickname: "Dr.B" },
-  { id: "user-12", name: "Ceren", position: { lat: 41.0222, lng: 28.9904 }, categoryItemId: "jobs-professions-health-education-social-Öğretmen", avatar: "👤", isVip: false },
+  {
+    id: "user-11",
+    name: "Burak",
+    position: { lat: 41.0202, lng: 28.9884 },
+    categoryItemId: "jobs-professions-health-education-social-Doktor",
+    avatar: "👤",
+    isVip: true,
+    nickname: "Dr.B",
+  },
+  {
+    id: "user-12",
+    name: "Ceren",
+    position: { lat: 41.0222, lng: 28.9904 },
+    categoryItemId: "jobs-professions-health-education-social-Öğretmen",
+    avatar: "👤",
+    isVip: false,
+  },
   // Sanat & Medya & Eğlence
-  { id: "user-13", name: "Kemal", position: { lat: 41.0242, lng: 28.9924 }, categoryItemId: "jobs-professions-art-media-entertainment-Müzik", avatar: "👤", isVip: false },
+  {
+    id: "user-13",
+    name: "Kemal",
+    position: { lat: 41.0242, lng: 28.9924 },
+    categoryItemId: "jobs-professions-art-media-entertainment-Müzik",
+    avatar: "👤",
+    isVip: false,
+  },
   // HOBİLER - Spor & Hareket
-  { id: "user-14", name: "Selin", position: { lat: 41.0262, lng: 28.9944 }, categoryItemId: "hobbies-sports-movement-Takım Sporları", avatar: "👤", isVip: false },
-  { id: "user-15", name: "Onur", position: { lat: 41.0282, lng: 28.9964 }, categoryItemId: "hobbies-sports-movement-Fitness", avatar: "👤", isVip: true, nickname: "FitOnur" },
+  {
+    id: "user-14",
+    name: "Selin",
+    position: { lat: 41.0262, lng: 28.9944 },
+    categoryItemId: "hobbies-sports-movement-Takım Sporları",
+    avatar: "👤",
+    isVip: false,
+  },
+  {
+    id: "user-15",
+    name: "Onur",
+    position: { lat: 41.0282, lng: 28.9964 },
+    categoryItemId: "hobbies-sports-movement-Fitness",
+    avatar: "👤",
+    isVip: true,
+    nickname: "FitOnur",
+  },
   // Sanat & El İşi
-  { id: "user-16", name: "Pınar", position: { lat: 41.0302, lng: 28.9984 }, categoryItemId: "hobbies-art-crafts-Resim", avatar: "👤", isVip: false },
+  {
+    id: "user-16",
+    name: "Pınar",
+    position: { lat: 41.0302, lng: 28.9984 },
+    categoryItemId: "hobbies-art-crafts-Resim",
+    avatar: "👤",
+    isVip: false,
+  },
   // Oyun & Dijital
-  { id: "user-17", name: "Murat", position: { lat: 41.0322, lng: 29.0004 }, categoryItemId: "hobbies-games-digital-Bilgisayar/Konsol Oyunları", avatar: "👤", isVip: false },
+  {
+    id: "user-17",
+    name: "Murat",
+    position: { lat: 41.0322, lng: 29.0004 },
+    categoryItemId: "hobbies-games-digital-Bilgisayar/Konsol Oyunları",
+    avatar: "👤",
+    isVip: false,
+  },
   // Doğa & Açık Hava
-  { id: "user-18", name: "Ebru", position: { lat: 41.0342, lng: 29.0024 }, categoryItemId: "hobbies-nature-outdoor-Yürüyüş", avatar: "👤", isVip: false },
+  {
+    id: "user-18",
+    name: "Ebru",
+    position: { lat: 41.0342, lng: 29.0024 },
+    categoryItemId: "hobbies-nature-outdoor-Yürüyüş",
+    avatar: "👤",
+    isVip: false,
+  },
   // İLGİ ALANLARI - Bilim & Akademi
-  { id: "user-19", name: "Okan", position: { lat: 41.0362, lng: 29.0044 }, categoryItemId: "interests-science-academia-Matematik", avatar: "👤", isVip: false },
+  {
+    id: "user-19",
+    name: "Okan",
+    position: { lat: 41.0362, lng: 29.0044 },
+    categoryItemId: "interests-science-academia-Matematik",
+    avatar: "👤",
+    isVip: false,
+  },
   // Kültür & Sanat
-  { id: "user-20", name: "Gizem", position: { lat: 41.0382, lng: 29.0064 }, categoryItemId: "interests-culture-art-Film", avatar: "👤", isVip: false },
+  {
+    id: "user-20",
+    name: "Gizem",
+    position: { lat: 41.0382, lng: 29.0064 },
+    categoryItemId: "interests-culture-art-Film",
+    avatar: "👤",
+    isVip: false,
+  },
   // İş Dünyası & Kişisel Gelişim
-  { id: "user-21", name: "Tolga", position: { lat: 41.0402, lng: 29.0084 }, categoryItemId: "interests-business-personal-growth-Girişimcilik", avatar: "👤", isVip: true, nickname: "StartupT" },
+  {
+    id: "user-21",
+    name: "Tolga",
+    position: { lat: 41.0402, lng: 29.0084 },
+    categoryItemId: "interests-business-personal-growth-Girişimcilik",
+    avatar: "👤",
+    isVip: true,
+    nickname: "StartupT",
+  },
   // Teknoloji & Dijital Dünya
-  { id: "user-22", name: "Seda", position: { lat: 41.0422, lng: 29.0104 }, categoryItemId: "interests-technology-digital-Yapay Zekâ", avatar: "👤", isVip: false },
+  {
+    id: "user-22",
+    name: "Seda",
+    position: { lat: 41.0422, lng: 29.0104 },
+    categoryItemId: "interests-technology-digital-Yapay Zekâ",
+    avatar: "👤",
+    isVip: false,
+  },
   // Sağlık & Yaşam Tarzı
-  { id: "user-23", name: "Barış", position: { lat: 41.0442, lng: 29.0124 }, categoryItemId: "interests-health-lifestyle-Beslenme", avatar: "👤", isVip: false },
+  {
+    id: "user-23",
+    name: "Barış",
+    position: { lat: 41.0442, lng: 29.0124 },
+    categoryItemId: "interests-health-lifestyle-Beslenme",
+    avatar: "👤",
+    isVip: false,
+  },
   // Gezi & Keşif
-  { id: "user-24", name: "Derya", position: { lat: 41.0462, lng: 29.0144 }, categoryItemId: "interests-travel-exploration-Seyahat", avatar: "👤", isVip: false },
+  {
+    id: "user-24",
+    name: "Derya",
+    position: { lat: 41.0462, lng: 29.0144 },
+    categoryItemId: "interests-travel-exploration-Seyahat",
+    avatar: "👤",
+    isVip: false,
+  },
 ];
 
 // Generate anonymous display name for users
 // VIP users can use their nickname, others get "Anonim X" based on user ID
-function getDisplayName(user: typeof PREDEFINED_USERS[0]): string {
+function getDisplayName(user: (typeof PREDEFINED_USERS)[0]): string {
   if (user.isVip && user.nickname) {
     return user.nickname;
   }
@@ -657,18 +837,21 @@ function getDisplayName(user: typeof PREDEFINED_USERS[0]): string {
 // Add deterministic offset to approximate location (privacy protection)
 // Uses user ID to generate consistent offset (50-200 meters)
 // This ensures the same user always gets the same approximate position
-function getApproximatePosition(originalPosition: { lat: number; lng: number }, userId: string): { lat: number; lng: number } {
+function getApproximatePosition(
+  originalPosition: { lat: number; lng: number },
+  userId: string
+): { lat: number; lng: number } {
   // Use user ID to generate consistent pseudo-random values
   let hash = 0;
   for (let i = 0; i < userId.length; i++) {
-    hash = ((hash << 5) - hash) + userId.charCodeAt(i);
+    hash = (hash << 5) - hash + userId.charCodeAt(i);
     hash = hash & hash; // Convert to 32bit integer
   }
-  
+
   // Generate consistent angle and distance based on hash
   const angle = (Math.abs(hash) % 360) * (Math.PI / 180);
   const distance = 0.0005 + ((Math.abs(hash) % 1000) / 1000) * 0.0015; // 0.0005-0.002 degrees
-  
+
   return {
     lat: originalPosition.lat + distance * Math.cos(angle),
     lng: originalPosition.lng + distance * Math.sin(angle),
@@ -676,7 +859,9 @@ function getApproximatePosition(originalPosition: { lat: number; lng: number }, 
 }
 
 // Filter users based on selected categories
-function getUsersFromSelectedCategories(selectedCategories: Set<string>): Array<{
+function getUsersFromSelectedCategories(
+  selectedCategories: Set<string>
+): Array<{
   id: string;
   displayName: string;
   position: { lat: number; lng: number };
@@ -709,7 +894,11 @@ function MapView({
   onMarkerClick,
 }: {
   mapFilters: MapFilterState;
-  onMarkerClick?: (marker: { id: string; position: { lat: number; lng: number }; title?: string }) => void;
+  onMarkerClick?: (marker: {
+    id: string;
+    position: { lat: number; lng: number };
+    title?: string;
+  }) => void;
 }) {
   // Istanbul coordinates (default location)
   const [mapCenter] = React.useState({ lat: 41.0082, lng: 28.9784 });
@@ -785,7 +974,7 @@ function MapView({
   // Filter users and place markers based on distance
   const { filteredUsers, filteredPlaceMarkers } = React.useMemo(() => {
     const center = userLocation || mapCenter;
-    
+
     // Filter users
     const users = allUsers.filter((user) => {
       if (mapFilters.distanceFilter > 0) {
@@ -822,7 +1011,13 @@ function MapView({
     });
 
     return { filteredUsers: users, filteredPlaceMarkers: places };
-  }, [allUsers, allPlaceMarkers, mapFilters.distanceFilter, userLocation, mapCenter]);
+  }, [
+    allUsers,
+    allPlaceMarkers,
+    mapFilters.distanceFilter,
+    userLocation,
+    mapCenter,
+  ]);
 
   // Combine users and place markers for map
   // Use approximate positions for users (privacy protection)
@@ -925,7 +1120,9 @@ function PlacesView({
   mapFilters: MapFilterState;
   onMapFiltersChange: (filters: MapFilterState) => void;
 }) {
-  const [selectedCategoryId, setSelectedCategoryId] = React.useState<string | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = React.useState<
+    string | null
+  >(null);
 
   // Comprehensive category structure with subcategories (from CategoriesView)
   const categories = React.useMemo(
@@ -937,9 +1134,24 @@ function PlacesView({
         description: "Restoranlar, kafeler ve barlar",
         count: 24,
         subcategories: [
-          { icon: "🍴", name: "Restoranlar", count: 12, examples: ["İtalyan", "Türk", "Asya", "Fast Food"] },
-          { icon: "☕", name: "Kafeler", count: 8, examples: ["Kahve", "Pastane", "Çay Bahçesi"] },
-          { icon: "🍻", name: "Barlar", count: 4, examples: ["Cocktail", "Pub", "Wine Bar"] },
+          {
+            icon: "🍴",
+            name: "Restoranlar",
+            count: 12,
+            examples: ["İtalyan", "Türk", "Asya", "Fast Food"],
+          },
+          {
+            icon: "☕",
+            name: "Kafeler",
+            count: 8,
+            examples: ["Kahve", "Pastane", "Çay Bahçesi"],
+          },
+          {
+            icon: "🍻",
+            name: "Barlar",
+            count: 4,
+            examples: ["Cocktail", "Pub", "Wine Bar"],
+          },
         ],
       },
       {
@@ -949,10 +1161,30 @@ function PlacesView({
         description: "Mağazalar ve alışveriş merkezleri",
         count: 18,
         subcategories: [
-          { icon: "🏪", name: "Marketler", count: 6, examples: ["Süpermarket", "Bakkal", "Organik"] },
-          { icon: "🏬", name: "AVM'ler", count: 3, examples: ["İstiklal AVM", "Forum", "Mall"] },
-          { icon: "👔", name: "Butikler", count: 5, examples: ["Giyim", "Ayakkabı", "Aksesuar"] },
-          { icon: "💊", name: "Eczaneler", count: 4, examples: ["24 Saat", "Nöbetçi"] },
+          {
+            icon: "🏪",
+            name: "Marketler",
+            count: 6,
+            examples: ["Süpermarket", "Bakkal", "Organik"],
+          },
+          {
+            icon: "🏬",
+            name: "AVM'ler",
+            count: 3,
+            examples: ["İstiklal AVM", "Forum", "Mall"],
+          },
+          {
+            icon: "👔",
+            name: "Butikler",
+            count: 5,
+            examples: ["Giyim", "Ayakkabı", "Aksesuar"],
+          },
+          {
+            icon: "💊",
+            name: "Eczaneler",
+            count: 4,
+            examples: ["24 Saat", "Nöbetçi"],
+          },
         ],
       },
       {
@@ -962,10 +1194,30 @@ function PlacesView({
         description: "Hastaneler, klinikler ve sağlık merkezleri",
         count: 15,
         subcategories: [
-          { icon: "🏥", name: "Hastaneler", count: 5, examples: ["Genel", "Özel", "Üniversite"] },
-          { icon: "💊", name: "Eczaneler", count: 4, examples: ["24 Saat", "Nöbetçi"] },
-          { icon: "🏋️", name: "Spor Salonları", count: 4, examples: ["Fitness", "Yoga", "Pilates"] },
-          { icon: "💆", name: "Sağlık Merkezleri", count: 2, examples: ["Fizik Tedavi", "Masaj"] },
+          {
+            icon: "🏥",
+            name: "Hastaneler",
+            count: 5,
+            examples: ["Genel", "Özel", "Üniversite"],
+          },
+          {
+            icon: "💊",
+            name: "Eczaneler",
+            count: 4,
+            examples: ["24 Saat", "Nöbetçi"],
+          },
+          {
+            icon: "🏋️",
+            name: "Spor Salonları",
+            count: 4,
+            examples: ["Fitness", "Yoga", "Pilates"],
+          },
+          {
+            icon: "💆",
+            name: "Sağlık Merkezleri",
+            count: 2,
+            examples: ["Fizik Tedavi", "Masaj"],
+          },
         ],
       },
       {
@@ -975,9 +1227,24 @@ function PlacesView({
         description: "Okullar, kütüphaneler ve kurslar",
         count: 12,
         subcategories: [
-          { icon: "🏫", name: "Okullar", count: 5, examples: ["İlkokul", "Ortaokul", "Lise"] },
-          { icon: "📚", name: "Kütüphaneler", count: 3, examples: ["Halk", "Üniversite"] },
-          { icon: "✏️", name: "Kurslar", count: 4, examples: ["Dil", "Müzik", "Sanat"] },
+          {
+            icon: "🏫",
+            name: "Okullar",
+            count: 5,
+            examples: ["İlkokul", "Ortaokul", "Lise"],
+          },
+          {
+            icon: "📚",
+            name: "Kütüphaneler",
+            count: 3,
+            examples: ["Halk", "Üniversite"],
+          },
+          {
+            icon: "✏️",
+            name: "Kurslar",
+            count: 4,
+            examples: ["Dil", "Müzik", "Sanat"],
+          },
         ],
       },
       {
@@ -987,9 +1254,24 @@ function PlacesView({
         description: "Benzin istasyonları ve ulaşım noktaları",
         count: 20,
         subcategories: [
-          { icon: "⛽", name: "Benzin İstasyonları", count: 8, examples: ["BP", "Shell", "Petrol Ofisi"] },
-          { icon: "🚌", name: "Duraklar", count: 7, examples: ["Otobüs", "Minibüs", "Metro"] },
-          { icon: "🅿️", name: "Park Yerleri", count: 5, examples: ["Otopark", "Ücretsiz", "Ücretli"] },
+          {
+            icon: "⛽",
+            name: "Benzin İstasyonları",
+            count: 8,
+            examples: ["BP", "Shell", "Petrol Ofisi"],
+          },
+          {
+            icon: "🚌",
+            name: "Duraklar",
+            count: 7,
+            examples: ["Otobüs", "Minibüs", "Metro"],
+          },
+          {
+            icon: "🅿️",
+            name: "Park Yerleri",
+            count: 5,
+            examples: ["Otopark", "Ücretsiz", "Ücretli"],
+          },
         ],
       },
       {
@@ -999,10 +1281,30 @@ function PlacesView({
         description: "Sinemalar, tiyatrolar ve eğlence mekanları",
         count: 14,
         subcategories: [
-          { icon: "🎬", name: "Sinemalar", count: 4, examples: ["Multiplex", "Sanat"] },
-          { icon: "🎭", name: "Tiyatrolar", count: 3, examples: ["Devlet", "Özel"] },
-          { icon: "🏛️", name: "Müzeler", count: 3, examples: ["Tarih", "Sanat", "Bilim"] },
-          { icon: "🎢", name: "Parklar", count: 4, examples: ["Eğlence", "Tema", "Lunapark"] },
+          {
+            icon: "🎬",
+            name: "Sinemalar",
+            count: 4,
+            examples: ["Multiplex", "Sanat"],
+          },
+          {
+            icon: "🎭",
+            name: "Tiyatrolar",
+            count: 3,
+            examples: ["Devlet", "Özel"],
+          },
+          {
+            icon: "🏛️",
+            name: "Müzeler",
+            count: 3,
+            examples: ["Tarih", "Sanat", "Bilim"],
+          },
+          {
+            icon: "🎢",
+            name: "Parklar",
+            count: 4,
+            examples: ["Eğlence", "Tema", "Lunapark"],
+          },
         ],
       },
       {
@@ -1012,9 +1314,24 @@ function PlacesView({
         description: "Bankalar, ATM'ler ve finansal hizmetler",
         count: 16,
         subcategories: [
-          { icon: "🏦", name: "Bankalar", count: 6, examples: ["Ziraat", "İş Bankası", "Garanti"] },
-          { icon: "💳", name: "ATM'ler", count: 8, examples: ["Nakit", "Kredi Kartı"] },
-          { icon: "💵", name: "Döviz Büroları", count: 2, examples: ["Döviz", "Altın"] },
+          {
+            icon: "🏦",
+            name: "Bankalar",
+            count: 6,
+            examples: ["Ziraat", "İş Bankası", "Garanti"],
+          },
+          {
+            icon: "💳",
+            name: "ATM'ler",
+            count: 8,
+            examples: ["Nakit", "Kredi Kartı"],
+          },
+          {
+            icon: "💵",
+            name: "Döviz Büroları",
+            count: 2,
+            examples: ["Döviz", "Altın"],
+          },
         ],
       },
       {
@@ -1024,10 +1341,30 @@ function PlacesView({
         description: "Sokaklar, caddeler ve şehir yapıları",
         count: 45,
         subcategories: [
-          { icon: "🛣️", name: "Ana Caddeler", count: 12, examples: ["İstiklal", "Bağdat", "Atatürk"] },
-          { icon: "🚶", name: "Sokaklar", count: 20, examples: ["Yaya", "Tek Yön", "Çift Yön"] },
-          { icon: "🌉", name: "Köprüler", count: 5, examples: ["Boğaziçi", "Fatih Sultan Mehmet"] },
-          { icon: "🏛️", name: "Meydanlar", count: 8, examples: ["Taksim", "Kadıköy", "Beşiktaş"] },
+          {
+            icon: "🛣️",
+            name: "Ana Caddeler",
+            count: 12,
+            examples: ["İstiklal", "Bağdat", "Atatürk"],
+          },
+          {
+            icon: "🚶",
+            name: "Sokaklar",
+            count: 20,
+            examples: ["Yaya", "Tek Yön", "Çift Yön"],
+          },
+          {
+            icon: "🌉",
+            name: "Köprüler",
+            count: 5,
+            examples: ["Boğaziçi", "Fatih Sultan Mehmet"],
+          },
+          {
+            icon: "🏛️",
+            name: "Meydanlar",
+            count: 8,
+            examples: ["Taksim", "Kadıköy", "Beşiktaş"],
+          },
         ],
       },
     ],
@@ -1036,7 +1373,9 @@ function PlacesView({
 
   // If a category is selected, show detail view
   if (selectedCategoryId) {
-    const selectedCategory = categories.find((cat) => cat.id === selectedCategoryId);
+    const selectedCategory = categories.find(
+      (cat) => cat.id === selectedCategoryId
+    );
     if (!selectedCategory) {
       setSelectedCategoryId(null);
       return null;
@@ -1053,7 +1392,10 @@ function PlacesView({
   }
 
   return (
-    <Section title="Yerler" subtitle="Haritadaki yerleri keşfedin ve filtreleyin">
+    <Section
+      title="Yerler"
+      subtitle="Haritadaki yerleri keşfedin ve filtreleyin"
+    >
       <div className="mb-3 text-lg font-semibold text-[var(--color-text)]">
         Nearby Places
       </div>
@@ -1153,9 +1495,13 @@ function CategoryDetailView({
           <div className="flex items-center gap-3 flex-1">
             <div className="text-[32px]">{category.icon}</div>
             <div>
-              <div className="font-semibold text-[var(--color-text)]">{category.title}</div>
-              <div className="text-[12px] text-[var(--color-text-2)]">{category.description}</div>
-    </div>
+              <div className="font-semibold text-[var(--color-text)]">
+                {category.title}
+              </div>
+              <div className="text-[12px] text-[var(--color-text-2)]">
+                {category.description}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1225,7 +1571,8 @@ function FilterView({
   };
 
   // Check if current value is in slider range (0-500 km)
-  const isInSliderRange = mapFilters.distanceFilter >= 0 && mapFilters.distanceFilter <= maxDistance;
+  const isInSliderRange =
+    mapFilters.distanceFilter >= 0 && mapFilters.distanceFilter <= maxDistance;
 
   return (
     <Section title="Filtre" subtitle="Haritada görünen yerleri özelleştirin">
@@ -1239,7 +1586,7 @@ function FilterView({
             {formatDistance(mapFilters.distanceFilter)}
           </div>
         </div>
-        
+
         {/* Range Slider (0-500 km) */}
         <div className="mb-4">
           <input
@@ -1254,7 +1601,7 @@ function FilterView({
             }}
             className="w-full h-2 bg-[var(--color-bg-light)] rounded-lg appearance-none cursor-pointer slider"
             style={{
-              background: `linear-gradient(to right, var(--color-primary-main) 0%, var(--color-primary-main) ${(isInSliderRange ? mapFilters.distanceFilter : maxDistance) / maxDistance * 100}%, var(--color-bg-light) ${(isInSliderRange ? mapFilters.distanceFilter : maxDistance) / maxDistance * 100}%, var(--color-bg-light) 100%)`,
+              background: `linear-gradient(to right, var(--color-primary-main) 0%, var(--color-primary-main) ${((isInSliderRange ? mapFilters.distanceFilter : maxDistance) / maxDistance) * 100}%, var(--color-bg-light) ${((isInSliderRange ? mapFilters.distanceFilter : maxDistance) / maxDistance) * 100}%, var(--color-bg-light) 100%)`,
             }}
           />
           <style>{`
@@ -1338,9 +1685,9 @@ function CategoriesView({
   mapFilters: MapFilterState;
   onMapFiltersChange: (filters: MapFilterState) => void;
 }) {
-  const [expandedCategories, setExpandedCategories] = React.useState<Set<string>>(
-    new Set()
-  );
+  const [expandedCategories, setExpandedCategories] = React.useState<
+    Set<string>
+  >(new Set());
 
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories);
@@ -1376,7 +1723,13 @@ function CategoriesView({
           {
             id: "production-technical",
             title: "Üretim & Teknik",
-            items: ["Sanayi", "Fabrikalar", "Teknik İşler", "Ustalık", "Tamir-Bakım"],
+            items: [
+              "Sanayi",
+              "Fabrikalar",
+              "Teknik İşler",
+              "Ustalık",
+              "Tamir-Bakım",
+            ],
           },
           {
             id: "construction-building",
@@ -1391,22 +1744,48 @@ function CategoriesView({
           {
             id: "trade-sales-service",
             title: "Ticaret & Satış & Hizmet",
-            items: ["Mağaza", "Satış", "Pazarlama", "Müşteri Hizmetleri", "Turizm", "Yeme-İçme"],
+            items: [
+              "Mağaza",
+              "Satış",
+              "Pazarlama",
+              "Müşteri Hizmetleri",
+              "Turizm",
+              "Yeme-İçme",
+            ],
           },
           {
             id: "finance-office-public",
             title: "Finans & Büro & Kamu",
-            items: ["Banka", "Muhasebe", "İnsan Kaynakları", "Memuriyet", "Ofis İşleri"],
+            items: [
+              "Banka",
+              "Muhasebe",
+              "İnsan Kaynakları",
+              "Memuriyet",
+              "Ofis İşleri",
+            ],
           },
           {
             id: "health-education-social",
             title: "Sağlık & Eğitim & Sosyal Hizmet",
-            items: ["Doktor", "Hemşire", "Öğretmen", "Psikolog", "Sosyal Hizmet"],
+            items: [
+              "Doktor",
+              "Hemşire",
+              "Öğretmen",
+              "Psikolog",
+              "Sosyal Hizmet",
+            ],
           },
           {
             id: "art-media-entertainment",
             title: "Sanat & Medya & Eğlence",
-            items: ["Müzik", "Sinema", "Tasarım", "İçerik Üretimi", "Fotoğraf", "Oyunculuk"],
+            items: [
+              "Müzik",
+              "Sinema",
+              "Tasarım",
+              "İçerik Üretimi",
+              "Fotoğraf",
+              "Oyunculuk",
+            ],
           },
         ],
       },
@@ -1418,17 +1797,34 @@ function CategoriesView({
           {
             id: "sports-movement",
             title: "Spor & Hareket",
-            items: ["Takım Sporları", "Bireysel Sporlar", "Fitness", "Dövüş Sporları", "Dans"],
+            items: [
+              "Takım Sporları",
+              "Bireysel Sporlar",
+              "Fitness",
+              "Dövüş Sporları",
+              "Dans",
+            ],
           },
           {
             id: "art-crafts",
             title: "Sanat & El İşi",
-            items: ["Resim", "Müzik", "Yazı Yazma", "El İşi", "El Sanatları", "Tasarım"],
+            items: [
+              "Resim",
+              "Müzik",
+              "Yazı Yazma",
+              "El İşi",
+              "El Sanatları",
+              "Tasarım",
+            ],
           },
           {
             id: "games-digital",
             title: "Oyun & Dijital",
-            items: ["Bilgisayar/Konsol Oyunları", "Masa Oyunları", "Rol Yapma Oyunları"],
+            items: [
+              "Bilgisayar/Konsol Oyunları",
+              "Masa Oyunları",
+              "Rol Yapma Oyunları",
+            ],
           },
           {
             id: "nature-outdoor",
@@ -1438,7 +1834,12 @@ function CategoriesView({
           {
             id: "collection-hobby-projects",
             title: "Koleksiyon & Hobi Projeleri",
-            items: ["Koleksiyon (Pul, Para, Figür vb.)", "Maket", "Model", "DIY Projeler"],
+            items: [
+              "Koleksiyon (Pul, Para, Figür vb.)",
+              "Maket",
+              "Model",
+              "DIY Projeler",
+            ],
           },
         ],
       },
@@ -1450,7 +1851,14 @@ function CategoriesView({
           {
             id: "science-academia",
             title: "Bilim & Akademi",
-            items: ["Matematik", "Fen", "Tarih", "Psikoloji", "Sosyoloji", "Felsefe"],
+            items: [
+              "Matematik",
+              "Fen",
+              "Tarih",
+              "Psikoloji",
+              "Sosyoloji",
+              "Felsefe",
+            ],
           },
           {
             id: "culture-art",
@@ -1460,12 +1868,24 @@ function CategoriesView({
           {
             id: "business-personal-growth",
             title: "İş Dünyası & Kişisel Gelişim",
-            items: ["Girişimcilik", "Liderlik", "Finans", "Yatırım", "Verimlilik"],
+            items: [
+              "Girişimcilik",
+              "Liderlik",
+              "Finans",
+              "Yatırım",
+              "Verimlilik",
+            ],
           },
           {
             id: "technology-digital",
             title: "Teknoloji & Dijital Dünya",
-            items: ["Yapay Zekâ", "Programlama", "Kripto", "Dijital Pazarlama", "Sosyal Medya"],
+            items: [
+              "Yapay Zekâ",
+              "Programlama",
+              "Kripto",
+              "Dijital Pazarlama",
+              "Sosyal Medya",
+            ],
           },
           {
             id: "health-lifestyle",
@@ -1475,7 +1895,12 @@ function CategoriesView({
           {
             id: "travel-exploration",
             title: "Gezi & Keşif",
-            items: ["Seyahat", "Farklı Kültürler", "Yemek Kültürü", "Tarihi Yerler"],
+            items: [
+              "Seyahat",
+              "Farklı Kültürler",
+              "Yemek Kültürü",
+              "Tarihi Yerler",
+            ],
           },
         ],
       },
@@ -1548,7 +1973,8 @@ function CategoriesView({
                       <div className="flex flex-wrap gap-2">
                         {subcat.items.map((item) => {
                           const itemId = `${category.id}-${subcat.id}-${item}`;
-                          const isSelected = mapFilters.selectedCategories.has(itemId);
+                          const isSelected =
+                            mapFilters.selectedCategories.has(itemId);
                           return (
                             <button
                               key={item}
@@ -1629,25 +2055,33 @@ function ProfileView() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <div className="text-xs text-[var(--color-text-secondary)]">Email</div>
+            <div className="text-xs text-[var(--color-text-secondary)]">
+              Email
+            </div>
             <div className="text-sm font-medium text-[var(--color-text)]">
               user@example.com
             </div>
           </div>
           <div>
-            <div className="text-xs text-[var(--color-text-secondary)]">Telefon</div>
+            <div className="text-xs text-[var(--color-text-secondary)]">
+              Telefon
+            </div>
             <div className="text-sm font-medium text-[var(--color-text)]">
               +90 555 123 4567
             </div>
           </div>
           <div>
-            <div className="text-xs text-[var(--color-text-secondary)]">Konum</div>
+            <div className="text-xs text-[var(--color-text-secondary)]">
+              Konum
+            </div>
             <div className="text-sm font-medium text-[var(--color-text)]">
               İstanbul, Türkiye
             </div>
           </div>
           <div>
-            <div className="text-xs text-[var(--color-text-secondary)]">Doğum Tarihi</div>
+            <div className="text-xs text-[var(--color-text-secondary)]">
+              Doğum Tarihi
+            </div>
             <div className="text-sm font-medium text-[var(--color-text)]">
               15 Ocak 1990
             </div>
@@ -1720,19 +2154,23 @@ function GroupsView({
     isVip: boolean;
   }>;
 }) {
-  const [selectedGroupId, setSelectedGroupId] = React.useState<string | null>(null);
-  
+  const [selectedGroupId, setSelectedGroupId] = React.useState<string | null>(
+    null
+  );
+
   if (selectedGroupId) {
     const selectedGroup = groupChats.find((g) => g.id === selectedGroupId);
     if (!selectedGroup) {
       setSelectedGroupId(null);
       return null;
     }
-    
+
     return (
       <GroupChatView
         group={selectedGroup}
-        members={filteredUsers.filter((u) => selectedGroup.memberIds.includes(u.id))}
+        members={filteredUsers.filter((u) =>
+          selectedGroup.memberIds.includes(u.id)
+        )}
         onBack={() => setSelectedGroupId(null)}
       />
     );
@@ -1747,7 +2185,8 @@ function GroupsView({
         <div className="m-[15px] rounded-[12px] bg-[var(--color-surface-white)] p-5 shadow text-center">
           <div className="text-[48px] mb-3">💬</div>
           <div className="text-[var(--color-text-2)] text-sm">
-            Henüz grup yok. Kategoriler seçerek kişileri bulun ve otomatik grup oluşturun.
+            Henüz grup yok. Kategoriler seçerek kişileri bulun ve otomatik grup
+            oluşturun.
           </div>
         </div>
       ) : (
@@ -1756,7 +2195,7 @@ function GroupsView({
           const lastMessage = group.lastMessage
             ? `${group.lastMessage.author}: ${group.lastMessage.text}`
             : `${memberCount} kişi bu grupta`;
-          
+
           return (
             <button
               key={group.id}
@@ -1791,15 +2230,18 @@ function GroupChatView({
   }>;
   onBack: () => void;
 }) {
-  const messages = React.useMemo(() => [
-    {
-      id: "msg-1",
-      authorId: "system",
-      authorName: "Sistem",
-      text: `Grup olusturuldu! ${members.length} kisi bu grupta.`,
-      timestamp: group.createdAt,
-    },
-  ], [group.createdAt, members.length]);
+  const messages = React.useMemo(
+    () => [
+      {
+        id: "msg-1",
+        authorId: "system",
+        authorName: "Sistem",
+        text: `Grup olusturuldu! ${members.length} kisi bu grupta.`,
+        timestamp: group.createdAt,
+      },
+    ],
+    [group.createdAt, members.length]
+  );
 
   return (
     <div className="h-full flex flex-col">
@@ -1814,7 +2256,9 @@ function GroupChatView({
             ←
           </button>
           <div className="flex-1">
-            <div className="font-semibold text-[var(--color-text)]">{group.name}</div>
+            <div className="font-semibold text-[var(--color-text)]">
+              {group.name}
+            </div>
             <div className="text-[12px] text-[var(--color-text-2)]">
               {members.length} üye
             </div>
@@ -1859,9 +2303,7 @@ function GroupChatView({
               <span className="text-xs font-medium text-[var(--color-text)]">
                 {member.displayName}
               </span>
-              {member.isVip && (
-                <span className="text-xs">👑</span>
-              )}
+              {member.isVip && <span className="text-xs">👑</span>}
             </div>
           ))}
         </div>
@@ -2105,7 +2547,11 @@ function ToggleRow({
   );
 }
 
-function MessageInput({ showAIAssistant = true }: { showAIAssistant?: boolean }) {
+function MessageInput({
+  showAIAssistant = true,
+}: {
+  showAIAssistant?: boolean;
+}) {
   return (
     <div className="absolute bottom-0 left-0 right-0 rounded-t-[20px] bg-[var(--color-surface)] p-[15px] shadow-[0_-4px_20px_rgba(0,0,0,.1)]">
       <div className="flex items-center gap-[10px] rounded-[12px] bg-[var(--color-bg-light)] p-[12px]">
@@ -2150,9 +2596,9 @@ export default function AppPhoneMock({
     selectedCategories: new Set(),
     distanceFilter: 0, // 0 means no filter (in kilometers)
   });
-  const [groupChats, setGroupChats] = useState<GroupChat[]>(
-    () => [...DEFAULT_GROUP_CHATS]
-  );
+  const [groupChats, setGroupChats] = useState<GroupChat[]>(() => [
+    ...DEFAULT_GROUP_CHATS,
+  ]);
   const wrapRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
     pointerId: number | null;
@@ -2200,8 +2646,7 @@ export default function AppPhoneMock({
         dragStateRef.current.hasMoved = true;
       }
       if (!dragStateRef.current.hasMoved) return;
-      const offset =
-        -dragStateRef.current.currentSection * NAV_WIDTH + delta;
+      const offset = -dragStateRef.current.currentSection * NAV_WIDTH + delta;
       el.style.transform = `translateX(${offset}px)`;
     };
 
@@ -2331,6 +2776,6 @@ export default function AppPhoneMock({
     console.log("AppPhoneMock inline tests passed ✅");
 })();
 
-      <div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
-        Groups
-      </div>
+<div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
+  Groups
+</div>;

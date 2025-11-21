@@ -286,4 +286,3 @@ test.describe("API failure scenarios", () => {
     expect(errorBoundary.or(corsError).count()).toBeGreaterThanOrEqual(0);
   });
 });
-

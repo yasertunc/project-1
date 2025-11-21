@@ -18,10 +18,11 @@ This guide covers setting up third-party tool integrations and accounts required
    - Download JSON key file
 
 3. **Add to Environment Variables**:
+
    ```bash
    # Web
    VITE_GA4_MEASUREMENT_ID=G-XXXXXXXXXX
-   
+
    # Mobile (if using GA4 SDK)
    EXPO_PUBLIC_GA4_MEASUREMENT_ID=G-XXXXXXXXXX
    ```
@@ -33,6 +34,7 @@ This guide covers setting up third-party tool integrations and accounts required
 ### Alternative: PostHog, Mixpanel, Amplitude
 
 If using alternative analytics:
+
 - Follow provider's setup instructions
 - Add API keys to environment variables
 - Configure in app code
@@ -62,10 +64,11 @@ If using alternative analytics:
    - Copy the token (only shown once)
 
 5. **Add to Environment Variables**:
+
    ```bash
    # Web
    VITE_SENTRY_DSN=https://xxx@sentry.io/xxx
-   
+
    # Mobile
    EXPO_PUBLIC_SENTRY_DSN=https://xxx@sentry.io/xxx
    EXPO_PUBLIC_SENTRY_TRACES_RATE=0.1
@@ -116,6 +119,7 @@ If using alternative analytics:
    - Or create a new API key in Google Cloud Console
 
 6. **Add to Environment Variables**:
+
    ```bash
    # Backend (for sending notifications)
    FCM_SERVER_KEY=your-server-key
@@ -160,10 +164,11 @@ If using alternative analytics:
    - Click "Add secret"
 
 5. **Verify Setup**:
+
    ```bash
    # Test locally (requires project token)
    npx chromatic --project-token=your-token-here
-   
+
    # Or set as environment variable
    export CHROMATIC_PROJECT_TOKEN=your-token-here
    npm run chromatic
@@ -192,16 +197,19 @@ If using alternative analytics:
 ### Troubleshooting
 
 **Chromatic Build Fails**:
+
 - Verify `CHROMATIC_PROJECT_TOKEN` is set in GitHub Secrets
 - Check that Storybook builds successfully: `npm run build-storybook`
 - Ensure `buildScriptName: build-storybook` matches your script name
 
 **No Visual Changes Detected**:
+
 - Chromatic only runs when Storybook files change (with `onlyChanged: true`)
 - Force a build by pushing a change to Storybook files
 - Or disable `onlyChanged` in workflow for full builds
 
 **Token Not Found**:
+
 - Verify token is correctly set in GitHub Secrets
 - Check token hasn't expired (regenerate if needed)
 - Ensure workflow has access to secrets
@@ -288,4 +296,3 @@ If using alternative analytics:
 - Check Key ID and Issuer ID are correct
 - Ensure `.p8` file content is correct (no extra whitespace)
 - Verify Apple Developer Program membership is active
-

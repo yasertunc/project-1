@@ -124,8 +124,16 @@ export class MatchingService {
    * Calculate match score
    */
   calculateScore(
-    request1: { intent: string; location: { geoHash: string }; capabilities: Capabilities },
-    request2: { intent: string; location: { geoHash: string }; capabilities: Capabilities }
+    request1: {
+      intent: string;
+      location: { geoHash: string };
+      capabilities: Capabilities;
+    },
+    request2: {
+      intent: string;
+      location: { geoHash: string };
+      capabilities: Capabilities;
+    }
   ): MatchScore {
     let intentScore = 0;
     let locationScore = 0;
@@ -156,7 +164,8 @@ export class MatchingService {
       caps1.location && caps2.location,
     ].filter(Boolean).length;
     if (commonCapabilities > 0) {
-      capabilitiesScore = (commonCapabilities / 3) * MATCHING_SCORES.CAPABILITIES;
+      capabilitiesScore =
+        (commonCapabilities / 3) * MATCHING_SCORES.CAPABILITIES;
     }
 
     const total = intentScore + locationScore + capabilitiesScore;
@@ -171,4 +180,3 @@ export class MatchingService {
 }
 
 export const matchingService = new MatchingService();
-

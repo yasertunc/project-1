@@ -123,7 +123,11 @@ export default function Homepage() {
           <nav aria-label="Primary">
             <ul className="flex items-center gap-6 text-sm text-text-secondary">
               <li>
-                <a className="hover:text-text-primary" href="/" aria-current="page">
+                <a
+                  className="hover:text-text-primary"
+                  href="/"
+                  aria-current="page"
+                >
                   Home
                 </a>
               </li>

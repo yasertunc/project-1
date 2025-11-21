@@ -84,4 +84,3 @@ test.describe("Download flow E2E", () => {
     expect(fallbackContent.or(qrCode).count()).toBeGreaterThanOrEqual(0);
   });
 });
-

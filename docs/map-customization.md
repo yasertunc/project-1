@@ -10,9 +10,9 @@ Haritanın görsel stilini değiştirebilirsiniz:
 
 ```tsx
 <GoogleMap
-  mapStyle="default"  // Varsayılan stil
+  mapStyle="default" // Varsayılan stil
   // veya
-  mapStyle="dark"    // Koyu tema
+  mapStyle="dark" // Koyu tema
   // veya
   mapStyle="minimal" // Minimal (POI'ler gizli)
   // veya
@@ -21,6 +21,7 @@ Haritanın görsel stilini değiştirebilirsiniz:
 ```
 
 **Mevcut Stiller:**
+
 - `default` - Standart Google Maps görünümü
 - `dark` - Koyu tema (gece modu)
 - `minimal` - Sade görünüm (POI ve transit etiketleri gizli)
@@ -32,13 +33,13 @@ Farklı harita tiplerini seçebilirsiniz:
 
 ```tsx
 <GoogleMap
-  mapTypeId="roadmap"    // Yol haritası (varsayılan)
+  mapTypeId="roadmap" // Yol haritası (varsayılan)
   // veya
-  mapTypeId="satellite"   // Uydu görünümü
+  mapTypeId="satellite" // Uydu görünümü
   // veya
-  mapTypeId="hybrid"     // Hibrit (uydu + yollar)
+  mapTypeId="hybrid" // Hibrit (uydu + yollar)
   // veya
-  mapTypeId="terrain"    // Arazi görünümü
+  mapTypeId="terrain" // Arazi görünümü
 />
 ```
 
@@ -48,12 +49,12 @@ Hangi kontrollerin görüneceğini kontrol edebilirsiniz:
 
 ```tsx
 <GoogleMap
-  zoomControl={true}        // Zoom butonları
-  mapTypeControl={false}    // Harita tipi seçici
-  scaleControl={true}       // Ölçek göstergesi
+  zoomControl={true} // Zoom butonları
+  mapTypeControl={false} // Harita tipi seçici
+  scaleControl={true} // Ölçek göstergesi
   streetViewControl={false} // Street View butonu
-  fullscreenControl={true}  // Tam ekran butonu
-  disableDefaultUI={false}  // Tüm kontrolleri gizle
+  fullscreenControl={true} // Tam ekran butonu
+  disableDefaultUI={false} // Tüm kontrolleri gizle
 />
 ```
 
@@ -63,8 +64,8 @@ Marker'ların görünümünü özelleştirebilirsiniz:
 
 ```tsx
 <GoogleMap
-  markerColor="#667eea"  // Marker arka plan rengi
-  markerSize={40}        // Marker boyutu (piksel)
+  markerColor="#667eea" // Marker arka plan rengi
+  markerSize={40} // Marker boyutu (piksel)
   markers={[
     {
       id: "1",
@@ -98,11 +99,12 @@ const customStyle: google.maps.MapTypeStyle[] = [
 ];
 
 <GoogleMap
-  mapStyle={customStyle}  // Özel stil dizisi
-/>
+  mapStyle={customStyle} // Özel stil dizisi
+/>;
 ```
 
 **Google Maps Styling Wizard** kullanarak özel stil oluşturabilirsiniz:
+
 - [Snazzy Maps](https://snazzymaps.com/) - Hazır stiller
 - [Google Maps Platform Styling Wizard](https://mapstyle.withgoogle.com/) - Kendi stilinizi oluşturun
 
@@ -173,7 +175,7 @@ Her marker için ayrı ayrı özelleştirme yapabilirsiniz:
   center={{ lat: 41.0082, lng: 28.9784 }}
   zoom={13}
   mapTypeId="satellite"
-  mapTypeControl={true}  // Kullanıcı tip değiştirebilir
+  mapTypeControl={true} // Kullanıcı tip değiştirebilir
 />
 ```
 
@@ -200,10 +202,10 @@ Her marker için ayrı ayrı özelleştirme yapabilirsiniz:
   zoom={13}
   markers={markers}
   className="absolute inset-0"
-  mapStyle="minimal"        // Burayı değiştirin
-  mapTypeId="roadmap"       // Burayı değiştirin
-  markerColor="#667eea"     // Burayı değiştirin
-  markerSize={40}           // Burayı değiştirin
+  mapStyle="minimal" // Burayı değiştirin
+  mapTypeId="roadmap" // Burayı değiştirin
+  markerColor="#667eea" // Burayı değiştirin
+  markerSize={40} // Burayı değiştirin
 />
 ```
 
@@ -214,7 +216,7 @@ Her marker için ayrı ayrı özelleştirme yapabilirsiniz:
 ```tsx
 <GoogleMap
   mapStyle="minimal"
-  markerColor="#667eea"  // Primary color
+  markerColor="#667eea" // Primary color
   markerSize={45}
   zoomControl={true}
   fullscreenControl={true}
@@ -226,7 +228,7 @@ Her marker için ayrı ayrı özelleştirme yapabilirsiniz:
 ```tsx
 <GoogleMap
   mapStyle="dark"
-  markerColor="#ffd700"  // VIP gold
+  markerColor="#ffd700" // VIP gold
   markerSize={50}
 />
 ```
@@ -241,6 +243,7 @@ Her marker için ayrı ayrı özelleştirme yapabilirsiniz:
 ## Daha Fazla Özelleştirme
 
 Gelecekte eklenebilecek özellikler:
+
 - [ ] Marker clustering (çok sayıda marker için)
 - [ ] Info windows (marker tıklanınca popup)
 - [ ] Custom marker images (SVG/PNG)
@@ -248,4 +251,3 @@ Gelecekte eklenebilecek özellikler:
 - [ ] Heatmaps (yoğunluk haritaları)
 - [ ] Polylines (rota çizgileri)
 - [ ] Circles (mesafe göstergeleri)
-

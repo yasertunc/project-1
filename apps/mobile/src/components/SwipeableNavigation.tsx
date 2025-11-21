@@ -1,5 +1,12 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
-import { View, Text, TouchableOpacity, Animated, PanResponder, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  PanResponder,
+  Dimensions,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { nativeTokens } from "../theme/tokens";
 
@@ -41,8 +48,29 @@ const navMenus: Array<[PageId, string][]> = [
   ],
 ];
 
-const chatPages: PageId[] = ["social", "account", "notifications-settings", "appearance", "categories", "profile", "chat", "groups", "vip", "settings", "privacy", "help"];
-const mapPages: PageId[] = ["map", "places", "search", "filter", "categories", "vip", "settings"];
+const chatPages: PageId[] = [
+  "social",
+  "account",
+  "notifications-settings",
+  "appearance",
+  "categories",
+  "profile",
+  "chat",
+  "groups",
+  "vip",
+  "settings",
+  "privacy",
+  "help",
+];
+const mapPages: PageId[] = [
+  "map",
+  "places",
+  "search",
+  "filter",
+  "categories",
+  "vip",
+  "settings",
+];
 
 function sectionForPage(page: PageId): number {
   return chatPages.includes(page) ? 1 : 0;
@@ -53,7 +81,10 @@ type SwipeableNavigationProps = {
   onPageSelect: (page: PageId) => void;
 };
 
-export function SwipeableNavigation({ currentPage, onPageSelect }: SwipeableNavigationProps) {
+export function SwipeableNavigation({
+  currentPage,
+  onPageSelect,
+}: SwipeableNavigationProps) {
   const [section, setSection] = useState(() => sectionForPage(currentPage));
   const pan = useRef(new Animated.Value(-section * NAV_WIDTH)).current;
 
@@ -145,7 +176,10 @@ export function SwipeableNavigation({ currentPage, onPageSelect }: SwipeableNavi
       }}
     >
       <LinearGradient
-        colors={[nativeTokens.palette.primary.main, nativeTokens.palette.primary.dark]}
+        colors={[
+          nativeTokens.palette.primary.main,
+          nativeTokens.palette.primary.dark,
+        ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={{ flex: 1 }}
@@ -316,7 +350,10 @@ function NavIndicators({
             height: 6,
             width: current === index ? 18 : 6,
             borderRadius: 3,
-            backgroundColor: current === index ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.3)",
+            backgroundColor:
+              current === index
+                ? "rgba(255,255,255,0.8)"
+                : "rgba(255,255,255,0.3)",
           }}
         />
       ))}
@@ -325,4 +362,3 @@ function NavIndicators({
 }
 
 export { sectionForPage, chatPages, mapPages };
-

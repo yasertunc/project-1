@@ -4,30 +4,34 @@ This document provides a practical checklist for executing and validating all �
 
 ## Quick Status Overview
 
-| Item | Status | Blocker | Can Execute Now |
-|------|--------|---------|-----------------|
-| 11.1 Flow-based E2E | ⚠️ | UI implementation | ✅ Test structure validation |
-| 11.2 Failure scenarios | ⚠️ | UI implementation | ✅ Test structure validation |
-| 11.4 Mobile E2E | ⚠️ | Dev client APK, Expo 54 plugin | ✅ Manual testing checklist |
-| 11.5 Device matrix | ⚠️ | Physical devices | ✅ Emulator tests (CI active) |
-| 16.6 Open beta | ⚠️ | Internal testing completion | ✅ Monitoring setup |
+| Item                   | Status | Blocker                        | Can Execute Now               |
+| ---------------------- | ------ | ------------------------------ | ----------------------------- |
+| 11.1 Flow-based E2E    | ⚠️     | UI implementation              | ✅ Test structure validation  |
+| 11.2 Failure scenarios | ⚠️     | UI implementation              | ✅ Test structure validation  |
+| 11.4 Mobile E2E        | ⚠️     | Dev client APK, Expo 54 plugin | ✅ Manual testing checklist   |
+| 11.5 Device matrix     | ⚠️     | Physical devices               | ✅ Emulator tests (CI active) |
+| 16.6 Open beta         | ⚠️     | Internal testing completion    | ✅ Monitoring setup           |
 
 ## 11.1 ⚠️ Flow-based E2E - Execution Checklist
 
 ### Pre-Execution Validation (Can Do Now)
 
 - [ ] **Verify Test Structure**
+
   ```bash
   npm run test:e2e -- --list
   ```
+
   - [ ] All 10 test files are listed
   - [ ] No syntax errors
   - [ ] All test tags are correct (`@flow`, `@failure`, etc.)
 
 - [ ] **Verify Test Configuration**
+
   ```bash
   npx playwright test --config=playwright.e2e.config.ts --list
   ```
+
   - [ ] Base URL is correct (`http://localhost:5080`)
   - [ ] Timeouts are appropriate
   - [ ] Retry configuration is set
@@ -63,6 +67,7 @@ This document provides a practical checklist for executing and validating all �
 ### When UI is Ready
 
 - [ ] **Run All Tests**
+
   ```bash
   npm run test:e2e:all
   ```
@@ -104,6 +109,7 @@ This document provides a practical checklist for executing and validating all �
 ### Test Execution (When UI is Ready)
 
 - [ ] **Run Failure Tests**
+
   ```bash
   npm run test:e2e:failures
   ```
@@ -156,6 +162,7 @@ This document provides a practical checklist for executing and validating all �
 #### Option 2: Detox Automated Testing (When Dev Client is Ready)
 
 - [ ] **Build Dev Client**
+
   ```bash
   cd apps/mobile
   npm run build:dev-client:android
@@ -263,6 +270,7 @@ Use this template to track test execution progress:
 ## Test Execution Summary - [Date]
 
 ### 11.1 Flow-based E2E
+
 - Status: ⚠️ In Progress
 - Tests Run: [X/Y]
 - Passed: [X]
@@ -271,6 +279,7 @@ Use this template to track test execution progress:
 - Notes: [Any issues or observations]
 
 ### 11.2 Failure Scenarios
+
 - Status: ⚠️ In Progress
 - Tests Run: [X/Y]
 - Passed: [X]
@@ -279,6 +288,7 @@ Use this template to track test execution progress:
 - Notes: [Any issues or observations]
 
 ### 11.4 Mobile E2E
+
 - Status: ⚠️ In Progress
 - Tests Run: [X/Y]
 - Passed: [X]
@@ -287,6 +297,7 @@ Use this template to track test execution progress:
 - Notes: [Any issues or observations]
 
 ### 11.5 Device Matrix
+
 - Status: ⚠️ In Progress
 - Devices Tested: [X/Y]
 - Passed: [X]
@@ -295,6 +306,7 @@ Use this template to track test execution progress:
 - Notes: [Any issues or observations]
 
 ### 16.6 Open Beta
+
 - Status: ⚠️ In Progress
 - Steps Completed: [X/Y]
 - Blocked: [X]
@@ -322,4 +334,3 @@ Use this template to track test execution progress:
    - Launch open beta
    - Monitor metrics
    - Collect feedback
-

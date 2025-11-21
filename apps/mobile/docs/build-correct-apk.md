@@ -75,6 +75,7 @@ aapt dump badging FellowusMobile-production-apk.apk | grep package
 ### 2. İçerik Kontrolü
 
 APK'yı açtığınızda (emülatörde veya cihazda):
+
 - ✅ Uygulama adı: "Fellowus Mobile" olmalı
 - ✅ Package: com.fellowus.app olmalı
 - ✅ Ana ekran: Projenizin gerçek ekranları olmalı (Chats, Discover, Safety, Profile)
@@ -86,6 +87,7 @@ APK'yı açtığınızda (emülatörde veya cihazda):
 Projenin doğru EAS project ID'si: `694fc69a-a332-4142-9a41-54012868a73b`
 
 Bu ID `app.config.ts` dosyasında tanımlı:
+
 ```typescript
 const DEFAULT_PROJECT_ID = "694fc69a-a332-4142-9a41-54012868a73b";
 ```
@@ -100,11 +102,13 @@ const DEFAULT_PROJECT_ID = "694fc69a-a332-4142-9a41-54012868a73b";
 ### Hatalı Build Tespiti
 
 Eğer build yanlış projeden geliyorsa:
+
 - ❌ Farklı bir uygulama görünür
 - ❌ Package name `com.fellowus.app` değildir
 - ❌ Uygulama içeriği projeyle eşleşmez
 
 Bu durumda:
+
 1. Build'i iptal edin
 2. Proje ID'yi kontrol edin
 3. EAS credentials'ları kontrol edin
@@ -150,6 +154,6 @@ Build tamamlandıktan sonra:
 ## İletişim
 
 Build ile ilgili sorunlar için:
+
 - EAS Dashboard: https://expo.dev/accounts/yasertunc/projects/fellowus-mobile/builds
 - GitHub Actions logs: Repository → Actions → EAS Build
-

@@ -15,7 +15,11 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI
-    ? [["github"], ["html"], ["json", { outputFile: "playwright-e2e-results.json" }]]
+    ? [
+        ["github"],
+        ["html"],
+        ["json", { outputFile: "playwright-e2e-results.json" }],
+      ]
     : [["html"], ["list"]],
   use: {
     baseURL: process.env.STORYBOOK_BASE_URL ?? "http://localhost:5080",
@@ -37,4 +41,3 @@ export default defineConfig({
         timeout: 120000,
       },
 });
-

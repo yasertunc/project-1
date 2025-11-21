@@ -83,4 +83,3 @@ describe("Match Flow Integration", () => {
     expect(channel?.participants).toHaveLength(2);
   });
 });
-

@@ -49,6 +49,17 @@ export default tseslint.config(
   },
   {
     files: [
+      "**/*.test.{ts,tsx}",
+      "**/__tests__/**/*.{ts,tsx}",
+      "tests/**/*.{ts,tsx}",
+      "src/**/*.test.{ts,tsx}",
+    ],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
+  {
+    files: [
       "**/*.mjs",
       "**/*.cjs",
       "**/*.config.{js,cjs,mjs}",

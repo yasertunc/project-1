@@ -94,4 +94,3 @@ export interface ServerEvents {
 
 export type ClientEventType = keyof ClientEvents;
 export type ServerEventType = keyof ServerEvents;
-

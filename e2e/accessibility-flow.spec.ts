@@ -91,7 +91,9 @@ test.describe("Accessibility flow E2E", () => {
     await gotoStory(page, HOMEPAGE_STORY_ID, { locale: "en" });
 
     // Look for skip links
-    const skipLink = page.locator('a[href="#main-content"], a[href="#content"]');
+    const skipLink = page.locator(
+      'a[href="#main-content"], a[href="#content"]'
+    );
     const skipLinkCount = await skipLink.count();
 
     if (skipLinkCount > 0) {
@@ -105,4 +107,3 @@ test.describe("Accessibility flow E2E", () => {
     expect(skipLinkCount).toBeGreaterThanOrEqual(0);
   });
 });
-

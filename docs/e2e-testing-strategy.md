@@ -27,6 +27,7 @@ E2E tests validate complete user journeys from start to finish, ensuring the app
 **Tools**: Playwright (web), Detox (mobile)
 
 **Coverage**:
+
 - ✅ Hero → CTA scroll and language persistence (English ⇄ Turkish)
 - ⚠️ Matching flow (enqueue → match → chat)
 - ⚠️ Profile setup and preferences
@@ -42,6 +43,7 @@ E2E tests validate complete user journeys from start to finish, ensuring the app
 **Tools**: Playwright with network interception
 
 **Coverage**:
+
 - ✅ Error boundaries display correctly
 - ✅ Network failures handled gracefully
 - ⚠️ 4xx/5xx API errors
@@ -57,6 +59,7 @@ E2E tests validate complete user journeys from start to finish, ensuring the app
 **Tools**: Playwright
 
 **Coverage**:
+
 - ✅ Hash navigation
 - ✅ Download CTA
 - ✅ 404 flows
@@ -72,6 +75,7 @@ E2E tests validate complete user journeys from start to finish, ensuring the app
 **Tools**: Detox, Expo Dev Client
 
 **Coverage**:
+
 - ⚠️ Onboarding flow
 - ⚠️ Tab navigation
 - ⚠️ Push notification permission
@@ -81,6 +85,7 @@ E2E tests validate complete user journeys from start to finish, ensuring the app
 **Status**: Scaffolded, blocked by Expo 54 Detox plugin compatibility
 
 **Blockers**:
+
 - Expo 54 lacks compatible `@config-plugins/detox`
 - Requires manual prebuild + manifest edits
 - Dev client APK needed for testing
@@ -90,6 +95,7 @@ E2E tests validate complete user journeys from start to finish, ensuring the app
 **Purpose**: Ensure compatibility across devices
 
 **Coverage Plan**:
+
 - **P0 (Critical)**: Samsung Galaxy S21, Google Pixel 6, iPhone 13
 - **P1 (Important)**: Xiaomi Redmi Note, OnePlus 9, iPhone 12
 - **P2 (Nice to have)**: Budget devices, tablets, older models
@@ -103,11 +109,13 @@ E2E tests validate complete user journeys from start to finish, ensuring the app
 **Location**: `e2e/`
 
 **Files**:
+
 - `flows.spec.ts` - User journey flows
 - `failures.spec.ts` - Error scenarios
 - `smoke.spec.ts` - Smoke tests
 
 **Running Tests**:
+
 ```bash
 # Run all E2E tests
 npm run test:smoke
@@ -124,11 +132,13 @@ npx playwright test --ui
 **Location**: `apps/mobile/detox/`
 
 **Files**:
+
 - `detox.config.ts` - Detox configuration
 - `jest.config.js` - Jest configuration
 - `tests/onboarding.spec.ts` - Sample test
 
 **Running Tests**:
+
 ```bash
 # Build for testing
 npm run detox:build:android
@@ -158,11 +168,13 @@ npm run detox:test:android
 **Workflow**: `.github/workflows/ci.yml`
 
 **Test Execution**:
+
 - Runs on every PR
 - Runs on push to main
 - Fails build if tests fail
 
 **Parallel Execution**:
+
 - Web E2E tests run in parallel
 - Mobile E2E tests run separately (requires device/emulator)
 
@@ -226,4 +238,3 @@ npm run detox:test:android
 - [Detox Documentation](https://wix.github.io/Detox/)
 - [Testing Best Practices](https://testingjavascript.com/)
 - [E2E Testing Guide](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
-

@@ -147,4 +147,3 @@ test.describe("Profile setup flow E2E (mocked)", () => {
     expect(preferences.or(persistedData).count()).toBeGreaterThanOrEqual(0);
   });
 });
-

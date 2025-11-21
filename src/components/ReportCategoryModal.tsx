@@ -90,7 +90,9 @@ export const ReportCategoryModal: React.FC<{
               className="w-full rounded-xl border border-text-secondary/10 bg-background-light px-3 py-2 text-left hover:bg-surface-gray focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
               onClick={() => onSelect(key)}
             >
-              <div className="font-medium text-text-primary">{labelFor(key)}</div>
+              <div className="font-medium text-text-primary">
+                {labelFor(key)}
+              </div>
             </button>
           ))}
         </div>

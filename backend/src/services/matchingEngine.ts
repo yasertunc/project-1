@@ -223,8 +223,7 @@ export class MatchingEngine {
       "Navigator",
     ];
 
-    const adjective =
-      adjectives[Math.floor(Math.random() * adjectives.length)];
+    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
     const noun = nouns[Math.floor(Math.random() * nouns.length)];
     const number = Math.floor(Math.random() * 1000);
 
@@ -240,4 +239,3 @@ export class MatchingEngine {
 }
 
 export const matchingEngine = new MatchingEngine();
-

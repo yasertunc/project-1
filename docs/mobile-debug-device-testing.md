@@ -32,6 +32,7 @@ This creates a development build with debugging capabilities. Download the APK f
 ### 3. Connect Device
 
 **Option A: USB Connection**
+
 ```bash
 # Connect device via USB
 adb devices  # Verify device is connected
@@ -43,6 +44,7 @@ npm run start
 ```
 
 **Option B: WiFi Connection**
+
 ```bash
 # Start Expo dev server
 npm run start
@@ -59,6 +61,7 @@ npm run android
 ```
 
 Or use Expo CLI:
+
 ```bash
 npx expo run:android
 ```
@@ -82,12 +85,14 @@ Download the IPA and install via TestFlight or Xcode.
 ### 3. Connect Device
 
 **Option A: USB Connection**
+
 1. Connect iPhone/iPad via USB
 2. Trust the computer on the device
 3. Open Xcode → Window → Devices and Simulators
 4. Verify device is connected
 
 **Option B: WiFi Connection**
+
 1. Ensure device and computer are on same WiFi network
 2. In Xcode → Devices, enable "Connect via network"
 
@@ -99,6 +104,7 @@ npm run ios
 ```
 
 Or use Expo CLI:
+
 ```bash
 npx expo run:ios --device
 ```
@@ -152,12 +158,14 @@ npx expo run:ios --device
 ### Device-Specific
 
 **Android:**
+
 - [ ] Back button works correctly
 - [ ] Hardware menu button (if available) works
 - [ ] Notch/safe area handled correctly
 - [ ] Different screen sizes tested (phone, tablet)
 
 **iOS:**
+
 - [ ] Home indicator respected
 - [ ] Notch/safe area handled correctly
 - [ ] Swipe gestures work correctly
@@ -185,6 +193,7 @@ npx expo run:ios --device
 ### Expo Dev Tools
 
 When running `npm run start`, Expo Dev Tools opens in browser:
+
 - View logs
 - Reload app
 - Open developer menu
@@ -206,6 +215,7 @@ xcrun simctl spawn booted log stream --predicate 'processImagePath contains "Exp
 ### Android: "Unable to connect to Metro"
 
 **Solution:**
+
 1. Ensure device and computer are on same network
 2. Check firewall settings
 3. Try `adb reverse tcp:8081 tcp:8081`
@@ -213,6 +223,7 @@ xcrun simctl spawn booted log stream --predicate 'processImagePath contains "Exp
 ### iOS: "Unable to connect to Metro"
 
 **Solution:**
+
 1. Ensure device and computer are on same network
 2. Check that Metro bundler is running
 3. Verify URL in development client settings
@@ -220,6 +231,7 @@ xcrun simctl spawn booted log stream --predicate 'processImagePath contains "Exp
 ### Build Errors
 
 **Solution:**
+
 ```bash
 # Clear cache
 npm run start -- --clear
@@ -233,6 +245,7 @@ npm install
 ### Push Notifications Not Working
 
 **Solution:**
+
 1. Verify `google-services.json` is present (Android)
 2. Check notification permissions in device settings
 3. Verify backend endpoint is configured
@@ -243,6 +256,7 @@ npm install
 ### Android Device Matrix
 
 Test on:
+
 - **P0 (Critical)**: Samsung Galaxy S21, Google Pixel 6
 - **P1 (Important)**: Xiaomi Redmi Note, OnePlus 9
 - **P2 (Nice to have)**: Various budget devices
@@ -250,6 +264,7 @@ Test on:
 ### iOS Device Matrix
 
 Test on:
+
 - **P0 (Critical)**: iPhone 13, iPhone 14
 - **P1 (Important)**: iPhone 12, iPhone SE (2022)
 - **P2 (Nice to have)**: iPad, older iPhone models
@@ -269,6 +284,7 @@ npm run detox:test:android
 ### Manual Testing Script
 
 Create a checklist document and test each release:
+
 - [ ] Smoke test (app launches, basic navigation)
 - [ ] Critical user flows
 - [ ] Error scenarios
@@ -277,6 +293,7 @@ Create a checklist document and test each release:
 ## Reporting Issues
 
 When reporting issues, include:
+
 1. Device model and OS version
 2. App version (from `app.config.ts`)
 3. Steps to reproduce
@@ -291,4 +308,3 @@ When reporting issues, include:
 - [ ] Set up CI/CD for device testing
 - [ ] Implement performance monitoring
 - [ ] Create test user accounts for backend testing
-

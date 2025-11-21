@@ -29,4 +29,3 @@ export const config = {
     apiVersion: process.env.API_VERSION || "v2",
   },
 } as const;
-

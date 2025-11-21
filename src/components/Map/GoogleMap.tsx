@@ -184,7 +184,13 @@ interface GoogleMapProps {
   className?: string;
   style?: React.CSSProperties;
   // Customization options
-  mapStyle?: "default" | "dark" | "minimal" | "colorful" | "grayscale" | google.maps.MapTypeStyle[];
+  mapStyle?:
+    | "default"
+    | "dark"
+    | "minimal"
+    | "colorful"
+    | "grayscale"
+    | google.maps.MapTypeStyle[];
   mapTypeId?: "roadmap" | "satellite" | "hybrid" | "terrain";
   disableDefaultUI?: boolean;
   zoomControl?: boolean;
@@ -198,7 +204,7 @@ interface GoogleMapProps {
 
 /**
  * Google Maps component for displaying interactive maps
- * 
+ *
  * @example
  * ```tsx
  * <GoogleMap
@@ -448,4 +454,3 @@ export default function GoogleMap({
     />
   );
 }
-

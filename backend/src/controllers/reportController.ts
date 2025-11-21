@@ -4,7 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/logger";
 
 // In-memory storage (will be replaced with database in production)
-const reports = new Map<string, ReportRequest & { reportId: string; createdAt: Date }>();
+const reports = new Map<
+  string,
+  ReportRequest & { reportId: string; createdAt: Date }
+>();
 
 export class ReportController {
   /**
@@ -36,4 +39,3 @@ export class ReportController {
 }
 
 export const reportController = new ReportController();
-
