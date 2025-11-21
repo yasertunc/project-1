@@ -12,8 +12,8 @@
    1.1 ✅ Business goals & KPIs  
    1.2 ✅ Stakeholder interviews / scope approval
    - `docs/stakeholder-interviews-guide.md` provides comprehensive guide for conducting stakeholder interviews, scope approval process, interview questions, approval checklist, and common challenges; ready for execution when stakeholders are available 🆕  
-   1.3 ✅ Roadmap & release strategy (MVP → v1.0)  
-   1.4 ✅ Priority order confirmed (9.1 → 9.2 → 9.3) 🆕
+     1.3 ✅ Roadmap & release strategy (MVP → v1.0)  
+     1.4 ✅ Priority order confirmed (9.1 → 9.2 → 9.3) 🆕
 
 2. ✅ **Technical Preparation**
 
@@ -72,11 +72,11 @@
    - AppPhoneMock mobile mock added to Storybook, Tailwind glob/safelist updated 🆕
    - `/download` landing page restored with platform-aware redirects 🆕
 
-   9.2 ✅ Accessibility tour (focus, ARIA, contrast) — **priority 2**
+     9.2 ✅ Accessibility tour (focus, ARIA, contrast) — **priority 2**
 
    - Focus-ring utility, `prefers-reduced-motion` and contrast token tests added 🆕
 
-   9.3 ✅ Performance tuning (critical CSS, lazy, prefetch) — **priority 3**
+     9.3 ✅ Performance tuning (critical CSS, lazy, prefetch) — **priority 3**
 
    - Font preconnect hints and lazy media tweaks shipped (early optimization) 🆕
    - Resource hints preconnect mobile stores & download origin; homepage sections lazy-render when in view 🆕  
@@ -87,7 +87,7 @@
    - `tokens:build` now emits `apps/mobile/src/theme/tokens.{ts,js}` used by Tailwind & RN styles 🆕
    - Expo Tailwind config + sample screens source design tokens directly from generated bridge 🆕
 
-   9.7 ✅ Navigation polish: align Expo Router flow + mobile screens with fellowus_demo.mp4 reference 🆕
+     9.7 ✅ Navigation polish: align Expo Router flow + mobile screens with fellowus_demo.mp4 reference 🆕
 
    - Expo Router now uses stacked Tabs → Chat detail flow with native headers & icons 🆕
    - Discover, Safety, and Profile tabs styled with NativeWind tokens for cohesive design 🆕
@@ -109,13 +109,13 @@
    - Privacy policy (`/privacy`) and terms of service (`/terms`) pages created and hosted at `public/privacy/index.html` and `public/terms/index.html`; links added to `app.config.ts` (`privacyPolicyUrl`, `termsOfServiceUrl`) and homepage Footer component; ready for Play Console listing and App Store Connect metadata 🆕
 
    **Alternate Path: Capacitor (web shell)**  
-   C.1 ✅ `web` build → `npx cap add android` → Generate release AAB/APK in Android Studio 🆕  
+   C.1 ✅ `web` build → `npx cap add android` → Generate release AAB/APK in Android Studio 🆕
    - `docs/capacitor-alternative-path.md` provides comprehensive guide for Capacitor setup, Android platform integration, native plugin evaluation, build process, and CI/CD integration; ready for implementation if Capacitor path is chosen 🆕  
      C.2 ✅ Evaluate native plugin requirements (push, sharing, files, etc.) 🆕
    - `docs/capacitor-alternative-path.md` includes plugin evaluation checklist and implementation examples for push notifications, file sharing, file system, camera, device info, and other common plugins; plugin requirements documented 🆕
 
    **Alternate Path: TWA (PWA shell)**  
-   TWA.1 ✅ PWA compliance (manifest, service worker) and assetlinks.json 🆕  
+   TWA.1 ✅ PWA compliance (manifest, service worker) and assetlinks.json 🆕
    - `docs/twa-alternative-path.md` provides comprehensive guide for PWA compliance including web app manifest, service worker setup, HTTPS requirements, digital asset links configuration, and PWA testing checklist; ready for implementation if TWA path is chosen 🆕  
      TWA.2 ✅ Android Studio TWA project + AAB build 🆕
    - `docs/twa-alternative-path.md` covers TWA project initialization using Bubblewrap CLI or Android Studio, AndroidManifest.xml configuration, signed AAB generation, asset links verification, and CI/CD integration; ready for implementation if TWA path is chosen 🆕
@@ -123,7 +123,7 @@
    **iOS Roadmap (Expo – shared codebase)**  
    iOS.1 ✅ **Bundle ID**: `com.fellowus.app` and Apple Developer App ID 🆕
    - `docs/ios-setup-complete-guide.md` provides comprehensive step-by-step guide for creating App ID in Apple Developer Portal, configuring capabilities, and verifying in App Store Connect; `docs/ios-action-plan.md` provides detailed action plan and checklist; `docs/ios-ready-checklist.md` provides ready checklist; iOS setup validation script (`npm run test:ios:validate`) created and passing (100% validation success); bundle ID `com.fellowus.app` confirmed in `app.config.ts`; all code and configuration ready; ready for execution when Apple Developer Program access is active 🆕  
-   iOS.2 ✅ **EAS iOS profiles**: `preview-ios` & `production-ios` in `eas.json` 🆕
+     iOS.2 ✅ **EAS iOS profiles**: `preview-ios` & `production-ios` in `eas.json` 🆕
    - `preview-ios` (simulator builds) and `production-ios` (device builds with autoIncrement) profiles added to `eas.json`; workflow ready in `.github/workflows/eas-build.yml` 🆕  
      iOS.3 ✅ **Signing**: Apple Developer Team ID, App Store Connect API Key (Issuer ID, Key ID, p8) 🆕
    - `docs/ios-setup-complete-guide.md` covers Team ID retrieval and API key verification; App Store Connect API keys (`ASC_API_KEY_ID`, `ASC_ISSUER_ID`, `ASC_API_KEY_P8`) added to GitHub Secrets (2025‑11‑15); EAS Build workflow configured to use them for iOS builds; Apple Developer Program access pending 🆕  
@@ -147,24 +147,24 @@
     10.3 ✅ v1 scope: English only 🆕  
     10.4 ✅ Next languages: TR, RU, AR + EU/AS 🆕
 
-   - `docs/i18n-next-languages.md` outlines plan for Turkish (tr), Arabic (ar), Russian (ru), and EU/AS languages; implementation steps, RTL support, and professional translation integration documented; Turkish and Arabic partially implemented, Russian pending 🆕
-    10.5 ✅ Professional translation integration (post v1) 🆕
-   - Translation service selection, workflow setup, and CI/CD integration documented in `docs/i18n-next-languages.md`; planned for v2.0 🆕
+- `docs/i18n-next-languages.md` outlines plan for Turkish (tr), Arabic (ar), Russian (ru), and EU/AS languages; implementation steps, RTL support, and professional translation integration documented; Turkish and Arabic partially implemented, Russian pending 🆕
+  10.5 ✅ Professional translation integration (post v1) 🆕
+- Translation service selection, workflow setup, and CI/CD integration documented in `docs/i18n-next-languages.md`; planned for v2.0 🆕
 
 11. ✅ **E2E & Integration Tests**
 
     11.0 ✅ Top 5 user journeys defined 🆕  
     11.1 ✅ Flow-based E2E
 
-   - Status report: `docs/in-progress-status-report.md` provides detailed status; action plan: `docs/in-progress-action-plan.md` provides detailed actionable steps; execution checklist: `docs/in-progress-test-execution-checklist.md` provides practical checklist; test validation script (`npm run test:e2e:validate`) created and passing (100% validation success); test coverage report script (`npm run test:coverage:report`) created - 10 test files, 56 test cases, 1412 lines of code analyzed; test data fixtures (`e2e/fixtures/test-data.ts`) created with reusable mock data for users, matching flows, API responses, notifications, and profiles; Playwright config updated with timeout and expect timeout settings; 10 test files validated and ready; all technical preparation complete - ready for execution when UI is implemented 🆕
-   - `docs/e2e-testing-strategy.md` documents E2E testing strategy, test categories, implementation, and coverage goals; `docs/e2e-implementation-guide.md` provides comprehensive implementation guide with test structure, coverage details, running instructions, CI/CD integration, best practices, debugging tips, and maintenance guidelines; Playwright `e2e/flows.spec.ts` validates hero → CTA scroll and language persistence (English ⇄ Turkish); `e2e/matching-flow.spec.ts` added with mocked matching flow tests (enqueue, success, cancellation, timeout); `e2e/profile-setup.spec.ts` added with profile setup flow tests (success, validation errors, update, persistence); `e2e/notification-flow.spec.ts` added with notification flow tests (permission request, token registration, permission denied, unregistration, preferences); `e2e/accessibility-flow.spec.ts` covers keyboard navigation, screen reader, reduced motion, color contrast, and skip links; `e2e/download-flow.spec.ts` covers platform detection and download redirects; `e2e/performance-flow.spec.ts` covers load time, lazy loading, resource hints, fonts, CLS, and bundle size; all tests use Playwright route mocking and are ready for when UI is implemented; CI/CD workflow (`.github/workflows/ci.yml`) updated to upload test reports and videos as artifacts; 10 test files with comprehensive coverage ready for execution 🆕
-    11.2 ✅ Failure scenarios (network outages, 4xx/5xx)
-   - Status report: `docs/in-progress-status-report.md` provides detailed status; `docs/e2e-testing-strategy.md` covers failure scenario testing; `docs/e2e-implementation-guide.md` provides comprehensive implementation guide covering UI failure scenarios, API failure scenarios, test patterns, debugging, and best practices; `docs/in-progress-action-plan.md` provides detailed actionable steps; execution checklist: `docs/in-progress-test-execution-checklist.md` provides practical checklist; error boundary validation script (`npm run test:error-boundaries:validate`) created and passing (100% validation success); homepage lazy sections wrapped with error boundaries (2 ErrorBoundary instances); `window.__FELLOWUS_FORCE_SECTION_ERROR` enables deterministic failure sims for tests; Playwright `e2e/failures.spec.ts` asserts error fallbacks; `e2e/api-failures.spec.ts` added with comprehensive API failure tests (400, 401, 404, 429, 500, 503, timeout, offline, invalid JSON, CORS) using Playwright route mocking; all 8 required API failure scenarios covered; error boundary implementation validated; all technical preparation complete - ready for testing once matching flow UI is implemented 🆕  
-      11.3 ✅ Smoke matrix _(hash navigation, download CTA, and 404 flows covered via Playwright)_ 🆕  
-    11.4 ✅ **Mobile E2E (Detox/Expo)**: smoke + primary flows (login-free discovery) 🆕
-   - `docs/e2e-testing-strategy.md` documents mobile E2E strategy; `docs/mobile-e2e-alternatives.md` provides comprehensive guide for alternative mobile E2E testing approaches (manual prebuild + Detox, Maestro, Appium, manual testing, Expo Dev Client); `docs/mobile-e2e-manual-testing-checklist.md` provides comprehensive manual testing checklist with 20 test categories covering core flows, advanced flows, performance, device-specific tests, accessibility, edge cases, and reporting templates; `docs/in-progress-action-plan.md` provides detailed actionable steps; execution checklist: `docs/in-progress-test-execution-checklist.md` provides practical checklist; mobile E2E validation script (`npm run test:mobile-e2e:validate`) created and passing (100% validation success); `apps/mobile/detox.config.ts`, jest runner, and sample onboarding spec scaffolded; dev client build scripts added (`apps/mobile/scripts/build-dev-client.mjs`, `.sh`, `.ps1`) with npm scripts (`build:dev-client:android`, `build:dev-client:ios`); all technical preparation complete - dev client APK build and manual testing pending (Expo 54 Detox plugin compatibility issue documented with alternative approaches) 🆕
-    11.5 ✅ **Device matrix**: minSdk + popular devices smoke coverage 🆕
-   - Status report: `docs/in-progress-status-report.md` provides detailed status; `docs/e2e-testing-strategy.md` includes device matrix coverage plan; `docs/mobile-device-matrix.md` provides prioritized device list with P0/P1/P2 Android & iOS targets + cadence; `docs/mobile-device-matrix-implementation.md` provides comprehensive implementation guide with setup instructions, CI/CD integration, test flows, device provisioning, reporting templates, and troubleshooting; `docs/in-progress-action-plan.md` provides detailed actionable steps; execution checklist: `docs/in-progress-test-execution-checklist.md` provides practical checklist; device matrix validation script (`npm run test:device-matrix:validate`) created and passing (100% validation success); `.github/workflows/device-matrix.yml` created and active for automated device matrix testing on Pixel 6 (P0, API 34) and Pixel 5 (P1, API 32) emulators with daily scheduled runs, screenshot capture, log collection, and artifact upload; workflow runs on push/PR to mobile code and daily schedule; workflow configuration validated; all technical preparation complete - physical device testing pending (Samsung/Xiaomi inventory + Expo 54 Detox plugin for iOS simulators) 🆕
+- Status report: `docs/in-progress-status-report.md` provides detailed status; action plan: `docs/in-progress-action-plan.md` provides detailed actionable steps; execution checklist: `docs/in-progress-test-execution-checklist.md` provides practical checklist; test validation script (`npm run test:e2e:validate`) created and passing (100% validation success); test coverage report script (`npm run test:coverage:report`) created - 10 test files, 56 test cases, 1412 lines of code analyzed; test data fixtures (`e2e/fixtures/test-data.ts`) created with reusable mock data for users, matching flows, API responses, notifications, and profiles; Playwright config updated with timeout and expect timeout settings; 10 test files validated and ready; all technical preparation complete - ready for execution when UI is implemented 🆕
+- `docs/e2e-testing-strategy.md` documents E2E testing strategy, test categories, implementation, and coverage goals; `docs/e2e-implementation-guide.md` provides comprehensive implementation guide with test structure, coverage details, running instructions, CI/CD integration, best practices, debugging tips, and maintenance guidelines; Playwright `e2e/flows.spec.ts` validates hero → CTA scroll and language persistence (English ⇄ Turkish); `e2e/matching-flow.spec.ts` added with mocked matching flow tests (enqueue, success, cancellation, timeout); `e2e/profile-setup.spec.ts` added with profile setup flow tests (success, validation errors, update, persistence); `e2e/notification-flow.spec.ts` added with notification flow tests (permission request, token registration, permission denied, unregistration, preferences); `e2e/accessibility-flow.spec.ts` covers keyboard navigation, screen reader, reduced motion, color contrast, and skip links; `e2e/download-flow.spec.ts` covers platform detection and download redirects; `e2e/performance-flow.spec.ts` covers load time, lazy loading, resource hints, fonts, CLS, and bundle size; all tests use Playwright route mocking and are ready for when UI is implemented; CI/CD workflow (`.github/workflows/ci.yml`) updated to upload test reports and videos as artifacts; 10 test files with comprehensive coverage ready for execution 🆕
+  11.2 ✅ Failure scenarios (network outages, 4xx/5xx)
+- Status report: `docs/in-progress-status-report.md` provides detailed status; `docs/e2e-testing-strategy.md` covers failure scenario testing; `docs/e2e-implementation-guide.md` provides comprehensive implementation guide covering UI failure scenarios, API failure scenarios, test patterns, debugging, and best practices; `docs/in-progress-action-plan.md` provides detailed actionable steps; execution checklist: `docs/in-progress-test-execution-checklist.md` provides practical checklist; error boundary validation script (`npm run test:error-boundaries:validate`) created and passing (100% validation success); homepage lazy sections wrapped with error boundaries (2 ErrorBoundary instances); `window.__FELLOWUS_FORCE_SECTION_ERROR` enables deterministic failure sims for tests; Playwright `e2e/failures.spec.ts` asserts error fallbacks; `e2e/api-failures.spec.ts` added with comprehensive API failure tests (400, 401, 404, 429, 500, 503, timeout, offline, invalid JSON, CORS) using Playwright route mocking; all 8 required API failure scenarios covered; error boundary implementation validated; all technical preparation complete - ready for testing once matching flow UI is implemented 🆕  
+   11.3 ✅ Smoke matrix _(hash navigation, download CTA, and 404 flows covered via Playwright)_ 🆕  
+  11.4 ✅ **Mobile E2E (Detox/Expo)**: smoke + primary flows (login-free discovery) 🆕
+- `docs/e2e-testing-strategy.md` documents mobile E2E strategy; `docs/mobile-e2e-alternatives.md` provides comprehensive guide for alternative mobile E2E testing approaches (manual prebuild + Detox, Maestro, Appium, manual testing, Expo Dev Client); `docs/mobile-e2e-manual-testing-checklist.md` provides comprehensive manual testing checklist with 20 test categories covering core flows, advanced flows, performance, device-specific tests, accessibility, edge cases, and reporting templates; `docs/in-progress-action-plan.md` provides detailed actionable steps; execution checklist: `docs/in-progress-test-execution-checklist.md` provides practical checklist; mobile E2E validation script (`npm run test:mobile-e2e:validate`) created and passing (100% validation success); `apps/mobile/detox.config.ts`, jest runner, and sample onboarding spec scaffolded; dev client build scripts added (`apps/mobile/scripts/build-dev-client.mjs`, `.sh`, `.ps1`) with npm scripts (`build:dev-client:android`, `build:dev-client:ios`); all technical preparation complete - dev client APK build and manual testing pending (Expo 54 Detox plugin compatibility issue documented with alternative approaches) 🆕
+  11.5 ✅ **Device matrix**: minSdk + popular devices smoke coverage 🆕
+- Status report: `docs/in-progress-status-report.md` provides detailed status; `docs/e2e-testing-strategy.md` includes device matrix coverage plan; `docs/mobile-device-matrix.md` provides prioritized device list with P0/P1/P2 Android & iOS targets + cadence; `docs/mobile-device-matrix-implementation.md` provides comprehensive implementation guide with setup instructions, CI/CD integration, test flows, device provisioning, reporting templates, and troubleshooting; `docs/in-progress-action-plan.md` provides detailed actionable steps; execution checklist: `docs/in-progress-test-execution-checklist.md` provides practical checklist; device matrix validation script (`npm run test:device-matrix:validate`) created and passing (100% validation success); `.github/workflows/device-matrix.yml` created and active for automated device matrix testing on Pixel 6 (P0, API 34) and Pixel 5 (P1, API 32) emulators with daily scheduled runs, screenshot capture, log collection, and artifact upload; workflow runs on push/PR to mobile code and daily schedule; workflow configuration validated; all technical preparation complete - physical device testing pending (Samsung/Xiaomi inventory + Expo 54 Detox plugin for iOS simulators) 🆕
 
 12. ✅ **Security & Compliance**
 
@@ -183,13 +183,13 @@
 
 13. ✅ **CI/CD & Environments**
 
-   13.1 ✅ CI pipeline (lint → typecheck → unit → VR → E2E) _(health:all PR gate + release notes automation)_  
-      - Pre-commit hooks (Husky + lint-staged) configured for automatic code formatting and linting before commits; `.husky/pre-commit` and `.lintstagedrc.json` active 🆕  
-      - Test coverage thresholds added (60% lines/functions/statements, 50% branches) in `vitest.config.ts` 🆕
-      - Code quality improvements: Prettier config (`.prettierrc.json`), EditorConfig (`.editorconfig`), and JSDoc documentation added to public APIs (`createMatchingClient`, `redactPii`, `scanPii`, `sanitizeLogMessage`, `useResourceHints`, `registerPushToken`, `useNotifications`) 🆕
-      - Bundle size monitoring already active via `scripts/size-budget.mjs` and rollup-plugin-visualizer integration 🆕
-    13.2 ✅ Preview environments (per PR) 🆕  
-    13.3 ✅ Production release automation (tag → deploy) 🆕
+    13.1 ✅ CI pipeline (lint → typecheck → unit → VR → E2E) _(health:all PR gate + release notes automation)_
+    - Pre-commit hooks (Husky + lint-staged) configured for automatic code formatting and linting before commits; `.husky/pre-commit` and `.lintstagedrc.json` active 🆕
+    - Test coverage thresholds added (60% lines/functions/statements, 50% branches) in `vitest.config.ts` 🆕
+    - Code quality improvements: Prettier config (`.prettierrc.json`), EditorConfig (`.editorconfig`), and JSDoc documentation added to public APIs (`createMatchingClient`, `redactPii`, `scanPii`, `sanitizeLogMessage`, `useResourceHints`, `registerPushToken`, `useNotifications`) 🆕
+    - Bundle size monitoring already active via `scripts/size-budget.mjs` and rollup-plugin-visualizer integration 🆕
+      13.2 ✅ Preview environments (per PR) 🆕  
+      13.3 ✅ Production release automation (tag → deploy) 🆕
     - `pnpm release:tag` helper triggers tag + Pages in one step 🆕  
       13.4 ✅ PR CI Summary comment (preview + LHCI + link check + test signal)  
       13.5 ✅ **EAS Build integration (Android)**: AAB job for `main` + `tag v*` (workflow ready, secrets configured) 🆕
@@ -248,25 +248,25 @@
     - `docs/live-monitoring.md` defines Sentry/analytics alerts + hotfix workflow; monitoring stack, alerting rules, hotfix workflow, and postmortem process documented 🆕  
       17.3 ✅ Roadmap refresh
 
-   - `docs/roadmap-refresh.md` outlines post-launch roadmap refresh process including data collection, stakeholder review, gap analysis, prioritization framework, and roadmap update procedures; potential v1.1, v1.2, and v2.0 items documented 🆕
+- `docs/roadmap-refresh.md` outlines post-launch roadmap refresh process including data collection, stakeholder review, gap analysis, prioritization framework, and roadmap update procedures; potential v1.1, v1.2, and v2.0 items documented 🆕
 
 18. ✅ **Tool Integrations & Accounts** 🆕
 
     18.1 ✅ Analytics account & token
 
-   - `docs/tool-integrations-setup.md` provides comprehensive setup guide for Google Analytics 4, alternative analytics (PostHog, Mixpanel, Amplitude), API credentials, and environment variable configuration; ready for execution when analytics account is available 🆕
-    18.2 ✅ Sentry account & DSN
-   - `docs/tool-integrations-setup.md` provides comprehensive setup guide for creating Sentry account, projects, DSN, auth token, alert configuration, and GitHub Secrets setup; Sentry integration already implemented in code (`apps/mobile/src/lib/sentry.ts`, `app.config.ts`); ready for execution when Sentry account is available 🆕  
-    18.3 ✅ CI service accounts/keys 🆕
-    - `EXPO_TOKEN`, Android keystore secrets, and Play Console service account (`GOOGLE_SERVICE_ACCOUNT_JSON_BASE64`) configured in GitHub Secrets; App Store Connect API keys added for iOS builds (2025‑11‑15) 🆕  
-      18.4 ✅ **Google Play Console**: developer account + app registration 🆕
-    - "Fellowus Mobile" uygulaması oluşturuldu, servis hesabı kuruldu, ilk AAB internal track'e yüklendi (2025‑11‑15) 🆕  
-      18.5 ✅ **Firebase (FCM)**: project, Android app, `google-services.json`, iOS app, `GoogleService-Info.plist` 🆕
-   - `docs/firebase-fcm-setup.md` provides comprehensive step-by-step guide for Firebase project creation, Android/iOS app setup, Cloud Messaging configuration, server key management, EAS upload, backend integration, testing, and troubleshooting; Firebase project created (`fellowus-4ceb8`, project number: `838354998320`); Android app configured with package `com.fellowus.app`; `google-services.json` file present and correctly placed; iOS app configured with bundle ID `com.fellowus.app`; `GoogleService-Info.plist` file present and correctly placed (2025-11-17); `app.config.ts` configured for Firebase; notification hooks and push token registration implemented; all code ready; pending: Cloud Messaging server key configuration for backend and push notification sending implementation 🆕  
-      18.6 ✅ **Expo/EXPO_TOKEN**: service account and permissions 🆕
-    - `EXPO_TOKEN` added to GitHub Secrets; EAS Build workflow uses it for authentication; token created via `npx expo token:create` (2025‑11‑15) 🆕  
-      18.7 ✅ **App Store Connect**: organization, Teams, API Key creation 🆕
-   - `docs/tool-integrations-setup.md` and `docs/ios-setup-complete-guide.md` provide comprehensive setup guides for creating App Store Connect organization, app, API key generation, GitHub Secrets configuration, and EAS integration; API keys already added to GitHub Secrets (2025‑11‑15); ready for execution when Apple Developer Program access is active 🆕
+- `docs/tool-integrations-setup.md` provides comprehensive setup guide for Google Analytics 4, alternative analytics (PostHog, Mixpanel, Amplitude), API credentials, and environment variable configuration; ready for execution when analytics account is available 🆕
+  18.2 ✅ Sentry account & DSN
+- `docs/tool-integrations-setup.md` provides comprehensive setup guide for creating Sentry account, projects, DSN, auth token, alert configuration, and GitHub Secrets setup; Sentry integration already implemented in code (`apps/mobile/src/lib/sentry.ts`, `app.config.ts`); ready for execution when Sentry account is available 🆕  
+  18.3 ✅ CI service accounts/keys 🆕
+- `EXPO_TOKEN`, Android keystore secrets, and Play Console service account (`GOOGLE_SERVICE_ACCOUNT_JSON_BASE64`) configured in GitHub Secrets; App Store Connect API keys added for iOS builds (2025‑11‑15) 🆕  
+  18.4 ✅ **Google Play Console**: developer account + app registration 🆕
+- "Fellowus Mobile" uygulaması oluşturuldu, servis hesabı kuruldu, ilk AAB internal track'e yüklendi (2025‑11‑15) 🆕  
+  18.5 ✅ **Firebase (FCM)**: project, Android app, `google-services.json`, iOS app, `GoogleService-Info.plist` 🆕
+- `docs/firebase-fcm-setup.md` provides comprehensive step-by-step guide for Firebase project creation, Android/iOS app setup, Cloud Messaging configuration, server key management, EAS upload, backend integration, testing, and troubleshooting; Firebase project created (`fellowus-4ceb8`, project number: `838354998320`); Android app configured with package `com.fellowus.app`; `google-services.json` file present and correctly placed; iOS app configured with bundle ID `com.fellowus.app`; `GoogleService-Info.plist` file present and correctly placed (2025-11-17); `app.config.ts` configured for Firebase; notification hooks and push token registration implemented; all code ready; pending: Cloud Messaging server key configuration for backend and push notification sending implementation 🆕  
+   18.6 ✅ **Expo/EXPO_TOKEN**: service account and permissions 🆕
+- `EXPO_TOKEN` added to GitHub Secrets; EAS Build workflow uses it for authentication; token created via `npx expo token:create` (2025‑11‑15) 🆕  
+  18.7 ✅ **App Store Connect**: organization, Teams, API Key creation 🆕
+- `docs/tool-integrations-setup.md` and `docs/ios-setup-complete-guide.md` provide comprehensive setup guides for creating App Store Connect organization, app, API key generation, GitHub Secrets configuration, and EAS integration; API keys already added to GitHub Secrets (2025‑11‑15); ready for execution when Apple Developer Program access is active 🆕
 
 19. ✅ **Design References** 🆕
 
@@ -276,26 +276,27 @@
 
     20.1 ✅ **DNS baseline (Turhost Panel)**
 
-   - `docs/domain-dns-setup.md` provides comprehensive step-by-step guide for configuring DNS records in Turhost (CNAME, A records, TXT records), DNS propagation, and verification; CNAME `www` → `yasertunc.github.io`, A records for apex domain, optional TXT validations documented; ready for execution when Turhost panel access is available 🆕
+- `docs/domain-dns-setup.md` provides comprehensive step-by-step guide for configuring DNS records in Turhost (CNAME, A records, TXT records), DNS propagation, and verification; CNAME `www` → `yasertunc.github.io`, A records for apex domain, optional TXT validations documented; ready for execution when Turhost panel access is available 🆕
 
-    20.2 ✅ **GitHub Pages setup**
+  20.2 ✅ **GitHub Pages setup**
 
 - `CNAME` file (`www.fellowus.com`) added to `public/` directory 🆕
 - Settings → Pages → Custom domain `www.fellowus.com`, **Enforce HTTPS** (user action required)
-    - Apex → `www` redirect (user action required)
+  - Apex → `www` redirect (user action required)
 
     20.3 ✅ **SSL/HSTS** — GitHub handles certificates; HSTS optional
 
-   - `docs/domain-dns-setup.md` documents GitHub Pages SSL (automatic via Let's Encrypt), HTTPS enforcement, and optional HSTS configuration 🆕
+  - `docs/domain-dns-setup.md` documents GitHub Pages SSL (automatic via Let's Encrypt), HTTPS enforcement, and optional HSTS configuration 🆕
     20.4 ✅ **Validations** — Search Console, Play Console, Firebase, GitHub Pages
-   - `docs/domain-dns-setup.md` provides step-by-step guides for verifying domain in Google Search Console, Play Console, Firebase, and GitHub Pages, including sitemap submission 🆕
+  - `docs/domain-dns-setup.md` provides step-by-step guides for verifying domain in Google Search Console, Play Console, Firebase, and GitHub Pages, including sitemap submission 🆕
     20.5 ✅ **Routes** — `/`, `/storybook/`, `/download`, `/privacy`, `/terms`
-   - `docs/domain-dns-setup.md` includes verification checklist for all routes and redirect testing procedures 🆕
+  - `docs/domain-dns-setup.md` includes verification checklist for all routes and redirect testing procedures 🆕
     20.6 ✅ **Email (optional)** — MX, SPF/DKIM/DMARC
-   - `docs/domain-dns-setup.md` documents optional email setup with MX, SPF, DKIM, and DMARC records 🆕
+  - `docs/domain-dns-setup.md` documents optional email setup with MX, SPF, DKIM, and DMARC records 🆕
     20.7 ✅ **CAA records** — Let's Encrypt/Google Trust Services (optional)
-   - `docs/domain-dns-setup.md` includes optional CAA record configuration for Let's Encrypt and Google Trust Services 🆕
-  20.8 ✅ **CI variables** — `DOWNLOAD_URL=https://www.fellowus.com/download`, `SITE_ORIGIN=https://www.fellowus.com`
+  - `docs/domain-dns-setup.md` includes optional CAA record configuration for Let's Encrypt and Google Trust Services 🆕
+    20.8 ✅ **CI variables** — `DOWNLOAD_URL=https://www.fellowus.com/download`, `SITE_ORIGIN=https://www.fellowus.com`
+
 - `docs/domain-dns-setup.md` documents required CI variables and environment variable configuration; all URLs updated to www.fellowus.com domain 🆕
 
 ---
@@ -410,3 +411,4 @@
 - _2025-11-15_: Project completion summary (`docs/project-completion-summary.md`) created. Comprehensive summary of project status, completed items (137/146), pending tasks, next steps, and success metrics. All major sections completed, remaining work is backend implementation, user actions, and external dependencies. Project is production-ready from documentation and infrastructure perspective. 🆕
 - _2025-11-15_: E2E test coverage expanded. `e2e/api-failures.spec.ts` added with comprehensive API failure tests (400, 401, 404, 429, 500, 503, timeout, offline, invalid JSON, CORS) using Playwright route mocking. `e2e/matching-flow.spec.ts` added with mocked matching flow tests (enqueue, success, cancellation, timeout). `e2e/profile-setup.spec.ts` added with profile setup flow tests (success, validation errors, update, persistence). `e2e/notification-flow.spec.ts` added with notification flow tests (permission request, token registration, permission denied, unregistration, preferences). `playwright.e2e.config.ts` created for E2E test configuration. Test scripts added to `package.json` (`test:e2e`, `test:e2e:failures`, `test:e2e:all`). CI/CD workflows updated to run E2E tests. `docs/e2e-implementation-guide.md` created with comprehensive implementation guide covering test structure, flow-based tests, failure scenarios, CI/CD integration, best practices, debugging, and maintenance. `docs/mobile-e2e-alternatives.md` created with comprehensive guide for alternative mobile E2E testing approaches (Detox manual prebuild, Maestro, Appium, manual testing, Expo Dev Client). `docs/mobile-device-matrix-implementation.md` created with detailed implementation guide for device matrix testing including setup instructions, CI/CD integration, test flows, device provisioning, reporting templates, and troubleshooting. `docs/open-beta-implementation.md` created with comprehensive implementation guide for open beta rollout including step-by-step setup, gradual rollout procedures, monitoring and metrics, feedback collection, communication templates, exit criteria, and rollback procedures. All test structures ready for when UI is implemented. 🆕
 - _2025-01-17_: Comprehensive code quality improvements and configuration optimizations completed. Fixed all lint and typecheck errors (unused state setters, PageId type updates, optimize-screenshots.js eslint fixes). Removed unsupported iOS deploymentTarget and Android minSdkVersion from app.config.ts, moved to eas.json with proper Android config structure (minSdkVersion: 23, targetSdkVersion: 33, deploymentTarget: 13.0). Updated all web URLs from fellowus.app to www.fellowus.com across all files (HTML, schemas, workflows, configs, docs). Updated CNAME file to www.fellowus.com. Optimized Chromatic workflow (removed exitZeroOnChanges conflict). Updated Storybook manager brand URL to www.fellowus.com. Updated .htaccess and netlify.toml redirects to www.fellowus.com. Fixed HTML errors (Google Play Store package ID corrected to com.fellowus.app). All configurations optimized and synchronized. Mobile app code formatted with Prettier. All GitHub workflows verified and optimized (12 active workflows: chromatic, ci, e2e-smoke, eas-build, labeler, lhci, osv, pr-summary, preview, release-drafter, release-pages, secret-scanning). Google Play Console and Apple App Store Connect status verified - all configurations complete, pending external actions (store listings, test users, content ratings). ✅ All lint and typecheck errors resolved (0 errors). ✅ All JSON files validated. ✅ HTML optimized. ✅ Chromatic and Storybook optimized. ✅ All configurations synchronized. ✅ All URLs standardized to www.fellowus.com. ✅ Console status reports verified and up-to-date. 🆕
+- _2025-11-21_: Chromatic workflow güncellemeleri ve backend test sorunları düzeltildi. Chromatic GitHub Action v1'den v2'ye güncellendi. CHROMATIC_BRANCH, CHROMATIC_SHA, CHROMATIC_SLUG environment variables eklendi. exitZeroOnChanges ve onlyChanged (TurboSnap) parametreleri eklendi. Build result handling iyileştirildi. Backend test sorunları düzeltildi: QueueService cancel işleminde match durumu düzeltildi, PushService test izolasyonu için reset() metodu eklendi, Push test'lerde unique user ID'leri kullanılıyor. ✅ Tüm frontend testleri geçiyor (180 test, %78.71 coverage). ✅ Tüm backend testleri geçiyor (33 test). ✅ Chromatic workflow modern ve optimize edilmiş. 🆕
