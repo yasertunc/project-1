@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import GoogleMap from "./Map/GoogleMap";
+import { getNavigationStyle, getContentStyle } from "./AppPhoneMock.styles";
 
 // NOTE: Removed the missing import "../styles/tokens.css" and inlined the essential
 // token variables and utility classes so this runs in a sandbox without external files.
@@ -141,7 +142,7 @@ export type AppPhoneMockProps = {
 };
 
 const NAV_WIDTH = 375;
-const SWIPE_THRESHOLD = 187.5;
+const MAX_NAV_POSITION = NAV_WIDTH; // Maximum scroll position (section 1)
 const chatPages: PageId[] = [
   "profile",
   "chat",
@@ -174,9 +175,25 @@ const navMenus: Array<[PageId, string][]> = [
   ],
 ];
 
+const NAV_LOOP_WIDTH = NAV_WIDTH * navMenus.length;
+
 // Small helpers so we can unit test important derived values.
-function navTransform(section: number) {
-  return `translateX(-${section * NAV_WIDTH}px)`;
+function navTransform(position: number) {
+  // navPosition 0 => ilk sekme, navPosition 375 => ikinci sekme.
+  // İçerik sola doğru kayacağı için transform negatif yönde olmalı.
+  return `translateX(-${position}px)`;
+}
+
+function clampNavPosition(position: number): number {
+  return Math.max(0, Math.min(MAX_NAV_POSITION, position));
+}
+
+function normalizeNavPosition(position: number): number {
+  const total = NAV_LOOP_WIDTH;
+  if (total <= 0) return 0;
+  const mod = ((position % total) + total) % total;
+  // Görsel olarak ortadaki kopyayı kullanmak için bir tam döngü kaydırıyoruz.
+  return total + mod;
 }
 
 function sectionForPage(page: PageId) {
@@ -213,31 +230,32 @@ function StatusBar() {
 type NavigationProps = {
   transform: string;
   page: PageId;
-  section: number;
   onSelect: (id: PageId) => void;
-  onSectionChange: (section: number) => void;
 };
 
 const Navigation = React.forwardRef<HTMLDivElement, NavigationProps>(
-  function Navigation(
-    { transform, page, section, onSelect, onSectionChange },
-    ref
-  ) {
+  function Navigation({ transform, page, onSelect }, ref) {
+    const repeatedMenus = React.useMemo(
+      () => [...navMenus, ...navMenus, ...navMenus],
+      []
+    );
+
     return (
       <div className="relative h-[60px] overflow-hidden bg-gradient-primary shadow-[0_4px_15px_rgba(102,126,234,0.3)]">
         <div
           ref={ref}
           className="flex h-full transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
-          style={{ transform }}
+          style={getNavigationStyle(transform)}
+          data-testid="navigation-container"
         >
-          {navMenus.map((menu, index) => (
+          {repeatedMenus.map((menu, index) => (
             <div
-              key={index}
+              key={`${index}`}
               className="flex w-[375px] min-w-[375px] justify-between"
             >
               {menu.map(([id, label]) => (
                 <NavButton
-                  key={id}
+                  key={`${index}-${id}`}
                   id={id}
                   label={label}
                   active={page === id}
@@ -249,52 +267,10 @@ const Navigation = React.forwardRef<HTMLDivElement, NavigationProps>(
             </div>
           ))}
         </div>
-        <NavIndicators current={section} onClick={setNavSection} />
       </div>
     );
-
-    function setNavSection(section: number) {
-      if (section === 0) {
-        onSectionChange(0);
-        onSelect(mapPages[0]);
-      }
-      if (section === 1) {
-        onSectionChange(1);
-        onSelect(chatPages[0]);
-      }
-    }
   }
 );
-
-function NavIndicators({
-  current,
-  onClick,
-}: {
-  current: number;
-  onClick: (index: number) => void;
-}) {
-  return (
-    <div className="absolute bottom-[5px] left-1/2 flex -translate-x-1/2 gap-[6px]">
-      {[0, 1].map((index) => (
-        <div
-          key={index}
-          role="button"
-          tabIndex={0}
-          onClick={() => onClick(index)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              onClick(index);
-            }
-          }}
-          className={`h-[6px] cursor-pointer rounded-full transition-all ${
-            current === index ? "w-[18px] bg-white/80" : "w-[6px] bg-white/30"
-          }`}
-        />
-      ))}
-    </div>
-  );
-}
 
 function NavButton({
   id,
@@ -311,6 +287,8 @@ function NavButton({
     <button
       type="button"
       onClick={() => onSelect(id)}
+      aria-label={label}
+      title={label}
       className={`px-[12px] py-[15px] text-[13px] font-semibold uppercase tracking-[0.06em] transition ${
         active
           ? "border-b-2 border-white bg-white/20 text-white"
@@ -340,6 +318,7 @@ function SettingsButton({ onSelect }: { onSelect: (id: PageId) => void }) {
       type="button"
       onClick={() => onSelect("settings")}
       className="w-[45px] py-[15px] text-[22px] font-bold text-white"
+      title="⚙"
     >
       ⚙
     </button>
@@ -482,10 +461,7 @@ function Content({
     }
   }, [filteredUsersForGroup, mapFilters.selectedCategories, setGroupChats]);
   return (
-    <div
-      className="relative"
-      style={{ height: "calc(100% - 44px - 60px - 70px)" }}
-    >
+    <div className="relative" style={getContentStyle()}>
       <div className="absolute inset-0 overflow-y-auto bg-gradient-to-b from-[var(--color-bg-light)] to-[var(--color-bg-medium)]">
         {page === "map" && (
           <MapView
@@ -1599,6 +1575,8 @@ function FilterView({
               const value = parseFloat(e.target.value);
               handleDistanceChange(value);
             }}
+            aria-label={`Distance filter: ${mapFilters.distanceFilter} kilometers`}
+            title={`Distance filter: ${mapFilters.distanceFilter} kilometers`}
             className="w-full h-2 bg-[var(--color-bg-light)] rounded-lg appearance-none cursor-pointer slider"
             style={{
               background: `linear-gradient(to right, var(--color-primary-main) 0%, var(--color-primary-main) ${((isInSliderRange ? mapFilters.distanceFilter : maxDistance) / maxDistance) * 100}%, var(--color-bg-light) ${((isInSliderRange ? mapFilters.distanceFilter : maxDistance) / maxDistance) * 100}%, var(--color-bg-light) 100%)`,
@@ -2348,6 +2326,7 @@ function GroupRow({
 function SocialFeed() {
   return (
     <Section title="Social Feed" subtitle="Updates from your friends">
+      <UserMediaLibrary />
       <div className="mb-4 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
         <div className="flex items-center p-[15px]">
           <div className="mr-3 h-10 w-10 rounded-full bg-gradient-to-br from-[#f093fb] to-[#f5576c]" />
@@ -2373,6 +2352,29 @@ function SocialFeed() {
         </div>
       </div>
     </Section>
+  );
+}
+
+function UserMediaLibrary() {
+  return (
+    <div className="mb-4 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
+      <div className="grid grid-cols-3 gap-[8px] px-[12px] py-[12px]">
+        {[
+          ["🖼️", "Photos"],
+          ["🎥", "Videos"],
+          ["⭐", "Stories"],
+        ].map(([icon, label]) => (
+          <button
+            key={label as string}
+            type="button"
+            className="flex h-[72px] flex-col items-center justify-center rounded-[10px] bg-[var(--color-bg-light)] text-[11px] text-[var(--color-text-2)]"
+          >
+            <span className="mb-1 text-[22px]">{icon}</span>
+            <span className="text-center">{label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -2452,20 +2454,35 @@ function Settings() {
       <SettingsGroup
         title="Account"
         items={[
-          ["👤", "Profile"],
-          ["🔐", "Privacy"],
-          ["🔑", "Security"],
+          ["👤", "Personal information"],
+          ["📧", "Contact & verification"],
+          ["🔑", "Login & security"],
+        ]}
+      />
+      <SettingsGroup
+        title="Privacy & safety"
+        items={[
+          ["👀", "Profile visibility"],
+          ["🚫", "Blocked users"],
         ]}
       />
       <SettingsGroup
         title="Notifications"
         toggles={[
-          ["🔔", "Message Notifications", true],
-          ["📢", "Social Notifications", false],
+          ["🔔", "Message notifications", true],
+          ["📢", "Social notifications", false],
+          ["✉️", "Email updates", false],
         ]}
       />
       <SettingsGroup
-        title="Other"
+        title="Data & storage"
+        items={[
+          ["💾", "Media & storage"],
+          ["📤", "Export my data"],
+        ]}
+      />
+      <SettingsGroup
+        title="About & support"
         pairs={[
           ["🌐", "Language", "Turkish"],
           ["ℹ️", "About", "v1.0.0"],
@@ -2588,9 +2605,9 @@ export default function AppPhoneMock({
   showAIAssistant = true,
   showMessageInput = true,
 }: AppPhoneMockProps) {
-  const [navSection, setNavSection] = useState(() =>
-    sectionForPage(initialPage)
-  );
+  const [navPosition, setNavPosition] = useState(() => {
+    return sectionForPage(initialPage) * MAX_NAV_POSITION;
+  });
   const [page, setPage] = useState<PageId>(initialPage);
   const [mapFilters, setMapFilters] = useState<MapFilterState>({
     selectedCategories: new Set(),
@@ -2603,23 +2620,23 @@ export default function AppPhoneMock({
   const dragStateRef = useRef<{
     pointerId: number | null;
     startX: number;
-    currentSection: number;
+    startPosition: number;
     hasMoved: boolean;
   }>({
     pointerId: null,
     startX: 0,
-    currentSection: 0,
+    startPosition: 0,
     hasMoved: false,
   });
-  const navSectionRef = useRef(navSection);
+  const navPositionRef = useRef(navPosition);
 
   useEffect(() => {
-    navSectionRef.current = navSection;
-  }, [navSection]);
+    navPositionRef.current = navPosition;
+  }, [navPosition]);
 
   useEffect(() => {
     setPage(initialPage);
-    setNavSection(sectionForPage(initialPage));
+    setNavPosition(sectionForPage(initialPage) * MAX_NAV_POSITION);
   }, [initialPage]);
 
   useEffect(() => {
@@ -2630,7 +2647,7 @@ export default function AppPhoneMock({
       if (event.pointerType === "mouse" && event.button !== 0) return;
       dragStateRef.current.pointerId = event.pointerId;
       dragStateRef.current.startX = event.clientX;
-      dragStateRef.current.currentSection = navSectionRef.current;
+      dragStateRef.current.startPosition = navPositionRef.current;
       dragStateRef.current.hasMoved = false;
       el.style.transition = "none";
       el.style.willChange = "transform";
@@ -2646,8 +2663,9 @@ export default function AppPhoneMock({
         dragStateRef.current.hasMoved = true;
       }
       if (!dragStateRef.current.hasMoved) return;
-      const offset = -dragStateRef.current.currentSection * NAV_WIDTH + delta;
-      el.style.transform = `translateX(${offset}px)`;
+      const offset = dragStateRef.current.startPosition - delta;
+      const visualOffset = normalizeNavPosition(offset);
+      el.style.transform = navTransform(visualOffset);
     };
 
     const finishDrag = (event: PointerEvent) => {
@@ -2660,27 +2678,18 @@ export default function AppPhoneMock({
 
       const delta = event.clientX - dragStateRef.current.startX;
       const moved = dragStateRef.current.hasMoved;
-      const originSection = dragStateRef.current.currentSection;
+      const originPosition = dragStateRef.current.startPosition;
       dragStateRef.current.pointerId = null;
       dragStateRef.current.hasMoved = false;
 
       if (!moved) {
-        el.style.transform = navTransform(originSection);
+        const visualOrigin = normalizeNavPosition(originPosition);
+        el.style.transform = navTransform(visualOrigin);
         return;
       }
 
-      if (Math.abs(delta) >= SWIPE_THRESHOLD) {
-        if (delta < 0 && originSection < 1) {
-          setNavSection(1);
-          return;
-        }
-        if (delta > 0 && originSection > 0) {
-          setNavSection(0);
-          return;
-        }
-      }
-
-      el.style.transform = navTransform(originSection);
+      const finalPosition = originPosition - delta;
+      setNavPosition(finalPosition);
     };
 
     el.addEventListener("pointerdown", onPointerDown);
@@ -2694,15 +2703,26 @@ export default function AppPhoneMock({
       el.removeEventListener("pointerup", finishDrag);
       el.removeEventListener("pointercancel", finishDrag);
     };
-  }, [navSection]);
+  }, [navPosition]);
 
   const onSelect = (id: PageId) => {
     setPage(id);
-    if (chatPages.includes(id)) setNavSection(1);
-    if (mapPages.includes(id)) setNavSection(0);
+    // Auto-adjust position based on selected page, ancak sonsuz loop hissini koru
+    setNavPosition((prev) => {
+      const total = NAV_WIDTH * navMenus.length;
+      if (total <= 0) return prev;
+
+      const targetOffset = chatPages.includes(id) ? NAV_WIDTH : 0;
+      const remainder = ((prev % total) + total) % total;
+
+      return prev + (targetOffset - remainder);
+    });
   };
 
-  const transform = useMemo(() => navTransform(navSection), [navSection]);
+  const transform = useMemo(
+    () => navTransform(normalizeNavPosition(navPosition)),
+    [navPosition]
+  );
 
   return (
     <div className="relative h-[812px] w-[375px] overflow-hidden rounded-phone bg-[var(--color-bg-dark)] p-2 shadow-[0_25px_50px_rgba(0,0,0,0.3),_0_10px_20px_rgba(0,0,0,0.2),_inset_0_0_0_1px_rgba(255,255,255,0.1)]">
@@ -2713,9 +2733,7 @@ export default function AppPhoneMock({
         <Navigation
           transform={transform}
           page={page}
-          section={navSection}
           onSelect={onSelect}
-          onSectionChange={setNavSection}
           ref={wrapRef}
         />
         <Content
@@ -2743,7 +2761,12 @@ export default function AppPhoneMock({
 
   // Test 1: navTransform correctness
   expect(navTransform(0) === "translateX(-0px)", "navTransform(0)");
-  expect(navTransform(1) === "translateX(-375px)", "navTransform(1)");
+  expect(navTransform(375) === "translateX(-375px)", "navTransform(375)");
+
+  // Test 2: clampNavPosition correctness
+  expect(clampNavPosition(-100) === 0, "clampNavPosition(-100)");
+  expect(clampNavPosition(100) === 100, "clampNavPosition(100)");
+  expect(clampNavPosition(500) === 375, "clampNavPosition(500)");
 
   // Test 2: PageId coverage for nav groups
   const all: PageId[] = [
@@ -2775,7 +2798,3 @@ export default function AppPhoneMock({
   if (typeof console !== "undefined")
     console.log("AppPhoneMock inline tests passed ✅");
 })();
-
-<div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
-  Groups
-</div>;

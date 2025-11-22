@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Animated,
   TextInput,
+  Platform,
+  NativeModules,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
@@ -20,11 +22,97 @@ import { nativeTokens } from "../src/theme/tokens";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
+type LocaleNativeModules = typeof NativeModules & {
+  SettingsManager?: {
+    settings?: { AppleLocale?: string; AppleLanguages?: string[] };
+  };
+  I18nManager?: { localeIdentifier?: string };
+};
+
+const localeNativeModules = NativeModules as LocaleNativeModules;
+
+function detectDeviceLocale(): string {
+  try {
+    if (Platform.OS === "ios") {
+      const settings = localeNativeModules.SettingsManager?.settings;
+      const locale =
+        settings?.AppleLocale ||
+        (Array.isArray(settings?.AppleLanguages) && settings.AppleLanguages[0]);
+      if (locale) {
+        return String(locale);
+      }
+    } else if (Platform.OS === "android") {
+      const locale = localeNativeModules.I18nManager?.localeIdentifier;
+      if (locale) {
+        return String(locale);
+      }
+    }
+  } catch (error) {
+    if (__DEV__) {
+      console.warn("Failed to detect device locale from native modules", error);
+    }
+  }
+  try {
+    if (
+      typeof Intl !== "undefined" &&
+      typeof Intl.DateTimeFormat === "function"
+    ) {
+      const resolved = Intl.DateTimeFormat().resolvedOptions().locale;
+      if (resolved) {
+        return resolved;
+      }
+    }
+  } catch (error) {
+    if (__DEV__) {
+      console.warn("Failed to detect device locale from Intl", error);
+    }
+  }
+  return "en-US";
+}
+
+function normaliseLangAndRegion(locale: string): {
+  appLanguageLabel: string;
+  regionLabel: string;
+} {
+  const canonical = locale.replace("_", "-");
+  const [lang, region] = canonical.split("-");
+  const lowerLang = (lang || "").toLowerCase();
+
+  let appLanguageLabel = "English";
+  if (lowerLang.startsWith("tr")) {
+    appLanguageLabel = "Türkçe";
+  } else if (lowerLang.startsWith("en")) {
+    appLanguageLabel = "English";
+  }
+
+  let regionLabel = "Global";
+  const upperRegion = (region || "").toUpperCase();
+  if (upperRegion === "TR") {
+    regionLabel = "Türkiye";
+  } else if (upperRegion === "US") {
+    regionLabel = "United States";
+  } else if (upperRegion === "GB") {
+    regionLabel = "United Kingdom";
+  } else if (upperRegion) {
+    regionLabel = upperRegion;
+  } else if (appLanguageLabel === "Türkçe") {
+    regionLabel = "Türkiye";
+  }
+
+  return { appLanguageLabel, regionLabel };
+}
+
+const DEVICE_LOCALE = detectDeviceLocale();
+const {
+  appLanguageLabel: DEFAULT_APP_LANGUAGE,
+  regionLabel: DEFAULT_REGION_LABEL,
+} = normaliseLangAndRegion(DEVICE_LOCALE);
+
 // StatusBar Component - HTML tasarımına göre güncellendi (gradient kaldırıldı)
 function StatusBar() {
   const [currentTime, setCurrentTime] = useState(() => {
     const now = new Date();
-    return now.toLocaleTimeString("tr-TR", {
+    return now.toLocaleTimeString(DEVICE_LOCALE, {
       hour: "2-digit",
       minute: "2-digit",
     });
@@ -34,7 +122,10 @@ function StatusBar() {
     const interval = setInterval(() => {
       const now = new Date();
       setCurrentTime(
-        now.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })
+        now.toLocaleTimeString(DEVICE_LOCALE, {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
       );
     }, 1000);
     return () => clearInterval(interval);
@@ -1546,8 +1637,8 @@ function AppearanceView() {
   const [darkMode, setDarkMode] = useState(false);
   const [autoTheme, setAutoTheme] = useState(true);
   const [fontSize] = useState("Normal");
-  const [appLanguage] = useState("Türkçe");
-  const [region] = useState("Türkiye");
+  const [appLanguage] = useState(DEFAULT_APP_LANGUAGE);
+  const [region] = useState(DEFAULT_REGION_LABEL);
 
   return (
     <ScrollView style={styles.contentContainer}>

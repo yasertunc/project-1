@@ -137,7 +137,7 @@ describe("GoogleMap (fallback)", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId("google-map")).toBeInTheDocument();
+      expect(screen.getByTestId("google-map-container")).toBeInTheDocument();
     });
 
     // Map is instantiated with provided options

@@ -19,7 +19,7 @@ on:
 jobs:
   android:
     name: Android AAB
-    if: ${{ secrets.EXPO_TOKEN != '' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (github.event.inputs.build_type == 'aab' || github.event.inputs.build_type == 'all'))) }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (github.event.inputs.build_type == 'aab' || github.event.inputs.build_type == 'all')) }}
     runs-on: ubuntu-latest
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
@@ -52,7 +52,6 @@ jobs:
           sudo apt-get update && sudo apt-get install -y jq || true
 
       - name: Prepare service account JSON
-        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 != '' }}
         run: |
           mkdir -p apps/mobile/.eas
           echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}" | base64 -d > apps/mobile/.eas/android-service-account.json
@@ -62,7 +61,7 @@ jobs:
       - name: Verify EAS project configuration
         run: |
           echo "🔍 Verifying EAS project configuration..."
-          EXPECTED_PROJECT_ID="${{ secrets.EAS_PROJECT_ID || '694fc69a-a332-4142-9a41-54012868a73b' }}"
+          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
           echo "Expected Project ID: $EXPECTED_PROJECT_ID"
 
           # Get current project ID from app.config
@@ -137,7 +136,7 @@ jobs:
         id: verify_build
         run: |
           BUILD_ID="${{ steps.build.outputs.build_id }}"
-          EXPECTED_PROJECT_ID="${{ secrets.EAS_PROJECT_ID || '694fc69a-a332-4142-9a41-54012868a73b' }}"
+          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
 
           if [ -z "$BUILD_ID" ]; then
             echo "❌ Build ID is empty"
@@ -242,7 +241,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Submit to Play Console (internal track)
-        if: steps.build.outputs.build_id != '' && secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 != ''
         run: |
           echo "📤 Submitting build ${{ steps.build.outputs.build_id }} to Play Console internal track..."
           eas submit --platform android --id ${{ steps.build.outputs.build_id }} --non-interactive --wait
@@ -253,7 +251,7 @@ jobs:
 
   android-apk:
     name: Android APK
-    if: ${{ secrets.EXPO_TOKEN != '' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (github.event.inputs.build_type == 'apk' || github.event.inputs.build_type == 'all'))) }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (github.event.inputs.build_type == 'apk' || github.event.inputs.build_type == 'all')) }}
     runs-on: ubuntu-latest
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
@@ -288,7 +286,7 @@ jobs:
       - name: Verify EAS project configuration (APK)
         run: |
           echo "🔍 Verifying EAS project configuration for APK build..."
-          EXPECTED_PROJECT_ID="${{ secrets.EAS_PROJECT_ID || '694fc69a-a332-4142-9a41-54012868a73b' }}"
+          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
           echo "Expected Project ID: $EXPECTED_PROJECT_ID"
           eas --version
         env:
@@ -347,7 +345,7 @@ jobs:
         id: verify_apk_build
         run: |
           BUILD_ID="${{ steps.build_apk.outputs.build_id }}"
-          EXPECTED_PROJECT_ID="${{ secrets.EAS_PROJECT_ID || '694fc69a-a332-4142-9a41-54012868a73b' }}"
+          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
 
           if [ -z "$BUILD_ID" ]; then
             echo "❌ Build ID is empty"
@@ -430,7 +428,6 @@ jobs:
 
   ios:
     name: iOS IPA
-    if: ${{ secrets.EXPO_TOKEN != '' && secrets.ASC_API_KEY_ID != '' }}
     runs-on: macos-latest
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
@@ -508,7 +505,7 @@ jobs:
             exit 1
           fi
 
-          EXPECTED_PROJECT_ID="${{ secrets.EAS_PROJECT_ID || '694fc69a-a332-4142-9a41-54012868a73b' }}"
+          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
           BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
           ACTUAL_PROJECT_ID=$(echo "$BUILD_INFO" | jq -r '.projectId // empty')
 
@@ -523,7 +520,6 @@ jobs:
         working-directory: apps/mobile
 
       - name: Submit to App Store Connect (TestFlight)
-        if: steps.build_ios.outputs.build_id != '' && steps.verify_ios_build.outcome == 'success' && secrets.ASC_API_KEY_ID != ''
         run: |
           echo "📤 Submitting iOS build ${{ steps.build_ios.outputs.build_id }} to App Store Connect..."
           eas submit --platform ios --id ${{ steps.build_ios.outputs.build_id }} --non-interactive --wait

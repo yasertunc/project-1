@@ -14,6 +14,14 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const NAV_WIDTH = SCREEN_WIDTH;
 const SWIPE_THRESHOLD = SCREEN_WIDTH / 2;
 
+const DEVICE_LOCALE =
+  (typeof Intl !== "undefined" &&
+    typeof Intl.DateTimeFormat === "function" &&
+    Intl.DateTimeFormat().resolvedOptions().locale) ||
+  "en-US";
+
+const IS_TURKISH_LOCALE = DEVICE_LOCALE.toLowerCase().startsWith("tr");
+
 export type PageId =
   | "map"
   | "places"
@@ -32,21 +40,37 @@ export type PageId =
   | "appearance"
   | "help";
 
-const navMenus: Array<[PageId, string][]> = [
-  [
-    ["map", "HARİTA"],
-    ["places", "YERLER"],
-    ["search", "ARA"],
-    ["filter", "FİLTRE"],
-  ],
-  [
-    ["social", "SOSYAL"],
-    ["account", "HESAP"],
-    ["notifications-settings", "BİLDİRİM"],
-    ["appearance", "GÖRÜNÜM"],
-    ["categories", "KATEGORİ"],
-  ],
-];
+const navMenus: Array<[PageId, string][]> = IS_TURKISH_LOCALE
+  ? [
+      [
+        ["map", "HARİTA"],
+        ["places", "YERLER"],
+        ["search", "ARA"],
+        ["filter", "FİLTRE"],
+      ],
+      [
+        ["social", "SOSYAL"],
+        ["account", "HESAP"],
+        ["notifications-settings", "BİLDİRİM"],
+        ["appearance", "GÖRÜNÜM"],
+        ["categories", "KATEGORİ"],
+      ],
+    ]
+  : [
+      [
+        ["map", "MAP"],
+        ["places", "PLACES"],
+        ["search", "SEARCH"],
+        ["filter", "FILTER"],
+      ],
+      [
+        ["social", "SOCIAL"],
+        ["account", "ACCOUNT"],
+        ["notifications-settings", "NOTIFICATIONS"],
+        ["appearance", "APPEARANCE"],
+        ["categories", "CATEGORIES"],
+      ],
+    ];
 
 const chatPages: PageId[] = [
   "social",

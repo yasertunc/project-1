@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { GOOGLE_MAPS_API_KEY } from "../../lib/env";
+import styles from "./GoogleMap.module.css";
 
 interface Marker {
   id: string;
@@ -413,15 +414,15 @@ export default function GoogleMap({
     // Return a simple placeholder that matches the mock view style
     return (
       <div
-        className={`relative h-full overflow-hidden ${className}`}
+        className={`${styles.placeholderContainer} ${className || ""}`}
         style={style}
       >
-        <div className="absolute inset-0 [background-image:repeating-linear-gradient(0deg,transparent,transparent_35px,rgba(255,255,255,.05)_35px,rgba(255,255,255,.05)_70px),repeating-linear-gradient(90deg,transparent,transparent_35px,rgba(255,255,255,.05)_35px,rgba(255,255,255,.05)_70px)] bg-gradient-to-b from-[var(--color-bg-light)] to-[var(--color-bg-medium)]" />
+        <div className={styles.placeholderBackground} />
         {!GOOGLE_MAPS_API_KEY && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center p-4 bg-white/90 rounded-lg shadow-lg max-w-xs">
-              <p className="text-gray-600 mb-2">🗺️</p>
-              <p className="text-sm text-gray-600">
+          <div className={styles.errorMessage}>
+            <div className={styles.errorContent}>
+              <p className={styles.errorIcon}>🗺️</p>
+              <p className={styles.errorText}>
                 Configure VITE_GOOGLE_MAPS_API_KEY to enable maps
               </p>
             </div>
@@ -434,12 +435,12 @@ export default function GoogleMap({
   if (!googleMapsLoaded) {
     return (
       <div
-        className={`flex items-center justify-center bg-gray-100 ${className}`}
+        className={`${styles.loadingContainer} ${className || ""}`}
         style={style}
       >
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#667eea] mx-auto mb-2"></div>
-          <p className="text-gray-600">Loading map...</p>
+        <div className={styles.loadingContent}>
+          <div className={styles.loadingSpinner}></div>
+          <p className={styles.loadingText}>Loading map...</p>
         </div>
       </div>
     );
@@ -448,9 +449,9 @@ export default function GoogleMap({
   return (
     <div
       ref={mapRef}
-      className={`w-full h-full ${className}`}
+      className={`${styles.googleMapContainer} ${className || ""}`}
       style={style}
-      data-testid="google-map"
+      data-testid="google-map-container"
     />
   );
 }

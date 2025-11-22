@@ -1,0 +1,98 @@
+.googleMapContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.placeholderContainer {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.placeholderBackground {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 35px,
+      rgba(255, 255, 255, 0.05) 35px,
+      rgba(255, 255, 255, 0.05) 70px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 35px,
+      rgba(255, 255, 255, 0.05) 35px,
+      rgba(255, 255, 255, 0.05) 70px
+    );
+  background: linear-gradient(
+    to bottom,
+    var(--color-bg-light),
+    var(--color-bg-medium)
+  );
+}
+
+.errorMessage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.errorContent {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 0.5rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  max-width: 20rem;
+}
+
+.errorIcon {
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.errorText {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6;
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.loadingSpinner {
+  display: block;
+  margin: 0 auto 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border-bottom: 2px solid #667eea;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  color: #4b5563;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

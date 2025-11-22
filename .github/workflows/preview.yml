@@ -18,7 +18,7 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     environment:
-      name: preview
+      name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
@@ -46,9 +46,6 @@ jobs:
       - name: Deploy Storybook preview
         id: deploy
         uses: actions/deploy-pages@v4
-        with:
-          preview: true
-          target-folder: previews/pr-${{ github.event.pull_request.number }}
 
       - name: Comment with preview link
         uses: peter-evans/create-or-update-comment@v4
