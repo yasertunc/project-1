@@ -1,10 +1,11 @@
-﻿[![Chromatic](https://badgen.net/badge/visual%20tests/Chromatic/orange)](https://www.chromatic.com/builds?appId=691374e0d54721cfeb8ae770)
+[![Chromatic](https://badgen.net/badge/visual%20tests/Chromatic/orange)](https://www.chromatic.com/builds?appId=691374e0d54721cfeb8ae770)
 
 # Fellowus Storybook
 
 [![gh-pages](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/deploy-gh-pages.yml)
 
 **Live docs:** https://yasertunc.github.io/project-1/
+
 # Fellowus â€“ Event Contracts v1
 
 Tarih: 2025-11-10T10:04:32.534818Z
@@ -59,15 +60,7 @@ npm run typecheck
 ```
 
 ## Storybook (GitHub Pages)
+
 [![deploy-storybook](https://github.com/yasertunc/project-1/actions/workflows/deploy-storybook.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/deploy-storybook.yml)
 
 **Live docs:** https://yasertunc.github.io/project-1/
-
-
-## Storybook (GitHub Pages)
-[![deploy-storybook](https://github.com/yasertunc/project-1/actions/workflows/deploy-storybook.yml/badge.svg)](https://github.com/yasertunc/project-1/actions/workflows/deploy-storybook.yml)
-
-**Live docs:** https://yasertunc.github.io/project-1/
-
-
-

@@ -5,4 +5,3 @@
 - **Acceptance:** Both sides confirm offer within TTL
 - **Ghost:** Participant who times out without action
 - **Cooldown:** Temporary penalty after decline/abuse
-
