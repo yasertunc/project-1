@@ -82,4 +82,3 @@ export const ErrorPath: Story = {
     await c.findByText(/channel error/i);
   },
 };
-

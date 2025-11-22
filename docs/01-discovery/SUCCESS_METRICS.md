@@ -7,4 +7,3 @@
 - channel.open_latency_ms p95 < 2s
 - ghost_rate trending down
 - report.follow_up_rate tracked
-

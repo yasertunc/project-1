@@ -31,6 +31,8 @@ export const WebSocketAndFCM: Story = {
     await userEvent.click(acceptButton);
 
     await canvas.findByText(/opening channel/i);
-    await canvas.findByText(/channel open \(id:/i, undefined, { timeout: 3000 });
+    await canvas.findByText(/channel open \(id:/i, undefined, {
+      timeout: 3000,
+    });
   },
 };

@@ -7,4 +7,3 @@
 ## Out-of-scope
 
 - Payments, media uploads, long-lived profiles
-

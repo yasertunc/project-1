@@ -19,9 +19,5 @@
     "RACI",
     "prebuild"
   ],
-  "ignorePaths": [
-    "docs/PROJECT_STATUS.md",
-    "README.md"
-  ]
+  "ignorePaths": ["docs/PROJECT_STATUS.md", "README.md"]
 }
-

@@ -9,8 +9,7 @@ const toneClasses: Record<ChannelState, string> = {
   idle: "border-[color:var(--ink-700)]/20 bg-[color:var(--muted-100)] text-[color:var(--ink-900)]",
   opening:
     "border-[color:var(--color-accent-amber-400)] bg-[color:var(--color-accent-amber-100)] text-[color:var(--color-accent-amber-900)]",
-  open:
-    "border-[color:var(--color-success-400,#22c55e)] bg-[color:var(--color-success-100,#dcfce7)] text-[color:var(--color-success-900,#14532d)]",
+  open: "border-[color:var(--color-success-400,#22c55e)] bg-[color:var(--color-success-100,#dcfce7)] text-[color:var(--color-success-900,#14532d)]",
   error:
     "border-[color:var(--color-danger-400,#f87171)] bg-[color:var(--color-danger-100,#fee2e2)] text-[color:var(--color-danger-900,#7f1d1d)]",
 };
@@ -43,4 +42,3 @@ export const ChannelStatusBanner: React.FC<ChannelStatusBannerProps> = ({
     </div>
   );
 };
-

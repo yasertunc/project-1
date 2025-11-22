@@ -6,7 +6,11 @@ type LogoSvgProps = {
   className?: string;
 };
 
-export function LogoSvg({ size = 32, title = "Fellowus", className }: LogoSvgProps) {
+export function LogoSvg({
+  size = 32,
+  title = "Fellowus",
+  className,
+}: LogoSvgProps) {
   const ariaLabel = title ?? "Fellowus";
   const dimension = `${size}`;
   return (
@@ -33,4 +37,3 @@ export function LogoSvg({ size = 32, title = "Fellowus", className }: LogoSvgPro
     </svg>
   );
 }
-
