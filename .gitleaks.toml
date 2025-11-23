@@ -34,8 +34,9 @@ paths = [
   '''package\.json''',
   '''package-lock\.json''',
 ]
+# Regexes to allow (these patterns will be ignored)
 regexes = [
-  { reason = "Example values in documentation", regex = '''example.*token|example.*key|example.*secret''' },
-  { reason = "Example Sentry DSN in env.example", regex = '''https://examplePublicKey\.ingest\.sentry\.io''' }
+  '''example.*token|example.*key|example.*secret''',  # Example values in documentation
+  '''https://examplePublicKey\.ingest\.sentry\.io'''  # Example Sentry DSN in env.example
 ]
 
