@@ -8,5 +8,4 @@ labels: chore
 
 ## Done When
 
-- [ ] …
-
+- [ ] Bitti sayılma koşullarını yazın

@@ -10,9 +10,8 @@ labels: enhancement
 
 ## Acceptance Criteria
 
-- [ ] …
+- [ ] Kabul kriterlerini belirtin
 
 ## Notes
 
 Links, designs, etc.
-

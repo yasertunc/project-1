@@ -21,3 +21,13 @@ Thumbs.db
 .env
 .env.*
 node_modules
+
+# Mobile app artifacts (untracked)
+apps/mobile/node_modules/
+apps/mobile/.expo/
+apps/mobile/.eas/
+apps/mobile/apps/
+apps/mobile/expo-env.d.ts
+apps/mobile/GoogleService-Info.plist
+*.apk
+*.apk.sha256
