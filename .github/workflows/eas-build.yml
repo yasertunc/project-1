@@ -1,5 +1,20 @@
 name: EAS Build
 
+# Required secrets for this workflow:
+# - EXPO_TOKEN: Expo access token (required)
+# - GOOGLE_SERVICE_ACCOUNT_JSON_BASE64: Google Play service account (optional)
+# - ASC_API_KEY_ID, ASC_ISSUER_ID, ASC_API_KEY_P8: Apple App Store Connect (optional)
+# See .github/SECRETS.md for setup instructions
+
+# Prevent concurrent builds
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -20,6 +35,15 @@ on:
         options:
           - production-apk
           - production
+      build_type:
+        description: "Android build type"
+        required: true
+        default: "aab"
+        type: choice
+        options:
+          - aab
+          - apk
+          - all
   push:
     tags:
       - "v*"
@@ -27,13 +51,17 @@ on:
 jobs:
   build-android:
     name: Android
-    if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all' || github.event_name == 'push' }}
+    outputs:
+      build_id: ${{ steps.build_android.outputs.build_id }}
+      build_profile: ${{ steps.build_android.outputs.build_profile }}
+    env:
+      DOWNLOAD_URL: https://www.fellowus.com/download
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all')) }}
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: apps/mobile
-    env:
-      DOWNLOAD_URL: https://www.fellowus.com/download
     steps:
       - uses: actions/checkout@v4
 
@@ -46,40 +74,79 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install EAS CLI
-        run: npm install --global eas-cli@latest
+      - name: Install EAS CLI and tools
+        run: |
+          npm install --global eas-cli@latest
+          sudo apt-get update && sudo apt-get install -y jq
 
       - name: Prepare service account
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON_BASE64: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}
         run: |
           mkdir -p .eas
-          echo "$GOOGLE_SERVICE_ACCOUNT_JSON_BASE64" | base64 -d > .eas/android-service-account.json
+          if [ -n "$GOOGLE_SERVICE_ACCOUNT_JSON_BASE64" ]; then
+            echo "$GOOGLE_SERVICE_ACCOUNT_JSON_BASE64" | base64 -d > .eas/android-service-account.json
+            echo "✅ Google Service Account configured"
+          else
+            echo "⚠️ Google Service Account not configured, using local credentials"
+          fi
 
       - name: Run EAS build (Android)
         id: build_android
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           PROFILE_INPUT: ${{ github.event.inputs.profile }}
+          BUILD_TYPE_INPUT: ${{ github.event.inputs.build_type }}
           IS_TAG_PUSH: ${{ github.event_name == 'push' }}
         run: |
-          PROFILE="${PROFILE_INPUT:-}"
-          if [ "$IS_TAG_PUSH" = "true" ]; then
-            PROFILE="production"
-          elif [ -z "$PROFILE" ]; then
-            PROFILE="production-apk"
+          if [ -z "$EXPO_TOKEN" ]; then
+            echo "EXPO_TOKEN is not set; skipping Android build."
+            exit 0
           fi
-          eas build --platform android --profile "$PROFILE" --non-interactive
+
+          # Determine profile based on context
+          if [ "$IS_TAG_PUSH" = "true" ]; then
+            # For tag pushes, always use production
+            PROFILE="production"
+          elif [ -n "$PROFILE_INPUT" ]; then
+            # Use the selected profile from workflow_dispatch
+            PROFILE="$PROFILE_INPUT"
+          else
+            # Default based on build type
+            if [ "$BUILD_TYPE_INPUT" = "apk" ]; then
+              PROFILE="production-apk"
+            else
+              PROFILE="production"
+            fi
+          fi
+
+          echo "📱 Building Android with profile: $PROFILE"
+          echo "build_profile=$PROFILE" >> $GITHUB_OUTPUT
+
+          # Run EAS build and capture the build ID
+          if eas build --platform android --profile "$PROFILE" --non-interactive --json > build_output.json 2>&1; then
+            BUILD_ID=$(jq -r '.[] | select(.platform == "android") | .id' build_output.json 2>/dev/null || echo "")
+            if [ -n "$BUILD_ID" ]; then
+              echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+              echo "✅ Android build started successfully: $BUILD_ID"
+            fi
+          else
+            echo "❌ Android build failed to start"
+            exit 1
+          fi
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
-        if: always()
+        if: success() || failure()
         with:
-          name: android-build
+          name: android-build-${{ github.run_number }}
           path: apps/mobile/artifacts/**
+          if-no-files-found: ignore
 
   build-ios:
     name: iOS
+    outputs:
+      build_id: ${{ steps.build_ios.outputs.build_id }}
+      build_profile: ${{ steps.build_ios.outputs.build_profile }}
     if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all' || github.event_name == 'push' }}
     runs-on: macos-latest
     defaults:
@@ -87,6 +154,10 @@ jobs:
         working-directory: apps/mobile
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      EXPO_APPLE_APP_STORE_CONNECT_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
+      EXPO_APPLE_APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      EXPO_APPLE_APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.ASC_API_KEY_P8 }}
     steps:
       - uses: actions/checkout@v4
 
@@ -99,22 +170,101 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install EAS CLI
-        run: npm install --global eas-cli@latest
+      - name: Install EAS CLI and tools
+        run: |
+          npm install --global eas-cli@latest
+          brew install jq || echo "jq already installed"
 
       - name: Run EAS build (iOS)
         id: build_ios
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          EXPO_APPLE_APP_STORE_CONNECT_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
-          EXPO_APPLE_APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          EXPO_APPLE_APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.ASC_API_KEY_P8 }}
+          PROFILE_INPUT: ${{ github.event.inputs.profile }}
+          IS_TAG_PUSH: ${{ github.event_name == 'push' }}
         run: |
-          eas build --platform ios --profile production-ios --non-interactive
+          if [ -z "$EXPO_TOKEN" ]; then
+            echo "EXPO_TOKEN is not set; skipping iOS build."
+            exit 0
+          fi
+
+          # Determine iOS profile
+          if [ "$IS_TAG_PUSH" = "true" ]; then
+            # For tag pushes, use production
+            PROFILE="production"
+          elif [ "$PROFILE_INPUT" = "production" ]; then
+            # Map Android production to iOS production
+            PROFILE="production"
+          else
+            # Default iOS profile for testing
+            PROFILE="production-ios"
+          fi
+
+          echo "🏎️ Building iOS with profile: $PROFILE"
+          echo "build_profile=$PROFILE" >> $GITHUB_OUTPUT
+
+          # Run EAS build and capture the build ID
+          if eas build --platform ios --profile "$PROFILE" --non-interactive --json > build_output.json 2>&1; then
+            BUILD_ID=$(jq -r '.[] | select(.platform == "ios") | .id' build_output.json 2>/dev/null || echo "")
+            if [ -n "$BUILD_ID" ]; then
+              echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+              echo "✅ iOS build started successfully: $BUILD_ID"
+            fi
+          else
+            echo "❌ iOS build failed to start"
+            exit 1
+          fi
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
-        if: always()
+        if: success() || failure()
         with:
-          name: ios-build
+          name: ios-build-${{ github.run_number }}
           path: apps/mobile/artifacts/**
+          if-no-files-found: ignore
+
+  summary:
+    name: Build Summary
+    if: always()
+    needs: [build-android, build-ios]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate summary
+        run: |
+          echo "## 🚀 EAS Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Android status
+          if [ "${{ needs.build-android.result }}" = "success" ]; then
+            echo "✅ **Android Build**: Success" >> $GITHUB_STEP_SUMMARY
+            if [ -n "${{ needs.build-android.outputs.build_id }}" ]; then
+              echo "   - Build ID: \`${{ needs.build-android.outputs.build_id }}\`" >> $GITHUB_STEP_SUMMARY
+            fi
+            if [ -n "${{ needs.build-android.outputs.build_profile }}" ]; then
+              echo "   - Profile: \`${{ needs.build-android.outputs.build_profile }}\`" >> $GITHUB_STEP_SUMMARY
+            fi
+          elif [ "${{ needs.build-android.result }}" = "skipped" ]; then
+            echo "⏭️ **Android Build**: Skipped" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.build-android.result }}" = "failure" ]; then
+            echo "❌ **Android Build**: Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # iOS status
+          if [ "${{ needs.build-ios.result }}" = "success" ]; then
+            echo "✅ **iOS Build**: Success" >> $GITHUB_STEP_SUMMARY
+            if [ -n "${{ needs.build-ios.outputs.build_id }}" ]; then
+              echo "   - Build ID: \`${{ needs.build-ios.outputs.build_id }}\`" >> $GITHUB_STEP_SUMMARY
+            fi
+            if [ -n "${{ needs.build-ios.outputs.build_profile }}" ]; then
+              echo "   - Profile: \`${{ needs.build-ios.outputs.build_profile }}\`" >> $GITHUB_STEP_SUMMARY
+            fi
+          elif [ "${{ needs.build-ios.result }}" = "skipped" ]; then
+            echo "⏭️ **iOS Build**: Skipped" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.build-ios.result }}" = "failure" ]; then
+            echo "❌ **iOS Build**: Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "🕐 **Run**: #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Workflow**: ${{ github.workflow }}" >> $GITHUB_STEP_SUMMARY

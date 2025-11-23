@@ -1,0 +1,12 @@
+# Ignore IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.cache
