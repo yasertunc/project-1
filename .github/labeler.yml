@@ -1,22 +1,22 @@
 ui:
   - changed-files:
       - any-glob-to-any-file:
-          - src/components/**/*
-          - src/stories/**/*
+          - "src/components/**/*"
+          - "src/stories/**/*"
 
 docs:
   - changed-files:
       - any-glob-to-any-file:
-          - docs/**/*
+          - "docs/**/*"
 
 api:
   - changed-files:
       - any-glob-to-any-file:
-          - openapi/**/*
+          - "openapi/**/*"
 
 tests:
   - changed-files:
       - any-glob-to-any-file:
-          - tests/**/*
-          - src/**/*.spec.ts
-          - src/**/*.stories.tsx
+          - "tests/**/*"
+          - "src/**/*.spec.ts"
+          - "src/**/*.stories.tsx"

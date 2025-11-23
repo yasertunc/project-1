@@ -34,12 +34,8 @@ paths = [
   '''package\.json''',
   '''package-lock\.json''',
 ]
-
-[[allowlist.regexes]]
-regex = '''example.*token|example.*key|example.*secret'''
-reason = "Example values in documentation"
-
-[[allowlist.regexes]]
-regex = '''https://examplePublicKey\.ingest\.sentry\.io'''
-reason = "Example Sentry DSN in env.example"
+regexes = [
+  '''example.*token|example.*key|example.*secret''',
+  '''https://examplePublicKey\.ingest\.sentry\.io'''
+]
 
