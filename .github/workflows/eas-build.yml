@@ -59,19 +59,24 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
-          PROFILE=${{ github.event.inputs.profile || 'production-apk' }}
+          PROFILE="${{ github.event.inputs.profile || '' }}"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            PROFILE="production"
+          elif [ -z "$PROFILE" ]; then
+            PROFILE="production-apk"
+          fi
           eas build --platform android --profile "$PROFILE" --non-interactive
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: android-build
           path: apps/mobile/artifacts/**
-        if: always()
 
   build-ios:
     name: iOS
-    if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all' }}
+    if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all' || github.event_name == 'push' }}
     runs-on: macos-latest
     defaults:
       run:
@@ -105,7 +110,7 @@ jobs:
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: ios-build
           path: apps/mobile/artifacts/**
-        if: always()
