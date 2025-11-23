@@ -5,13 +5,13 @@ export const palette = {
     main: "#667eea",
     dark: "#764ba2",
     light: "#8b9ef8",
-    gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
   },
   vip: {
     main: "#FFD700",
     dark: "#FFA500",
     light: "#FFE44D",
-    gradient: "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
+    gradient: "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)"
   },
   semantic: {
     success: "#26de81",
@@ -19,40 +19,40 @@ export const palette = {
     warning: "#FFA500",
     info: "#4285F4",
     online: "#26de81",
-    offline: "#95a5a6",
+    offline: "#95a5a6"
   },
   background: {
     light: "#f5f7fa",
     medium: "#e3e9f3",
-    dark: "#1a1a1a",
+    dark: "#1a1a1a"
   },
   surface: {
     white: "#ffffff",
-    gray: "#f8f9fa",
+    gray: "#f8f9fa"
   },
   text: {
     primary: "#333333",
     secondary: "#666666",
     tertiary: "#999999",
-    disabled: "#cccccc",
+    disabled: "#cccccc"
   },
   border: {
     light: "rgba(0,0,0,0.05)",
     medium: "rgba(0,0,0,0.1)",
-    dark: "rgba(0,0,0,0.2)",
+    dark: "rgba(0,0,0,0.2)"
   },
   mapElements: {
     streets: "linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)",
     buildings: "linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)",
     parks: "linear-gradient(135deg, #55efc4 0%, #00b894 100%)",
-    water: "linear-gradient(90deg, #74b9ff 0%, #0984e3 50%, #74b9ff 100%)",
+    water: "linear-gradient(90deg, #74b9ff 0%, #0984e3 50%, #74b9ff 100%)"
   },
   markers: {
     bank: "linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)",
     money: "linear-gradient(135deg, #26de81 0%, #20bf6b 100%)",
     hospital: "linear-gradient(135deg, #4ecdc4 0%, #44a3aa 100%)",
     food: "linear-gradient(135deg, #a55eea 0%, #8854d0 100%)",
-    gas: "linear-gradient(135deg, #fc5c65 0%, #eb3b5a 100%)",
+    gas: "linear-gradient(135deg, #fc5c65 0%, #eb3b5a 100%)"
   },
   shadows: {
     elevation0: "none",
@@ -64,8 +64,8 @@ export const palette = {
     elevation6: "0 25px 50px rgba(0, 0, 0, 0.3)",
     colored: "0 4px 12px rgba(102, 126, 234, 0.4)",
     coloredVip: "0 4px 12px rgba(255, 193, 7, 0.4)",
-    coloredSuccess: "0 4px 12px rgba(38, 222, 129, 0.4)",
-  },
+    coloredSuccess: "0 4px 12px rgba(38, 222, 129, 0.4)"
+  }
 } as const;
 
 export const spacing = {
@@ -76,7 +76,7 @@ export const spacing = {
   lg: 20,
   xl: 24,
   xxl: 32,
-  xxxl: 48,
+  xxxl: 48
 } as const;
 
 export const radius = {
@@ -92,12 +92,11 @@ export const radius = {
   screen: 30,
   card: 15,
   button: 10,
-  input: 12,
+  input: 12
 } as const;
 
 export const typography = {
-  fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
+  fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
   sizes: {
     xxl: 28,
     xl: 24,
@@ -108,7 +107,7 @@ export const typography = {
     small: 13,
     tiny: 12,
     micro: 11,
-    nav: 13,
+    nav: 13
   },
   weights: {
     thin: 300,
@@ -116,8 +115,8 @@ export const typography = {
     medium: 500,
     semibold: 600,
     bold: 700,
-    black: 900,
-  },
+    black: 900
+  }
 } as const;
 
 export const nativeTokens = {
