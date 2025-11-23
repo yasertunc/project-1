@@ -54,7 +54,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
-    "@vitest/coverage-v8": "^2.1.4",
+    "@vitest/coverage-v8": "^4.0.13",
     "ajv": "^8.17.1",
     "ajv-cli": "^5.0.0",
     "ajv-formats": "^3.0.1",
@@ -78,7 +78,10 @@
     "tailwindcss": "^3.4.0",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.16.0",
-    "vitest": "^2.1.4",
+    "vitest": "^4.0.13",
     "wait-on": "^9.0.3"
+  },
+  "overrides": {
+    "fast-json-patch": "3.1.1"
   }
 }
