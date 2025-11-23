@@ -3,24 +3,35 @@ name: EAS Build
 on:
   workflow_dispatch:
     inputs:
-      build_type:
-        description: "Build type to run"
+      platform:
+        description: "Target platform"
         required: true
-        default: "apk"
+        default: "android"
         type: choice
         options:
-          - apk
-          - aab
+          - android
+          - ios
           - all
+      profile:
+        description: "EAS build profile"
+        required: true
+        default: "production-apk"
+        type: choice
+        options:
+          - production-apk
+          - production
   push:
     tags:
       - "v*"
 
 jobs:
-  android:
-    name: Android AAB
-    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (github.event.inputs.build_type == 'aab' || github.event.inputs.build_type == 'all')) }}
+  build-android:
+    name: Android
+    if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all' || github.event_name == 'push' }}
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
     steps:
@@ -32,403 +43,39 @@ jobs:
           cache: "npm"
           cache-dependency-path: apps/mobile/package-lock.json
 
-      - name: Cache npm dependencies
-        uses: actions/cache@v4
-        with:
-          path: apps/mobile/node_modules
-          key: ${{ runner.os }}-mobile-npm-${{ hashFiles('apps/mobile/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-mobile-npm-
-
       - name: Install dependencies
         run: npm ci
-        working-directory: apps/mobile
 
-      - name: Install EAS CLI and dependencies
+      - name: Install EAS CLI
+        run: npm install --global eas-cli@latest
+
+      - name: Prepare service account
         run: |
-          # Install latest EAS CLI (>= 16.27.0)
-          npm install --global eas-cli@latest
-          eas --version
-          sudo apt-get update && sudo apt-get install -y jq || true
+          mkdir -p .eas
+          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}" | base64 -d > .eas/android-service-account.json
 
-      - name: Prepare service account JSON
-        run: |
-          mkdir -p apps/mobile/.eas
-          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}" | base64 -d > apps/mobile/.eas/android-service-account.json
-          echo "✅ Service account JSON prepared"
-        working-directory: .
-
-      - name: Verify EAS project configuration
-        run: |
-          echo "🔍 Verifying EAS project configuration..."
-          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
-          echo "Expected Project ID: $EXPECTED_PROJECT_ID"
-
-          # Get current project ID from app.config
-          CURRENT_PROJECT_ID=$(node -e "const config = require('./app.config.ts'); console.log(config.default({config:{}}).extra?.eas?.projectId || '')" 2>/dev/null || echo "")
-          if [ -z "$CURRENT_PROJECT_ID" ]; then
-            CURRENT_PROJECT_ID=$(grep -oP 'projectId["\s]*:\s*["\x27][^"\x27]+' app.config.ts | head -1 | sed "s/.*[\"']//" | sed "s/[\"'].*//" | head -1)
-          fi
-
-          echo "Current Project ID in config: $CURRENT_PROJECT_ID"
-
-          if [ -n "$CURRENT_PROJECT_ID" ] && [ "$CURRENT_PROJECT_ID" != "$EXPECTED_PROJECT_ID" ]; then
-            echo "⚠️ Warning: Project ID mismatch, but continuing with build..."
-          fi
-
-          # Verify EAS CLI is using correct project
-          echo "EAS CLI version:"
-          eas --version
+      - name: Run EAS build (Android)
+        id: build_android
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        working-directory: apps/mobile
-
-      - name: Run EAS build (android)
-        id: build
         run: |
-          echo "🚀 Starting EAS build for Android..."
-          echo "Build profile: production"
-          echo "Platform: android"
+          PROFILE=${{ github.event.inputs.profile || 'production-apk' }}
+          eas build --platform android --profile "$PROFILE" --non-interactive
 
-          # Run build and capture output
-          BUILD_OUTPUT=$(eas build --platform android --profile production --non-interactive 2>&1)
-          echo "$BUILD_OUTPUT"
-
-          # Extract build ID from output - PRIMARY METHOD: Look for build URL
-          BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE 'https://expo\.dev/[^/]+/[^/]+/[^/]+/builds/[a-f0-9-]+' | sed 's|.*builds/||' | head -1)
-
-          # Alternative: Look for "Build details: https://..."
-          if [ -z "$BUILD_ID" ]; then
-            BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -i "build details" | grep -oE '/builds/[a-f0-9-]+' | sed 's|/builds/||' | head -1)
-          fi
-
-          # Alternative: Look for JSON output
-          if [ -z "$BUILD_ID" ]; then
-            BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '"id"\s*:\s*"[a-f0-9-]+' | sed 's/.*"id"\s*:\s*"//' | sed 's/".*//' | head -1)
-          fi
-
-          # Alternative: Look for any UUID pattern in build context
-          if [ -z "$BUILD_ID" ]; then
-            BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}' | head -1)
-          fi
-
-          if [ -z "$BUILD_ID" ]; then
-            echo "❌ Build ID not found in output!"
-            echo "Build output saved above for debugging"
-            exit 1
-          fi
-
-          echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
-          echo "✅ Build ID extracted: $BUILD_ID"
-
-          # Wait for build to complete (if not already finished)
-          echo "⏳ Waiting for build to complete..."
-          sleep 10
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        working-directory: apps/mobile
-
-      - name: Verify build belongs to project
-        id: verify_build
-        run: |
-          BUILD_ID="${{ steps.build.outputs.build_id }}"
-          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
-
-          if [ -z "$BUILD_ID" ]; then
-            echo "❌ Build ID is empty"
-            exit 1
-          fi
-
-          echo "🔍 Verifying build $BUILD_ID belongs to project $EXPECTED_PROJECT_ID..."
-
-          # Wait a bit for build to be registered
-          sleep 5
-
-          # Get build info
-          BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
-
-          if [ "$BUILD_INFO" = "{}" ]; then
-            echo "⚠️ Could not fetch build info, trying again..."
-            sleep 10
-            BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
-          fi
-
-          # Extract project ID
-          ACTUAL_PROJECT_ID=$(echo "$BUILD_INFO" | jq -r '.projectId // empty')
-          BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.status // empty')
-          BUILD_PLATFORM=$(echo "$BUILD_INFO" | jq -r '.platform // empty')
-
-          echo "Build Status: $BUILD_STATUS"
-          echo "Build Platform: $BUILD_PLATFORM"
-          echo "Expected Project ID: $EXPECTED_PROJECT_ID"
-          echo "Actual Project ID: $ACTUAL_PROJECT_ID"
-
-          if [ -z "$ACTUAL_PROJECT_ID" ]; then
-            echo "⚠️ Could not verify project ID from build info"
-            echo "Build info: $BUILD_INFO"
-            echo "⚠️ Proceeding, but this should be verified manually"
-          elif [ "$ACTUAL_PROJECT_ID" != "$EXPECTED_PROJECT_ID" ]; then
-            echo "❌ CRITICAL: Build belongs to different project!"
-            echo "Expected: $EXPECTED_PROJECT_ID"
-            echo "Got: $ACTUAL_PROJECT_ID"
-            echo "This build will be rejected to prevent downloading wrong APK"
-            exit 1
-          else
-            echo "✅ Build verified: belongs to correct project $ACTUAL_PROJECT_ID"
-          fi
-
-          # Additional verification: check package name if available
-          PACKAGE_NAME=$(echo "$BUILD_INFO" | jq -r '.androidConfig?.applicationIdentifier // .packageName // empty')
-          if [ -n "$PACKAGE_NAME" ]; then
-            echo "Package Name: $PACKAGE_NAME"
-            if [ "$PACKAGE_NAME" != "com.fellowus.app" ]; then
-              echo "⚠️ Warning: Package name mismatch! Expected: com.fellowus.app, Got: $PACKAGE_NAME"
-            fi
-          fi
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        working-directory: apps/mobile
-
-      - name: Download artifact and create checksum
-        if: steps.build.outputs.build_id != '' && steps.verify_build.outcome == 'success'
-        run: |
-          BUILD_ID="${{ steps.build.outputs.build_id }}"
-          echo "📥 Downloading build artifacts for build $BUILD_ID..."
-          mkdir -p artifacts
-          eas build:download --id "$BUILD_ID" --path artifacts/
-
-          if [ ! -d "artifacts" ] || [ -z "$(ls -A artifacts 2>/dev/null)" ]; then
-            echo "❌ No artifacts downloaded"
-            exit 1
-          fi
-
-          cd artifacts
-          for file in *.aab *.apk; do
-            if [ -f "$file" ]; then
-              sha256sum "$file" > "${file}.sha256"
-              echo "✅ Created checksum for $file"
-              ls -lh "$file"
-            fi
-          done
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        working-directory: apps/mobile
-
-      - name: Create GitHub Release
-        if: github.ref_type == 'tag' && startsWith(github.ref_name, 'v') && steps.build.outputs.build_id != ''
-        uses: softprops/action-gh-release@v1
-        with:
-          files: apps/mobile/artifacts/*
-          body: |
-            ## Android Build
-
-            **Build ID:** ${{ steps.build.outputs.build_id }}
-            **Platform:** Android
-            **Profile:** Production
-
-            ### Artifacts
-
-            - AAB/APK files with SHA256 checksums
-
-            ### Download
-
-            Artifacts are also available on [Expo Dashboard](https://expo.dev/accounts/yasertunc/projects/fellowus-mobile/builds/${{ steps.build.outputs.build_id }})
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Submit to Play Console (internal track)
-        run: |
-          echo "📤 Submitting build ${{ steps.build.outputs.build_id }} to Play Console internal track..."
-          eas submit --platform android --id ${{ steps.build.outputs.build_id }} --non-interactive --wait
-          echo "✅ Build submitted successfully to Play Console"
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        working-directory: apps/mobile
-
-  android-apk:
-    name: Android APK
-    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (github.event.inputs.build_type == 'apk' || github.event.inputs.build_type == 'all')) }}
-    runs-on: ubuntu-latest
-    env:
-      DOWNLOAD_URL: https://www.fellowus.com/download
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-          cache-dependency-path: apps/mobile/package-lock.json
-
-      - name: Cache npm dependencies
-        uses: actions/cache@v4
-        with:
-          path: apps/mobile/node_modules
-          key: ${{ runner.os }}-mobile-npm-${{ hashFiles('apps/mobile/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-mobile-npm-
-
-      - name: Install dependencies
-        run: npm ci
-        working-directory: apps/mobile
-
-      - name: Install EAS CLI and dependencies
-        run: |
-          # Install latest EAS CLI (>= 16.27.0)
-          npm install --global eas-cli@latest
-          eas --version
-          sudo apt-get update && sudo apt-get install -y jq || true
-
-      - name: Verify EAS project configuration (APK)
-        run: |
-          echo "🔍 Verifying EAS project configuration for APK build..."
-          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
-          echo "Expected Project ID: $EXPECTED_PROJECT_ID"
-          eas --version
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        working-directory: apps/mobile
-
-      - name: Run EAS build (android APK)
-        id: build_apk
-        run: |
-          echo "🚀 Starting EAS build for Android APK..."
-          echo "Build profile: production-apk"
-          echo "Platform: android"
-
-          # Run build and capture output
-          BUILD_OUTPUT=$(eas build --platform android --profile production-apk --non-interactive 2>&1)
-          echo "$BUILD_OUTPUT"
-
-          # Extract build ID from output - PRIMARY METHOD: Look for build URL
-          BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE 'https://expo\.dev/[^/]+/[^/]+/[^/]+/builds/[a-f0-9-]+' | sed 's|.*builds/||' | head -1)
-
-          # Alternative: Look for "Build details: https://..."
-          if [ -z "$BUILD_ID" ]; then
-            BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -i "build details" | grep -oE '/builds/[a-f0-9-]+' | sed 's|/builds/||' | head -1)
-          fi
-
-          # Alternative: Look for JSON output
-          if [ -z "$BUILD_ID" ]; then
-            BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '"id"\s*:\s*"[a-f0-9-]+' | sed 's/.*"id"\s*:\s*"//' | sed 's/".*//' | head -1)
-          fi
-
-          # Alternative: Look for any UUID pattern
-          if [ -z "$BUILD_ID" ]; then
-            BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}' | head -1)
-          fi
-
-          if [ -z "$BUILD_ID" ]; then
-            echo "❌ Build ID not found in output!"
-            echo "Build output saved above for debugging"
-            exit 1
-          fi
-
-          echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
-          echo "✅ Build ID extracted: $BUILD_ID"
-
-          # Wait for build to be registered
-          sleep 10
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        working-directory: apps/mobile
-
-      - name: Verify APK build belongs to project
-        id: verify_apk_build
-        run: |
-          BUILD_ID="${{ steps.build_apk.outputs.build_id }}"
-          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
-
-          if [ -z "$BUILD_ID" ]; then
-            echo "❌ Build ID is empty"
-            exit 1
-          fi
-
-          echo "🔍 Verifying APK build $BUILD_ID belongs to project $EXPECTED_PROJECT_ID..."
-
-          # Wait for build to be registered
-          sleep 5
-
-          BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
-
-          if [ "$BUILD_INFO" = "{}" ]; then
-            echo "⚠️ Could not fetch build info, trying again..."
-            sleep 10
-            BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
-          fi
-
-          ACTUAL_PROJECT_ID=$(echo "$BUILD_INFO" | jq -r '.projectId // empty')
-          BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.status // empty')
-          PACKAGE_NAME=$(echo "$BUILD_INFO" | jq -r '.androidConfig?.applicationIdentifier // .packageName // empty')
-
-          echo "Build Status: $BUILD_STATUS"
-          echo "Expected Project ID: $EXPECTED_PROJECT_ID"
-          echo "Actual Project ID: $ACTUAL_PROJECT_ID"
-          echo "Package Name: $PACKAGE_NAME"
-
-          if [ -n "$ACTUAL_PROJECT_ID" ] && [ "$ACTUAL_PROJECT_ID" != "$EXPECTED_PROJECT_ID" ]; then
-            echo "❌ CRITICAL: Build belongs to different project!"
-            echo "Expected: $EXPECTED_PROJECT_ID"
-            echo "Got: $ACTUAL_PROJECT_ID"
-            exit 1
-          fi
-
-          if [ -n "$PACKAGE_NAME" ] && [ "$PACKAGE_NAME" != "com.fellowus.app" ]; then
-            echo "❌ CRITICAL: Package name mismatch!"
-            echo "Expected: com.fellowus.app"
-            echo "Got: $PACKAGE_NAME"
-            exit 1
-          fi
-
-          echo "✅ Build verified: belongs to correct project"
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        working-directory: apps/mobile
-
-      - name: Download artifact and create checksum
-        if: steps.build_apk.outputs.build_id != '' && steps.verify_apk_build.outcome == 'success'
-        run: |
-          BUILD_ID="${{ steps.build_apk.outputs.build_id }}"
-          echo "📥 Downloading build artifacts for build $BUILD_ID..."
-          mkdir -p artifacts
-          eas build:download --id "$BUILD_ID" --path artifacts/
-
-          if [ ! -d "artifacts" ] || [ -z "$(ls -A artifacts 2>/dev/null)" ]; then
-            echo "❌ No artifacts downloaded"
-            exit 1
-          fi
-
-          cd artifacts
-          for file in *.apk; do
-            if [ -f "$file" ]; then
-              sha256sum "$file" > "${file}.sha256"
-              echo "✅ Created checksum for $file"
-              ls -lh "$file"
-            fi
-          done
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        working-directory: apps/mobile
-
-      - name: Upload APK artifact
-        if: steps.build_apk.outputs.build_id != ''
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk
-          path: apps/mobile/artifacts/*.apk
-          retention-days: 30
+          name: android-build
+          path: apps/mobile/artifacts/**
+        if: always()
 
-  ios:
-    name: iOS IPA
+  build-ios:
+    name: iOS
+    if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all' }}
     runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
     env:
       DOWNLOAD_URL: https://www.fellowus.com/download
     steps:
@@ -440,93 +87,25 @@ jobs:
           cache: "npm"
           cache-dependency-path: apps/mobile/package-lock.json
 
-      - name: Cache npm dependencies
-        uses: actions/cache@v4
-        with:
-          path: apps/mobile/node_modules
-          key: ${{ runner.os }}-mobile-npm-${{ hashFiles('apps/mobile/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-mobile-npm-
-
       - name: Install dependencies
         run: npm ci
-        working-directory: apps/mobile
 
-      - name: Install EAS CLI and dependencies
-        run: |
-          # Install latest EAS CLI (>= 16.27.0)
-          npm install --global eas-cli@latest
-          eas --version
-          # macOS uses Homebrew for jq
-          brew install jq || echo "jq already installed or install failed"
+      - name: Install EAS CLI
+        run: npm install --global eas-cli@latest
 
-      - name: Run EAS build (ios)
+      - name: Run EAS build (iOS)
         id: build_ios
-        run: |
-          echo "🚀 Starting EAS build for iOS..."
-          BUILD_OUTPUT=$(eas build --platform ios --profile production-ios --non-interactive 2>&1)
-          echo "$BUILD_OUTPUT"
-
-          # Extract build ID from output - multiple patterns for robustness
-          BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE 'https://expo\.dev/accounts/[^/]+/projects/[^/]+/builds/[a-f0-9-]+' | sed 's/.*builds\///' | head -1)
-
-          if [ -z "$BUILD_ID" ]; then
-            BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '"id"\s*:\s*"[a-f0-9-]+' | sed 's/.*"id"\s*:\s*"//' | sed 's/".*//' | head -1)
-          fi
-
-          if [ -z "$BUILD_ID" ]; then
-            BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE '/builds/[a-f0-9-]+' | sed 's|/builds/||' | head -1)
-          fi
-
-          if [ -z "$BUILD_ID" ]; then
-            BUILD_ID=$(eas build:list --platform ios --status finished --limit 1 --json | jq -r '.[0].id // empty')
-          fi
-
-          if [ -z "$BUILD_ID" ] || [ "$BUILD_ID" = "null" ]; then
-            echo "❌ Could not find build ID"
-            exit 1
-          fi
-
-          echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
-          echo "✅ iOS Build ID: $BUILD_ID"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           EXPO_APPLE_APP_STORE_CONNECT_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
           EXPO_APPLE_APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           EXPO_APPLE_APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.ASC_API_KEY_P8 }}
-        working-directory: apps/mobile
-
-      - name: Verify iOS build belongs to project
-        id: verify_ios_build
         run: |
-          BUILD_ID="${{ steps.build_ios.outputs.build_id }}"
-          if [ -z "$BUILD_ID" ]; then
-            echo "❌ Build ID is empty"
-            exit 1
-          fi
+          eas build --platform ios --profile production-ios --non-interactive
 
-          EXPECTED_PROJECT_ID="694fc69a-a332-4142-9a41-54012868a73b"
-          BUILD_INFO=$(eas build:view "$BUILD_ID" --json 2>/dev/null || echo "{}")
-          ACTUAL_PROJECT_ID=$(echo "$BUILD_INFO" | jq -r '.projectId // empty')
-
-          if [ -n "$ACTUAL_PROJECT_ID" ] && [ "$ACTUAL_PROJECT_ID" != "$EXPECTED_PROJECT_ID" ]; then
-            echo "❌ Build belongs to different project! Expected: $EXPECTED_PROJECT_ID, Got: $ACTUAL_PROJECT_ID"
-            exit 1
-          fi
-
-          echo "✅ Build verified"
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        working-directory: apps/mobile
-
-      - name: Submit to App Store Connect (TestFlight)
-        run: |
-          echo "📤 Submitting iOS build ${{ steps.build_ios.outputs.build_id }} to App Store Connect..."
-          eas submit --platform ios --id ${{ steps.build_ios.outputs.build_id }} --non-interactive --wait
-          echo "✅ Build submitted successfully to App Store Connect"
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          EXPO_APPLE_APP_STORE_CONNECT_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
-          EXPO_APPLE_APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          EXPO_APPLE_APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.ASC_API_KEY_P8 }}
-        working-directory: apps/mobile
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build
+          path: apps/mobile/artifacts/**
+        if: always()

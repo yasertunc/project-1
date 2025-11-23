@@ -103,17 +103,18 @@ jobs:
             echo "Skipping - not a PR workflow"
             exit 0
           fi
-          STATUS="ℹ️ pending"
+          STATUS="pending"
           if [ -n "${{ steps.runs.outputs.ci }}" ]; then
             CONCLUSION=$(gh api repos/${{ github.repository }}/actions/runs/${{ steps.runs.outputs.ci }} --jq .conclusion)
             if [ "$CONCLUSION" = "success" ]; then
-              STATUS="✅"
+              STATUS="success"
             else
-              STATUS="❌"
+              STATUS="failure"
             fi
           fi
           echo "TEST_STATUS=$STATUS" >> $GITHUB_ENV
           echo "VR_STATUS=$STATUS" >> $GITHUB_ENV
+
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
