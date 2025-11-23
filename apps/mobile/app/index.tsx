@@ -1,18 +1,39 @@
 import React, { useMemo, useState } from "react";
-import { SafeAreaView, StatusBar as RNStatusBar, StyleSheet, View } from "react-native";
+import { StatusBar as RNStatusBar, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { AppPhoneMockNative, type PageId } from "../src/components/AppPhoneMock/AppPhoneMockNative";
+import {
+  AppPhoneMockNative,
+  type PageId,
+} from "../src/components/AppPhoneMock/AppPhoneMockNative";
 import { nativeTokens } from "../src/theme/tokens";
 
 export default function AppPhoneMockScreen() {
   const [currentPage, setCurrentPage] = useState<PageId>("map");
-  const pages = useMemo<PageId[]>(() => ["map", "places", "filter", "categories", "chat", "groups", "social", "notifications", "vip", "settings"], []);
+  const pages = useMemo<PageId[]>(
+    () => [
+      "map",
+      "places",
+      "filter",
+      "categories",
+      "chat",
+      "groups",
+      "social",
+      "notifications",
+      "vip",
+      "settings",
+    ],
+    []
+  );
 
   return (
     <SafeAreaView style={styles.container} edges={[]}>
       <RNStatusBar barStyle="dark-content" />
       <LinearGradient
-        colors={[nativeTokens.palette.primary.main, nativeTokens.palette.primary.dark]}
+        colors={[
+          nativeTokens.palette.primary.main,
+          nativeTokens.palette.primary.dark,
+        ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.bg}

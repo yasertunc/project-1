@@ -10,139 +10,35 @@ on:
       - completed
 
 jobs:
-  summary:
+  summarize:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
     steps:
-      - name: Determine PR context
-        id: context
+      - name: Post summary comment
         uses: actions/github-script@v7
         with:
           script: |
             const run = context.payload.workflow_run;
-            if (run.event !== "pull_request" || !run.pull_requests?.length) {
-              core.setOutput("skip", "true");
-              core.setOutput("pr", "0");
-              core.setOutput("head_sha", "");
+            const prs = run.pull_requests || [];
+            if (!prs.length) {
+              core.info("No PR found for this workflow run, skipping.");
               return;
             }
-            const pr = run.pull_requests[0];
-            core.setOutput("skip", "false");
-            core.setOutput("pr", pr.number.toString());
-            core.setOutput("head_sha", run.head_sha);
-
-      - name: Checkout PR head
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.context.outputs.head_sha }}
-
-      - name: Setup GitHub CLI
-        run: |
-          if [ "${{ steps.context.outputs.skip }}" = "true" ]; then
-            echo "Skipping - not a PR workflow"
-            exit 0
-          fi
-          gh --version
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Find preview comment
-        id: preview-comment
-        run: |
-          if [ "${{ steps.context.outputs.skip }}" = "true" ]; then
-            echo "Skipping - not a PR workflow"
-            exit 0
-          fi
-          echo "preview_comment_id=" >> $GITHUB_OUTPUT
-
-      - name: Extract preview URL
-        run: |
-          if [ "${{ steps.context.outputs.skip }}" = "true" ]; then
-            echo "Skipping - not a PR workflow"
-            exit 0
-          fi
-          body=""
-          echo "PREVIEW_URL=N/A" >> $GITHUB_ENV
-
-      - name: Resolve workflow run IDs
-        id: runs
-        run: |
-          if [ "${{ steps.context.outputs.skip }}" = "true" ]; then
-            echo "Skipping - not a PR workflow"
-            exit 0
-          fi
-          set -e
-          REPO="${{ github.repository }}"
-          HEAD_SHA="${{ steps.context.outputs.head_sha }}"
-          echo "lhci=" >> "$GITHUB_OUTPUT"
-          echo "ci=" >> "$GITHUB_OUTPUT"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Download Lighthouse artifact
-        run: |
-          if [ "${{ steps.context.outputs.skip }}" = "true" ]; then
-            echo "Skipping - not a PR workflow"
-            exit 0
-          fi
-          if [ -z "${{ steps.runs.outputs.lhci }}" ]; then
-            echo "No LHCI run found"
-            exit 0
-          fi
-          mkdir -p tmp/lhci
-          gh run download ${{ steps.runs.outputs.lhci }} --repo ${{ github.repository }} --name lighthouse-reports --dir tmp/lhci || true
-          echo "LHCI_DIR=tmp/lhci" >> $GITHUB_ENV
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Evaluate test statuses
-        run: |
-          if [ "${{ steps.context.outputs.skip }}" = "true" ]; then
-            echo "Skipping - not a PR workflow"
-            exit 0
-          fi
-          STATUS="pending"
-          if [ -n "${{ steps.runs.outputs.ci }}" ]; then
-            CONCLUSION=$(gh api repos/${{ github.repository }}/actions/runs/${{ steps.runs.outputs.ci }} --jq .conclusion)
-            if [ "$CONCLUSION" = "success" ]; then
-              STATUS="success"
-            else
-              STATUS="failure"
-            fi
-          fi
-          echo "TEST_STATUS=$STATUS" >> $GITHUB_ENV
-          echo "VR_STATUS=$STATUS" >> $GITHUB_ENV
-
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node.js
-        run: |
-          if [ "${{ steps.context.outputs.skip }}" = "true" ]; then
-            echo "Skipping - not a PR workflow"
-            exit 0
-          fi
-          echo "Node.js setup complete"
-
-      - name: Generate CI summary
-        run: |
-          if [ "${{ steps.context.outputs.skip }}" = "true" ]; then
-            echo "Skipping - not a PR workflow"
-            exit 0
-          fi
-          echo "# CI Summary" > ci-summary.md
-          echo "Generated summary" >> ci-summary.md
-
-      - name: Post CI summary comment
-        run: |
-          if [ "${{ steps.context.outputs.skip }}" = "true" ]; then
-            echo "Skipping - not a PR workflow"
-            exit 0
-          fi
-          if [ ! -f "ci-summary.md" ]; then
-            echo "No summary file found"
-            exit 0
-          fi
-          echo "Would post comment for PR ${{ steps.context.outputs.pr }}"
+            const prNumber = prs[0].number;
+            const conclusion = run.conclusion || "unknown";
+            const url = run.html_url;
+            const workflowName = run.name;
+            const body = [
+              "## CI Özet",
+              `- Çalışan iş: **${workflowName}**`,
+              `- Sonuç: **${conclusion}**`,
+              `- Koşum: [Detaylar](${url})`
+            ].join("\n");
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body,
+            });

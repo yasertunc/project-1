@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import { vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import i18n from "../i18n/setup";
@@ -12,7 +12,7 @@ describe("LanguageSwitcher", () => {
     const onChange = vi.fn();
     const changeSpy = vi
       .spyOn(i18n, "changeLanguage")
-      .mockResolvedValue({} as unknown as Promise<void>);
+      .mockResolvedValue(i18n.t);
 
     render(<LanguageSwitcher value="en" onChange={onChange} />);
 

@@ -12,7 +12,7 @@ import { ReportBubble } from "./ReportBubble";
 import { ReportCategoryModal } from "./ReportCategoryModal";
 import { SuggestionCard } from "./SuggestionCard";
 import { ErrorBoundary } from "./ErrorBoundary";
-import { vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 describe("Button", () => {
   it("uses default aria-label fallback when no text provided", () => {
