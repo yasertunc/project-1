@@ -50,17 +50,21 @@ jobs:
         run: npm install --global eas-cli@latest
 
       - name: Prepare service account
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON_BASE64: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}
         run: |
           mkdir -p .eas
-          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_BASE64 }}" | base64 -d > .eas/android-service-account.json
+          echo "$GOOGLE_SERVICE_ACCOUNT_JSON_BASE64" | base64 -d > .eas/android-service-account.json
 
       - name: Run EAS build (Android)
         id: build_android
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          PROFILE_INPUT: ${{ github.event.inputs.profile }}
+          IS_TAG_PUSH: ${{ github.event_name == 'push' }}
         run: |
-          PROFILE="${{ github.event.inputs.profile || '' }}"
-          if [ "${{ github.event_name }}" = "push" ]; then
+          PROFILE="${PROFILE_INPUT:-}"
+          if [ "$IS_TAG_PUSH" = "true" ]; then
             PROFILE="production"
           elif [ -z "$PROFILE" ]; then
             PROFILE="production-apk"
