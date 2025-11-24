@@ -2296,9 +2296,53 @@ function GroupRow({
 }
 
 function SocialFeed() {
+  const stories = [
+    { id: "add", name: "Hikaye Ekle", avatar: "+", isAdd: true },
+    { id: "1", name: "Ayşe", avatar: "👩", hasStory: true },
+    { id: "2", name: "Mehmet", avatar: "👨", hasStory: true },
+    { id: "3", name: "Zeynep", avatar: "👩‍🦱", hasStory: false },
+    { id: "4", name: "Can", avatar: "👱‍♂️", hasStory: true },
+  ];
+
   return (
     <Section>
+      {/* Stories Section */}
+      <div className="mb-4 bg-[var(--color-surface-white)] shadow">
+        <div className="flex gap-4 overflow-x-auto p-4 scrollbar-hide">
+          {stories.map((story) => (
+            <div key={story.id} className="flex flex-col items-center">
+              <div
+                className={`relative h-16 w-16 rounded-full ${
+                  story.isAdd
+                    ? "border-2 border-[#667eea] bg-white"
+                    : story.hasStory
+                      ? "bg-gradient-to-br from-[#f093fb] to-[#f5576c] p-[2px]"
+                      : "bg-gray-200"
+                }`}
+              >
+                <div
+                  className={`flex h-full w-full items-center justify-center rounded-full ${
+                    story.isAdd
+                      ? "text-[#667eea] text-2xl"
+                      : story.hasStory
+                        ? "bg-white text-2xl"
+                        : "text-2xl"
+                  }`}
+                >
+                  {story.avatar}
+                </div>
+              </div>
+              <span className="mt-1 text-xs text-[var(--color-text-2)]">
+                {story.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <UserMediaLibrary />
+
+      {/* Feed Posts */}
       <div className="mb-4 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
         <div className="flex items-center p-[15px]">
           <div className="mr-3 h-10 w-10 rounded-full bg-gradient-to-br from-[#f093fb] to-[#f5576c]" />
@@ -2320,6 +2364,33 @@ function SocialFeed() {
         <div className="flex justify-around border-t border-[#f0f0f0] p-[15px] text-[var(--color-text-2)]">
           <div>❤️ 42</div>
           <div>💬 8</div>
+          <div>📤 Share</div>
+        </div>
+      </div>
+
+      {/* Additional Post */}
+      <div className="mb-4 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
+        <div className="flex items-center p-[15px]">
+          <div className="mr-3 h-10 w-10 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2]" />
+          <div className="flex-1">
+            <div className="mb-[2px] font-semibold text-[var(--color-text)]">
+              Mehmet Özkan
+            </div>
+            <div className="text-[12px] text-[var(--color-text-2)]">
+              5 hours ago
+            </div>
+          </div>
+        </div>
+        <div className="px-[15px] pb-[15px]">
+          Just finished my morning workout! 💪 Feeling energized for the day
+          ahead!
+        </div>
+        <div className="grid h-[200px] w-full place-items-center bg-gradient-to-br from-[var(--color-bg-medium)] to-[var(--color-bg-light)] text-[48px] text-[#ddd]">
+          🏋️
+        </div>
+        <div className="flex justify-around border-t border-[#f0f0f0] p-[15px] text-[var(--color-text-2)]">
+          <div>❤️ 28</div>
+          <div>💬 5</div>
           <div>📤 Share</div>
         </div>
       </div>
