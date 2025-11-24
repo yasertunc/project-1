@@ -462,7 +462,10 @@ function Content({
   }, [filteredUsersForGroup, mapFilters.selectedCategories, setGroupChats]);
   return (
     <div className="relative" style={getContentStyle()}>
-      <div className="absolute inset-0 overflow-y-auto bg-gradient-to-b from-[var(--color-bg-light)] to-[var(--color-bg-medium)]">
+      <div
+        className="absolute inset-0 overflow-y-auto bg-gradient-to-b from-[var(--color-bg-light)] to-[var(--color-bg-medium)] [&::-webkit-scrollbar]:hidden"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
         {page === "map" && (
           <MapView
             mapFilters={mapFilters}
@@ -1432,7 +1435,10 @@ function CategoryDetailView({
   };
 
   return (
-    <div className="h-full overflow-y-auto">
+    <div
+      className="h-full overflow-y-auto [&::-webkit-scrollbar]:hidden"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
       {/* Header with back button */}
       <div className="sticky top-0 z-10 bg-[var(--color-surface-white)] border-b border-[#f0f0f0] shadow-sm">
         <div className="flex items-center p-4">
@@ -1862,7 +1868,10 @@ function CategoriesView({
   );
 
   return (
-    <div className="h-full overflow-y-auto">
+    <div
+      className="h-full overflow-y-auto [&::-webkit-scrollbar]:hidden"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
       <Section>
         <div className="mb-3 px-5">
           <div className="text-lg font-semibold text-[var(--color-text)]">
@@ -1954,7 +1963,10 @@ function CategoriesView({
 
 function ProfileView() {
   return (
-    <div className="h-full overflow-y-auto">
+    <div
+      className="h-full overflow-y-auto [&::-webkit-scrollbar]:hidden"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
       {/* Gradient Header */}
       <div className="relative bg-gradient-primary pb-[60px] pt-8">
         <div className="mb-4 flex justify-center">
@@ -2217,7 +2229,10 @@ function GroupChatView({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-[15px]">
+      <div
+        className="flex-1 overflow-y-auto p-[15px] [&::-webkit-scrollbar]:hidden"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -2414,8 +2429,8 @@ function SocialFeed() {
 
 function UserMediaLibrary() {
   return (
-    <div className="mb-4 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
-      <div className="grid grid-cols-3 gap-[8px] px-[12px] py-[12px]">
+    <div className="mb-3 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
+      <div className="flex gap-2 px-3 py-2">
         {[
           ["🖼️", "Photos"],
           ["🎥", "Videos"],
@@ -2424,10 +2439,10 @@ function UserMediaLibrary() {
           <button
             key={label as string}
             type="button"
-            className="flex h-[72px] flex-col items-center justify-center rounded-[10px] bg-[var(--color-bg-light)] text-[11px] text-[var(--color-text-2)]"
+            className="flex flex-1 items-center justify-center gap-1 rounded-[8px] bg-[var(--color-bg-light)] py-2 px-3 text-[10px] text-[var(--color-text-2)] hover:bg-[var(--color-bg-medium)] transition"
           >
-            <span className="mb-1 text-[22px]">{icon}</span>
-            <span className="text-center">{label}</span>
+            <span className="text-[14px]">{icon}</span>
+            <span>{label}</span>
           </button>
         ))}
       </div>
