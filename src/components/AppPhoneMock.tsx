@@ -2575,6 +2575,15 @@ function GroupsView({
   const [selectedGroupId, setSelectedGroupId] = React.useState<string | null>(
     null
   );
+  const [showGroupSettings, setShowGroupSettings] = React.useState(false);
+  const [showCreateGroup, setShowCreateGroup] = React.useState(false);
+  const [newGroupName, setNewGroupName] = React.useState("");
+  const [selectedGroups, setSelectedGroups] = React.useState<Set<string>>(
+    new Set()
+  );
+  const [groupVisibility, setGroupVisibility] = React.useState<
+    "public" | "private" | "secret"
+  >("public");
 
   if (selectedGroupId) {
     const selectedGroup = groupChats.find((g) => g.id === selectedGroupId);
@@ -2595,42 +2604,218 @@ function GroupsView({
   }
 
   return (
-    <Section>
-      <div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
-        Groups
+    <div className="h-full flex flex-col">
+      {/* Settings Header */}
+      <div className="bg-[var(--color-surface-white)] border-b border-[#f0f0f0] p-4 shadow-sm">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowCreateGroup(!showCreateGroup)}
+            className="p-2 rounded-full bg-gradient-primary text-white hover:opacity-90 transition font-bold text-lg"
+            aria-label="Yeni Grup Oluştur"
+          >
+            +
+          </button>
+          <button
+            onClick={() => setShowGroupSettings(!showGroupSettings)}
+            className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--color-bg-light)] transition text-left"
+            aria-label="Grup Ayarları"
+          >
+            <span className="text-lg">👥</span>
+            <div>
+              <div className="text-sm font-semibold text-[var(--color-text)]">
+                Grup Ayarları
+              </div>
+              <div className="text-xs text-[var(--color-text-2)]">
+                {groupChats.length} grup • {selectedGroups.size} seçili
+              </div>
+            </div>
+          </button>
+        </div>
       </div>
-      {groupChats.length === 0 ? (
-        <div className="m-[15px] rounded-[12px] bg-[var(--color-surface-white)] p-5 shadow text-center">
-          <div className="text-[48px] mb-3">💬</div>
-          <div className="text-[var(--color-text-2)] text-sm">
-            Henüz grup yok. Kategoriler seçerek kişileri bulun ve otomatik grup
-            oluşturun.
+
+      {/* Create Group Section */}
+      {showCreateGroup && (
+        <div className="p-4 bg-[var(--color-bg-light)] border-b border-[#f0f0f0]">
+          <div className="text-sm font-semibold text-[var(--color-text)] mb-3">
+            Yeni Grup Oluştur
+          </div>
+          <div className="space-y-3">
+            <input
+              type="text"
+              value={newGroupName}
+              onChange={(e) => setNewGroupName(e.target.value)}
+              placeholder="Grup adını girin..."
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--color-primary-main)]"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  if (newGroupName.trim()) {
+                    // Create new group logic here
+                    setNewGroupName("");
+                    setShowCreateGroup(false);
+                  }
+                }}
+                className="flex-1 px-3 py-2 text-sm bg-gradient-primary text-white rounded-lg hover:opacity-90 transition"
+              >
+                Oluştur
+              </button>
+              <button
+                onClick={() => {
+                  setNewGroupName("");
+                  setShowCreateGroup(false);
+                }}
+                className="px-3 py-2 text-sm bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+              >
+                İptal
+              </button>
+            </div>
           </div>
         </div>
-      ) : (
-        groupChats.map((group) => {
-          const memberCount = group.memberIds.length;
-          const lastMessage = group.lastMessage
-            ? `${group.lastMessage.author}: ${group.lastMessage.text}`
-            : `${memberCount} kişi bu grupta`;
-
-          return (
-            <button
-              key={group.id}
-              onClick={() => setSelectedGroupId(group.id)}
-              className="w-full text-left"
-            >
-              <GroupRow
-                icon="👥"
-                title={group.name}
-                description={lastMessage}
-                badge={memberCount > 0 ? String(memberCount) : undefined}
-              />
-            </button>
-          );
-        })
       )}
-    </Section>
+
+      {/* Group Settings Panel */}
+      {showGroupSettings && (
+        <div className="p-4 bg-white border-b border-[#f0f0f0]">
+          <div className="text-sm font-semibold text-[var(--color-text)] mb-4">
+            Grup Yönetimi
+          </div>
+
+          {/* Group Visibility */}
+          <div className="mb-4">
+            <div className="text-xs font-medium text-[var(--color-text-2)] mb-2">
+              Grup Görünürlüğü
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                ["public", "🌍 Herkese Açık"],
+                ["private", "🔒 Özel"],
+                ["secret", "🤫 Gizli"],
+              ].map(([visibility, label]) => (
+                <button
+                  key={visibility}
+                  onClick={() =>
+                    setGroupVisibility(
+                      visibility as "public" | "private" | "secret"
+                    )
+                  }
+                  className={`px-3 py-2 text-xs rounded-lg transition ${
+                    groupVisibility === visibility
+                      ? "bg-gradient-primary text-white"
+                      : "bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)]"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Group Actions */}
+          <div className="mb-4">
+            <div className="text-xs font-medium text-[var(--color-text-2)] mb-2">
+              Toplu İşlemler
+            </div>
+            <div className="space-y-2">
+              <button
+                disabled={selectedGroups.size === 0}
+                className="w-full text-left px-3 py-2 text-xs bg-[var(--color-bg-light)] rounded-lg hover:bg-[var(--color-bg-medium)] transition disabled:opacity-50"
+              >
+                🔀 Grupları Birleştir ({selectedGroups.size} seçili)
+              </button>
+              <button className="w-full text-left px-3 py-2 text-xs bg-[var(--color-bg-light)] rounded-lg hover:bg-[var(--color-bg-medium)] transition">
+                📊 Grup İstatistikleri
+              </button>
+              <button className="w-full text-left px-3 py-2 text-xs bg-[var(--color-bg-light)] rounded-lg hover:bg-[var(--color-bg-medium)] transition">
+                🔔 Bildirim Ayarları
+              </button>
+            </div>
+          </div>
+
+          {/* Group Management */}
+          <div className="mb-4">
+            <div className="text-xs font-medium text-[var(--color-text-2)] mb-2">
+              Grup Yönetimi
+            </div>
+            <div className="space-y-2">
+              <button className="w-full text-left px-3 py-2 text-xs bg-[var(--color-bg-light)] rounded-lg hover:bg-[var(--color-bg-medium)] transition">
+                👑 Yönetici Ata
+              </button>
+              <button className="w-full text-left px-3 py-2 text-xs bg-[var(--color-bg-light)] rounded-lg hover:bg-[var(--color-bg-medium)] transition">
+                🏷️ Grup Etiketleri
+              </button>
+              <button className="w-full text-left px-3 py-2 text-xs bg-[var(--color-bg-light)] rounded-lg hover:bg-[var(--color-bg-medium)] transition">
+                📦 Grupları Arşivle
+              </button>
+              <button
+                disabled={selectedGroups.size === 0}
+                className="w-full text-left px-3 py-2 text-xs bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition disabled:opacity-50"
+              >
+                🗑️ Seçili Grupları Sil ({selectedGroups.size})
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Groups List */}
+      <Section>
+        <div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
+          Gruplar
+        </div>
+        {groupChats.length === 0 ? (
+          <div className="m-[15px] rounded-[12px] bg-[var(--color-surface-white)] p-5 shadow text-center">
+            <div className="text-[48px] mb-3">💬</div>
+            <div className="text-[var(--color-text-2)] text-sm">
+              Henüz grup yok. Kategoriler seçerek kişileri bulun ve otomatik
+              grup oluşturun.
+            </div>
+          </div>
+        ) : (
+          groupChats.map((group) => {
+            const memberCount = group.memberIds.length;
+            const lastMessage = group.lastMessage
+              ? `${group.lastMessage.author}: ${group.lastMessage.text}`
+              : `${memberCount} kişi bu grupta`;
+
+            return (
+              <div
+                key={group.id}
+                className="flex w-full items-center border-b border-[#f0f0f0] px-[15px] py-[12px] hover:bg-[var(--color-bg-light)] transition"
+              >
+                <label className="flex items-center gap-3 flex-1 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedGroups.has(group.id)}
+                    onChange={(e) => {
+                      const newSelected = new Set(selectedGroups);
+                      if (e.target.checked) {
+                        newSelected.add(group.id);
+                      } else {
+                        newSelected.delete(group.id);
+                      }
+                      setSelectedGroups(newSelected);
+                    }}
+                    className="rounded"
+                  />
+                  <button
+                    onClick={() => setSelectedGroupId(group.id)}
+                    className="flex items-center gap-3 flex-1 text-left"
+                  >
+                    <GroupRow
+                      icon="👥"
+                      title={group.name}
+                      description={lastMessage}
+                      badge={memberCount > 0 ? String(memberCount) : undefined}
+                    />
+                  </button>
+                </label>
+              </div>
+            );
+          })
+        )}
+      </Section>
+    </div>
   );
 }
 
