@@ -108,8 +108,25 @@ const TOKEN_CSS = `
   }
 `;
 
-function TokenStyles() {
-  return <style dangerouslySetInnerHTML={{ __html: TOKEN_CSS }} />;
+function TokenStyles({ isDarkMode }: { isDarkMode?: boolean }) {
+  const darkModeCSS = isDarkMode
+    ? `
+    .dark {
+      --color-bg-dark: #000000;
+      --color-surface: #1a1a1a;
+      --color-surface-white: #2a2a2a;
+      --color-bg-light: #333333;
+      --color-bg-medium: #444444;
+      --color-text: #ffffff;
+      --color-text-2: #cccccc;
+      --color-text-3: #999999;
+    }
+  `
+    : "";
+
+  return (
+    <style dangerouslySetInnerHTML={{ __html: TOKEN_CSS + darkModeCSS }} />
+  );
 }
 
 export type PageId =
@@ -364,6 +381,8 @@ function Content({
   groupChats,
   setGroupChats,
   activeGroupUsers,
+  isDarkMode,
+  setIsDarkMode,
 }: {
   page: PageId;
   mapFilters: MapFilterState;
@@ -376,6 +395,8 @@ function Content({
     avatar: string;
     isVip: boolean;
   }>;
+  isDarkMode: boolean;
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   // Get filtered users for group creation
   const filteredUsersForGroup = React.useMemo(() => {
@@ -569,7 +590,9 @@ function Content({
           </Section>
         )}
         {page === "vip" && <VipSection />}
-        {page === "settings" && <Settings />}
+        {page === "settings" && (
+          <Settings isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+        )}
       </div>
     </div>
   );
@@ -3333,9 +3356,36 @@ function VipSection() {
   );
 }
 
-function Settings() {
+function Settings({
+  isDarkMode,
+  setIsDarkMode,
+}: {
+  isDarkMode: boolean;
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <div>
+      <SettingsGroup
+        title="Görünüm"
+        items={[
+          [
+            isDarkMode ? "🌙" : "☀️",
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="flex items-center justify-between w-full text-left"
+            >
+              <span>{isDarkMode ? "Karanlık Mod" : "Aydınlık Mod"}</span>
+              <div
+                className={`w-12 h-6 rounded-full p-1 transition-colors ${isDarkMode ? "bg-[var(--color-primary-main)]" : "bg-gray-300"}`}
+              >
+                <div
+                  className={`w-4 h-4 bg-white rounded-full transition-transform ${isDarkMode ? "translate-x-6" : ""}`}
+                />
+              </div>
+            </button>,
+          ],
+        ]}
+      />
       <SettingsGroup
         title="Account"
         items={[
@@ -3508,6 +3558,7 @@ export default function AppPhoneMock({
       isVip: boolean;
     }>
   >([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
     pointerId: number | null;
@@ -3664,10 +3715,14 @@ export default function AppPhoneMock({
   );
 
   return (
-    <div className="relative h-[812px] w-[375px] overflow-hidden rounded-phone bg-[var(--color-bg-dark)] p-2 shadow-[0_25px_50px_rgba(0,0,0,0.3),_0_10px_20px_rgba(0,0,0,0.2),_inset_0_0_0_1px_rgba(255,255,255,0.1)]">
+    <div
+      className={`relative h-[812px] w-[375px] overflow-hidden rounded-phone bg-[var(--color-bg-dark)] p-2 shadow-[0_25px_50px_rgba(0,0,0,0.3),_0_10px_20px_rgba(0,0,0,0.2),_inset_0_0_0_1px_rgba(255,255,255,0.1)] ${isDarkMode ? "dark" : ""}`}
+    >
       {/* Inline token styles so the component is self-contained in the sandbox */}
-      <TokenStyles />
-      <div className="relative h-full w-full overflow-hidden rounded-screen bg-[var(--color-surface)]">
+      <TokenStyles isDarkMode={isDarkMode} />
+      <div
+        className={`relative h-full w-full overflow-hidden rounded-screen ${isDarkMode ? "bg-gray-900" : "bg-[var(--color-surface)]"}`}
+      >
         <StatusBar />
         <Navigation
           transform={transform}
@@ -3682,6 +3737,8 @@ export default function AppPhoneMock({
           groupChats={groupChats}
           setGroupChats={setGroupChats}
           activeGroupUsers={activeGroupUsers}
+          isDarkMode={isDarkMode}
+          setIsDarkMode={setIsDarkMode}
         />
         {/* Show message input only for chat, groups, and social pages */}
         {(page === "chat" || page === "groups" || page === "social") && (
