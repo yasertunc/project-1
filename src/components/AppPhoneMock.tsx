@@ -502,7 +502,7 @@ function Content({
         )}
         {page === "social" && <SocialFeed />}
         {page === "notifications" && (
-          <Section title="Notifications" subtitle="Latest activity">
+          <Section title="Notifications">
             {[
               [
                 "💬",
@@ -1368,10 +1368,7 @@ function PlacesView({
   }
 
   return (
-    <Section
-      title="Yerler"
-      subtitle="Haritadaki yerleri keşfedin ve filtreleyin"
-    >
+    <Section title="Yerler">
       <div className="mb-3 text-lg font-semibold text-[var(--color-text)]">
         Nearby Places
       </div>
@@ -1551,7 +1548,7 @@ function FilterView({
     mapFilters.distanceFilter >= 0 && mapFilters.distanceFilter <= maxDistance;
 
   return (
-    <Section title="Filtre" subtitle="Haritada görünen yerleri özelleştirin">
+    <Section title="Filtre">
       <div className="px-[15px] pb-2 text-lg font-semibold text-[var(--color-text)]">
         Filter
       </div>
@@ -1888,10 +1885,7 @@ function CategoriesView({
 
   return (
     <div className="h-full overflow-y-auto">
-      <Section
-        title="Kategoriler"
-        subtitle="??, hobi ve ilgi alanlar?n?z? se?in"
-      >
+      <Section title="Kategoriler">
         <div className="mb-3 px-5">
           <div className="text-lg font-semibold text-[var(--color-text)]">
             Categories
@@ -2155,7 +2149,7 @@ function GroupsView({
   }
 
   return (
-    <Section title="Gruplar" subtitle="Aktif grup sohbetleri">
+    <Section title="Gruplar">
       <div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
         Groups
       </div>
@@ -2325,7 +2319,7 @@ function GroupRow({
 
 function SocialFeed() {
   return (
-    <Section title="Social Feed" subtitle="Updates from your friends">
+    <Section title="Social Feed">
       <UserMediaLibrary />
       <div className="mb-4 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
         <div className="flex items-center p-[15px]">
