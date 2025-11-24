@@ -236,14 +236,6 @@ const Navigation = React.forwardRef<HTMLDivElement, NavigationProps>(
       []
     );
 
-    const handleScroll = () => {
-      // Scroll to next section
-      const currentSection = Math.floor(Math.abs(transform) / NAV_WIDTH);
-      const nextSection = (currentSection + 1) % 2; // Toggle between 0 and 1
-      const targetPage: PageId = nextSection === 0 ? "map" : "profile";
-      onSelect(targetPage);
-    };
-
     return (
       <div className="relative h-[60px] overflow-hidden bg-gradient-primary shadow-[0_4px_15px_rgba(102,126,234,0.3)]">
         <div
@@ -266,7 +258,6 @@ const Navigation = React.forwardRef<HTMLDivElement, NavigationProps>(
                   onSelect={onSelect}
                 />
               ))}
-              <ScrollButton onScroll={handleScroll} />
               <VipButton onSelect={onSelect} />
               <SettingsButton onSelect={onSelect} />
             </div>
@@ -326,20 +317,6 @@ function SettingsButton({ onSelect }: { onSelect: (id: PageId) => void }) {
       title="⚙"
     >
       ⚙
-    </button>
-  );
-}
-
-function ScrollButton({ onScroll }: { onScroll: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onScroll}
-      className="w-[35px] py-[15px] text-[16px] font-bold text-white/70 hover:text-white hover:bg-white/10 transition"
-      title="Diğer sekmeler"
-      aria-label="Diğer sekmeleri göster"
-    >
-      ⇄
     </button>
   );
 }
