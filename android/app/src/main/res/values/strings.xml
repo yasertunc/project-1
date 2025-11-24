@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">FellowUs</string>
+    <string name="title_activity_main">FellowUs</string>
+    <string name="package_name">com.fellowus.app</string>
+    <string name="custom_url_scheme">com.fellowus.app</string>
+</resources>
