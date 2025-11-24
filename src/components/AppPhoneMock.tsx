@@ -236,6 +236,19 @@ const Navigation = React.forwardRef<HTMLDivElement, NavigationProps>(
       []
     );
 
+    const [showScrollIndicator, setShowScrollIndicator] = React.useState(true);
+
+    const handleScroll = () => {
+      // Scroll to next section
+      const currentSection = Math.floor(Math.abs(transform) / NAV_WIDTH);
+      const nextSection = (currentSection + 1) % 2; // Toggle between 0 and 1
+      const targetPage = nextSection === 0 ? "map" : "profile";
+      onSelect(targetPage);
+
+      // Hide indicator after first use
+      setTimeout(() => setShowScrollIndicator(false), 2000);
+    };
+
     return (
       <div className="relative h-[60px] overflow-hidden bg-gradient-primary shadow-[0_4px_15px_rgba(102,126,234,0.3)]">
         <div
@@ -263,6 +276,20 @@ const Navigation = React.forwardRef<HTMLDivElement, NavigationProps>(
             </div>
           ))}
         </div>
+
+        {/* Scroll Indicator Button */}
+        {showScrollIndicator && (
+          <button
+            onClick={handleScroll}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 animate-pulse"
+            aria-label="Scroll Navigation"
+            title="Diğer sekmeleri görmek için tıklayın"
+          >
+            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition">
+              <span className="text-white text-sm">→</span>
+            </div>
+          </button>
+        )}
       </div>
     );
   }
