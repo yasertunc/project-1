@@ -168,6 +168,7 @@ const navMenus: Array<[PageId, string][]> = [
     ["chat", "SOHBET"],
     ["groups", "GRUPLAR"],
     ["social", "SOSYAL"],
+    ["notifications", "BİLDİRİM"],
   ],
 ];
 
