@@ -286,7 +286,7 @@ function NavButton({
       onClick={() => onSelect(id)}
       aria-label={label}
       title={label}
-      className={`px-[12px] py-[15px] text-[13px] font-semibold uppercase tracking-[0.06em] transition ${
+      className={`px-[8px] py-[15px] text-[11px] font-semibold uppercase tracking-[0.04em] transition ${
         active
           ? "border-b-2 border-white bg-white/20 text-white"
           : "text-white/70 hover:bg-white/10 hover:text-white"
@@ -302,7 +302,7 @@ function VipButton({ onSelect }: { onSelect: (id: PageId) => void }) {
     <button
       type="button"
       onClick={() => onSelect("vip")}
-      className="vip-button bg-gradient-vip px-[8px] py-[15px] text-[13px] font-bold uppercase tracking-[0.06em] text-white"
+      className="vip-button bg-gradient-vip px-[6px] py-[15px] text-[11px] font-bold uppercase tracking-[0.04em] text-white"
     >
       <span className="relative z-[1]">VIP</span>
     </button>
@@ -314,7 +314,7 @@ function SettingsButton({ onSelect }: { onSelect: (id: PageId) => void }) {
     <button
       type="button"
       onClick={() => onSelect("settings")}
-      className="w-[45px] py-[15px] text-[22px] font-bold text-white"
+      className="w-[35px] py-[15px] text-[18px] font-bold text-white"
       title="⚙"
     >
       ⚙
