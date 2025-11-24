@@ -509,43 +509,60 @@ function Content({
         {page === "social" && <SocialFeed />}
         {page === "notifications" && (
           <Section>
+            <div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
+              Bildirimler
+            </div>
             {[
               [
                 "💬",
-                "Ahmet sent you a message",
-                "5 minutes ago",
+                "Ahmet sana mesaj gönderdi",
+                "5 dakika önce",
                 "#667eea",
                 "rgba(102,126,234,.1)",
               ],
               [
                 "❤️",
-                "Zeynep liked your post",
-                "1 hour ago",
+                "Zeynep gönderini beğendi",
+                "1 saat önce",
                 "#ff4444",
                 "rgba(255,68,68,.1)",
               ],
               [
                 "➕",
-                "Can started following you",
-                "2 hours ago",
+                "Can seni takip etmeye başladı",
+                "2 saat önce",
                 "#4CAF50",
                 "rgba(76,175,80,.1)",
               ],
               [
                 "💬",
-                "New message in Project Team",
-                "3 hours ago",
+                "Proje Takımı'nda yeni mesaj",
+                "3 saat önce",
                 "#667eea",
                 "rgba(102,126,234,.1)",
               ],
+              [
+                "🎉",
+                "Yeni bir etkinlik yakında",
+                "5 saat önce",
+                "#FF9800",
+                "rgba(255,152,0,.1)",
+              ],
+              [
+                "🔔",
+                "Sistem güncellemesi tamamlandı",
+                "1 gün önce",
+                "#9C27B0",
+                "rgba(156,39,176,.1)",
+              ],
             ].map(([icon, title, time, color, background]) => (
               <NotificationRow
-                key={title}
-                icon={icon}
-                title={title}
-                time={time}
-                iconColor={color}
-                background={background}
+                key={title as string}
+                icon={icon as string}
+                title={title as string}
+                time={time as string}
+                iconColor={color as string}
+                background={background as string}
               />
             ))}
           </Section>
