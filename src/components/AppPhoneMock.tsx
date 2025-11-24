@@ -3061,17 +3061,140 @@ function GroupRow({
 }
 
 function SocialFeed() {
-  const stories = [
-    { id: "add", name: "Hikaye Ekle", avatar: "+", isAdd: true },
-    { id: "1", name: "Ayşe", avatar: "👩", hasStory: true },
-    { id: "2", name: "Mehmet", avatar: "👨", hasStory: true },
-    { id: "3", name: "Zeynep", avatar: "👩‍🦱", hasStory: false },
-    { id: "4", name: "Can", avatar: "👱‍♂️", hasStory: true },
-    { id: "5", name: "Elif", avatar: "👩‍🦰", hasStory: true },
-    { id: "6", name: "Mert", avatar: "🧔", hasStory: false },
-    { id: "7", name: "Seda", avatar: "👩‍💼", hasStory: true },
-    { id: "8", name: "Burak", avatar: "👨‍💻", hasStory: true },
-  ];
+  const [myStories, setMyStories] = React.useState<
+    Array<{
+      id: string;
+      content: string;
+      timestamp: Date;
+      viewCount: number;
+    }>
+  >([]);
+
+  const [viewingStory, setViewingStory] = React.useState<string | null>(null);
+  const [showAddStory, setShowAddStory] = React.useState(false);
+  const [newStoryText, setNewStoryText] = React.useState("");
+
+  // Stories with timestamps for 24h expiry
+  const [allStories, setAllStories] = React.useState([
+    {
+      id: "1",
+      name: "Ayşe",
+      avatar: "👩",
+      stories: [
+        {
+          id: "s1",
+          content: "Günaydın ☀️",
+          timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+          viewCount: 23,
+        },
+      ],
+    },
+    {
+      id: "2",
+      name: "Mehmet",
+      avatar: "👨",
+      stories: [
+        {
+          id: "s2",
+          content: "İstanbul trafiği 😅",
+          timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
+          viewCount: 45,
+        },
+      ],
+    },
+    { id: "3", name: "Zeynep", avatar: "👩‍🦱", stories: [] },
+    {
+      id: "4",
+      name: "Can",
+      avatar: "👱‍♂️",
+      stories: [
+        {
+          id: "s3",
+          content: "Yeni proje başlıyor! 🚀",
+          timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
+          viewCount: 67,
+        },
+      ],
+    },
+    {
+      id: "5",
+      name: "Elif",
+      avatar: "👩‍🦰",
+      stories: [
+        {
+          id: "s4",
+          content: "Kahve zamanı ☕",
+          timestamp: new Date(Date.now() - 30 * 60 * 1000),
+          viewCount: 12,
+        },
+      ],
+    },
+    { id: "6", name: "Mert", avatar: "🧔", stories: [] },
+    {
+      id: "7",
+      name: "Seda",
+      avatar: "👩‍💼",
+      stories: [
+        {
+          id: "s5",
+          content: "Toplantı maratonu 💼",
+          timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
+          viewCount: 89,
+        },
+      ],
+    },
+    {
+      id: "8",
+      name: "Burak",
+      avatar: "👨‍💻",
+      stories: [
+        {
+          id: "s6",
+          content: "Kod yazma zamanı 👨‍💻",
+          timestamp: new Date(Date.now() - 10 * 60 * 1000),
+          viewCount: 34,
+        },
+      ],
+    },
+  ]);
+
+  // Remove stories older than 24 hours
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setAllStories((prev) =>
+        prev.map((user) => ({
+          ...user,
+          stories: user.stories.filter(
+            (story) =>
+              now.getTime() - story.timestamp.getTime() < 24 * 60 * 60 * 1000
+          ),
+        }))
+      );
+      setMyStories((prev) =>
+        prev.filter(
+          (story) =>
+            now.getTime() - story.timestamp.getTime() < 24 * 60 * 60 * 1000
+        )
+      );
+    }, 60000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const addStory = () => {
+    if (newStoryText.trim()) {
+      const newStory = {
+        id: `my-${Date.now()}`,
+        content: newStoryText,
+        timestamp: new Date(),
+        viewCount: 0,
+      };
+      setMyStories([...myStories, newStory]);
+      setNewStoryText("");
+      setShowAddStory(false);
+    }
+  };
 
   return (
     <Section>
@@ -3085,34 +3208,57 @@ function SocialFeed() {
             WebkitOverflowScrolling: "touch",
           }}
         >
-          {stories.map((story) => (
+          {/* Add Story Button */}
+          <div
+            onClick={() => setShowAddStory(true)}
+            className="flex flex-shrink-0 flex-col items-center cursor-pointer"
+          >
+            <div className="relative h-12 w-12 rounded-full border-2 border-[#667eea] bg-white">
+              <div className="flex h-full w-full items-center justify-center rounded-full text-[#667eea] text-lg">
+                {myStories.length > 0 ? "👤" : "+"}
+              </div>
+              {myStories.length > 0 && (
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#667eea] rounded-full flex items-center justify-center text-white text-xs">
+                  +
+                </div>
+              )}
+            </div>
+            <span className="mt-[3px] text-[10px] text-[var(--color-text-2)]">
+              Hikayem
+            </span>
+          </div>
+
+          {/* Other Users' Stories */}
+          {allStories.map((user) => (
             <div
-              key={story.id}
-              className="flex flex-shrink-0 flex-col items-center"
+              key={user.id}
+              onClick={() =>
+                user.stories.length > 0 && setViewingStory(user.id)
+              }
+              className="flex flex-shrink-0 flex-col items-center cursor-pointer"
             >
               <div
                 className={`relative h-12 w-12 rounded-full ${
-                  story.isAdd
-                    ? "border-2 border-[#667eea] bg-white"
-                    : story.hasStory
-                      ? "bg-gradient-to-br from-[#f093fb] to-[#f5576c] p-[2px]"
-                      : "bg-gray-200"
+                  user.stories.length > 0
+                    ? "bg-gradient-to-br from-[#f093fb] to-[#f5576c] p-[2px]"
+                    : "bg-gray-200"
                 }`}
               >
                 <div
                   className={`flex h-full w-full items-center justify-center rounded-full ${
-                    story.isAdd
-                      ? "text-[#667eea] text-lg"
-                      : story.hasStory
-                        ? "bg-white text-lg"
-                        : "text-lg"
+                    user.stories.length > 0 ? "bg-white text-lg" : "text-lg"
                   }`}
                 >
-                  {story.avatar}
+                  {user.avatar}
                 </div>
+                {user.stories.length > 0 && (
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#ff4444] rounded-full flex items-center justify-center text-white text-[10px]">
+                    {user.stories.length}
+                  </div>
+                )}
               </div>
               <span className="mt-[3px] text-[10px] text-[var(--color-text-2)]">
-                {story.name}
+                {user.name}
               </span>
             </div>
           ))}
@@ -3134,6 +3280,62 @@ function SocialFeed() {
           ))}
         </div>
       </div>
+
+      {/* Add Story Modal */}
+      {showAddStory && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-5 w-[300px]">
+            <div className="text-lg font-semibold mb-3">Hikaye Paylaş</div>
+            <textarea
+              value={newStoryText}
+              onChange={(e) => setNewStoryText(e.target.value)}
+              placeholder="Ne düşünüyorsun?"
+              className="w-full p-3 border rounded-lg resize-none h-24"
+              maxLength={150}
+            />
+            <div className="text-xs text-gray-500 mb-3">
+              {150 - newStoryText.length} karakter kaldı
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={addStory}
+                className="flex-1 py-2 bg-gradient-primary text-white rounded-lg"
+              >
+                Paylaş
+              </button>
+              <button
+                onClick={() => {
+                  setShowAddStory(false);
+                  setNewStoryText("");
+                }}
+                className="flex-1 py-2 bg-gray-200 rounded-lg"
+              >
+                İptal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Story Modal */}
+      {viewingStory && (
+        <div
+          className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center"
+          onClick={() => setViewingStory(null)}
+        >
+          <div className="text-white mb-4">
+            {allStories.find((u) => u.id === viewingStory)?.name}
+          </div>
+          {allStories
+            .find((u) => u.id === viewingStory)
+            ?.stories.map((story) => (
+              <div key={story.id} className="text-white text-2xl mb-2">
+                {story.content}
+              </div>
+            ))}
+          <div className="text-white/60 text-sm mt-4">Kapatmak için dokun</div>
+        </div>
+      )}
 
       {/* Feed Posts */}
       <div className="mb-3 overflow-hidden rounded-[10px] bg-[var(--color-surface-white)] shadow">
