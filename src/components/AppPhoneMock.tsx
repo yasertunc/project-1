@@ -2123,29 +2123,27 @@ function ChatView({
       {/* Settings Header - Always Visible */}
       <div className="bg-[var(--color-surface-white)] border-b border-[#f0f0f0] p-4 shadow-sm">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowSavedGroups(!showSavedGroups)}
-              className="p-2 rounded-full bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)] transition"
-              aria-label="Kayıtlı Gruplar"
-            >
-              📁
-            </button>
+          <button
+            onClick={() => setShowSavedGroups(!showSavedGroups)}
+            className="p-2 rounded-full bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)] transition"
+            aria-label="Kayıtlı Gruplar"
+          >
+            📁
+          </button>
+          <button
+            onClick={() => setShowGroupSettings(!showGroupSettings)}
+            className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--color-bg-light)] transition text-left"
+            aria-label="Sohbet Ayarları"
+          >
+            <span className="text-lg">⚙️</span>
             <div>
               <div className="text-sm font-semibold text-[var(--color-text)]">
                 Sohbet Ayarları
               </div>
               <div className="text-xs text-[var(--color-text-2)]">
-                {savedGroups.length} kayıtlı grup
+                {savedGroups.length} kayıtlı grup • Grup yönetimi
               </div>
             </div>
-          </div>
-          <button
-            onClick={() => setShowGroupSettings(!showGroupSettings)}
-            className="p-2 rounded-full hover:bg-[var(--color-bg-light)] transition"
-            aria-label="Ayarlar"
-          >
-            ⚙️
           </button>
         </div>
       </div>
