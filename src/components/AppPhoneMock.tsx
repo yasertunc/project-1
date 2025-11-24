@@ -502,7 +502,7 @@ function Content({
         )}
         {page === "social" && <SocialFeed />}
         {page === "notifications" && (
-          <Section title="Notifications">
+          <Section>
             {[
               [
                 "💬",
@@ -1059,30 +1059,8 @@ function MapView({
   );
 }
 
-function Section({
-  title,
-  subtitle,
-  children,
-}: {
-  title: string;
-  subtitle?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <div className="mb-[15px] bg-[var(--color-surface-white)] p-5 shadow">
-        <div className="mb-1 text-[24px] font-bold text-[var(--color-text)]">
-          {title}
-        </div>
-        {subtitle && (
-          <div className="text-[14px] text-[var(--color-text-2)]">
-            {subtitle}
-          </div>
-        )}
-      </div>
-      <div className="px-[15px]">{children}</div>
-    </div>
-  );
+function Section({ children }: { children: React.ReactNode }) {
+  return <div className="px-[15px]">{children}</div>;
 }
 
 function GridTwo({ children }: { children: React.ReactNode }) {
@@ -1368,7 +1346,7 @@ function PlacesView({
   }
 
   return (
-    <Section title="Yerler">
+    <Section>
       <div className="mb-3 text-lg font-semibold text-[var(--color-text)]">
         Nearby Places
       </div>
@@ -1548,7 +1526,7 @@ function FilterView({
     mapFilters.distanceFilter >= 0 && mapFilters.distanceFilter <= maxDistance;
 
   return (
-    <Section title="Filtre">
+    <Section>
       <div className="px-[15px] pb-2 text-lg font-semibold text-[var(--color-text)]">
         Filter
       </div>
@@ -1885,7 +1863,7 @@ function CategoriesView({
 
   return (
     <div className="h-full overflow-y-auto">
-      <Section title="Kategoriler">
+      <Section>
         <div className="mb-3 px-5">
           <div className="text-lg font-semibold text-[var(--color-text)]">
             Categories
@@ -2149,7 +2127,7 @@ function GroupsView({
   }
 
   return (
-    <Section title="Gruplar">
+    <Section>
       <div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
         Groups
       </div>
@@ -2319,7 +2297,7 @@ function GroupRow({
 
 function SocialFeed() {
   return (
-    <Section title="Social Feed">
+    <Section>
       <UserMediaLibrary />
       <div className="mb-4 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
         <div className="flex items-center p-[15px]">
