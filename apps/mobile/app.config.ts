@@ -23,6 +23,7 @@ export default function createExpoConfig({
   config,
 }: ConfigContext): ExpoConfig {
   const version = process.env.EXPO_PUBLIC_APP_VERSION ?? DEFAULT_VERSION;
+  const easProjectId = process.env.EAS_PROJECT_ID ?? DEFAULT_PROJECT_ID;
   // Sentry temporarily disabled due to RCT-Folly dependency issue
   // Will be re-enabled once Sentry is updated to compatible version
   const sentryConfig: ExpoPlugin | null = null;
@@ -70,6 +71,7 @@ export default function createExpoConfig({
       backgroundColor: "#667eea", // Mavi arka plan - logo ile uyumlu
     },
     updates: {
+      url: `https://u.expo.dev/${easProjectId}`,
       fallbackToCacheTimeout: 0,
     },
     assetBundlePatterns: ["**/*"],
@@ -136,7 +138,7 @@ export default function createExpoConfig({
         process.env.EXPO_PUBLIC_TERMS_OF_SERVICE_URL ??
         "https://www.fellowus.com/terms",
       eas: {
-        projectId: process.env.EAS_PROJECT_ID ?? DEFAULT_PROJECT_ID,
+        projectId: easProjectId,
       },
     },
     experiments: {

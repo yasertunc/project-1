@@ -2224,108 +2224,139 @@ function ProfileView() {
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
     >
       {/* Gradient Header */}
-      <div className="relative bg-gradient-primary pb-[60px] pt-8">
+      <div className="relative bg-gradient-primary pb-[80px] pt-8">
         <div className="mb-4 flex justify-center">
           <div className="relative">
-            <div className="h-20 w-20 rounded-full border-[4px] border-white bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary-dark)] shadow-[0_6px_16px_rgba(0,0,0,0.15)]" />
-            <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
-              U
+            <div className="h-24 w-24 rounded-full border-[4px] border-white bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary-dark)] shadow-[0_6px_16px_rgba(0,0,0,0.15)]" />
+            <div className="absolute inset-0 flex items-center justify-center text-3xl font-bold text-white">
+              JD
             </div>
+            {/* Online indicator */}
+            <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full border-2 border-white bg-green-500" />
           </div>
         </div>
-        <div className="mb-6 text-center text-xl font-bold text-white">
-          Kullanıcı Adı
+        <div className="mb-2 text-center text-xl font-bold text-white">
+          John Doe
+        </div>
+        <div className="mb-4 text-center text-sm text-white/80">
+          @johndoe • İstanbul
         </div>
         {/* Stats */}
-        <div className="flex justify-center gap-8">
+        <div className="flex justify-center gap-10">
           <div className="text-center">
-            <div className="text-lg font-bold text-white">127</div>
-            <div className="text-xs text-white/80">Arkadaş</div>
+            <div className="text-2xl font-bold text-white">256</div>
+            <div className="text-xs text-white/80">Bağlantı</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-white">42</div>
+            <div className="text-2xl font-bold text-white">89</div>
             <div className="text-xs text-white/80">Check-in</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-white">18</div>
-            <div className="text-xs text-white/80">Fotoğraf</div>
-            <div className="text-xs text-[var(--color-text-secondary)]">
-              Konum
-            </div>
-            <div className="text-sm font-medium text-[var(--color-text)]">
-              İstanbul, Türkiye
-            </div>
-          </div>
-          <div>
-            <div className="text-xs text-[var(--color-text-secondary)]">
-              Doğum Tarihi
-            </div>
-            <div className="text-sm font-medium text-[var(--color-text)]">
-              15 Ocak 1990
-            </div>
+            <div className="text-2xl font-bold text-white">4.8</div>
+            <div className="text-xs text-white/80">Rating</div>
           </div>
         </div>
       </div>
-      {/* Kişisel Bilgiler */}
-      <div className="mx-5 mt-5 rounded-[15px] bg-[var(--color-surface-white)] p-5 shadow">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <div className="text-xs text-[var(--color-text-secondary)]">
-              Email
-            </div>
-            <div className="text-sm font-medium text-[var(--color-text)]">
-              user@example.com
+      {/* Profil Bilgileri */}
+      <div className="mx-5 -mt-10 mb-5 rounded-[20px] bg-[var(--color-surface-white)] p-5 shadow-lg">
+        <h3 className="mb-4 text-base font-semibold text-[var(--color-text)]">
+          Hakkımda
+        </h3>
+        <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
+          Teknoloji ve yenilik tutkunu. Müzik dinlemeyi, yeni yerler keşfetmeyi
+          ve insanlarla tanışmayı severim. FellowUs ile anonim sohbetler yaparak
+          yeni arkadaşlıklar kuruyorum.
+        </p>
+      </div>
+
+      {/* İletişim Bilgileri */}
+      <div className="mx-5 mb-5 rounded-[15px] bg-[var(--color-surface-white)] p-5 shadow">
+        <h3 className="mb-4 text-base font-semibold text-[var(--color-text)]">
+          İletişim Bilgileri
+        </h3>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3">
+            <span className="text-lg">📧</span>
+            <div>
+              <div className="text-xs text-[var(--color-text-secondary)]">
+                Email
+              </div>
+              <div className="text-sm font-medium text-[var(--color-text)]">
+                john.doe@example.com
+              </div>
             </div>
           </div>
-          <div>
-            <div className="text-xs text-[var(--color-text-secondary)]">
-              Telefon
-            </div>
-            <div className="text-sm font-medium text-[var(--color-text)]">
-              +90 555 123 4567
-            </div>
-          </div>
-          <div>
-            <div className="text-xs text-[var(--color-text-secondary)]">
-              Konum
-            </div>
-            <div className="text-sm font-medium text-[var(--color-text)]">
-              İstanbul, Türkiye
+          <div className="flex items-center gap-3">
+            <span className="text-lg">📱</span>
+            <div>
+              <div className="text-xs text-[var(--color-text-secondary)]">
+                Telefon
+              </div>
+              <div className="text-sm font-medium text-[var(--color-text)]">
+                +90 555 123 4567
+              </div>
             </div>
           </div>
-          <div>
-            <div className="text-xs text-[var(--color-text-secondary)]">
-              Doğum Tarihi
+          <div className="flex items-center gap-3">
+            <span className="text-lg">📍</span>
+            <div>
+              <div className="text-xs text-[var(--color-text-secondary)]">
+                Konum
+              </div>
+              <div className="text-sm font-medium text-[var(--color-text)]">
+                İstanbul, Türkiye
+              </div>
             </div>
-            <div className="text-sm font-medium text-[var(--color-text)]">
-              15 Ocak 1990
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-lg">🎂</span>
+            <div>
+              <div className="text-xs text-[var(--color-text-secondary)]">
+                Doğum Tarihi
+              </div>
+              <div className="text-sm font-medium text-[var(--color-text)]">
+                15 Ocak 1990 (33 yaş)
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* İlgi Alanları */}
-      <div className="mx-5 mt-5 rounded-[15px] bg-[var(--color-surface-white)] p-5 shadow">
+      <div className="mx-5 mb-5 rounded-[15px] bg-[var(--color-surface-white)] p-5 shadow">
+        <h3 className="mb-4 text-base font-semibold text-[var(--color-text)]">
+          İlgi Alanları
+        </h3>
         <div className="flex flex-wrap gap-2">
           {[
-            "Müzik",
-            "Spor",
-            "Teknoloji",
-            "Sanat",
-            "Seyahat",
-            "Yemek",
-            "Kitap",
-            "Sinema",
+            "🎵 Müzik",
+            "⚽ Spor",
+            "💻 Teknoloji",
+            "🎨 Sanat",
+            "✈️ Seyahat",
+            "🍔 Yemek",
+            "📚 Kitap",
+            "🎬 Sinema",
           ].map((tag) => (
             <button
               key={tag}
               onClick={() => alert(`${tag} ilgi alanı seçildi`)}
-              className="rounded-[20px] bg-[#f0f0f0] px-3 py-1.5 text-xs text-[var(--color-text)] transition-all hover:scale-95 hover:bg-gradient-primary hover:text-white cursor-pointer"
+              className="rounded-[20px] bg-gradient-to-r from-[var(--color-primary-light)] to-[var(--color-primary)] px-4 py-2 text-xs font-medium text-white shadow transition-all hover:scale-105 hover:shadow-lg active:scale-95"
             >
               {tag}
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Profil Düzenleme Butonu */}
+      <div className="mx-5 mb-20">
+        <button
+          onClick={() => alert("Profil düzenleme özelliği yakında!")}
+          className="w-full rounded-[15px] bg-gradient-primary py-4 font-semibold text-white shadow-lg transition-all hover:scale-[0.98] active:scale-95"
+        >
+          Profili Düzenle
+        </button>
       </div>
     </div>
   );

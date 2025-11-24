@@ -25,6 +25,7 @@ const meta: Meta<typeof AppPhoneMock> = {
         "places",
         "filter",
         "categories",
+        "profile",
         "chat",
         "groups",
         "social",
@@ -88,6 +89,7 @@ export const MapOverview = pageStory("map");
 export const PlacesCatalog = pageStory("places");
 export const Filters = pageStory("filter");
 export const Categories = pageStory("categories");
+export const Profile = pageStory("profile");
 export const Chat = pageStory("chat");
 export const Groups = pageStory("groups");
 export const Social = pageStory("social");
