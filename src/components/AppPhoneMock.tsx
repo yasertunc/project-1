@@ -2302,15 +2302,29 @@ function SocialFeed() {
     { id: "2", name: "Mehmet", avatar: "👨", hasStory: true },
     { id: "3", name: "Zeynep", avatar: "👩‍🦱", hasStory: false },
     { id: "4", name: "Can", avatar: "👱‍♂️", hasStory: true },
+    { id: "5", name: "Elif", avatar: "👩‍🦰", hasStory: true },
+    { id: "6", name: "Mert", avatar: "🧔", hasStory: false },
+    { id: "7", name: "Seda", avatar: "👩‍💼", hasStory: true },
+    { id: "8", name: "Burak", avatar: "👨‍💻", hasStory: true },
   ];
 
   return (
     <Section>
       {/* Stories Section */}
       <div className="mb-4 bg-[var(--color-surface-white)] shadow">
-        <div className="flex gap-4 overflow-x-auto p-4 scrollbar-hide">
+        <div
+          className="flex gap-4 overflow-x-auto p-4 scroll-smooth [&::-webkit-scrollbar]:hidden"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
           {stories.map((story) => (
-            <div key={story.id} className="flex flex-col items-center">
+            <div
+              key={story.id}
+              className="flex flex-shrink-0 flex-col items-center"
+            >
               <div
                 className={`relative h-16 w-16 rounded-full ${
                   story.isAdd
