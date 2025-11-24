@@ -135,10 +135,6 @@ export type AppPhoneMockProps = {
    * Allows stories to declutter the mock when explaining copy or IA.
    */
   showAIAssistant?: boolean;
-  /**
-   * Allows stories to show “above the fold” layout without the input chrome.
-   */
-  showMessageInput?: boolean;
 };
 
 const NAV_WIDTH = 375;
@@ -3307,7 +3303,6 @@ function MessageInput({
 export default function AppPhoneMock({
   initialPage = "map",
   showAIAssistant = true,
-  showMessageInput = true,
 }: AppPhoneMockProps) {
   const [navPosition, setNavPosition] = useState(() => {
     return sectionForPage(initialPage) * MAX_NAV_POSITION;
@@ -3503,7 +3498,10 @@ export default function AppPhoneMock({
           setGroupChats={setGroupChats}
           activeGroupUsers={activeGroupUsers}
         />
-        {showMessageInput && <MessageInput showAIAssistant={showAIAssistant} />}
+        {/* Show message input only for chat, groups, and social pages */}
+        {(page === "chat" || page === "groups" || page === "social") && (
+          <MessageInput showAIAssistant={showAIAssistant} />
+        )}
       </div>
     </div>
   );
