@@ -2103,7 +2103,8 @@ function ChatView({
     isVip: boolean;
   }>;
 }) {
-  const [showGroupSettings, setShowGroupSettings] = React.useState(false);
+  const [showCreateGroup, setShowCreateGroup] = React.useState(false);
+  const [newGroupName, setNewGroupName] = React.useState("");
   const [savedGroups, setSavedGroups] = React.useState<
     Array<{
       id: string;
@@ -2112,7 +2113,10 @@ function ChatView({
       createdAt: number;
     }>
   >([]);
-  const [showSavedGroups, setShowSavedGroups] = React.useState(false);
+  const [showDetailedSettings, setShowDetailedSettings] = React.useState(false);
+  const [userStatus, setUserStatus] = React.useState<
+    "online" | "busy" | "dnd" | "invisible"
+  >("online");
   const hasActiveUsers = activeGroupUsers && activeGroupUsers.length > 0;
 
   return (
@@ -2122,16 +2126,16 @@ function ChatView({
     >
       {/* Settings Header - Always Visible */}
       <div className="bg-[var(--color-surface-white)] border-b border-[#f0f0f0] p-4 shadow-sm">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
           <button
-            onClick={() => setShowSavedGroups(!showSavedGroups)}
-            className="p-2 rounded-full bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)] transition"
-            aria-label="Kayıtlı Gruplar"
+            onClick={() => setShowCreateGroup(!showCreateGroup)}
+            className="p-2 rounded-full bg-gradient-primary text-white hover:opacity-90 transition font-bold text-lg"
+            aria-label="Yeni Grup Oluştur"
           >
-            📁
+            +
           </button>
           <button
-            onClick={() => setShowGroupSettings(!showGroupSettings)}
+            onClick={() => setShowDetailedSettings(!showDetailedSettings)}
             className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--color-bg-light)] transition text-left"
             aria-label="Sohbet Ayarları"
           >
@@ -2141,46 +2145,155 @@ function ChatView({
                 Sohbet Ayarları
               </div>
               <div className="text-xs text-[var(--color-text-2)]">
-                {savedGroups.length} kayıtlı grup • Grup yönetimi
+                Durum:{" "}
+                {userStatus === "online"
+                  ? "Çevrimiçi"
+                  : userStatus === "busy"
+                    ? "Meşgul"
+                    : userStatus === "dnd"
+                      ? "Rahatsız Etmeyin"
+                      : "Görünmez"}
               </div>
             </div>
           </button>
         </div>
       </div>
 
-      {/* Saved Groups Section */}
-      {showSavedGroups && (
-        <div className="p-3 bg-[var(--color-bg-light)] border-b border-[#f0f0f0]">
-          <div className="text-xs font-semibold text-[var(--color-text-2)] mb-2">
-            Kayıtlı Gruplar
+      {/* Create Group Section */}
+      {showCreateGroup && (
+        <div className="p-4 bg-[var(--color-bg-light)] border-b border-[#f0f0f0]">
+          <div className="text-sm font-semibold text-[var(--color-text)] mb-3">
+            Yeni Grup Oluştur
           </div>
-          {savedGroups.length > 0 ? (
-            <div className="space-y-2">
-              {savedGroups.map((group) => (
-                <div
-                  key={group.id}
-                  className="flex items-center justify-between p-2 bg-white rounded-lg"
+          <div className="space-y-3">
+            <input
+              type="text"
+              value={newGroupName}
+              onChange={(e) => setNewGroupName(e.target.value)}
+              placeholder="Grup adını girin..."
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--color-primary-main)]"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  if (newGroupName.trim()) {
+                    const newGroup = {
+                      id: `group-${Date.now()}`,
+                      name: newGroupName,
+                      userCount: activeGroupUsers?.length || 0,
+                      createdAt: Date.now(),
+                    };
+                    setSavedGroups([...savedGroups, newGroup]);
+                    setNewGroupName("");
+                    setShowCreateGroup(false);
+                    // Gruplar sekmesine yönlendirme için event
+                    window.dispatchEvent(
+                      new CustomEvent("navigateToGroups", {
+                        detail: { newGroup },
+                      })
+                    );
+                  }
+                }}
+                className="flex-1 px-3 py-2 text-sm bg-gradient-primary text-white rounded-lg hover:opacity-90 transition"
+              >
+                Oluştur ve Gruplar'a Git
+              </button>
+              <button
+                onClick={() => {
+                  setNewGroupName("");
+                  setShowCreateGroup(false);
+                }}
+                className="px-3 py-2 text-sm bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+              >
+                İptal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Detailed Settings Panel */}
+      {showDetailedSettings && (
+        <div className="p-4 bg-white border-b border-[#f0f0f0]">
+          <div className="text-sm font-semibold text-[var(--color-text)] mb-4">
+            Gelişmiş Ayarlar
+          </div>
+
+          {/* Status Settings */}
+          <div className="mb-4">
+            <div className="text-xs font-medium text-[var(--color-text-2)] mb-2">
+              Görünürlük Durumu
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                ["online", "🟢 Çevrimiçi"],
+                ["busy", "🟡 Meşgul"],
+                ["dnd", "🔴 Rahatsız Etmeyin"],
+                ["invisible", "⚫ Görünmez"],
+              ].map(([status, label]) => (
+                <button
+                  key={status}
+                  onClick={() =>
+                    setUserStatus(
+                      status as "online" | "busy" | "dnd" | "invisible"
+                    )
+                  }
+                  className={`px-3 py-2 text-xs rounded-lg transition ${
+                    userStatus === status
+                      ? "bg-gradient-primary text-white"
+                      : "bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)]"
+                  }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">👥</span>
-                    <div>
-                      <div className="text-sm font-medium">{group.name}</div>
-                      <div className="text-xs text-[var(--color-text-2)]">
-                        {group.userCount} kişi
-                      </div>
-                    </div>
-                  </div>
-                  <button className="text-xs px-2 py-1 bg-gradient-primary text-white rounded">
-                    Aç
-                  </button>
-                </div>
+                  {label}
+                </button>
               ))}
             </div>
-          ) : (
-            <div className="text-xs text-[var(--color-text-2)] text-center py-2">
-              Henüz kayıtlı grup yok
+          </div>
+
+          {/* Privacy Settings */}
+          <div className="mb-4">
+            <div className="text-xs font-medium text-[var(--color-text-2)] mb-2">
+              Gizlilik Ayarları
             </div>
-          )}
+            <div className="space-y-2">
+              <label className="flex items-center justify-between p-2 bg-[var(--color-bg-light)] rounded-lg">
+                <span className="text-xs">Son görülme</span>
+                <input type="checkbox" className="rounded" defaultChecked />
+              </label>
+              <label className="flex items-center justify-between p-2 bg-[var(--color-bg-light)] rounded-lg">
+                <span className="text-xs">Profil fotoğrafı</span>
+                <input type="checkbox" className="rounded" defaultChecked />
+              </label>
+              <label className="flex items-center justify-between p-2 bg-[var(--color-bg-light)] rounded-lg">
+                <span className="text-xs">Çevrimiçi durumu</span>
+                <input type="checkbox" className="rounded" defaultChecked />
+              </label>
+            </div>
+          </div>
+
+          {/* User Management */}
+          <div className="mb-4">
+            <div className="text-xs font-medium text-[var(--color-text-2)] mb-2">
+              Kullanıcı Yönetimi
+            </div>
+            <div className="space-y-2">
+              <button className="w-full text-left px-3 py-2 text-xs bg-[var(--color-bg-light)] rounded-lg hover:bg-[var(--color-bg-medium)] transition">
+                🏷️ Kişileri Etiketle
+              </button>
+              <button className="w-full text-left px-3 py-2 text-xs bg-[var(--color-bg-light)] rounded-lg hover:bg-[var(--color-bg-medium)] transition">
+                🔄 Gruplar Arası Taşı
+              </button>
+              <button className="w-full text-left px-3 py-2 text-xs bg-[var(--color-bg-light)] rounded-lg hover:bg-[var(--color-bg-medium)] transition">
+                📦 Sohbeti Arşivle
+              </button>
+              <button className="w-full text-left px-3 py-2 text-xs bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition">
+                🚫 Kişiyi Engelle
+              </button>
+              <button className="w-full text-left px-3 py-2 text-xs bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition">
+                ⚠️ Şikayet Et
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
@@ -2894,17 +3007,42 @@ export default function AppPhoneMock({
       }
     };
 
+    const handleNavigateToGroups = (event: CustomEvent) => {
+      if (event.detail && event.detail.newGroup) {
+        // Add the new group to groupChats
+        const newGroup: GroupChat = {
+          id: event.detail.newGroup.id,
+          name: event.detail.newGroup.name,
+          memberIds: activeGroupUsers.map((u) => u.id),
+          categoryIds: Array.from(mapFilters.selectedCategories),
+          createdAt: event.detail.newGroup.createdAt,
+        };
+        setGroupChats((prev) => [...prev, newGroup]);
+        // Navigate to groups page
+        setPage("groups");
+        setNavPosition(sectionForPage("groups") * MAX_NAV_POSITION);
+      }
+    };
+
     window.addEventListener(
       "navigateToChat",
       handleNavigateToChat as EventListener
+    );
+    window.addEventListener(
+      "navigateToGroups",
+      handleNavigateToGroups as EventListener
     );
     return () => {
       window.removeEventListener(
         "navigateToChat",
         handleNavigateToChat as EventListener
       );
+      window.removeEventListener(
+        "navigateToGroups",
+        handleNavigateToGroups as EventListener
+      );
     };
-  }, []);
+  }, [activeGroupUsers, mapFilters.selectedCategories]);
 
   useEffect(() => {
     const el = wrapRef.current;
