@@ -930,9 +930,22 @@ function MapView({
     lng: number;
   } | null>(null);
 
-  // Get user's current location
+  // State for real-time locations
+  const [liveUserPositions, setLiveUserPositions] = React.useState<
+    Map<string, { lat: number; lng: number }>
+  >(new Map());
+
+  // Get users based on selected categories (moved up for use in real-time simulation)
+  const allUsers = React.useMemo(() => {
+    return getUsersFromSelectedCategories(mapFilters.selectedCategories);
+  }, [mapFilters.selectedCategories]);
+
+  // Get user's current location and watch for changes
   React.useEffect(() => {
+    let watchId: number | null = null;
+
     if (navigator.geolocation) {
+      // Initial location
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setUserLocation({
@@ -944,8 +957,52 @@ function MapView({
           // Silently fail - use default location
         }
       );
+
+      // Watch for location changes (real-time tracking)
+      watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        () => {},
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+      );
     }
+
+    // Cleanup
+    return () => {
+      if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+    };
   }, []);
+
+  // Simulate real-time location updates for other users
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveUserPositions((prev) => {
+        const newPositions = new Map(prev);
+
+        // Randomly update some user positions slightly
+        allUsers.forEach((user) => {
+          if (Math.random() > 0.7) {
+            // 30% chance of movement
+            const currentPos = newPositions.get(user.id) || user.position;
+            newPositions.set(user.id, {
+              lat: currentPos.lat + (Math.random() - 0.5) * 0.0002,
+              lng: currentPos.lng + (Math.random() - 0.5) * 0.0002,
+            });
+          }
+        });
+
+        return newPositions;
+      });
+    }, 3000); // Update every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [allUsers]);
 
   // All available place markers
   const allPlaceMarkers = React.useMemo(
@@ -988,11 +1045,6 @@ function MapView({
     ],
     []
   );
-
-  // Get users based on selected categories
-  const allUsers = React.useMemo(() => {
-    return getUsersFromSelectedCategories(mapFilters.selectedCategories);
-  }, [mapFilters.selectedCategories]);
 
   // Filter users and place markers based on distance
   const { filteredUsers, filteredPlaceMarkers } = React.useMemo(() => {
@@ -1042,17 +1094,23 @@ function MapView({
     mapCenter,
   ]);
 
-  // Combine users and place markers for map
-  // Use approximate positions for users (privacy protection)
+  // Combine users and place markers for map with real-time positions
   const allMarkers = React.useMemo(() => {
-    const userMarkers = filteredUsers.map((user) => ({
-      id: user.id,
-      position: user.approximatePosition, // Use approximate position for map display
-      icon: user.avatar,
-      title: user.displayName, // Use display name (Anonim X or nickname)
-      type: "user" as const,
-      isVip: user.isVip,
-    }));
+    const userMarkers = filteredUsers.map((user) => {
+      // Use live position if available, otherwise use approximate position
+      const livePos = liveUserPositions.get(user.id);
+      const position = livePos || user.approximatePosition;
+
+      return {
+        id: user.id,
+        position,
+        icon: user.avatar,
+        title: user.displayName, // Use display name (Anonim X or nickname)
+        type: "user" as const,
+        isVip: user.isVip,
+        isMoving: livePos !== undefined, // Indicator for real-time tracking
+      };
+    });
 
     const placeMarkers = filteredPlaceMarkers.map((marker) => ({
       id: marker.id,
@@ -1060,10 +1118,11 @@ function MapView({
       icon: marker.icon,
       title: marker.title,
       type: "place" as const,
+      isMoving: false,
     }));
 
     return [...userMarkers, ...placeMarkers];
-  }, [filteredUsers, filteredPlaceMarkers]);
+  }, [filteredUsers, filteredPlaceMarkers, liveUserPositions]);
 
   // Use user location if available, otherwise use default center
   const center = userLocation || mapCenter;
@@ -1089,6 +1148,18 @@ function MapView({
         )}
       </div>
 
+      {/* Real-time location indicator */}
+      {userLocation && (
+        <div className="absolute top-[80px] right-[15px] z-10 bg-[var(--color-surface-white)] rounded-lg shadow-md px-3 py-2">
+          <div className="flex items-center gap-2 text-sm">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-[var(--color-text-2)]">
+              Canlı Konum Aktif
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Google Map - falls back to MockMapView if API key is not configured */}
       <GoogleMap
         center={center}
@@ -1098,6 +1169,7 @@ function MapView({
           position: m.position,
           icon: m.icon,
           title: m.title,
+          isMoving: m.isMoving, // Add moving indicator
         }))}
         className="absolute inset-0"
         mapStyle="grayscale"
