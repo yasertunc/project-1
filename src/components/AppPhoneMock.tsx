@@ -3111,39 +3111,206 @@ function NotificationRow({
 }
 
 function VipSection() {
-  return (
-    <div className="p-5 text-center">
-      <div className="my-[30px] text-[64px]">👑</div>
-      <div className="mb-2 bg-gradient-to-br from-[#FFD700] to-[#FFA500] bg-clip-text text-[28px] font-bold text-transparent">
-        VIP Membership
+  const [isVip, setIsVip] = React.useState(false);
+  const [showPayment, setShowPayment] = React.useState(false);
+
+  const handlePayment = () => {
+    setShowPayment(true);
+    // Simulate payment success after 2 seconds
+    setTimeout(() => {
+      setIsVip(true);
+      setShowPayment(false);
+    }, 2000);
+  };
+
+  if (showPayment) {
+    return (
+      <div className="p-5 text-center">
+        <div className="my-[30px] text-[64px]">💳</div>
+        <div className="mb-4 text-[20px] font-bold text-[var(--color-text)]">
+          Ödeme İşlemi
+        </div>
+        <div className="mb-6 text-[14px] text-[var(--color-text-2)]">
+          Ödeme işleminiz gerçekleştiriliyor...
+        </div>
+        <div className="animate-pulse rounded-[12px] bg-[var(--color-surface-white)] p-5 shadow">
+          <div className="h-4 bg-gray-200 rounded mb-3"></div>
+          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        </div>
       </div>
-      <div className="mb-6 text-[14px] text-[var(--color-text-2)]">
-        Enjoy premium features and priority access
-      </div>
-      {[
-        ["✨", "Unlimited Messaging", "No daily message limits"],
-        ["🎯", "Advanced Filters", "Fine-tune discovery and matching"],
-        ["🔒", "Stealth Mode", "Keep your profile hidden"],
-        ["🚀", "Priority Support", "24/7 VIP assistance"],
-      ].map(([icon, title, description]) => (
-        <div
-          key={title}
-          className="mb-4 flex items-center rounded-[12px] bg-[var(--color-surface-white)] p-5 shadow"
-        >
-          <div className="mr-4 w-10 text-[24px]">{icon}</div>
-          <div className="text-left">
-            <div className="mb-1 font-semibold text-[var(--color-text)]">
-              {title}
+    );
+  }
+
+  if (isVip) {
+    return (
+      <div className="p-5">
+        <div className="text-center mb-6">
+          <div className="my-[20px] text-[64px]">👑</div>
+          <div className="mb-2 bg-gradient-to-br from-[#FFD700] to-[#FFA500] bg-clip-text text-[28px] font-bold text-transparent">
+            VIP Üye
+          </div>
+          <div className="text-[14px] text-[var(--color-text-2)]">
+            Premium özelliklerin tadını çıkarın
+          </div>
+        </div>
+
+        {/* VIP Stats */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="rounded-[12px] bg-gradient-to-br from-[#FFD700] to-[#FFA500] p-4 text-white text-center">
+            <div className="text-[24px] font-bold">∞</div>
+            <div className="text-[12px]">Sınırsız Mesaj</div>
+          </div>
+          <div className="rounded-[12px] bg-gradient-to-br from-[#FF6B6B] to-[#FF4757] p-4 text-white text-center">
+            <div className="text-[24px] font-bold">24/7</div>
+            <div className="text-[12px]">Öncelikli Destek</div>
+          </div>
+        </div>
+
+        {/* Active Features */}
+        <div className="mb-4">
+          <div className="text-[16px] font-semibold text-[var(--color-text)] mb-3">
+            Aktif Özellikler
+          </div>
+          {[
+            ["✅", "Sınırsız mesajlaşma"],
+            ["✅", "Gelişmiş filtreleme"],
+            ["✅", "Görünmez mod"],
+            ["✅", "Reklamsız deneyim"],
+            ["✅", "Öncelikli destek"],
+            ["✅", "Özel rozetler"],
+          ].map(([icon, title]) => (
+            <div
+              key={title as string}
+              className="mb-2 flex items-center rounded-[10px] bg-[var(--color-surface-white)] p-3 shadow-sm"
+            >
+              <span className="mr-3 text-[18px] text-green-500">{icon}</span>
+              <span className="text-[14px] text-[var(--color-text)]">
+                {title}
+              </span>
             </div>
-            <div className="text-[12px] text-[var(--color-text-2)]">
-              {description}
+          ))}
+        </div>
+
+        {/* VIP Settings */}
+        <div className="mb-4">
+          <div className="text-[16px] font-semibold text-[var(--color-text)] mb-3">
+            VIP Ayarları
+          </div>
+          <button className="w-full text-left mb-2 flex items-center justify-between rounded-[10px] bg-[var(--color-surface-white)] p-3 shadow-sm">
+            <span className="text-[14px] text-[var(--color-text)]">
+              🎨 Profil temaları
+            </span>
+            <span className="text-[12px] text-[var(--color-text-2)]">→</span>
+          </button>
+          <button className="w-full text-left mb-2 flex items-center justify-between rounded-[10px] bg-[var(--color-surface-white)] p-3 shadow-sm">
+            <span className="text-[14px] text-[var(--color-text)]">
+              🏆 Başarımlar
+            </span>
+            <span className="text-[12px] text-[var(--color-text-2)]">→</span>
+          </button>
+          <button className="w-full text-left flex items-center justify-between rounded-[10px] bg-[var(--color-surface-white)] p-3 shadow-sm">
+            <span className="text-[14px] text-[var(--color-text)]">
+              💎 VIP etkinlikleri
+            </span>
+            <span className="text-[12px] text-[var(--color-text-2)]">→</span>
+          </button>
+        </div>
+
+        <div className="text-center text-[12px] text-[var(--color-text-2)] mt-6">
+          Üyelik bitiş tarihi: 31 Aralık 2024
+        </div>
+      </div>
+    );
+  }
+
+  // Non-VIP view (matching the image design)
+  return (
+    <div className="h-full flex flex-col">
+      {/* Header with gradient background */}
+      <div className="bg-gradient-to-br from-[#FFA500] to-[#FFD700] p-8 text-center text-white">
+        <div className="mb-2 text-[48px]">👑</div>
+        <div className="mb-2 text-[24px] font-bold">VIP Üyelik</div>
+        <div className="text-[14px] opacity-90">
+          Premium deneyimin tadını çıkarın
+        </div>
+      </div>
+
+      {/* Features sections */}
+      <div className="flex-1 overflow-y-auto bg-[var(--color-bg-light)] p-4">
+        {/* Unlimited Features */}
+        <div className="mb-4 rounded-[12px] bg-white p-4 shadow-sm">
+          <div className="mb-3 flex items-center">
+            <span className="mr-2 text-[20px]">✨</span>
+            <span className="font-semibold text-[var(--color-text)]">
+              Sınırsız Özellikler
+            </span>
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2 text-green-500">✓</span> Sınırsız mesajlaşma
+            </div>
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2 text-green-500">✓</span> Gelişmiş filtreleme
+            </div>
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2 text-green-500">✓</span> Görünmez mod
+            </div>
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2 text-green-500">✓</span> Reklamsız deneyim
+            </div>
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2 text-green-500">✓</span> Öncelikli destek
+            </div>
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2 text-green-500">✓</span> Özel rozetler
             </div>
           </div>
         </div>
-      ))}
-      <button className="mt-2 rounded-[25px] bg-gradient-to-br from-[#FFD700] to-[#FFA500] px-10 py-3 font-semibold text-white shadow-[0_4px_12px_rgba(255,193,7,.4)]">
-        Become VIP
-      </button>
+
+        {/* Statistics */}
+        <div className="mb-4 rounded-[12px] bg-white p-4 shadow-sm">
+          <div className="mb-3 flex items-center">
+            <span className="mr-2 text-[20px]">📊</span>
+            <span className="font-semibold text-[var(--color-text)]">
+              İstatistikler
+            </span>
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2">📈</span> Profil görüntülenme
+              istatistikleri
+            </div>
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2">👤</span> Profilini kimler görüntüledi
+            </div>
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2">❤️</span> Beğeni analitiği
+            </div>
+            <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
+              <span className="mr-2">📍</span> Konum geçmişi
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom pricing section */}
+      <div className="bg-white p-5 text-center shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
+        <div className="mb-3">
+          <span className="text-[32px] font-bold text-[var(--color-text)]">
+            ₺49.99
+          </span>
+          <span className="text-[14px] text-[var(--color-text-2)]">/ay</span>
+        </div>
+        <button
+          onClick={handlePayment}
+          className="w-full rounded-full bg-gradient-to-r from-[#FFA500] to-[#FFD700] py-3 font-semibold text-white shadow-[0_4px_12px_rgba(255,193,7,.4)] hover:opacity-90 transition"
+        >
+          Hemen Başla
+        </button>
+        <div className="mt-3 text-[12px] text-[var(--color-text-3)]">
+          7 gün ücretsiz deneme • İstediğiniz zaman iptal edin
+        </div>
+      </div>
     </div>
   );
 }
