@@ -366,12 +366,19 @@ function Content({
   onMapFiltersChange,
   groupChats,
   setGroupChats,
+  activeGroupUsers,
 }: {
   page: PageId;
   mapFilters: MapFilterState;
   onMapFiltersChange: (filters: MapFilterState) => void;
   groupChats: GroupChat[];
   setGroupChats: React.Dispatch<React.SetStateAction<GroupChat[]>>;
+  activeGroupUsers: Array<{
+    id: string;
+    displayName: string;
+    avatar: string;
+    isVip: boolean;
+  }>;
 }) {
   // Get filtered users for group creation
   const filteredUsersForGroup = React.useMemo(() => {
@@ -496,7 +503,7 @@ function Content({
           />
         )}
         {page === "profile" && <ProfileView />}
-        {page === "chat" && <ChatView />}
+        {page === "chat" && <ChatView activeGroupUsers={activeGroupUsers} />}
         {page === "groups" && (
           <GroupsView
             groupChats={groupChats}
@@ -1030,7 +1037,16 @@ function MapView({
       <div className="absolute left-[15px] top-[15px] z-10 grid h-[50px] w-[50px] place-items-center rounded-full bg-[var(--color-surface-white)] shadow-md cursor-pointer hover:bg-[var(--color-bg-light)] transition">
         🧭
       </div>
-      <div className="absolute right-[15px] top-[15px] z-10 grid h-[50px] w-[50px] place-items-center rounded-full bg-[var(--color-surface-white)] shadow-md cursor-pointer hover:bg-[var(--color-bg-light)] transition">
+      <div
+        onClick={() => {
+          // Navigate to chat page when notification is clicked
+          const event = new CustomEvent("navigateToChat", {
+            detail: { filteredUsers },
+          });
+          window.dispatchEvent(event);
+        }}
+        className="absolute right-[15px] top-[15px] z-10 grid h-[50px] w-[50px] place-items-center rounded-full bg-[var(--color-surface-white)] shadow-md cursor-pointer hover:bg-[var(--color-bg-light)] transition"
+      >
         👥
         {filteredUsers.length > 0 && (
           <div className="absolute -right-[5px] -top-[5px] grid min-w-[20px] place-items-center rounded-full bg-[#ff4444] px-2 text-[12px] font-bold text-white">
@@ -2080,26 +2096,107 @@ function ProfileView() {
   );
 }
 
-function ChatView() {
+function ChatView({
+  activeGroupUsers,
+}: {
+  activeGroupUsers?: Array<{
+    id: string;
+    displayName: string;
+    avatar: string;
+    isVip: boolean;
+  }>;
+}) {
+  const [showGroupSettings, setShowGroupSettings] = React.useState(false);
+  const hasActiveUsers = activeGroupUsers && activeGroupUsers.length > 0;
+
   return (
-    <div className="h-full p-[15px]">
-      {[
-        ["A", "Merhaba! Bugün nasılsın? 😊"],
-        ["Z", "Toplantı saat 15:00'te başlayacak"],
-        ["M", "Dosyaları gönderdim ✅"],
-      ].map(([avatar, message], index) => (
-        <div
-          key={index}
-          className="mb-5 flex items-start animate-[slideIn_.3s_ease]"
-        >
-          <div className="mr-3 grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-[var(--color-primary-main)] to-[var(--color-primary-dark)] text-white font-bold">
-            {avatar}
+    <div
+      className="h-full overflow-y-auto [&::-webkit-scrollbar]:hidden"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
+      {/* Group Management Panel */}
+      {hasActiveUsers && (
+        <div className="bg-[var(--color-surface-white)] border-b border-[#f0f0f0] p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <div className="font-semibold text-[var(--color-text)]">
+                {activeGroupUsers.length} Kişi Bulundu
+              </div>
+              <div className="text-xs text-[var(--color-text-2)]">
+                Seçili kategorilere göre
+              </div>
+            </div>
+            <button
+              onClick={() => setShowGroupSettings(!showGroupSettings)}
+              className="p-2 rounded-full hover:bg-[var(--color-bg-light)] transition"
+              aria-label="Grup Ayarları"
+            >
+              ⚙️
+            </button>
           </div>
-          <div className="rounded-[18px] rounded-tl-[4px] bg-[var(--color-surface-white)] px-[15px] py-[12px] shadow">
-            {message}
+
+          {showGroupSettings && (
+            <div className="space-y-2 pt-3 border-t border-[#f0f0f0]">
+              <button className="w-full text-left px-3 py-2 rounded-lg bg-gradient-primary text-white hover:opacity-90 transition">
+                👥 Grup Oluştur
+              </button>
+              <button className="w-full text-left px-3 py-2 rounded-lg bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)] transition">
+                💬 Özel Sohbet Odası
+              </button>
+              <button className="w-full text-left px-3 py-2 rounded-lg bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)] transition">
+                ✉️ Özel Mesaj Gönder
+              </button>
+            </div>
+          )}
+
+          {/* Active Users List */}
+          <div className="mt-3 flex gap-2 overflow-x-auto py-2">
+            {activeGroupUsers.map((user) => (
+              <div
+                key={user.id}
+                className="flex flex-col items-center flex-shrink-0"
+              >
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary-dark)] flex items-center justify-center text-white text-lg">
+                  {user.avatar}
+                </div>
+                <span className="text-[10px] text-[var(--color-text-2)] mt-1">
+                  {user.displayName}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
-      ))}
+      )}
+
+      {/* Chat Messages */}
+      <div className="p-[15px]">
+        {hasActiveUsers ? (
+          <div className="text-center py-8">
+            <div className="text-[48px] mb-3">💬</div>
+            <div className="text-[var(--color-text-2)]">
+              Grup sohbeti başlatmak için yukarıdaki seçenekleri kullanın
+            </div>
+          </div>
+        ) : (
+          [
+            ["A", "Merhaba! Bugün nasılsın? 😊"],
+            ["Z", "Toplantı saat 15:00'te başlayacak"],
+            ["M", "Dosyaları gönderdim ✅"],
+          ].map(([avatar, message], index) => (
+            <div
+              key={index}
+              className="mb-5 flex items-start animate-[slideIn_.3s_ease]"
+            >
+              <div className="mr-3 grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-[var(--color-primary-main)] to-[var(--color-primary-dark)] text-white font-bold">
+                {avatar}
+              </div>
+              <div className="rounded-[18px] rounded-tl-[4px] bg-[var(--color-surface-white)] px-[15px] py-[12px] shadow">
+                {message}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }
@@ -2325,10 +2422,10 @@ function SocialFeed() {
 
   return (
     <Section>
-      {/* Stories Section */}
-      <div className="mb-4 bg-[var(--color-surface-white)] shadow">
+      {/* Stories + media shortcuts */}
+      <div className="mb-3 overflow-hidden rounded-[10px] bg-[var(--color-surface-white)] shadow">
         <div
-          className="flex gap-4 overflow-x-auto p-4 scroll-smooth [&::-webkit-scrollbar]:hidden"
+          className="flex gap-2.5 overflow-x-auto px-3 py-1.5 scroll-smooth [&::-webkit-scrollbar]:hidden"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -2341,7 +2438,7 @@ function SocialFeed() {
               className="flex flex-shrink-0 flex-col items-center"
             >
               <div
-                className={`relative h-16 w-16 rounded-full ${
+                className={`relative h-12 w-12 rounded-full ${
                   story.isAdd
                     ? "border-2 border-[#667eea] bg-white"
                     : story.hasStory
@@ -2352,28 +2449,42 @@ function SocialFeed() {
                 <div
                   className={`flex h-full w-full items-center justify-center rounded-full ${
                     story.isAdd
-                      ? "text-[#667eea] text-2xl"
+                      ? "text-[#667eea] text-lg"
                       : story.hasStory
-                        ? "bg-white text-2xl"
-                        : "text-2xl"
+                        ? "bg-white text-lg"
+                        : "text-lg"
                   }`}
                 >
                   {story.avatar}
                 </div>
               </div>
-              <span className="mt-1 text-xs text-[var(--color-text-2)]">
+              <span className="mt-[3px] text-[10px] text-[var(--color-text-2)]">
                 {story.name}
               </span>
             </div>
           ))}
         </div>
+        <div className="flex gap-2 border-t border-[#f0f0f0] px-3 py-2">
+          {[
+            ["🖼️", "Photos"],
+            ["🎥", "Videos"],
+            ["⭐", "Stories"],
+          ].map(([icon, label]) => (
+            <button
+              key={label as string}
+              type="button"
+              className="flex flex-1 items-center justify-center gap-1 rounded-[8px] bg-[var(--color-bg-light)] py-2 px-3 text-[10px] text-[var(--color-text-2)] hover:bg-[var(--color-bg-medium)] transition"
+            >
+              <span className="text-[14px]">{icon}</span>
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
-      <UserMediaLibrary />
-
       {/* Feed Posts */}
-      <div className="mb-4 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
-        <div className="flex items-center p-[15px]">
+      <div className="mb-3 overflow-hidden rounded-[10px] bg-[var(--color-surface-white)] shadow">
+        <div className="flex items-center px-3 py-2">
           <div className="mr-3 h-10 w-10 rounded-full bg-gradient-to-br from-[#f093fb] to-[#f5576c]" />
           <div className="flex-1">
             <div className="mb-[2px] font-semibold text-[var(--color-text)]">
@@ -2384,13 +2495,13 @@ function SocialFeed() {
             </div>
           </div>
         </div>
-        <div className="px-[15px] pb-[15px]">
+        <div className="px-4 pb-3">
           What a beautiful day! ☀️ Enjoying coffee by the seaside.
         </div>
-        <div className="grid h-[200px] w-full place-items-center bg-gradient-to-br from-[var(--color-bg-medium)] to-[var(--color-bg-light)] text-[48px] text-[#ddd]">
+        <div className="grid h-[150px] w-full place-items-center bg-gradient-to-br from-[var(--color-bg-medium)] to-[var(--color-bg-light)] text-[40px] text-[#ddd]">
           📷
         </div>
-        <div className="flex justify-around border-t border-[#f0f0f0] p-[15px] text-[var(--color-text-2)]">
+        <div className="flex justify-around border-t border-[#f0f0f0] px-3 py-2 text-[var(--color-text-2)]">
           <div>❤️ 42</div>
           <div>💬 8</div>
           <div>📤 Share</div>
@@ -2398,8 +2509,8 @@ function SocialFeed() {
       </div>
 
       {/* Additional Post */}
-      <div className="mb-4 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
-        <div className="flex items-center p-[15px]">
+      <div className="mb-3 overflow-hidden rounded-[10px] bg-[var(--color-surface-white)] shadow">
+        <div className="flex items-center px-3 py-2">
           <div className="mr-3 h-10 w-10 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2]" />
           <div className="flex-1">
             <div className="mb-[2px] font-semibold text-[var(--color-text)]">
@@ -2410,43 +2521,20 @@ function SocialFeed() {
             </div>
           </div>
         </div>
-        <div className="px-[15px] pb-[15px]">
+        <div className="px-4 pb-3">
           Just finished my morning workout! 💪 Feeling energized for the day
           ahead!
         </div>
-        <div className="grid h-[200px] w-full place-items-center bg-gradient-to-br from-[var(--color-bg-medium)] to-[var(--color-bg-light)] text-[48px] text-[#ddd]">
+        <div className="grid h-[150px] w-full place-items-center bg-gradient-to-br from-[var(--color-bg-medium)] to-[var(--color-bg-light)] text-[40px] text-[#ddd]">
           🏋️
         </div>
-        <div className="flex justify-around border-t border-[#f0f0f0] p-[15px] text-[var(--color-text-2)]">
+        <div className="flex justify-around border-t border-[#f0f0f0] px-3 py-2 text-[var(--color-text-2)]">
           <div>❤️ 28</div>
           <div>💬 5</div>
           <div>📤 Share</div>
         </div>
       </div>
     </Section>
-  );
-}
-
-function UserMediaLibrary() {
-  return (
-    <div className="mb-3 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow">
-      <div className="flex gap-2 px-3 py-2">
-        {[
-          ["🖼️", "Photos"],
-          ["🎥", "Videos"],
-          ["⭐", "Stories"],
-        ].map(([icon, label]) => (
-          <button
-            key={label as string}
-            type="button"
-            className="flex flex-1 items-center justify-center gap-1 rounded-[8px] bg-[var(--color-bg-light)] py-2 px-3 text-[10px] text-[var(--color-text-2)] hover:bg-[var(--color-bg-medium)] transition"
-          >
-            <span className="text-[14px]">{icon}</span>
-            <span>{label}</span>
-          </button>
-        ))}
-      </div>
-    </div>
   );
 }
 
@@ -2688,6 +2776,14 @@ export default function AppPhoneMock({
   const [groupChats, setGroupChats] = useState<GroupChat[]>(() => [
     ...DEFAULT_GROUP_CHATS,
   ]);
+  const [activeGroupUsers, setActiveGroupUsers] = useState<
+    Array<{
+      id: string;
+      displayName: string;
+      avatar: string;
+      isVip: boolean;
+    }>
+  >([]);
   const wrapRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
     pointerId: number | null;
@@ -2710,6 +2806,28 @@ export default function AppPhoneMock({
     setPage(initialPage);
     setNavPosition(sectionForPage(initialPage) * MAX_NAV_POSITION);
   }, [initialPage]);
+
+  // Listen for navigation to chat from map notification
+  useEffect(() => {
+    const handleNavigateToChat = (event: CustomEvent) => {
+      if (event.detail && event.detail.filteredUsers) {
+        setActiveGroupUsers(event.detail.filteredUsers);
+        setPage("chat");
+        setNavPosition(sectionForPage("chat") * MAX_NAV_POSITION);
+      }
+    };
+
+    window.addEventListener(
+      "navigateToChat",
+      handleNavigateToChat as EventListener
+    );
+    return () => {
+      window.removeEventListener(
+        "navigateToChat",
+        handleNavigateToChat as EventListener
+      );
+    };
+  }, []);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -2814,6 +2932,7 @@ export default function AppPhoneMock({
           onMapFiltersChange={setMapFilters}
           groupChats={groupChats}
           setGroupChats={setGroupChats}
+          activeGroupUsers={activeGroupUsers}
         />
         {showMessageInput && <MessageInput showAIAssistant={showAIAssistant} />}
       </div>
