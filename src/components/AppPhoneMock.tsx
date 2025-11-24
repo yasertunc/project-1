@@ -2117,7 +2117,121 @@ function ChatView({
   const [userStatus, setUserStatus] = React.useState<
     "online" | "busy" | "dnd" | "invisible"
   >("online");
+  const [messages, setMessages] = React.useState<
+    Array<{
+      id: string;
+      userId: string;
+      anonymousName: string;
+      message: string;
+      timestamp: number;
+    }>
+  >([]);
+  const [inputMessage, setInputMessage] = React.useState("");
+  const [anonymousUsers, setAnonymousUsers] = React.useState<
+    Map<string, string>
+  >(new Map());
+
   const hasActiveUsers = activeGroupUsers && activeGroupUsers.length > 0;
+
+  // Generate anonymous names for users
+  React.useEffect(() => {
+    if (activeGroupUsers && activeGroupUsers.length > 0) {
+      const newAnonymousMap = new Map<string, string>();
+      const animalNames = [
+        "Kedi",
+        "Köpek",
+        "Kuş",
+        "Tavşan",
+        "Kaplumbağa",
+        "Balık",
+        "Aslan",
+        "Kaplan",
+        "Ayı",
+        "Tilki",
+        "Geyik",
+        "Kartal",
+      ];
+      const colors = [
+        "Kırmızı",
+        "Mavi",
+        "Yeşil",
+        "Sarı",
+        "Mor",
+        "Turuncu",
+        "Pembe",
+        "Siyah",
+        "Beyaz",
+        "Gri",
+      ];
+
+      activeGroupUsers.forEach((user, index) => {
+        const colorIndex = index % colors.length;
+        const animalIndex = index % animalNames.length;
+        const anonymousName = `${colors[colorIndex]} ${animalNames[animalIndex]}`;
+        newAnonymousMap.set(user.id, anonymousName);
+      });
+
+      setAnonymousUsers(newAnonymousMap);
+
+      // Add welcome message
+      setMessages([
+        {
+          id: "welcome",
+          userId: "system",
+          anonymousName: "Sistem",
+          message: `🎭 Anonim sohbet odası oluşturuldu! ${activeGroupUsers.length} kişi bağlandı. Herkes anonim isimlerle görünüyor.`,
+          timestamp: Date.now(),
+        },
+      ]);
+    }
+  }, [activeGroupUsers]);
+
+  const sendMessage = () => {
+    if (inputMessage.trim() && hasActiveUsers) {
+      // Simulate sending message from current user (first user for demo)
+      const currentUserId = activeGroupUsers[0].id;
+      const newMessage = {
+        id: `msg-${Date.now()}`,
+        userId: currentUserId,
+        anonymousName: anonymousUsers.get(currentUserId) || "Anonim",
+        message: inputMessage,
+        timestamp: Date.now(),
+      };
+      setMessages((prev) => [...prev, newMessage]);
+      setInputMessage("");
+
+      // Simulate other users responding (demo)
+      if (Math.random() > 0.5 && activeGroupUsers.length > 1) {
+        setTimeout(
+          () => {
+            const randomUser =
+              activeGroupUsers[
+                Math.floor(Math.random() * activeGroupUsers.length)
+              ];
+            if (randomUser.id !== currentUserId) {
+              const responses = [
+                "Merhaba! Ben de buradayım 👋",
+                "Harika bir gün! ☀️",
+                "Katılıyorum 👍",
+                "İlginç bir bakış açısı 🤔",
+                "Teşekkürler! 😊",
+              ];
+              const autoResponse = {
+                id: `msg-${Date.now()}-auto`,
+                userId: randomUser.id,
+                anonymousName: anonymousUsers.get(randomUser.id) || "Anonim",
+                message:
+                  responses[Math.floor(Math.random() * responses.length)],
+                timestamp: Date.now(),
+              };
+              setMessages((prev) => [...prev, autoResponse]);
+            }
+          },
+          1000 + Math.random() * 2000
+        );
+      }
+    }
+  };
 
   return (
     <div
@@ -2297,96 +2411,151 @@ function ChatView({
         </div>
       )}
 
-      {/* Active Users Section */}
+      {/* Anonymous Chat Room Info */}
       {hasActiveUsers && (
-        <div className="bg-[var(--color-surface-white)] border-b border-[#f0f0f0] p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-3">
+        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4">
+          <div className="flex items-center justify-between">
             <div>
-              <div className="font-semibold text-[var(--color-text)]">
-                {activeGroupUsers.length} Kişi Bulundu
+              <div className="font-bold text-lg flex items-center gap-2">
+                🎭 Anonim Sohbet Odası
               </div>
-              <div className="text-xs text-[var(--color-text-2)]">
-                Seçili kategorilere göre
+              <div className="text-sm opacity-90">
+                {activeGroupUsers.length} kişi çevrimiçi • Herkes anonim
               </div>
             </div>
-            <button
-              onClick={() => {
-                const newGroup = {
-                  id: `group-${Date.now()}`,
-                  name: `Grup ${savedGroups.length + 1}`,
-                  userCount: activeGroupUsers.length,
-                  createdAt: Date.now(),
-                };
-                setSavedGroups([...savedGroups, newGroup]);
-              }}
-              className="text-xs px-3 py-1 bg-[#4CAF50] text-white rounded-full hover:bg-[#45a049] transition"
-            >
-              💾 Kaydet
-            </button>
+            <div className="flex items-center gap-2">
+              <div className="px-3 py-1 bg-white/20 rounded-full text-xs">
+                🔒 Gizli
+              </div>
+              <button
+                onClick={() => {
+                  const newGroup = {
+                    id: `group-${Date.now()}`,
+                    name: `Anonim Grup ${new Date().toLocaleTimeString("tr-TR")}`,
+                    userCount: activeGroupUsers.length,
+                    createdAt: Date.now(),
+                  };
+                  setSavedGroups([...savedGroups, newGroup]);
+                }}
+                className="px-3 py-1 bg-white/20 rounded-full text-xs hover:bg-white/30 transition"
+              >
+                💾 Grubu Kaydet
+              </button>
+            </div>
           </div>
 
-          {showGroupSettings && (
-            <div className="space-y-2 pt-3 border-t border-[#f0f0f0]">
-              <button className="w-full text-left px-3 py-2 rounded-lg bg-gradient-primary text-white hover:opacity-90 transition">
-                👥 Grup Oluştur
-              </button>
-              <button className="w-full text-left px-3 py-2 rounded-lg bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)] transition">
-                💬 Özel Sohbet Odası
-              </button>
-              <button className="w-full text-left px-3 py-2 rounded-lg bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)] transition">
-                ✉️ Özel Mesaj Gönder
-              </button>
-            </div>
-          )}
-
-          {/* Active Users List */}
+          {/* Anonymous Users List */}
           <div className="mt-3 flex gap-2 overflow-x-auto py-2">
-            {activeGroupUsers.map((user) => (
-              <div
-                key={user.id}
-                className="flex flex-col items-center flex-shrink-0"
-              >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary-dark)] flex items-center justify-center text-white text-lg">
-                  {user.avatar}
+            {Array.from(anonymousUsers.entries()).map(([userId, anonName]) => {
+              const user = activeGroupUsers.find((u) => u.id === userId);
+              if (!user) return null;
+              return (
+                <div
+                  key={userId}
+                  className="flex flex-col items-center flex-shrink-0 bg-white/10 rounded-lg p-2"
+                >
+                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-lg">
+                    🎭
+                  </div>
+                  <span className="text-[10px] mt-1 text-center max-w-[60px]">
+                    {anonName}
+                  </span>
+                  {user.isVip && (
+                    <span className="text-[8px] bg-yellow-400 text-black px-1 rounded mt-1">
+                      VIP
+                    </span>
+                  )}
                 </div>
-                <span className="text-[10px] text-[var(--color-text-2)] mt-1">
-                  {user.displayName}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
 
       {/* Chat Messages */}
-      <div className="p-[15px]">
+      <div className="flex-1 p-[15px] overflow-y-auto">
         {hasActiveUsers ? (
-          <div className="text-center py-8">
-            <div className="text-[48px] mb-3">💬</div>
-            <div className="text-[var(--color-text-2)]">
-              Grup sohbeti başlatmak için yukarıdaki seçenekleri kullanın
-            </div>
+          <div className="space-y-3">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`flex items-start gap-3 animate-[slideIn_.3s_ease] ${
+                  msg.userId === "system" ? "justify-center" : ""
+                }`}
+              >
+                {msg.userId === "system" ? (
+                  <div className="bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-xs text-center max-w-[80%]">
+                    {msg.message}
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex flex-col items-center flex-shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white">
+                        🎭
+                      </div>
+                      <span className="text-[9px] text-gray-500 mt-1">
+                        {msg.anonymousName}
+                      </span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="inline-block bg-[var(--color-surface-white)] rounded-2xl rounded-tl-md px-4 py-2 shadow-sm">
+                        <div className="text-[10px] text-purple-600 font-semibold mb-1">
+                          {msg.anonymousName}
+                        </div>
+                        <div className="text-sm">{msg.message}</div>
+                      </div>
+                      <div className="text-[9px] text-gray-400 mt-1 ml-2">
+                        {new Date(msg.timestamp).toLocaleTimeString("tr-TR", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
           </div>
         ) : (
-          [
-            ["A", "Merhaba! Bugün nasılsın? 😊"],
-            ["Z", "Toplantı saat 15:00'te başlayacak"],
-            ["M", "Dosyaları gönderdim ✅"],
-          ].map(([avatar, message], index) => (
-            <div
-              key={index}
-              className="mb-5 flex items-start animate-[slideIn_.3s_ease]"
-            >
-              <div className="mr-3 grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-[var(--color-primary-main)] to-[var(--color-primary-dark)] text-white font-bold">
-                {avatar}
-              </div>
-              <div className="rounded-[18px] rounded-tl-[4px] bg-[var(--color-surface-white)] px-[15px] py-[12px] shadow">
-                {message}
-              </div>
+          <div className="text-center py-8">
+            <div className="text-[48px] mb-3">🎭</div>
+            <div className="text-[var(--color-text-2)]">
+              Haritadan filtrelerle kullanıcı bulun
             </div>
-          ))
+            <div className="text-xs text-[var(--color-text-3)] mt-2">
+              Bulunan kullanıcılar otomatik olarak anonim sohbet odasına
+              bağlanır
+            </div>
+          </div>
         )}
       </div>
+
+      {/* Message Input */}
+      {hasActiveUsers && (
+        <div className="border-t border-gray-200 bg-white p-3">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+              placeholder="Anonim mesaj yaz..."
+              className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-full focus:outline-none focus:border-purple-500"
+            />
+            <button
+              onClick={sendMessage}
+              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:opacity-90 transition"
+            >
+              <span className="text-sm">Gönder</span>
+            </button>
+          </div>
+          <div className="text-[10px] text-gray-400 text-center mt-2">
+            🎭 Kimliğiniz gizli • Anonim olarak{" "}
+            {anonymousUsers.get(activeGroupUsers[0]?.id) || "Anonim"} ismiyle
+            görünüyorsunuz
+          </div>
+        </div>
+      )}
     </div>
   );
 }
