@@ -1034,9 +1034,6 @@ function MapView({
   return (
     <div className="relative h-full overflow-hidden">
       {/* Map Controls Overlay */}
-      <div className="absolute left-[15px] top-[15px] z-10 grid h-[50px] w-[50px] place-items-center rounded-full bg-[var(--color-surface-white)] shadow-md cursor-pointer hover:bg-[var(--color-bg-light)] transition">
-        🧭
-      </div>
       <div
         onClick={() => {
           // Navigate to chat page when notification is clicked
