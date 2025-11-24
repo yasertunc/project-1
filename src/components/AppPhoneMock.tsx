@@ -2104,6 +2104,15 @@ function ChatView({
   }>;
 }) {
   const [showGroupSettings, setShowGroupSettings] = React.useState(false);
+  const [savedGroups, setSavedGroups] = React.useState<
+    Array<{
+      id: string;
+      name: string;
+      userCount: number;
+      createdAt: number;
+    }>
+  >([]);
+  const [showSavedGroups, setShowSavedGroups] = React.useState(false);
   const hasActiveUsers = activeGroupUsers && activeGroupUsers.length > 0;
 
   return (
@@ -2111,7 +2120,73 @@ function ChatView({
       className="h-full overflow-y-auto [&::-webkit-scrollbar]:hidden"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
     >
-      {/* Group Management Panel */}
+      {/* Settings Header - Always Visible */}
+      <div className="bg-[var(--color-surface-white)] border-b border-[#f0f0f0] p-4 shadow-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowSavedGroups(!showSavedGroups)}
+              className="p-2 rounded-full bg-[var(--color-bg-light)] hover:bg-[var(--color-bg-medium)] transition"
+              aria-label="Kayıtlı Gruplar"
+            >
+              📁
+            </button>
+            <div>
+              <div className="text-sm font-semibold text-[var(--color-text)]">
+                Sohbet Ayarları
+              </div>
+              <div className="text-xs text-[var(--color-text-2)]">
+                {savedGroups.length} kayıtlı grup
+              </div>
+            </div>
+          </div>
+          <button
+            onClick={() => setShowGroupSettings(!showGroupSettings)}
+            className="p-2 rounded-full hover:bg-[var(--color-bg-light)] transition"
+            aria-label="Ayarlar"
+          >
+            ⚙️
+          </button>
+        </div>
+      </div>
+
+      {/* Saved Groups Section */}
+      {showSavedGroups && (
+        <div className="p-3 bg-[var(--color-bg-light)] border-b border-[#f0f0f0]">
+          <div className="text-xs font-semibold text-[var(--color-text-2)] mb-2">
+            Kayıtlı Gruplar
+          </div>
+          {savedGroups.length > 0 ? (
+            <div className="space-y-2">
+              {savedGroups.map((group) => (
+                <div
+                  key={group.id}
+                  className="flex items-center justify-between p-2 bg-white rounded-lg"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">👥</span>
+                    <div>
+                      <div className="text-sm font-medium">{group.name}</div>
+                      <div className="text-xs text-[var(--color-text-2)]">
+                        {group.userCount} kişi
+                      </div>
+                    </div>
+                  </div>
+                  <button className="text-xs px-2 py-1 bg-gradient-primary text-white rounded">
+                    Aç
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-xs text-[var(--color-text-2)] text-center py-2">
+              Henüz kayıtlı grup yok
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Active Users Section */}
       {hasActiveUsers && (
         <div className="bg-[var(--color-surface-white)] border-b border-[#f0f0f0] p-4 shadow-sm">
           <div className="flex items-center justify-between mb-3">
@@ -2124,11 +2199,18 @@ function ChatView({
               </div>
             </div>
             <button
-              onClick={() => setShowGroupSettings(!showGroupSettings)}
-              className="p-2 rounded-full hover:bg-[var(--color-bg-light)] transition"
-              aria-label="Grup Ayarları"
+              onClick={() => {
+                const newGroup = {
+                  id: `group-${Date.now()}`,
+                  name: `Grup ${savedGroups.length + 1}`,
+                  userCount: activeGroupUsers.length,
+                  createdAt: Date.now(),
+                };
+                setSavedGroups([...savedGroups, newGroup]);
+              }}
+              className="text-xs px-3 py-1 bg-[#4CAF50] text-white rounded-full hover:bg-[#45a049] transition"
             >
-              ⚙️
+              💾 Kaydet
             </button>
           </div>
 
