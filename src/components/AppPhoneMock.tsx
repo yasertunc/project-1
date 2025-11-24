@@ -152,6 +152,11 @@ export type AppPhoneMockProps = {
    * Allows stories to declutter the mock when explaining copy or IA.
    */
   showAIAssistant?: boolean;
+  /**
+   * Controls whether to show the message input field in the chat interface.
+   * Defaults to true.
+   */
+  showMessageInput?: boolean;
 };
 
 const NAV_WIDTH = 375;
@@ -161,6 +166,7 @@ const chatPages: PageId[] = [
   "chat",
   "groups",
   "social",
+  "notifications",
   "vip",
   "settings",
 ];
@@ -274,10 +280,11 @@ const Navigation = React.forwardRef<HTMLDivElement, NavigationProps>(
                   label={label}
                   active={page === id}
                   onSelect={onSelect}
+                  testId={`nav-${id}-${index}`}
                 />
               ))}
-              <VipButton onSelect={onSelect} />
-              <SettingsButton onSelect={onSelect} />
+              <VipButton onSelect={onSelect} testId="nav-vip" />
+              <SettingsButton onSelect={onSelect} testId="nav-settings" />
             </div>
           ))}
         </div>
@@ -291,15 +298,18 @@ function NavButton({
   label,
   active,
   onSelect,
+  testId,
 }: {
   id: PageId;
   label: string;
   active: boolean;
   onSelect: (id: PageId) => void;
+  testId?: string;
 }) {
   return (
     <button
       type="button"
+      data-testid={testId}
       onClick={() => onSelect(id)}
       aria-label={label}
       title={label}
@@ -314,10 +324,17 @@ function NavButton({
   );
 }
 
-function VipButton({ onSelect }: { onSelect: (id: PageId) => void }) {
+function VipButton({
+  onSelect,
+  testId,
+}: {
+  onSelect: (id: PageId) => void;
+  testId?: string;
+}) {
   return (
     <button
       type="button"
+      data-testid={testId}
       onClick={() => onSelect("vip")}
       className="vip-button bg-gradient-vip px-[6px] py-[15px] text-[11px] font-bold uppercase tracking-[0.04em] text-white"
     >
@@ -326,10 +343,17 @@ function VipButton({ onSelect }: { onSelect: (id: PageId) => void }) {
   );
 }
 
-function SettingsButton({ onSelect }: { onSelect: (id: PageId) => void }) {
+function SettingsButton({
+  onSelect,
+  testId,
+}: {
+  onSelect: (id: PageId) => void;
+  testId?: string;
+}) {
   return (
     <button
       type="button"
+      data-testid={testId}
       onClick={() => onSelect("settings")}
       className="w-[35px] py-[15px] text-[18px] font-bold text-white"
       title="⚙"
@@ -342,6 +366,7 @@ function SettingsButton({ onSelect }: { onSelect: (id: PageId) => void }) {
 // Shared state for map filters and categories
 type MapFilterState = {
   selectedCategories: Set<string>;
+  selectedPlaces: Set<string>;
   distanceFilter: number; // in kilometers
 };
 
@@ -383,6 +408,7 @@ function Content({
   activeGroupUsers,
   isDarkMode,
   setIsDarkMode,
+  showMessageInput = true,
 }: {
   page: PageId;
   mapFilters: MapFilterState;
@@ -397,6 +423,7 @@ function Content({
   }>;
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  showMessageInput?: boolean;
 }) {
   // Get filtered users for group creation
   const filteredUsersForGroup = React.useMemo(() => {
@@ -521,7 +548,12 @@ function Content({
           />
         )}
         {page === "profile" && <ProfileView />}
-        {page === "chat" && <ChatView activeGroupUsers={activeGroupUsers} />}
+        {page === "chat" && (
+          <ChatView
+            activeGroupUsers={activeGroupUsers}
+            showMessageInput={showMessageInput}
+          />
+        )}
         {page === "groups" && (
           <GroupsView
             groupChats={groupChats}
@@ -531,9 +563,6 @@ function Content({
         {page === "social" && <SocialFeed />}
         {page === "notifications" && (
           <Section>
-            <div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
-              Bildirimler
-            </div>
             {[
               [
                 "💬",
@@ -923,6 +952,9 @@ function MapView({
     title?: string;
   }) => void;
 }) {
+  const [selectedMarkerId, setSelectedMarkerId] = React.useState<string | null>(
+    null
+  );
   // Istanbul coordinates (default location)
   const [mapCenter] = React.useState({ lat: 41.0082, lng: 28.9784 });
   const [userLocation, setUserLocation] = React.useState<{
@@ -1004,43 +1036,71 @@ function MapView({
     return () => clearInterval(interval);
   }, [allUsers]);
 
-  // All available place markers
+  // All available place markers with real business names
   const allPlaceMarkers = React.useMemo(
     () => [
       {
         id: "museum",
         position: { lat: 41.0122, lng: 28.9764 },
         icon: "🏛️",
-        title: "Müze",
+        title: "Topkapı Sarayı Müzesi",
         category: "entertainment",
+        rating: 4.6,
+        googleMapsUrl: "https://maps.google.com/?q=Topkapi+Palace+Museum",
       },
       {
         id: "bank",
         position: { lat: 41.0082, lng: 28.9784 },
         icon: "💰",
-        title: "Banka/ATM",
+        title: "Ziraat Bankası ATM",
         category: "finance",
+        rating: 3.8,
+        googleMapsUrl: "https://maps.google.com/?q=Ziraat+Bank+Istanbul",
       },
       {
         id: "hospital",
         position: { lat: 41.0042, lng: 28.9744 },
         icon: "🏥",
-        title: "Hastane",
+        title: "Acıbadem Hastanesi",
         category: "health-wellness",
+        rating: 4.2,
+        googleMapsUrl: "https://maps.google.com/?q=Acibadem+Hospital+Istanbul",
       },
       {
         id: "restaurant",
         position: { lat: 41.0102, lng: 28.9804 },
         icon: "🍴",
-        title: "Restoran",
+        title: "Nusr-Et Steakhouse",
         category: "food-drink",
+        rating: 4.5,
+        googleMapsUrl: "https://maps.google.com/?q=Nusr-Et+Steakhouse+Istanbul",
       },
       {
         id: "gas",
         position: { lat: 41.0062, lng: 28.9824 },
         icon: "⛽",
-        title: "Benzin İstasyonu",
+        title: "Opet Benzin İstasyonu",
         category: "transport",
+        rating: 4.1,
+        googleMapsUrl: "https://maps.google.com/?q=Opet+Gas+Station+Istanbul",
+      },
+      {
+        id: "cafe",
+        position: { lat: 41.0092, lng: 28.9774 },
+        icon: "☕",
+        title: "Starbucks Sultanahmet",
+        category: "food-drink",
+        rating: 4.3,
+        googleMapsUrl: "https://maps.google.com/?q=Starbucks+Sultanahmet",
+      },
+      {
+        id: "market",
+        position: { lat: 41.0072, lng: 28.9794 },
+        icon: "🛒",
+        title: "Migros Market",
+        category: "shopping",
+        rating: 3.9,
+        googleMapsUrl: "https://maps.google.com/?q=Migros+Market+Istanbul",
       },
     ],
     []
@@ -1067,8 +1127,12 @@ function MapView({
       return true;
     });
 
-    // Filter place markers
+    // Filter place markers - only show selected places
     const places = allPlaceMarkers.filter((marker) => {
+      // Check if this place category is selected
+      const isSelected = mapFilters.selectedPlaces.has(marker.category);
+      if (!isSelected) return false;
+
       // Filter by distance
       if (mapFilters.distanceFilter > 0) {
         const distanceInMeters = calculateDistance(
@@ -1129,6 +1193,55 @@ function MapView({
 
   return (
     <div className="relative h-full overflow-hidden">
+      {/* Popup for selected place */}
+      {selectedMarkerId &&
+        (() => {
+          const marker = allPlaceMarkers.find((m) => m.id === selectedMarkerId);
+          if (!marker) return null;
+          return (
+            <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 z-20 bg-white rounded-lg shadow-lg p-4 min-w-[250px]">
+              <button
+                onClick={() => setSelectedMarkerId(null)}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">{marker.icon}</span>
+                <div className="flex-1">
+                  <div className="font-semibold text-[var(--color-text)]">
+                    {marker.title}
+                  </div>
+                  <div className="flex items-center gap-1 text-sm">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <span
+                        key={i}
+                        className={
+                          i < Math.floor(marker.rating)
+                            ? "text-yellow-500"
+                            : "text-gray-300"
+                        }
+                      >
+                        ★
+                      </span>
+                    ))}
+                    <span className="text-[var(--color-text-2)] ml-1">
+                      ({marker.rating})
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <a
+                href={marker.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full py-2 bg-gradient-primary text-white text-center rounded-lg hover:opacity-90 transition"
+              >
+                📍 Google Maps'te Aç
+              </a>
+            </div>
+          );
+        })()}
       {/* Map Controls Overlay */}
       <div
         onClick={() => {
@@ -1178,7 +1291,14 @@ function MapView({
         fullscreenControl={true}
         markerColor="#667eea"
         markerSize={40}
-        onMarkerClick={onMarkerClick}
+        onMarkerClick={(marker) => {
+          // Check if it's a place marker
+          const placeMarker = allPlaceMarkers.find((m) => m.id === marker.id);
+          if (placeMarker) {
+            setSelectedMarkerId(marker.id);
+          }
+          if (onMarkerClick) onMarkerClick(marker);
+        }}
       />
     </div>
   );
@@ -1472,18 +1592,28 @@ function PlacesView({
 
   return (
     <Section>
-      <div className="mb-3 text-lg font-semibold text-[var(--color-text)]">
-        Nearby Places
-      </div>
       <GridTwo>
         {categories.map((category) => {
+          const isSelected = mapFilters.selectedPlaces.has(category.id);
           return (
             <PlaceCard
               key={category.id}
               icon={category.icon}
               title={category.title}
               count={category.count}
-              onClick={() => setSelectedCategoryId(category.id)}
+              isSelected={isSelected}
+              onClick={() => {
+                const newSelectedPlaces = new Set(mapFilters.selectedPlaces);
+                if (isSelected) {
+                  newSelectedPlaces.delete(category.id);
+                } else {
+                  newSelectedPlaces.add(category.id);
+                }
+                onMapFiltersChange({
+                  ...mapFilters,
+                  selectedPlaces: newSelectedPlaces,
+                });
+              }}
             />
           );
         })}
@@ -1496,17 +1626,23 @@ function PlaceCard({
   icon,
   title,
   count,
+  isSelected,
   onClick,
 }: {
   icon: string;
   title: string;
   count: number;
+  isSelected?: boolean;
   onClick: () => void;
 }) {
   return (
     <button
       onClick={onClick}
-      className="w-full rounded-[12px] bg-[var(--color-surface-white)] p-[15px] shadow transition hover:-translate-y-[2px] text-left"
+      className={`w-full rounded-[12px] p-[15px] shadow transition hover:-translate-y-[2px] text-left ${
+        isSelected
+          ? "bg-gradient-primary text-white"
+          : "bg-[var(--color-surface-white)]"
+      }`}
     >
       <div className="mb-2 text-[32px]">{icon}</div>
       <div className="flex items-center gap-2">
@@ -1655,9 +1791,6 @@ function FilterView({
 
   return (
     <Section>
-      <div className="px-[15px] pb-2 text-lg font-semibold text-[var(--color-text)]">
-        Filter
-      </div>
       <div className="m-[15px] rounded-[12px] bg-[var(--color-surface-white)] p-5 shadow">
         <div className="mb-4 flex items-center justify-between">
           <div className="font-semibold text-[var(--color-text)]">Distance</div>
@@ -1983,6 +2116,17 @@ function CategoriesView({
               "Tarihi Yerler",
             ],
           },
+          {
+            id: "food-drink",
+            title: "Food & Drink",
+            items: [
+              "Restaurant",
+              "Cafe",
+              "Street Food",
+              "Fine Dining",
+              "Cooking",
+            ],
+          },
         ],
       },
     ],
@@ -1994,91 +2138,81 @@ function CategoriesView({
       className="h-full overflow-y-auto [&::-webkit-scrollbar]:hidden"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
     >
-      <Section>
-        <div className="mb-3 px-5">
-          <div className="text-lg font-semibold text-[var(--color-text)]">
-            Categories
-          </div>
-          <div className="text-sm text-[var(--color-text-2)]">
-            Food & Drink, Entertainment, Travel
-          </div>
-        </div>
-        {categories.map((category) => {
-          const isExpanded = expandedCategories.has(category.id);
-          return (
-            <div
-              key={category.id}
-              className="mb-3 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow transition-all"
-            >
-              {/* Main Category Header */}
-              <div className="flex items-center p-5">
-                <button
-                  onClick={() => toggleCategory(category.id)}
-                  className="flex flex-1 items-center text-left transition hover:bg-[var(--color-bg-light)] -ml-2 -mr-2 px-2 py-2 rounded"
+      {categories.map((category) => {
+        const isExpanded = expandedCategories.has(category.id);
+        return (
+          <div
+            key={category.id}
+            className="mb-3 overflow-hidden rounded-[12px] bg-[var(--color-surface-white)] shadow transition-all"
+          >
+            {/* Main Category Header */}
+            <div className="flex items-center p-5">
+              <button
+                onClick={() => toggleCategory(category.id)}
+                className="flex flex-1 items-center text-left transition hover:bg-[var(--color-bg-light)] -ml-2 -mr-2 px-2 py-2 rounded"
+              >
+                <div className="mr-[15px] grid h-[50px] w-[50px] place-items-center rounded-[12px] bg-gradient-to-br from-[var(--color-bg-light)] to-[var(--color-bg-medium)] text-[28px]">
+                  {category.icon}
+                </div>
+                <div className="flex-1">
+                  <div className="mb-1 font-semibold text-[var(--color-text)]">
+                    {category.title}
+                  </div>
+                </div>
+                <div
+                  className={`ml-2 transition-transform ${
+                    isExpanded ? "rotate-180" : ""
+                  }`}
                 >
-                  <div className="mr-[15px] grid h-[50px] w-[50px] place-items-center rounded-[12px] bg-gradient-to-br from-[var(--color-bg-light)] to-[var(--color-bg-medium)] text-[28px]">
-                    {category.icon}
-                  </div>
-                  <div className="flex-1">
-                    <div className="mb-1 font-semibold text-[var(--color-text)]">
-                      {category.title}
-                    </div>
-                  </div>
+                  ▼
+                </div>
+              </button>
+            </div>
+
+            {/* Subcategories */}
+            {isExpanded && (
+              <div className="border-t border-[#f0f0f0] bg-[var(--color-bg-light)]">
+                {category.subcategories.map((subcat, index) => (
                   <div
-                    className={`ml-2 transition-transform ${
-                      isExpanded ? "rotate-180" : ""
+                    key={subcat.id}
+                    className={`border-t border-[#e0e0e0] p-4 ${
+                      index === 0 ? "border-t-0" : ""
                     }`}
                   >
-                    ▼
-                  </div>
-                </button>
-              </div>
-
-              {/* Subcategories */}
-              {isExpanded && (
-                <div className="border-t border-[#f0f0f0] bg-[var(--color-bg-light)]">
-                  {category.subcategories.map((subcat, index) => (
-                    <div
-                      key={subcat.id}
-                      className={`border-t border-[#e0e0e0] p-4 ${
-                        index === 0 ? "border-t-0" : ""
-                      }`}
-                    >
-                      {/* Subcategory Title */}
-                      <div className="mb-3">
-                        <span className="font-semibold text-[14px] text-[var(--color-text)]">
-                          {subcat.title}
-                        </span>
-                      </div>
-                      {/* Selectable Items (Chips) */}
-                      <div className="flex flex-wrap gap-2">
-                        {subcat.items.map((item) => {
-                          const itemId = `${category.id}-${subcat.id}-${item}`;
-                          const isSelected =
-                            mapFilters.selectedCategories.has(itemId);
-                          return (
-                            <button
-                              key={item}
-                              onClick={() => toggleItemSelection(itemId)}
-                              className={`rounded-[12px] px-3 py-1.5 text-[12px] font-medium transition ${
-                                isSelected
-                                  ? "bg-[#4CAF50] text-white shadow-md"
-                                  : "bg-white text-[var(--color-text-2)] shadow-sm hover:bg-[#f0f0f0]"
-                              }`}
-                            >
-                              {item}
-                            </button>
-                          );
-                        })}
-                      </div>
+                    {/* Subcategory Title */}
+                    <div className="mb-3">
+                      <span className="font-semibold text-[14px] text-[var(--color-text)]">
+                        {subcat.title}
+                      </span>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </Section>
+                    {/* Selectable Items (Chips) */}
+                    <div className="flex flex-wrap gap-2">
+                      {subcat.items.map((item) => {
+                        const itemId = `${category.id}-${subcat.id}-${item}`;
+                        const isSelected =
+                          mapFilters.selectedCategories.has(itemId);
+                        return (
+                          <button
+                            key={item}
+                            onClick={() => toggleItemSelection(itemId)}
+                            className={`rounded-[12px] px-3 py-1.5 text-[12px] font-medium transition ${
+                              isSelected
+                                ? "bg-[#4CAF50] text-white shadow-md"
+                                : "bg-white text-[var(--color-text-2)] shadow-sm hover:bg-[#f0f0f0]"
+                            }`}
+                          >
+                            {item}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -2134,9 +2268,6 @@ function ProfileView() {
       </div>
       {/* Kişisel Bilgiler */}
       <div className="mx-5 mt-5 rounded-[15px] bg-[var(--color-surface-white)] p-5 shadow">
-        <div className="mb-4 text-lg font-semibold text-[var(--color-text)]">
-          Kişisel Bilgiler
-        </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <div className="text-xs text-[var(--color-text-secondary)]">
@@ -2175,9 +2306,6 @@ function ProfileView() {
 
       {/* İlgi Alanları */}
       <div className="mx-5 mt-5 rounded-[15px] bg-[var(--color-surface-white)] p-5 shadow">
-        <div className="mb-4 text-lg font-semibold text-[var(--color-text)]">
-          İlgi Alanları
-        </div>
         <div className="flex flex-wrap gap-2">
           {[
             "Müzik",
@@ -2189,12 +2317,13 @@ function ProfileView() {
             "Kitap",
             "Sinema",
           ].map((tag) => (
-            <div
+            <button
               key={tag}
-              className="rounded-[20px] bg-[#f0f0f0] px-3 py-1.5 text-xs text-[var(--color-text)] transition-all hover:scale-95 hover:bg-gradient-primary hover:text-white"
+              onClick={() => alert(`${tag} ilgi alanı seçildi`)}
+              className="rounded-[20px] bg-[#f0f0f0] px-3 py-1.5 text-xs text-[var(--color-text)] transition-all hover:scale-95 hover:bg-gradient-primary hover:text-white cursor-pointer"
             >
               {tag}
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -2204,6 +2333,7 @@ function ProfileView() {
 
 function ChatView({
   activeGroupUsers,
+  showMessageInput = true,
 }: {
   activeGroupUsers?: Array<{
     id: string;
@@ -2211,6 +2341,7 @@ function ChatView({
     avatar: string;
     isVip: boolean;
   }>;
+  showMessageInput?: boolean;
 }) {
   const [showCreateGroup, setShowCreateGroup] = React.useState(false);
   const [newGroupName, setNewGroupName] = React.useState("");
@@ -2347,6 +2478,12 @@ function ChatView({
       className="h-full overflow-y-auto [&::-webkit-scrollbar]:hidden"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
     >
+      {/* Welcome Message */}
+      <div className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+        <h2 className="text-lg font-semibold">Merhaba! 👋</h2>
+        <p className="text-sm opacity-90">Chat'e hoş geldiniz</p>
+      </div>
+
       {/* Settings Header - Always Visible */}
       <div className="bg-[var(--color-surface-white)] border-b border-[#f0f0f0] p-4 shadow-sm">
         <div className="flex items-center gap-2">
@@ -2385,9 +2522,6 @@ function ChatView({
       {/* Create Group Section */}
       {showCreateGroup && (
         <div className="p-4 bg-[var(--color-bg-light)] border-b border-[#f0f0f0]">
-          <div className="text-sm font-semibold text-[var(--color-text)] mb-3">
-            Yeni Grup Oluştur
-          </div>
           <div className="space-y-3">
             <input
               type="text"
@@ -2640,7 +2774,7 @@ function ChatView({
       </div>
 
       {/* Message Input */}
-      {hasActiveUsers && (
+      {hasActiveUsers && showMessageInput && (
         <div className="border-t border-gray-200 bg-white p-3">
           <div className="flex gap-2">
             <input
@@ -2681,6 +2815,8 @@ function GroupsView({
     isVip: boolean;
   }>;
 }) {
+  // Simulate current user VIP status (you can get this from actual user data)
+  const [isCurrentUserVip] = React.useState(false); // Set to true to enable voice calls
   const [selectedGroupId, setSelectedGroupId] = React.useState<string | null>(
     null
   );
@@ -2707,6 +2843,7 @@ function GroupsView({
         members={filteredUsers.filter((u) =>
           selectedGroup.memberIds.includes(u.id)
         )}
+        isCurrentUserVip={isCurrentUserVip}
         onBack={() => setSelectedGroupId(null)}
       />
     );
@@ -2745,9 +2882,6 @@ function GroupsView({
       {/* Create Group Section */}
       {showCreateGroup && (
         <div className="p-4 bg-[var(--color-bg-light)] border-b border-[#f0f0f0]">
-          <div className="text-sm font-semibold text-[var(--color-text)] mb-3">
-            Yeni Grup Oluştur
-          </div>
           <div className="space-y-3">
             <input
               type="text"
@@ -2869,9 +3003,6 @@ function GroupsView({
 
       {/* Groups List */}
       <Section>
-        <div className="mb-3 px-[15px] text-lg font-semibold text-[var(--color-text)]">
-          Gruplar
-        </div>
         {groupChats.length === 0 ? (
           <div className="m-[15px] rounded-[12px] bg-[var(--color-surface-white)] p-5 shadow text-center">
             <div className="text-[48px] mb-3">💬</div>
@@ -2906,6 +3037,7 @@ function GroupsView({
                       setSelectedGroups(newSelected);
                     }}
                     className="rounded"
+                    aria-label={`${group.name} grubunu seç`}
                   />
                   <button
                     onClick={() => setSelectedGroupId(group.id)}
@@ -2931,6 +3063,7 @@ function GroupsView({
 function GroupChatView({
   group,
   members,
+  isCurrentUserVip,
   onBack,
 }: {
   group: GroupChat;
@@ -2940,8 +3073,51 @@ function GroupChatView({
     avatar: string;
     isVip: boolean;
   }>;
+  isCurrentUserVip: boolean;
   onBack: () => void;
 }) {
+  const [isVoiceCallActive, setIsVoiceCallActive] = React.useState(false);
+  const [voiceParticipants, setVoiceParticipants] = React.useState<string[]>(
+    []
+  );
+  const [isMuted, setIsMuted] = React.useState(false);
+  const [callDuration, setCallDuration] = React.useState(0);
+  const [showVipWarning, setShowVipWarning] = React.useState(false);
+
+  // Simulate voice call timer
+  React.useEffect(() => {
+    if (!isVoiceCallActive) {
+      setCallDuration(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setCallDuration((prev) => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isVoiceCallActive]);
+
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const startVoiceCall = () => {
+    setIsVoiceCallActive(true);
+    // Simulate random members joining
+    const randomParticipants = members
+      .slice(0, Math.floor(Math.random() * 3) + 2)
+      .map((m) => m.id);
+    setVoiceParticipants(randomParticipants);
+  };
+
+  const endVoiceCall = () => {
+    setIsVoiceCallActive(false);
+    setVoiceParticipants([]);
+    setIsMuted(false);
+  };
   const messages = React.useMemo(
     () => [
       {
@@ -2975,8 +3151,106 @@ function GroupChatView({
               {members.length} üye
             </div>
           </div>
+
+          {/* Voice Call Button - VIP Only */}
+          {!isVoiceCallActive && (
+            <div className="relative">
+              <button
+                onClick={
+                  isCurrentUserVip
+                    ? startVoiceCall
+                    : () => setShowVipWarning(true)
+                }
+                className={`grid h-10 w-10 place-items-center rounded-full transition ${
+                  isCurrentUserVip
+                    ? "bg-green-500 text-white hover:bg-green-600 cursor-pointer"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+                aria-label={
+                  isCurrentUserVip ? "Sesli Arama Başlat" : "VIP üyelik gerekli"
+                }
+                title={
+                  isCurrentUserVip
+                    ? "Sesli Arama Başlat"
+                    : "Bu özellik VIP üyelere özel"
+                }
+              >
+                📞
+              </button>
+              {/* Crown icon for VIP feature */}
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center text-[10px]">
+                👑
+              </div>
+            </div>
+          )}
         </div>
+
+        {/* Voice Call Active Bar */}
+        {isVoiceCallActive && (
+          <div className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="animate-pulse">
+                  <div className="flex gap-1">
+                    <div
+                      className="w-1 h-3 bg-white rounded-full animate-bounce"
+                      style={{ animationDelay: "0ms" }}
+                    ></div>
+                    <div
+                      className="w-1 h-4 bg-white rounded-full animate-bounce"
+                      style={{ animationDelay: "150ms" }}
+                    ></div>
+                    <div
+                      className="w-1 h-3 bg-white rounded-full animate-bounce"
+                      style={{ animationDelay: "300ms" }}
+                    ></div>
+                  </div>
+                </div>
+                <span className="text-sm font-medium">
+                  Sesli Arama • {formatDuration(callDuration)}
+                </span>
+                <span className="text-xs opacity-90">
+                  ({voiceParticipants.length} katılımcı)
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsMuted(!isMuted)}
+                  className={`h-8 w-8 rounded-full flex items-center justify-center transition ${
+                    isMuted ? "bg-red-500" : "bg-white/20 hover:bg-white/30"
+                  }`}
+                >
+                  {isMuted ? "🔇" : "🎤"}
+                </button>
+                <button
+                  onClick={endVoiceCall}
+                  className="h-8 w-8 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center transition"
+                >
+                  📵
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* VIP Warning Message */}
+      {showVipWarning && (
+        <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white p-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">👑</span>
+            <span className="text-sm font-medium">
+              Bu özellik VIP üyelere özel!
+            </span>
+          </div>
+          <button
+            onClick={() => setShowVipWarning(false)}
+            className="text-white/80 hover:text-white"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Messages */}
       <div
@@ -3021,6 +3295,39 @@ function GroupChatView({
               {member.isVip && <span className="text-xs">👑</span>}
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Message Input for Group Chat */}
+      <div className="absolute bottom-0 left-0 right-0 rounded-t-[20px] bg-[var(--color-surface)] p-[15px] shadow-[0_-4px_20px_rgba(0,0,0,.1)]">
+        <div className="flex items-center gap-[10px] rounded-[12px] bg-[var(--color-bg-light)] p-[12px]">
+          <button
+            onClick={() => alert("AI Asistan özelliği yakında!")}
+            className="grid h-10 w-10 place-items-center rounded-full bg-gradient-primary text-white transition hover:scale-105 active:scale-95"
+            aria-label="AI Assistant"
+          >
+            <span className="text-sm font-bold tracking-wide">AI</span>
+          </button>
+          <button
+            onClick={() => alert("Dosya ekleme özelliği")}
+            className="text-[22px] text-[var(--color-text-3)] cursor-pointer hover:scale-110 transition"
+            aria-label="Dosya ekle"
+          >
+            📎
+          </button>
+          <input
+            className="flex-1 bg-transparent text-[16px] text-[var(--color-text)] outline-none"
+            placeholder="Gruba mesaj yaz..."
+          />
+          <button
+            type="button"
+            className="grid h-10 w-10 place-items-center rounded-[10px] bg-gradient-primary hover:opacity-90 transition"
+            aria-label="Send message"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-white">
+              <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -3137,7 +3444,7 @@ function SocialFeed() {
       stories: [
         {
           id: "s5",
-          content: "Toplantı maratonu 💼",
+          content: "ToplantÄ± maratonu 💼",
           timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
           viewCount: 89,
         },
@@ -3150,7 +3457,7 @@ function SocialFeed() {
       stories: [
         {
           id: "s6",
-          content: "Kod yazma zamanı 👨‍💻",
+          content: "Kod yazma zamanÄ± 👨‍💻",
           timestamp: new Date(Date.now() - 10 * 60 * 1000),
           viewCount: 34,
         },
@@ -3272,6 +3579,16 @@ function SocialFeed() {
             <button
               key={label as string}
               type="button"
+              onClick={() => {
+                // Media button actions
+                if (label === "Photos") {
+                  alert("Fotoğraf galerisi açılacak");
+                } else if (label === "Videos") {
+                  alert("Video galerisi açılacak");
+                } else if (label === "Stories") {
+                  setShowAddStory(true);
+                }
+              }}
               className="flex flex-1 items-center justify-center gap-1 rounded-[8px] bg-[var(--color-bg-light)] py-2 px-3 text-[10px] text-[var(--color-text-2)] hover:bg-[var(--color-bg-medium)] transition"
             >
               <span className="text-[14px]">{icon}</span>
@@ -3384,9 +3701,24 @@ function SocialFeed() {
           🏋️
         </div>
         <div className="flex justify-around border-t border-[#f0f0f0] px-3 py-2 text-[var(--color-text-2)]">
-          <div>❤️ 28</div>
-          <div>💬 5</div>
-          <div>📤 Share</div>
+          <button
+            onClick={() => alert("Beğenildi!")}
+            className="flex items-center gap-1 hover:text-red-500 transition cursor-pointer"
+          >
+            ❤️ 28
+          </button>
+          <button
+            onClick={() => alert("Yorum bölümü açılacak")}
+            className="flex items-center gap-1 hover:text-blue-500 transition cursor-pointer"
+          >
+            💬 5
+          </button>
+          <button
+            onClick={() => alert("Paylaşıldı!")}
+            className="flex items-center gap-1 hover:text-green-500 transition cursor-pointer"
+          >
+            📤 Share
+          </button>
         </div>
       </div>
     </Section>
@@ -3407,7 +3739,10 @@ function NotificationRow({
   background: string;
 }) {
   return (
-    <div className="mb-3 flex items-center rounded-[12px] bg-[var(--color-surface-white)] p-[15px] shadow">
+    <div
+      onClick={() => console.log(`Bildirim tıklandı: ${title}`)}
+      className="mb-3 flex items-center rounded-[12px] bg-[var(--color-surface-white)] p-[15px] shadow cursor-pointer hover:bg-[var(--color-bg-light)] transition"
+    >
       <div
         className="mr-3 grid h-10 w-10 place-items-center rounded-full"
         style={{ background, color: iconColor }}
@@ -3428,6 +3763,33 @@ function NotificationRow({
 function VipSection() {
   const [isVip, setIsVip] = React.useState(false);
   const [showPayment, setShowPayment] = React.useState(false);
+  const [showReferral, setShowReferral] = React.useState(false);
+  const [referralCode] = React.useState(
+    `FU${Math.random().toString(36).substr(2, 6).toUpperCase()}`
+  );
+  const [enteredCode, setEnteredCode] = React.useState("");
+  const [selectedCurrency, setSelectedCurrency] = React.useState<
+    "USD" | "TRY" | "EUR" | "GBP"
+  >("TRY");
+
+  // Multi-currency pricing
+  const pricing = {
+    USD: { amount: 9.99, symbol: "$" },
+    TRY: { amount: 399, symbol: "₺" },
+    EUR: { amount: 9.99, symbol: "€" },
+    GBP: { amount: 8.99, symbol: "£" },
+  };
+
+  const [referralStats] = React.useState({
+    totalReferrals: 3,
+    pendingRewards: 2,
+    earnedRewards: 1,
+    referredUsers: [
+      { name: "Ali K.", date: "2 gün önce", status: "completed" },
+      { name: "Ayşe M.", date: "5 gün önce", status: "pending" },
+      { name: "Mehmet Y.", date: "1 hafta önce", status: "pending" },
+    ],
+  });
 
   const handlePayment = () => {
     setShowPayment(true);
@@ -3436,6 +3798,30 @@ function VipSection() {
       setIsVip(true);
       setShowPayment(false);
     }, 2000);
+  };
+
+  const handleReferralCode = () => {
+    if (enteredCode.length === 8) {
+      // Simulate referral code validation
+      alert("Referans kodu kabul edildi! 7 gün ücretsiz VIP kazandınız!");
+      setEnteredCode("");
+      setShowReferral(false);
+    }
+  };
+
+  const shareReferralCode = () => {
+    // Simulate share functionality
+    if (navigator.share) {
+      navigator.share({
+        title: "FellowUs VIP Daveti",
+        text: `FellowUs'a katıl ve 7 gün ücretsiz VIP kazan! Referans kodum: ${referralCode}`,
+        url: "https://fellowus.app",
+      });
+    } else {
+      // Fallback - copy to clipboard
+      navigator.clipboard.writeText(referralCode);
+      alert("Referans kodu kopyalandı!");
+    }
   };
 
   if (showPayment) {
@@ -3531,8 +3917,120 @@ function VipSection() {
           </button>
         </div>
 
-        <div className="text-center text-[12px] text-[var(--color-text-2)] mt-6">
-          Üyelik bitiş tarihi: 31 Aralık 2024
+        {/* Referral System */}
+        <div className="mb-4">
+          <div className="text-[16px] font-semibold text-[var(--color-text)] mb-3">
+            🎁 Referans Sistemi
+          </div>
+
+          {/* My Referral Code */}
+          <div className="rounded-[12px] bg-gradient-to-br from-[#667eea] to-[#764ba2] p-4 text-white mb-3">
+            <div className="text-[12px] opacity-90 mb-2">Referans Kodunuz:</div>
+            <div className="flex items-center justify-between">
+              <span className="text-[20px] font-bold tracking-wider">
+                {referralCode}
+              </span>
+              <button
+                onClick={shareReferralCode}
+                className="bg-white/20 rounded-lg px-3 py-1 text-sm hover:bg-white/30 transition"
+              >
+                Paylaş 📤
+              </button>
+            </div>
+          </div>
+
+          {/* Referral Stats */}
+          <div className="grid grid-cols-3 gap-2 mb-3">
+            <div className="bg-[var(--color-surface-white)] rounded-lg p-3 text-center shadow-sm">
+              <div className="text-[18px] font-bold text-[var(--color-primary-main)]">
+                {referralStats.totalReferrals}
+              </div>
+              <div className="text-[10px] text-[var(--color-text-2)]">
+                Davetler
+              </div>
+            </div>
+            <div className="bg-[var(--color-surface-white)] rounded-lg p-3 text-center shadow-sm">
+              <div className="text-[18px] font-bold text-orange-500">
+                {referralStats.pendingRewards}
+              </div>
+              <div className="text-[10px] text-[var(--color-text-2)]">
+                Bekleyen
+              </div>
+            </div>
+            <div className="bg-[var(--color-surface-white)] rounded-lg p-3 text-center shadow-sm">
+              <div className="text-[18px] font-bold text-green-500">
+                {referralStats.earnedRewards}
+              </div>
+              <div className="text-[10px] text-[var(--color-text-2)]">
+                Kazanılan
+              </div>
+            </div>
+          </div>
+
+          {/* Referred Users */}
+          <div className="bg-[var(--color-surface-white)] rounded-lg p-3 shadow-sm">
+            <div className="text-[12px] font-semibold text-[var(--color-text)] mb-2">
+              Davet Ettiklerim:
+            </div>
+            {referralStats.referredUsers.map((user, idx) => (
+              <div
+                key={idx}
+                className="flex items-center justify-between mb-2 last:mb-0"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-[16px]">👤</span>
+                  <div>
+                    <div className="text-[12px] text-[var(--color-text)]">
+                      {user.name}
+                    </div>
+                    <div className="text-[10px] text-[var(--color-text-2)]">
+                      {user.date}
+                    </div>
+                  </div>
+                </div>
+                <span
+                  className={`text-[10px] px-2 py-1 rounded-full ${
+                    user.status === "completed"
+                      ? "bg-green-100 text-green-600"
+                      : "bg-orange-100 text-orange-600"
+                  }`}
+                >
+                  {user.status === "completed" ? "✓ Aktif" : "⏳ Bekliyor"}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Current Plan */}
+        <div className="bg-gradient-to-r from-[#667eea] to-[#764ba2] rounded-lg p-3 text-white text-center mb-4">
+          <div className="text-[10px] opacity-80">Aktif Plan</div>
+          <div className="text-[18px] font-bold">
+            {pricing[selectedCurrency].symbol}
+            {pricing[selectedCurrency].amount}/ay
+          </div>
+          <div className="text-[10px] opacity-80 mt-1">
+            Otomatik yenileme: 31 Aralık 2024
+          </div>
+        </div>
+
+        {/* Currency Selector for VIP members */}
+        <div className="flex justify-center gap-2 mb-3">
+          {(Object.keys(pricing) as Array<"USD" | "TRY" | "EUR" | "GBP">).map(
+            (currency) => (
+              <button
+                key={currency}
+                onClick={() => setSelectedCurrency(currency)}
+                className={`px-2 py-1 rounded-full text-[10px] font-semibold transition ${
+                  selectedCurrency === currency
+                    ? "bg-[var(--color-primary-main)] text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {currency}
+              </button>
+            )
+          )}
         </div>
       </div>
     );
@@ -3540,13 +4038,16 @@ function VipSection() {
 
   // Non-VIP view (matching the image design)
   return (
-    <div className="h-full flex flex-col">
+    <div
+      className="h-full flex flex-col overflow-y-auto"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
       {/* Header with gradient background */}
-      <div className="bg-gradient-to-br from-[#FFA500] to-[#FFD700] p-8 text-center text-white">
+      <div className="bg-gradient-to-br from-[#FFA500] to-[#FFD700] p-6 text-center text-white">
         <div className="mb-2 text-[48px]">👑</div>
-        <div className="mb-2 text-[24px] font-bold">VIP Üyelik</div>
+        <div className="mb-2 text-[24px] font-bold">VIP Membership</div>
         <div className="text-[14px] opacity-90">
-          Premium deneyimin tadını çıkarın
+          Enjoy the premium experience
         </div>
       </div>
 
@@ -3557,27 +4058,27 @@ function VipSection() {
           <div className="mb-3 flex items-center">
             <span className="mr-2 text-[20px]">✨</span>
             <span className="font-semibold text-[var(--color-text)]">
-              Sınırsız Özellikler
+              Unlimited Features
             </span>
           </div>
           <div className="space-y-2">
             <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
-              <span className="mr-2 text-green-500">✓</span> Sınırsız mesajlaşma
+              <span className="mr-2 text-green-500">✓</span> Unlimited Messaging
             </div>
             <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
-              <span className="mr-2 text-green-500">✓</span> Gelişmiş filtreleme
+              <span className="mr-2 text-green-500">✓</span> Advanced filtering
             </div>
             <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
-              <span className="mr-2 text-green-500">✓</span> Görünmez mod
+              <span className="mr-2 text-green-500">✓</span> Invisible mode
             </div>
             <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
-              <span className="mr-2 text-green-500">✓</span> Reklamsız deneyim
+              <span className="mr-2 text-green-500">✓</span> Ad-free experience
             </div>
             <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
-              <span className="mr-2 text-green-500">✓</span> Öncelikli destek
+              <span className="mr-2 text-green-500">✓</span> Priority support
             </div>
             <div className="flex items-center text-[14px] text-[var(--color-text-2)]">
-              <span className="mr-2 text-green-500">✓</span> Özel rozetler
+              <span className="mr-2 text-green-500">✓</span> Special badges
             </div>
           </div>
         </div>
@@ -3608,14 +4109,79 @@ function VipSection() {
         </div>
       </div>
 
+      {/* Referral Code Section */}
+      <div className="bg-[var(--color-bg-light)] p-4">
+        <div className="mb-3">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[14px] font-semibold text-[var(--color-text)]">
+              🎁 Referans Kodunuz Var mı?
+            </span>
+            <button
+              onClick={() => setShowReferral(!showReferral)}
+              className="text-[12px] text-[var(--color-primary-main)] hover:underline"
+            >
+              {showReferral ? "Kapat" : "Kodu Gir"}
+            </button>
+          </div>
+          {showReferral && (
+            <div className="bg-white rounded-lg p-3 shadow-sm">
+              <input
+                type="text"
+                value={enteredCode}
+                onChange={(e) => setEnteredCode(e.target.value.toUpperCase())}
+                placeholder="Referans kodu (örn: FUABC123)"
+                className="w-full px-3 py-2 border rounded-lg text-sm mb-2"
+                maxLength={8}
+              />
+              <button
+                onClick={handleReferralCode}
+                disabled={enteredCode.length !== 8}
+                className={`w-full py-2 rounded-lg text-sm font-semibold transition ${
+                  enteredCode.length === 8
+                    ? "bg-gradient-primary text-white hover:opacity-90"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                Kodu Kullan ve 7 Gün Ücretsiz VIP Kazan
+              </button>
+            </div>
+          )}
+        </div>
+        <div className="text-[11px] text-[var(--color-text-2)] text-center">
+          💡 Arkadaşlarınızı davet edin, her ikisi de ödül kazansın!
+        </div>
+      </div>
+
       {/* Bottom pricing section */}
       <div className="bg-white p-5 text-center shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
+        {/* Currency Selector */}
+        <div className="flex justify-center gap-2 mb-4">
+          {(Object.keys(pricing) as Array<"USD" | "TRY" | "EUR" | "GBP">).map(
+            (currency) => (
+              <button
+                key={currency}
+                onClick={() => setSelectedCurrency(currency)}
+                className={`px-3 py-1 rounded-full text-xs font-semibold transition ${
+                  selectedCurrency === currency
+                    ? "bg-gradient-primary text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {currency}
+              </button>
+            )
+          )}
+        </div>
+
+        {/* Price Display */}
         <div className="mb-3">
           <span className="text-[32px] font-bold text-[var(--color-text)]">
-            ₺49.99
+            {pricing[selectedCurrency].symbol}
+            {pricing[selectedCurrency].amount}
           </span>
           <span className="text-[14px] text-[var(--color-text-2)]">/ay</span>
         </div>
+
         <button
           onClick={handlePayment}
           className="w-full rounded-full bg-gradient-to-r from-[#FFA500] to-[#FFD700] py-3 font-semibold text-white shadow-[0_4px_12px_rgba(255,193,7,.4)] hover:opacity-90 transition"
@@ -3639,27 +4205,30 @@ function Settings({
 }) {
   return (
     <div>
-      <SettingsGroup
-        title="Görünüm"
-        items={[
-          [
-            isDarkMode ? "🌙" : "☀️",
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="flex items-center justify-between w-full text-left"
-            >
-              <span>{isDarkMode ? "Karanlık Mod" : "Aydınlık Mod"}</span>
-              <div
-                className={`w-12 h-6 rounded-full p-1 transition-colors ${isDarkMode ? "bg-[var(--color-primary-main)]" : "bg-gray-300"}`}
-              >
-                <div
-                  className={`w-4 h-4 bg-white rounded-full transition-transform ${isDarkMode ? "translate-x-6" : ""}`}
-                />
-              </div>
-            </button>,
-          ],
-        ]}
-      />
+      {/* Dark Mode Toggle */}
+      <div className="mb-3 px-[15px]">
+        <div className="text-[12px] font-semibold text-[var(--color-text-2)] mb-2">
+          Appearance
+        </div>
+        <button
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          className="flex items-center justify-between w-full rounded-[10px] bg-[var(--color-surface-white)] px-3 py-[10px] shadow"
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-lg">{isDarkMode ? "🌙" : "☀️"}</span>
+            <span className="text-[14px] text-[var(--color-text)]">
+              {isDarkMode ? "Dark Mode" : "Light Mode"}
+            </span>
+          </div>
+          <div
+            className={`w-12 h-6 rounded-full p-1 transition-colors ${isDarkMode ? "bg-[var(--color-primary-main)]" : "bg-gray-300"}`}
+          >
+            <div
+              className={`w-4 h-4 bg-white rounded-full transition-transform ${isDarkMode ? "translate-x-6" : ""}`}
+            />
+          </div>
+        </button>
+      </div>
       <SettingsGroup
         title="Account"
         items={[
@@ -3731,13 +4300,27 @@ function SettingsRow({
   icon,
   label,
   value,
+  onClick,
 }: {
   icon: string;
   label: string;
   value?: string;
+  onClick?: () => void;
 }) {
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      // Default action for settings rows
+      alert(`${label} özelliği tıklandı`);
+    }
+  };
+
   return (
-    <div className="flex cursor-pointer items-center justify-between p-[15px] transition hover:bg-[var(--color-bg-light)]">
+    <div
+      onClick={handleClick}
+      className="flex cursor-pointer items-center justify-between p-[15px] transition hover:bg-[var(--color-bg-light)]"
+    >
       <div className="flex items-center gap-3">
         <span className="w-[30px] text-[20px]">{icon}</span>
         <span className="text-[var(--color-text)]">{label}</span>
@@ -3756,54 +4339,89 @@ function ToggleRow({
   label: string;
   active: boolean;
 }) {
+  const [isActive, setIsActive] = React.useState(active);
+
+  const handleToggle = () => {
+    setIsActive(!isActive);
+    // Show feedback
+    const status = !isActive ? "açıldı" : "kapatıldı";
+    console.log(`${label} ${status}`);
+  };
+
   return (
     <div className="flex items-center justify-between p-[15px]">
       <div className="flex items-center gap-3">
         <span className="w-[30px] text-[20px]">{icon}</span>
         <span className="text-[var(--color-text)]">{label}</span>
       </div>
-      <div
-        className={`relative h-6 w-11 rounded-[12px] transition ${active ? "bg-[#4CAF50]" : "bg-[#ddd]"}`}
+      <button
+        onClick={handleToggle}
+        className={`relative h-6 w-11 rounded-[12px] transition cursor-pointer ${isActive ? "bg-[#4CAF50]" : "bg-[#ddd]"}`}
       >
         <div
-          className={`absolute top-[3px] left-[3px] h-[18px] w-[18px] rounded-full bg-[var(--color-surface-white)] transition ${active ? "translate-x-[20px]" : ""}`}
+          className={`absolute top-[3px] left-[3px] h-[18px] w-[18px] rounded-full bg-[var(--color-surface-white)] transition ${isActive ? "translate-x-[20px]" : ""}`}
         />
-      </div>
+      </button>
     </div>
   );
 }
 
 function MessageInput({
   showAIAssistant = true,
+  show = true,
 }: {
   showAIAssistant?: boolean;
+  show?: boolean;
 }) {
+  const [message, setMessage] = React.useState("");
+
+  const handleSend = () => {
+    if (message.trim()) {
+      console.log("Mesaj gönderildi:", message);
+      setMessage("");
+      // You can add actual message sending logic here
+    }
+  };
+
+  if (!show) return null;
+
   return (
     <div className="absolute bottom-0 left-0 right-0 rounded-t-[20px] bg-[var(--color-surface)] p-[15px] shadow-[0_-4px_20px_rgba(0,0,0,.1)]">
       <div className="flex items-center gap-[10px] rounded-[12px] bg-[var(--color-bg-light)] p-[12px]">
-        <span className="text-[22px] text-[var(--color-text-3)]">📎</span>
-        <input
-          className="flex-1 bg-transparent text-[16px] text-[var(--color-text)] outline-none"
-          placeholder="Type your message..."
-        />
-        <button
-          type="button"
-          className="grid h-10 w-10 place-items-center rounded-[10px] bg-gradient-primary"
-          aria-label="Send message"
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-white">
-            <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
-          </svg>
-        </button>
         {showAIAssistant && (
           <button
             type="button"
+            onClick={() => alert("AI Asistan özelliği yakında!")}
             className="grid h-10 w-10 place-items-center rounded-full bg-gradient-primary text-white transition hover:scale-105 active:scale-95"
             aria-label="AI Assistant"
           >
             <span className="text-sm font-bold tracking-wide">AI</span>
           </button>
         )}
+        <button
+          onClick={() => alert("Dosya ekleme özelliği")}
+          className="text-[22px] text-[var(--color-text-3)] cursor-pointer hover:scale-110 transition"
+          aria-label="Dosya ekle"
+        >
+          📎
+        </button>
+        <input
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && handleSend()}
+          className="flex-1 bg-transparent text-[16px] text-[var(--color-text)] outline-none"
+          placeholder="Type your message..."
+        />
+        <button
+          type="button"
+          onClick={handleSend}
+          className="grid h-10 w-10 place-items-center rounded-[10px] bg-gradient-primary hover:opacity-90 transition"
+          aria-label="Send message"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-white">
+            <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
+          </svg>
+        </button>
       </div>
     </div>
   );
@@ -3812,6 +4430,7 @@ function MessageInput({
 export default function AppPhoneMock({
   initialPage = "map",
   showAIAssistant = true,
+  showMessageInput = true,
 }: AppPhoneMockProps) {
   const [navPosition, setNavPosition] = useState(() => {
     return sectionForPage(initialPage) * MAX_NAV_POSITION;
@@ -3819,6 +4438,7 @@ export default function AppPhoneMock({
   const [page, setPage] = useState<PageId>(initialPage);
   const [mapFilters, setMapFilters] = useState<MapFilterState>({
     selectedCategories: new Set(),
+    selectedPlaces: new Set(),
     distanceFilter: 0, // 0 means no filter (in kilometers)
   });
   const [groupChats, setGroupChats] = useState<GroupChat[]>(() => [
@@ -4013,10 +4633,14 @@ export default function AppPhoneMock({
           activeGroupUsers={activeGroupUsers}
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
+          showMessageInput={showMessageInput}
         />
-        {/* Show message input only for chat, groups, and social pages */}
-        {(page === "chat" || page === "groups" || page === "social") && (
-          <MessageInput showAIAssistant={showAIAssistant} />
+        {/* Show message input only in chat when there are active users */}
+        {page === "chat" && activeGroupUsers.length > 0 && (
+          <MessageInput
+            showAIAssistant={showAIAssistant}
+            show={showMessageInput}
+          />
         )}
       </div>
     </div>
